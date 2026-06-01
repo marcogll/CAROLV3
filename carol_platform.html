@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CAROL — Sistema de Evaluación Técnica</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+:root{
+  --carol-teal:#00B894;
+  --carol-amber:#E67E22;
+  --carol-navy:#0D1B2A;
+  --carol-blue:#1B4F72;
+  --carol-red:#C0392B;
+  --carol-gray:#f0f4f8;
+}
+
+/* ── Layout ── */
+body{background:#f0f4f8;font-family:'Inter',system-ui,sans-serif;}
+.page-wrapper{min-height:100vh;}
+
+/* ── Splash / Landing ── */
+#screen-splash{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#0D1B2A 0%,#1B4F72 100%);
+  padding:2rem;
+}
+.splash-logo{font-size:3rem;font-weight:800;letter-spacing:-.03em;color:#fff;}
+.splash-logo span{color:#00B894;}
+.splash-tagline{color:#94a3b8;font-size:1.05rem;margin-top:.25rem;text-align:center;}
+.splash-cards{display:flex;gap:1.5rem;margin-top:3rem;flex-wrap:wrap;justify-content:center;}
+.level-card{
+  width:280px;background:#fff;border-radius:16px;padding:0;
+  cursor:pointer;transition:transform .18s,box-shadow .18s;
+  box-shadow:0 4px 24px rgba(0,0,0,.15);overflow:hidden;
+}
+.level-card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(0,0,0,.25);}
+.level-card-header{padding:1.5rem 1.5rem 1rem;border-bottom:1px solid #f1f5f9;}
+.level-badge{display:inline-block;padding:.25rem .75rem;border-radius:99px;font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;margin-bottom:.75rem;}
+.level-card h3{font-size:1.1rem;font-weight:700;color:#1e293b;margin:0 0 .25rem;}
+.level-card p{font-size:.83rem;color:#64748b;margin:0;}
+.level-card-body{padding:1rem 1.5rem;}
+.level-stat{display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid #f1f5f9;font-size:.82rem;}
+.level-stat:last-child{border:none;}
+.level-stat span:first-child{color:#64748b;}
+.level-stat span:last-child{font-weight:600;color:#1e293b;}
+.level-card-footer{padding:.75rem 1.5rem 1.25rem;}
+.btn-start{width:100%;border:none;border-radius:8px;padding:.65rem;font-weight:700;font-size:.9rem;color:#fff;cursor:pointer;transition:filter .15s;}
+.btn-start:hover{filter:brightness(1.1);}
+
+/* ── Registration ── */
+#screen-register{display:none;}
+.register-card{max-width:560px;margin:3rem auto;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,.08);overflow:hidden;}
+.register-header{padding:2rem 2rem 1.25rem;background:var(--carol-navy);color:#fff;}
+.register-header h2{margin:0;font-size:1.3rem;font-weight:700;}
+.register-header p{margin:.5rem 0 0;color:#94a3b8;font-size:.88rem;}
+.register-body{padding:1.75rem 2rem;}
+.form-group{margin-bottom:1.25rem;}
+.form-label{display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.4rem;}
+.form-label .required{color:var(--carol-red);margin-left:2px;}
+.form-control{width:100%;padding:.55rem .75rem;border:1px solid #d1d5db;border-radius:8px;font-size:.9rem;transition:border .15s,box-shadow .15s;box-sizing:border-box;}
+.form-control:focus{outline:none;border-color:var(--carol-teal);box-shadow:0 0 0 3px rgba(0,184,148,.15);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.self-eval-wrap{margin-top:.5rem;}
+.self-eval-labels{display:flex;justify-content:space-between;font-size:.72rem;color:#64748b;margin-top:.3rem;}
+.range-value{text-align:center;font-size:1.1rem;font-weight:700;color:var(--carol-teal);margin-top:.25rem;}
+input[type=range]{width:100%;accent-color:var(--carol-teal);}
+.register-footer{padding:1rem 2rem 1.75rem;border-top:1px solid #f1f5f9;display:flex;gap:1rem;}
+
+/* ── Instructions ── */
+#screen-instructions{display:none;}
+.instructions-card{max-width:680px;margin:3rem auto;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,.08);overflow:hidden;}
+.instructions-header{padding:2rem;display:flex;align-items:flex-start;gap:1.25rem;}
+.instructions-icon{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.75rem;flex-shrink:0;}
+.instructions-header h2{margin:0;font-size:1.3rem;font-weight:700;color:#1e293b;}
+.instructions-header p{margin:.4rem 0 0;color:#64748b;font-size:.88rem;}
+.instructions-body{padding:0 2rem 1.5rem;}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.5rem;}
+.info-card{background:#f8fafc;border-radius:10px;padding:.85rem 1rem;display:flex;align-items:center;gap:.75rem;}
+.info-card .ti{font-size:1.25rem;color:var(--carol-teal);}
+.info-card-text small{display:block;font-size:.72rem;color:#64748b;text-transform:uppercase;letter-spacing:.05em;}
+.info-card-text strong{display:block;font-size:.9rem;color:#1e293b;}
+.instructions-list{list-style:none;padding:0;margin:0 0 1.5rem;}
+.instructions-list li{display:flex;gap:.75rem;padding:.5rem 0;border-bottom:1px solid #f1f5f9;font-size:.88rem;color:#374151;}
+.instructions-list li:last-child{border:none;}
+.instructions-list li::before{content:attr(data-n);background:var(--carol-navy);color:#fff;border-radius:50%;width:20px;height:20px;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.tip-box{background:#ecfdf5;border:1px solid #6ee7b7;border-radius:10px;padding:1rem 1.25rem;font-size:.87rem;color:#065f46;display:flex;gap:.75rem;align-items:flex-start;}
+.tip-box .ti{font-size:1.1rem;margin-top:2px;}
+.categories-chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.5rem;}
+.chip{background:#f1f5f9;border-radius:99px;padding:.2rem .65rem;font-size:.74rem;color:#475569;font-weight:500;}
+.instructions-footer{padding:1rem 2rem 1.75rem;border-top:1px solid #f1f5f9;display:flex;gap:1rem;}
+
+/* ── Quiz ── */
+#screen-quiz{display:none;}
+.quiz-layout{max-width:860px;margin:0 auto;padding:1.5rem 1rem;}
+.quiz-top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;background:#fff;border-radius:12px;padding:.85rem 1.25rem;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.quiz-logo{font-weight:800;font-size:1.1rem;color:var(--carol-navy);}
+.quiz-logo span{color:var(--carol-teal);}
+.quiz-level-badge{padding:.2rem .7rem;border-radius:99px;font-size:.72rem;font-weight:700;text-transform:uppercase;color:#fff;letter-spacing:.05em;}
+.quiz-timer{display:flex;align-items:center;gap:.4rem;font-weight:700;font-size:.95rem;color:#475569;}
+.quiz-timer.warning{color:var(--carol-red);}
+.quiz-timer .ti{font-size:1rem;}
+
+.quiz-progress-bar{height:6px;background:#e2e8f0;border-radius:99px;margin-bottom:1.5rem;overflow:hidden;}
+.quiz-progress-fill{height:100%;border-radius:99px;transition:width .4s;}
+
+.quiz-main{display:grid;grid-template-columns:220px 1fr;gap:1.25rem;align-items:start;}
+@media(max-width:680px){.quiz-main{grid-template-columns:1fr;}.quiz-sidebar{display:none;}}
+
+/* Sidebar nav */
+.quiz-sidebar{background:#fff;border-radius:12px;padding:1rem;box-shadow:0 2px 8px rgba(0,0,0,.06);position:sticky;top:1rem;}
+.sidebar-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#94a3b8;margin-bottom:.75rem;}
+.cat-section{margin-bottom:.75rem;}
+.cat-label{font-size:.73rem;font-weight:600;color:#64748b;margin-bottom:.35rem;padding-left:.25rem;}
+.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;}
+.q-dot{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:600;cursor:pointer;transition:all .12s;background:#f1f5f9;color:#94a3b8;border:1.5px solid transparent;}
+.q-dot.active{border-color:#1e293b;color:#1e293b;}
+.q-dot.answered{background:#dcfce7;color:#166534;border-color:#86efac;}
+.q-dot.current{background:#1e293b;color:#fff;border-color:#1e293b;}
+.q-dot.wrong-preview{background:#fee2e2;color:#991b1b;border-color:#fca5a5;}
+
+/* Question card */
+.question-card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);overflow:hidden;}
+.q-header{padding:1.25rem 1.5rem 1rem;border-bottom:1px solid #f1f5f9;}
+.q-meta{display:flex;gap:.5rem;align-items:center;margin-bottom:.6rem;flex-wrap:wrap;}
+.q-num{font-size:.72rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;}
+.q-cat-badge{font-size:.7rem;font-weight:600;padding:.15rem .6rem;border-radius:99px;background:#f1f5f9;color:#475569;}
+.q-type-badge{font-size:.68rem;font-weight:700;padding:.15rem .55rem;border-radius:99px;}
+.q-type-badge.teorico{background:#dbeafe;color:#1e40af;}
+.q-type-badge.practico{background:#fef3c7;color:#92400e;}
+.q-score{font-size:.7rem;font-weight:700;color:#64748b;margin-left:auto;}
+.q-description{font-size:.8rem;color:#64748b;line-height:1.5;margin-bottom:.5rem;padding:.5rem .75rem;background:#f8fafc;border-radius:6px;border-left:3px solid #e2e8f0;}
+.q-text{font-size:.98rem;font-weight:600;color:#1e293b;line-height:1.5;}
+.q-body{padding:1rem 1.5rem 1.25rem;}
+.options-list{display:flex;flex-direction:column;gap:.6rem;}
+.option-btn{
+  width:100%;text-align:left;padding:.7rem 1rem;border-radius:10px;
+  border:2px solid #e2e8f0;background:#fafafa;
+  cursor:pointer;transition:all .15s;
+  display:flex;align-items:flex-start;gap:.75rem;
+  font-size:.88rem;color:#374151;line-height:1.4;
+}
+.option-btn:hover:not(:disabled){background:#f1f5f9;border-color:#cbd5e1;}
+.option-letter{
+  width:22px;height:22px;border-radius:6px;background:#e2e8f0;
+  font-size:.72rem;font-weight:700;color:#475569;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:all .15s;margin-top:1px;
+}
+.option-btn:hover:not(:disabled) .option-letter{background:#cbd5e1;}
+.option-btn.selected{border-color:#1e293b;background:#f8fafc;}
+.option-btn.selected .option-letter{background:#1e293b;color:#fff;}
+.option-btn.correct{border-color:#16a34a;background:#f0fdf4;}
+.option-btn.correct .option-letter{background:#16a34a;color:#fff;}
+.option-btn.wrong{border-color:#dc2626;background:#fef2f2;}
+.option-btn.wrong .option-letter{background:#dc2626;color:#fff;}
+.option-btn:disabled{cursor:default;}
+.reasoning-box{margin-top:1rem;padding:.85rem 1rem;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;font-size:.82rem;color:#78350f;display:none;align-items:flex-start;gap:.6rem;}
+.reasoning-box.show{display:flex;}
+.reasoning-box .ti{font-size:1rem;flex-shrink:0;margin-top:1px;color:#d97706;}
+
+.q-footer{padding:.85rem 1.5rem;border-top:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center;}
+.q-progress-text{font-size:.8rem;color:#94a3b8;}
+.q-nav-btns{display:flex;gap:.6rem;}
+.btn-nav{padding:.5rem 1.1rem;border-radius:8px;font-size:.85rem;font-weight:600;border:none;cursor:pointer;transition:all .15s;}
+.btn-prev{background:#f1f5f9;color:#475569;}
+.btn-prev:hover{background:#e2e8f0;}
+.btn-next{background:var(--carol-navy);color:#fff;}
+.btn-next:hover{filter:brightness(1.15);}
+.btn-submit{padding:.5rem 1.25rem;border-radius:8px;font-size:.85rem;font-weight:700;border:none;cursor:pointer;background:var(--carol-teal);color:#fff;transition:all .15s;}
+.btn-submit:hover{filter:brightness(1.1);}
+
+/* ── Results ── */
+#screen-results{display:none;}
+.results-layout{max-width:900px;margin:0 auto;padding:2rem 1rem;}
+.results-hero{background:var(--carol-navy);border-radius:16px;padding:2rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:2rem;color:#fff;flex-wrap:wrap;}
+.results-donut-wrap{position:relative;width:110px;height:110px;flex-shrink:0;}
+.results-donut-wrap svg{transform:rotate(-90deg);}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.donut-pct{font-size:1.5rem;font-weight:800;color:#fff;}
+.donut-status{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:1px;}
+.results-info h2{font-size:1.4rem;font-weight:800;margin:0 0 .25rem;}
+.results-info p{margin:0;color:#94a3b8;font-size:.88rem;}
+.results-kpis{display:flex;gap:1.25rem;margin-top:1rem;flex-wrap:wrap;}
+.results-kpi{text-align:center;}
+.results-kpi-val{font-size:1.3rem;font-weight:800;display:block;}
+.results-kpi-label{font-size:.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;}
+
+.results-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem;}
+@media(max-width:640px){.results-grid{grid-template-columns:1fr;}}
+
+.results-card{background:#fff;border-radius:12px;padding:1.25rem;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.results-card h4{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin:0 0 1rem;}
+
+.cat-result-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem;}
+.cat-result-row:last-child{margin:0;}
+.cat-result-label{font-size:.8rem;font-weight:600;color:#374151;width:150px;flex-shrink:0;}
+.cat-bar-wrap{flex:1;height:8px;background:#f1f5f9;border-radius:99px;overflow:hidden;}
+.cat-bar-fill{height:100%;border-radius:99px;transition:width 1s;}
+.cat-result-pct{font-size:.78rem;font-weight:700;width:36px;text-align:right;}
+.cat-result-pass{font-size:.68rem;font-weight:700;padding:.1rem .4rem;border-radius:99px;}
+
+.wrong-review{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:1.5rem;overflow:hidden;}
+.wrong-review-header{padding:1rem 1.5rem;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:.75rem;}
+.wrong-review-header h4{font-size:.95rem;font-weight:700;color:#1e293b;margin:0;}
+.wrong-review-header .badge{font-size:.75rem;}
+.wrong-item{padding:1rem 1.5rem;border-bottom:1px solid #f8fafc;}
+.wrong-item:last-child{border:none;}
+.wrong-item-meta{display:flex;gap:.5rem;align-items:center;margin-bottom:.4rem;flex-wrap:wrap;}
+.wrong-q-text{font-size:.88rem;font-weight:600;color:#1e293b;margin-bottom:.5rem;line-height:1.4;}
+.wrong-options{display:grid;grid-template-columns:1fr 1fr;gap:.35rem;}
+.wrong-opt{font-size:.78rem;padding:.3rem .6rem;border-radius:6px;display:flex;align-items:center;gap:.4rem;}
+.wrong-opt.chosen{background:#fef2f2;color:#991b1b;}
+.wrong-opt.correct{background:#f0fdf4;color:#166534;}
+.wrong-opt .ti{font-size:.85rem;flex-shrink:0;}
+.wrong-reasoning{margin-top:.6rem;font-size:.79rem;color:#78350f;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:.5rem .75rem;display:flex;gap:.5rem;align-items:flex-start;}
+.wrong-reasoning .ti{flex-shrink:0;margin-top:1px;}
+
+.action-plan{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:1.5rem;}
+.action-plan-header{padding:1rem 1.5rem;border-bottom:1px solid #f1f5f9;}
+.action-plan-header h4{font-size:.95rem;font-weight:700;color:#1e293b;margin:0;}
+.action-step{padding:1rem 1.5rem;border-bottom:1px solid #f8fafc;display:flex;gap:1rem;}
+.action-step:last-child{border:none;}
+.step-priority{width:80px;flex-shrink:0;text-align:center;}
+.step-priority-badge{display:inline-block;padding:.2rem .6rem;border-radius:6px;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;}
+.step-content h5{font-size:.88rem;font-weight:700;color:#1e293b;margin:0 0 .35rem;}
+.step-content ul{margin:0;padding-left:1.1rem;font-size:.8rem;color:#475569;line-height:1.6;}
+.step-kpi{margin-top:.4rem;font-size:.76rem;color:#92400e;background:#fef3c7;padding:.25rem .6rem;border-radius:4px;display:inline-flex;align-items:center;gap:.3rem;}
+
+.results-footer{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-action{padding:.6rem 1.25rem;border-radius:8px;font-size:.88rem;font-weight:700;border:none;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:.4rem;}
+.btn-restart{background:#f1f5f9;color:#475569;}
+.btn-restart:hover{background:#e2e8f0;}
+.btn-print{background:var(--carol-navy);color:#fff;}
+.btn-print:hover{filter:brightness(1.15);}
+.btn-webhook{background:var(--carol-teal);color:#fff;}
+.btn-webhook:hover{filter:brightness(1.1);}
+
+/* Utilities */
+.d-none{display:none!important;}
+.text-center{text-align:center;}
+.mb-0{margin-bottom:0!important;}
+.alert{padding:.85rem 1.1rem;border-radius:8px;margin-bottom:1rem;font-size:.85rem;display:flex;gap:.6rem;align-items:flex-start;}
+.alert-info{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;}
+.alert-warning{background:#fffbeb;color:#92400e;border:1px solid #fde68a;}
+
+@media print{
+  #screen-splash,#screen-register,#screen-instructions,#screen-quiz{display:none!important;}
+  #screen-results{display:block!important;}
+  .results-footer,.q-nav-btns,.quiz-top-bar{display:none!important;}
+  body{background:#fff;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════ SPLASH ══ -->
+<div id="screen-splash" class="page-wrapper">
+  <div class="splash-logo">CAROL<span>.</span></div>
+  <div class="splash-tagline">Sistema de Evaluación Técnica · Moldeo por Inyección de Plásticos</div>
+
+  <div class="splash-cards">
+    <!-- Basic -->
+    <div class="level-card" onclick="selectLevel('basic')">
+      <div class="level-card-header">
+        <div class="level-badge" style="background:#00B894">Básico</div>
+        <h3>Operadores de Piso</h3>
+        <p>Operadores generales y técnicos de montaje (set-up) con hasta 2 años de experiencia.</p>
+      </div>
+      <div class="level-card-body">
+        <div class="level-stat"><span>Preguntas</span><span id="basic-q-count">—</span></div>
+        <div class="level-stat"><span>Puntaje máximo</span><span id="basic-pts">—</span></div>
+        <div class="level-stat"><span>Mínimo aprobatorio</span><span>75%</span></div>
+        <div class="level-stat"><span>Tiempo estimado</span><span>50 min</span></div>
+        <div class="level-stat"><span>Áreas evaluadas</span><span>7 categorías</span></div>
+      </div>
+      <div class="level-card-footer">
+        <button class="btn-start" style="background:#00B894">Iniciar Evaluación Básica</button>
+      </div>
+    </div>
+
+    <!-- Medium -->
+    <div class="level-card" onclick="selectLevel('medium')">
+      <div class="level-card-header">
+        <div class="level-badge" style="background:#E67E22">Medio</div>
+        <h3>Técnicos de Proceso</h3>
+        <p>Técnicos de proceso y supervisores con 2 a 6 años de experiencia en moldeo.</p>
+      </div>
+      <div class="level-card-body">
+        <div class="level-stat"><span>Preguntas</span><span id="medium-q-count">—</span></div>
+        <div class="level-stat"><span>Puntaje máximo</span><span id="medium-pts">—</span></div>
+        <div class="level-stat"><span>Mínimo aprobatorio</span><span>75%</span></div>
+        <div class="level-stat"><span>Tiempo estimado</span><span>60 min</span></div>
+        <div class="level-stat"><span>Áreas evaluadas</span><span>7 categorías</span></div>
+      </div>
+      <div class="level-card-footer">
+        <button class="btn-start" style="background:#E67E22">Iniciar Evaluación Media</button>
+      </div>
+    </div>
+
+    <!-- Advanced -->
+    <div class="level-card" onclick="selectLevel('advanced')">
+      <div class="level-card-header">
+        <div class="level-badge" style="background:#1B4F72">Avanzado</div>
+        <h3>Ingenieros y Líderes</h3>
+        <p>Ingenieros de procesos, moldes y líderes técnicos con más de 6 años de experiencia.</p>
+      </div>
+      <div class="level-card-body">
+        <div class="level-stat"><span>Preguntas</span><span id="advanced-q-count">—</span></div>
+        <div class="level-stat"><span>Puntaje máximo</span><span id="advanced-pts">—</span></div>
+        <div class="level-stat"><span>Mínimo aprobatorio</span><span>80%</span></div>
+        <div class="level-stat"><span>Tiempo estimado</span><span>75 min</span></div>
+        <div class="level-stat"><span>Áreas evaluadas</span><span>8 categorías</span></div>
+      </div>
+      <div class="level-card-footer">
+        <button class="btn-start" style="background:#1B4F72">Iniciar Evaluación Avanzada</button>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin-top:2.5rem;color:#475569;font-size:.82rem;text-align:center;">
+    Desarrollado por M. Gallegos / F. Salazar &nbsp;·&nbsp; CAROL Assessment System v2
+  </p>
+</div>
+
+<!-- ══════════════════════════════════════════════════ REGISTER ══ -->
+<div id="screen-register" class="page-wrapper" style="padding:1rem;">
+  <div class="register-card">
+    <div class="register-header">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;">
+        <button onclick="showSplash()" style="background:rgba(255,255,255,.1);border:none;color:#fff;border-radius:6px;padding:.3rem .6rem;cursor:pointer;font-size:.82rem;">← Regresar</button>
+        <div id="reg-level-badge" class="level-badge" style="background:#00B894;margin:0;">Básico</div>
+      </div>
+      <h2>Registro de Participante</h2>
+      <p>Completa tu información para comenzar la evaluación.</p>
+    </div>
+    <div class="register-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nombre Completo <span class="required">*</span></label>
+          <input type="text" class="form-control" id="reg-name" placeholder="Ej. Juan García López" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Número de Empleado <span class="required">*</span></label>
+          <input type="text" class="form-control" id="reg-id" placeholder="Ej. EMP-1234">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Departamento <span class="required">*</span></label>
+          <select class="form-control" id="reg-dept">
+            <option value="">Selecciona...</option>
+            <option value="production">Producción</option>
+            <option value="maintenance">Mantenimiento</option>
+            <option value="quality">Calidad</option>
+            <option value="engineering">Ingeniería</option>
+            <option value="tooling">Taller de Moldes</option>
+            <option value="logistics">Logística</option>
+            <option value="other">Otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Puesto Actual <span class="required">*</span></label>
+          <select class="form-control" id="reg-role">
+            <option value="">Selecciona...</option>
+            <option value="operator">Operador General</option>
+            <option value="setup_tech">Técnico de Montaje / Set-Up</option>
+            <option value="process_tech">Técnico de Procesos</option>
+            <option value="supervisor">Supervisor de Producción</option>
+            <option value="process_eng">Ingeniero de Procesos</option>
+            <option value="mold_eng">Ingeniero de Moldes / Tooling</option>
+            <option value="quality_eng">Ingeniero de Calidad</option>
+            <option value="plant_manager">Gerente / Jefe de Planta</option>
+            <option value="other">Otro</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Año de Nacimiento <span class="required">*</span></label>
+          <select class="form-control" id="reg-birth-year">
+            <option value="">Selecciona año...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mes de Nacimiento <span style="color:#94a3b8;font-weight:400;">(opcional)</span></label>
+          <select class="form-control" id="reg-birth-month">
+            <option value="">Selecciona mes...</option>
+            <option value="01">Enero</option><option value="02">Febrero</option>
+            <option value="03">Marzo</option><option value="04">Abril</option>
+            <option value="05">Mayo</option><option value="06">Junio</option>
+            <option value="07">Julio</option><option value="08">Agosto</option>
+            <option value="09">Septiembre</option><option value="10">Octubre</option>
+            <option value="11">Noviembre</option><option value="12">Diciembre</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Años de Experiencia en Moldeo por Inyección <span class="required">*</span></label>
+        <input type="number" class="form-control" id="reg-exp" min="0" max="50" placeholder="0" style="width:100px;">
+      </div>
+      <div class="form-group">
+        <label class="form-label">¿Cómo calificarías tu nivel de conocimiento técnico actual? <span class="required">*</span></label>
+        <div class="self-eval-wrap">
+          <input type="range" id="reg-self-eval" min="0" max="100" step="5" value="40" oninput="updateSelfEval(this.value)">
+          <div class="self-eval-labels">
+            <span>0% — Nunca he operado</span>
+            <span>50% — Ajusto solo</span>
+            <span>100% — Experto mundial</span>
+          </div>
+          <div class="range-value" id="self-eval-display">40%</div>
+        </div>
+      </div>
+      <div id="reg-error" class="alert alert-warning d-none">
+        <i class="ti ti-alert-triangle"></i>
+        <span>Por favor completa todos los campos obligatorios.</span>
+      </div>
+    </div>
+    <div class="register-footer">
+      <button class="btn-action btn-restart" onclick="showSplash()">Cancelar</button>
+      <button class="btn-action btn-webhook" onclick="submitRegistration()" style="flex:1;justify-content:center;">
+        <i class="ti ti-arrow-right"></i> Continuar a Instrucciones
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════ INSTRUCTIONS ══ -->
+<div id="screen-instructions" class="page-wrapper" style="padding:1rem;">
+  <div class="instructions-card">
+    <div class="instructions-header">
+      <div class="instructions-icon" id="inst-icon">📋</div>
+      <div>
+        <h2 id="inst-title">Instrucciones de Evaluación</h2>
+        <p id="inst-subtitle">Nivel Básico — Operadores de Piso</p>
+      </div>
+    </div>
+    <div class="instructions-body">
+      <div id="inst-objective" class="alert alert-info mb-0" style="margin-bottom:1.25rem!important;">
+        <i class="ti ti-target"></i>
+        <span></span>
+      </div>
+
+      <div class="info-grid" id="inst-grid">
+        <div class="info-card"><i class="ti ti-help-circle"></i><div class="info-card-text"><small>Preguntas</small><strong id="inst-q-count">—</strong></div></div>
+        <div class="info-card"><i class="ti ti-trophy"></i><div class="info-card-text"><small>Puntaje máximo</small><strong id="inst-pts">—</strong></div></div>
+        <div class="info-card"><i class="ti ti-check"></i><div class="info-card-text"><small>Mínimo aprobatorio</small><strong id="inst-pass">—</strong></div></div>
+        <div class="info-card"><i class="ti ti-clock"></i><div class="info-card-text"><small>Tiempo estimado</small><strong id="inst-time">—</strong></div></div>
+      </div>
+
+      <p style="font-size:.82rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem;">Áreas evaluadas</p>
+      <div class="categories-chips" id="inst-cats"></div>
+
+      <p style="font-size:.82rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem;">Instrucciones</p>
+      <ul class="instructions-list" id="inst-list"></ul>
+
+      <div class="tip-box" id="inst-tip">
+        <i class="ti ti-bulb"></i>
+        <span></span>
+      </div>
+    </div>
+    <div class="instructions-footer">
+      <button class="btn-action btn-restart" onclick="showRegister()">
+        <i class="ti ti-arrow-left"></i> Regresar
+      </button>
+      <button class="btn-action btn-webhook" onclick="startQuiz()" style="flex:1;justify-content:center;font-size:.95rem;">
+        <i class="ti ti-player-play"></i> Comenzar Evaluación
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ QUIZ ══ -->
+<div id="screen-quiz" class="page-wrapper">
+  <div class="quiz-layout">
+    <!-- Top bar -->
+    <div class="quiz-top-bar">
+      <div class="quiz-logo">CAROL<span>.</span></div>
+      <div class="quiz-level-badge" id="quiz-level-badge">Básico</div>
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <span style="font-size:.8rem;color:#94a3b8;" id="quiz-candidate-name"></span>
+        <div class="quiz-timer" id="quiz-timer"><i class="ti ti-clock"></i><span id="timer-display">50:00</span></div>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="quiz-progress-bar">
+      <div class="quiz-progress-fill" id="progress-fill" style="width:0%;background:#00B894;"></div>
+    </div>
+
+    <!-- Main -->
+    <div class="quiz-main">
+      <!-- Sidebar -->
+      <div class="quiz-sidebar">
+        <div class="sidebar-title">Navegación</div>
+        <div id="sidebar-nav"></div>
+        <div style="margin-top:1rem;padding-top:.75rem;border-top:1px solid #f1f5f9;">
+          <div style="display:flex;gap:.4rem;flex-wrap:wrap;font-size:.68rem;color:#94a3b8;">
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:10px;height:10px;border-radius:2px;background:#dcfce7;display:inline-block;"></span> Respondida</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:10px;height:10px;border-radius:2px;background:#1e293b;display:inline-block;"></span> Actual</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:10px;height:10px;border-radius:2px;background:#f1f5f9;display:inline-block;"></span> Pendiente</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question -->
+      <div class="question-card">
+        <div class="q-header">
+          <div class="q-meta">
+            <span class="q-num" id="q-num">PREGUNTA 1</span>
+            <span class="q-cat-badge" id="q-cat-badge">Categoría</span>
+            <span class="q-type-badge" id="q-type-badge">Teórico</span>
+            <span class="q-score" id="q-score-badge">1 pt</span>
+          </div>
+          <div class="q-description" id="q-description">Descripción del contexto...</div>
+          <div class="q-text" id="q-text">Texto de la pregunta...</div>
+        </div>
+        <div class="q-body">
+          <div class="options-list" id="options-list"></div>
+          <div class="reasoning-box" id="reasoning-box">
+            <i class="ti ti-bulb"></i>
+            <span id="reasoning-text"></span>
+          </div>
+        </div>
+        <div class="q-footer">
+          <span class="q-progress-text" id="q-progress-text">1 de 57 preguntas</span>
+          <div class="q-nav-btns">
+            <button class="btn-nav btn-prev" id="btn-prev" onclick="navigate(-1)">← Anterior</button>
+            <button class="btn-nav btn-next" id="btn-next" onclick="navigate(1)">Siguiente →</button>
+            <button class="btn-submit d-none" id="btn-submit" onclick="confirmSubmit()">
+              <i class="ti ti-check"></i> Finalizar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ RESULTS ══ -->
+<div id="screen-results" class="page-wrapper">
+  <div class="results-layout">
+    <!-- Hero -->
+    <div class="results-hero" id="results-hero">
+      <div class="results-donut-wrap">
+        <svg width="110" height="110" viewBox="0 0 110 110">
+          <circle cx="55" cy="55" r="44" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="12"/>
+          <circle id="donut-arc" cx="55" cy="55" r="44" fill="none" stroke="#00B894" stroke-width="12"
+            stroke-dasharray="276.46" stroke-dashoffset="276.46" stroke-linecap="round"/>
+        </svg>
+        <div class="donut-center">
+          <div class="donut-pct" id="result-pct">0%</div>
+          <div class="donut-status" id="result-status-icon">—</div>
+        </div>
+      </div>
+      <div class="results-info" style="flex:1;">
+        <h2 id="result-name">Resultado</h2>
+        <p id="result-subtitle">Nivel — Candidato</p>
+        <div class="results-kpis">
+          <div class="results-kpi"><span class="results-kpi-val" id="kpi-pts">—</span><span class="results-kpi-label">Pts. Obtenidos</span></div>
+          <div class="results-kpi"><span class="results-kpi-val" id="kpi-max">—</span><span class="results-kpi-label">Pts. Máximos</span></div>
+          <div class="results-kpi"><span class="results-kpi-val" id="kpi-correct">—</span><span class="results-kpi-label">Correctas</span></div>
+          <div class="results-kpi"><span class="results-kpi-val" id="kpi-time">—</span><span class="results-kpi-label">Tiempo usado</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category breakdown + Type breakdown -->
+    <div class="results-grid">
+      <div class="results-card" style="grid-column:1/-1;">
+        <h4>Desempeño por Área de Conocimiento</h4>
+        <div id="cat-breakdown"></div>
+      </div>
+    </div>
+
+    <!-- Wrong questions -->
+    <div class="wrong-review" id="wrong-review">
+      <div class="wrong-review-header">
+        <i class="ti ti-x-circle" style="font-size:1.2rem;color:#dc2626;"></i>
+        <h4>Preguntas Incorrectas — Revisión de Aprendizaje</h4>
+        <span class="badge bg-red text-white" id="wrong-count-badge">0</span>
+      </div>
+      <div id="wrong-list"></div>
+    </div>
+
+    <!-- Action plan -->
+    <div class="action-plan" id="action-plan">
+      <div class="action-plan-header">
+        <h4>Plan de Acción Recomendado</h4>
+      </div>
+      <div id="action-steps"></div>
+    </div>
+
+    <!-- Footer actions -->
+    <div class="results-footer">
+      <button class="btn-action btn-restart" onclick="showSplash()"><i class="ti ti-home"></i> Inicio</button>
+      <button class="btn-action btn-print" onclick="window.print()"><i class="ti ti-printer"></i> Imprimir Reporte</button>
+      <button class="btn-action btn-webhook" id="btn-send-results" onclick="sendToWebhook()"><i class="ti ti-send"></i> Enviar Resultados</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════ DATA ══
+const CAROL_DATA = {"basic":{"qs":[{"id":"mach_1","category":"Máquina e Inyectora","type":"Teórico","description":"La unidad de plastificación consta de varios elementos clave para procesar el material.","question":"En el sistema de plastificación, ¿cuál es el componente que gira para cizallar, fundir y transportar el material hacia adelante?","options":["El barril reforzado (cilindro)","El tornillo (husillo)","La válvula check (anillo)","La banda calefactora cerámica"],"score":1,"question_order_id":1},{"id":"mach_2","category":"Máquina e Inyectora","type":"Teórico","description":"Antes de entrar al cañón, el material debe estar disponible en la máquina.","question":"¿Cuál es el punto de entrada donde se almacena la materia prima antes de ingresar a la garganta de alimentación?","options":["El secador de material deshumidificador","La unidad de inyección completa","La tolva de alimentación","El contenedor de purga y residuos"],"score":1,"question_order_id":2},{"id":"mach_3","category":"Máquina e Inyectora","type":"Teórico","description":"El control térmico es fundamental a lo largo del cilindro de inyección.","question":"¿Cuál es la función específica de las resistencias eléctricas (bandas) colocadas alrededor del cañón?","options":["Generar la fricción necesaria para fundir el polímero","Mantener el perfil de temperatura del barril","Enfriar el material rápidamente para evitar degradación","Medir la presión interna del plástico fundido"],"score":1,"question_order_id":3},{"id":"mach_4","category":"Máquina e Inyectora","type":"Teórico","description":"La máquina se divide principalmente en unidad de inyección y unidad de cierre.","question":"Durante la etapa de inyección, ¿qué función crítica desempeña la unidad de cierre?","options":["Inyectar el material fundido dentro de la cavidad","Contrarrestar la fuerza de separación del molde","Regular la temperatura del sistema de enfriamiento","Accionar los mecanismos para expulsar la pieza"],"score":1,"question_order_id":4},{"id":"mach_5","category":"Máquina e Inyectora","type":"Teórico","description":"Una vez que la pieza se ha enfriado y el molde se abre, el proceso debe continuar.","question":"Al finalizar el ciclo, ¿qué mecanismo se activa para desprender la pieza de la cavidad o corazón?","options":["El sistema de noyos hidráulicos","El sistema de refrigeración","El sistema de expulsión (botadores)","El sistema de cierre de rodillera"],"score":1,"question_order_id":5},{"id":"proc_1","category":"Proceso de Inyección","type":"Teórico","description":"La productividad se mide mediante la duración total de cada proceso de fabricación.","question":"¿Cómo se define correctamente el 'tiempo de ciclo' en moldeo por inyección?","options":["Tiempo total que tarda el material en fundirse dentro del barril","Tiempo transcurrido entre el inicio de una inyección y la siguiente","Tiempo necesario para enfriar completamente la pieza en el molde","Tiempo que toma el robot en extraer y depositar la pieza final"],"score":1,"question_order_id":6},{"id":"qual_1","category":"Calidad y Defectos","type":"Práctico","description":"La inspección visual permite identificar problemas de llenado en la pieza.","question":"Si observas una pieza a la que le faltan detalles geométricos o secciones completas, ¿qué defecto presenta?","options":["Rebaba excesiva (Flash)","Tiro Corto (Short Shot)","Rechupado superficial (Sink Mark)","Línea de flujo visible (Flow line)"],"score":1.5,"question_order_id":7},{"id":"qual_2","category":"Calidad y Defectos","type":"Práctico","description":"El equilibrio entre la fuerza de la máquina y la presión del plástico es crítico.","question":"¿Cuál es la causa técnica más probable de la aparición de 'rebaba' (flash) en el borde de la pieza?","options":["Fuerza de cierre insuficiente para la presión inyectada","Temperatura excesiva del material en la zona de la boquilla","Tiempo de enfriamiento demasiado largo en el ciclo","Velocidad de inyección demasiado lenta durante el llenado"],"score":1.5,"question_order_id":8},{"id":"qual_3","category":"Calidad y Defectos","type":"Práctico","description":"Las variaciones de espesor en la pieza pueden generar defectos superficiales específicos.","question":"Identificas una depresión o hundimiento en una zona gruesa de la pieza. ¿Cómo se clasifica este defecto?","options":["Deformación geométrica (Warpage)","Rechupado (Sink Mark)","Vacío interno encapsulado (Void)","Marca de quemadura (Burn mark)"],"score":1.5,"question_order_id":9},{"id":"safe_1","category":"Seguridad Industrial","type":"Práctico","description":"El mantenimiento y limpieza de la unidad de inyección conllevan riesgos específicos.","question":"¿Cuál es el riesgo principal al realizar una purga de material a alta temperatura sin protección facial?","options":["Inhalación directa de polvos finos del ambiente","Salpicadura violenta de polímero fundido","Atrapamiento de extremidades en la unidad de cierre","Caída por resbalón con aceite hidráulico derramado"],"score":1.5,"question_order_id":10},{"id":"safe_2","category":"Seguridad Industrial","type":"Práctico","description":"Las situaciones de peligro requieren una reacción inmediata del operador.","question":"Ante un ruido anormal severo o riesgo inminente de aplastamiento, ¿qué acción inmediata debes tomar?","options":["Presionar el botón de paro de emergencia","Apagar manualmente el calentamiento del barril","Reducir gradualmente la velocidad de la máquina","Buscar inmediatamente al supervisor de turno"],"score":1.5,"question_order_id":11},{"id":"safe_3","category":"Seguridad Industrial","type":"Teórico","description":"Existen protocolos estandarizados para garantizar la seguridad durante intervenciones.","question":"¿Cuál es el objetivo del procedimiento LOTO (Candado y Etiqueta) antes de intervenir una máquina?","options":["Identificar y separar los defectos de calidad","Asegurar el bloqueo de todas las energías peligrosas","Registrar los tiempos de producción del operador","Limpiar y ordenar el área de trabajo según las 5S"],"score":1,"question_order_id":12},{"id":"safe_4","category":"Seguridad Industrial","type":"Práctico","description":"Los dispositivos de seguridad críticos deben ser universalmente reconocibles.","question":"¿Cuál es la característica visual estándar de un botón de Paro de Emergencia?","options":["Botón verde pequeño oculto bajo el panel","Botón rojo en forma de hongo sobre fondo amarillo","Palanca azul ubicada al costado de la máquina","Interruptor negro de llave con bloqueo"],"score":1,"question_order_id":13},{"id":"safe_5","category":"Seguridad Industrial","type":"Práctico","description":"Existen zonas de la máquina que operan a altas temperaturas durante el funcionamiento normal.","question":"Además del material fundido, ¿qué componente de la máquina presenta un alto riesgo de quemaduras por contacto?","options":["El panel de control (Pantalla HMI)","El barril (cilindro) y sus bandas calefactoras","La puerta de seguridad frontal del operador","La tolva de alimentación en su parte exterior"],"score":1,"question_order_id":14},{"id":"qual_4","category":"Calidad y Defectos","type":"Práctico","description":"El aire atrapado dentro de la cavidad reacciona ante la alta presión de inyección.","question":"Si aparece una mancha negra o marrón al final del llenado de la pieza, ¿qué indica este defecto?","options":["Aire atrapado que se comprimió y quemó (Efecto Diesel)","Material base contaminado con grasa del molde","Falta crítica de presión de sostenimiento (Hold)","Exceso de agente desmoldante rociado en la cavidad"],"score":1.5,"question_order_id":15},{"id":"qual_5","category":"Calidad y Defectos","type":"Práctico","description":"La geometría de la pieza obliga al plástico a separarse y volver a unirse.","question":"¿Qué defecto visual se genera cuando dos frentes de flujo de plástico se encuentran y no se fusionan perfectamente?","options":["Ráfagas de humedad (Splay)","Línea de unión o soldadura (Weld line)","Delaminación estructural de capas","Piel de naranja superficial"],"score":1.5,"question_order_id":16},{"id":"mat_1","category":"Materiales Plásticos","type":"Teórico","description":"La preparación de la materia prima es un paso previo esencial al procesamiento.","question":"Técnicamente, ¿por qué es obligatorio secar ciertos plásticos de ingeniería antes de procesarlos?","options":["Para aumentar significativamente la fluidez del material (MFI)","Para evitar hidrólisis y defectos visuales por humedad","Para precalentar el material y reducir el ciclo","Para mezclar homogéneamente el concentrado de color"],"score":1,"question_order_id":17},{"id":"mat_2","category":"Materiales Plásticos","type":"Teórico","description":"Los polímeros interactúan de diferentes maneras con el ambiente que los rodea.","question":"¿Cómo se le llama a la propiedad de un material (como el Nylon o PC) de absorber humedad del ambiente?","options":["Higroscopía","Viscosidad","Cristalinidad","Termoplasticidad"],"score":1,"question_order_id":18},{"id":"mat_5","category":"Materiales Plásticos","type":"Práctico","description":"El operador debe ser capaz de distinguir visualmente la calidad de la materia prima.","question":"¿Cuál es la diferencia visual principal entre el material virgen y el material molido (regrind)?","options":["El material virgen es siempre más oscuro que el molido","El molido es irregular y polvoriento; el virgen es uniforme","No existe diferencia visual, solo cambia la estructura química","El material molido siempre es transparente y limpio"],"score":1,"question_order_id":19},{"id":"mat_6","category":"Materiales Plásticos","type":"Práctico","description":"La contaminación física en la tolva es una causa común de defectos.","question":"Si el contenedor de material no tiene tapa, ¿qué problema es más probable que ocurra?","options":["Sobrecalentamiento excesivo de la resina","Contaminación por polvo ambiental o cartón","Aumento involuntario de la velocidad de inyección","Mejora notable en la mezcla del color"],"score":1,"question_order_id":20},{"id":"proc_2","category":"Proceso de Inyección","type":"Teórico","description":"El control térmico del molde es esencial para la estabilidad del ciclo.","question":"¿Cuál es el propósito principal de circular agua a temperatura controlada a través del molde?","options":["Lubricar internamente los pernos botadores y las guías","Extraer calor del plástico para solidificarlo","Calentar el molde para mejorar el flujo del material","Limpiar automáticamente los canales de ventilación"],"score":1,"question_order_id":21},{"id":"proc_3","category":"Proceso de Inyección","type":"Práctico","description":"Modificar los tiempos del ciclo afecta directamente la integridad física del producto.","question":"Si el operador reduce arbitrariamente el tiempo de enfriamiento, ¿qué consecuencia es más probable?","options":["La pieza tendrá quemaduras visibles por fricción","La pieza se deformará o será perforada por los botadores","La máquina consumirá mucha más energía eléctrica","El material se degradará químicamente en el barril"],"score":1.5,"question_order_id":22},{"id":"proc_4","category":"Proceso de Inyección","type":"Teórico","description":"Durante la carga de material, existen fuerzas que actúan sobre el husillo en retroceso.","question":"¿Qué parámetro controla la resistencia que opone el husillo al retroceder durante la carga de material?","options":["Presión de inyección","Contrapresión (Back pressure)","Presión de sostenimiento","Fuerza de cierre"],"score":1,"question_order_id":23},{"id":"proc_5","category":"Proceso de Inyección","type":"Teórico","description":"La posición final del husillo tras la inyección es un indicador de proceso clave.","question":"¿Qué representa el 'cojín' (cushion) remanente al final de la fase de inyección?","options":["El espacio de seguridad para evitar el choque de placas del molde","El material sobrante delante del husillo para transferir presión","La cantidad de plástico que se pierde por la boquilla","El recorrido total de apertura de la platina móvil"],"score":1,"question_order_id":24},{"id":"proc_6","category":"Proceso de Inyección","type":"Práctico","description":"La estabilidad de la posición final del husillo afecta la calidad de la pieza.","question":"Al revisar los parámetros, notas que el cojín es inestable o llega a cero. ¿Qué problema implica esto?","options":["Falta de control dimensional y posibles rechupados","Exceso de enfriamiento en la parte fija del molde","Sobrecalentamiento de las resistencias del barril","Velocidad de cierre del molde demasiado alta"],"score":1.5,"question_order_id":25},{"id":"mach_6","category":"Máquina e Inyectora","type":"Teórico","description":"El molde requiere mecanismos para gestionar los gases presentes en la cavidad.","question":"Los canales de venteo (vents) maquinados en el molde tienen la función crítica de:","options":["Facilitar la entrada de lubricante a la cavidad","Evacuar el aire desplazado por el plástico entrante","Mejorar el acabado superficial mediante pulido","Permitir la inspección visual del proceso"],"score":1,"question_order_id":26},{"id":"mat_3","category":"Materiales Plásticos","type":"Práctico","description":"La gestión de residuos plásticos permite recuperar material para el proceso.","question":"En el contexto de producción, ¿a qué se refiere el término 'molienda' o 'regrind'?","options":["Aditivo químico líquido para mejorar el flujo","Material procesado, recuperado y triturado para reutilización","Resina virgen contaminada con polvo ambiental","Purga solidificada que se tira directamente a la basura"],"score":1.5,"question_order_id":27},{"id":"eff_1","category":"Eficiencia y Lean","type":"Teórico","description":"La eficiencia industrial se mide mediante indicadores estandarizados globalmente.","question":"¿Qué factores componen el cálculo del OEE (Eficiencia General de los Equipos)?","options":["Seguridad, Medio Ambiente y Costo","Disponibilidad, Desempeño y Calidad","Velocidad, Presión y Temperatura","Materia Prima, Mano de Obra y Energía"],"score":1,"question_order_id":28},{"id":"eff_2","category":"Eficiencia y Lean","type":"Teórico","description":"Existen metodologías específicas para optimizar los tiempos de preparación de máquina.","question":"La metodología SMED se aplica en el área de inyección para:","options":["Reducir el consumo eléctrico de los motores","Reducir el tiempo de cambio de molde (Set-up)","Aumentar la presión máxima de inyección","Mejorar la mezcla de color en el husillo"],"score":1,"question_order_id":29},{"id":"eff_3","category":"Eficiencia y Lean","type":"Práctico","description":"Las paradas no planificadas afectan directamente la capacidad productiva.","question":"¿Qué se entiende comúnmente por 'Tiempo Muerto' (Downtime) en producción?","options":["El tiempo en que la máquina está apagada por ser fin de semana","El tiempo programado para mantenimiento preventivo","El periodo en que la máquina debería producir pero está detenida","El tiempo de enfriamiento dentro del ciclo"],"score":1,"question_order_id":30},{"id":"eff_4","category":"Eficiencia y Lean","type":"Teórico","description":"La operación continua de la máquina tiene diferentes modalidades de ejecución.","question":"¿Cuál es la diferencia básica entre un ciclo 'Automático' y uno 'Semi-automático'?","options":["En automático el operador abre la puerta; en semi-automático no","En automático la máquina reinicia sola; en semi hay intervención","El automático es siempre más lento que el semi-automático","No hay diferencia, son términos técnicos intercambiables"],"score":1,"question_order_id":31},{"id":"eff_5","category":"Eficiencia y Lean","type":"Práctico","description":"El registro preciso de lo producido es vital para el control de costos.","question":"¿Por qué es importante que el operador registre la cantidad de Scrap (desperdicio) generado?","options":["Para culpar directamente al departamento de mantenimiento","Para descontarlo del salario semanal del operador","Para tener un inventario real y detectar problemas de calidad","Para llenar las hojas de reporte que nadie lee"],"score":1,"question_order_id":32},{"id":"mach_7","category":"Máquina e Inyectora","type":"Teórico","description":"La automatización de la extracción de piezas influye en la estabilidad del proceso.","question":"¿Cuál es la ventaja principal de utilizar un robot cartesiano para la extracción de piezas?","options":["Reduce drásticamente el costo de mantenimiento del molde","Garantiza un tiempo de ciclo constante y estable","Disminuye drásticamente la temperatura de la masa fundida","Aumenta la fuerza de cierre disponible de la máquina"],"score":1,"question_order_id":33},{"id":"proc_7","category":"Proceso de Inyección","type":"Teórico","description":"Una vez que la cavidad está llena, el proceso requiere una etapa adicional antes del enfriamiento.","question":"¿Cuál es el objetivo de la etapa de 'presión de sostenimiento' (pack & hold)?","options":["Llenar el 95% de la cavidad lo más rápido posible","Compensar la contracción volumétrica mientras el material enfría","Empujar la pieza fuera del molde al momento de abrir","Generar fricción adicional para calentar el siguiente disparo"],"score":1,"question_order_id":34},{"id":"proc_8","category":"Proceso de Inyección","type":"Teórico","description":"El movimiento de avance del husillo durante el llenado se regula mediante parámetros específicos.","question":"¿Qué variable controla qué tan rápido se mueve el husillo hacia adelante durante el llenado?","options":["Velocidad de rotación (RPM)","Velocidad de inyección","Tiempo de enfriamiento","Presión de contrapresión"],"score":1,"question_order_id":35},{"id":"proc_9","category":"Proceso de Inyección","type":"Teórico","description":"El proceso de inyección consta de dos fases dinámicas principales que deben alternarse.","question":"¿Qué sucede exactamente en el 'Punto de Transferencia' (V-P switchover)?","options":["La máquina cambia de control de velocidad a control de presión","El molde comienza a abrirse automáticamente para expulsar la pieza","El husillo comienza a girar rápidamente para cargar material","El robot entra a la zona de molde para tomar la pieza"],"score":1,"question_order_id":36},{"id":"qual_6","category":"Calidad y Defectos","type":"Práctico","description":"Ciertas condiciones del material generan marcas visuales características en la superficie.","question":"Observas marcas plateadas o ráfagas en la superficie de la pieza cerca de la entrada. ¿Causa más probable?","options":["Material contaminado con humedad (Hidrólisis)","Falta de presión de inyección durante el llenado","Temperatura de la superficie del molde demasiado baja","Exceso de agente desmoldante aplicado en la cavidad"],"score":1.5,"question_order_id":37},{"id":"qual_7","category":"Calidad y Defectos","type":"Práctico","description":"La estabilidad dimensional de la pieza puede verse comprometida al salir del molde.","question":"Si la pieza sale del molde torcida o con dimensiones fuera de tolerancia geométrica, se le llama:","options":["Efecto Diesel (Quemadura)","Pandeo o Alabeo (Warpage)","Tiro Corto (Short Shot)","Delaminación (Peeling)"],"score":1.5,"question_order_id":38},{"id":"qual_8","category":"Calidad y Defectos","type":"Práctico","description":"La cohesión estructural del material inyectado puede fallar bajo ciertas condiciones.","question":"La 'delaminación' es un defecto donde la superficie de la pieza se descascara. ¿Qué lo provoca?","options":["Contaminación por mezcla de materiales incompatibles","Velocidad de inyección excesivamente alta","Temperatura del molde demasiado caliente","Presión de sostenimiento insuficiente"],"score":1.5,"question_order_id":39},{"id":"mach_8","category":"Máquina e Inyectora","type":"Teórico","description":"El sistema de alimentación del molde consta de varios componentes de distribución.","question":"¿Qué es el 'bebedero' (sprue) en un molde de inyección?","options":["El canal cónico principal que conecta la boquilla con los canales","El orificio por donde sale el aire atrapado (venteo)","El anillo que centra el molde en la platina","El sistema que expulsa la pieza final"],"score":1,"question_order_id":40},{"id":"mach_9","category":"Máquina e Inyectora","type":"Práctico","description":"El control de la temperatura en la boquilla es crítico al inicio de la inyección.","question":"¿Qué representa un tapón frío (cold slug) si entra a la cavidad?","options":["Una mejora en la estructura cristalina de la pieza","Un defecto estético causado por material solidificado","Una fuga interna de agua del sistema de refrigeración","Un exceso de lubricante en los pernos botadores"],"score":1.5,"question_order_id":41},{"id":"mach_10","category":"Máquina e Inyectora","type":"Práctico","description":"El uso de químicos auxiliares en el molde tiene efectos secundarios en la pieza final.","question":"El uso excesivo de spray desmoldante en el molde puede provocar:","options":["Mejor acabado superficial y brillo","Defectos cosméticos y problemas de pintado","Aumento en la velocidad de inyección","Reducción del tiempo de ciclo total"],"score":1.5,"question_order_id":42},{"id":"mach_11","category":"Máquina e Inyectora","type":"Teórico","description":"El cálculo correcto de los parámetros de cierre previene problemas de calidad.","question":"¿Por qué es crucial calcular correctamente la fuerza de cierre (tonelaje) requerida?","options":["Para ahorrar energía eléctrica en el motor","Para evitar que la presión de inyección abra el molde (rebaba)","Para que el robot pueda extraer la pieza más rápido","Para reducir la temperatura de fusión del material"],"score":1,"question_order_id":43},{"id":"qual_9","category":"Calidad y Defectos","type":"Práctico","description":"La limpieza del sistema de plastificación impacta en la pureza visual del producto.","question":"Detectas puntos negros (black specks) aleatorios en las piezas claras. ¿Qué acción correctiva sugiere?","options":["Aumentar la velocidad de cierre del molde","Purgar la unidad y revisar limpieza del husillo/tolva","Reducir el tiempo de enfriamiento drásticamente","Incrementar la presión de sostenimiento"],"score":1.5,"question_order_id":44},{"id":"proc_10","category":"Proceso de Inyección","type":"Teórico","description":"La dosificación de material debe corresponder a la capacidad requerida por el molde.","question":"¿A qué se refiere el término 'tamaño de disparo' (shot size)?","options":["Al peso total de la máquina de inyección","Al volumen total de polímero inyectado en un ciclo","A la longitud física del tornillo de plastificación","A la presión máxima que soporta el molde"],"score":1,"question_order_id":45},{"id":"wast_1","category":"Desperdicios (Muda)","type":"Práctico","description":"La metodología de organización industrial sigue una secuencia lógica de pasos.","question":"¿Cuál es la secuencia correcta de las 5S traducidas al español?","options":["Clasificar, Ordenar, Limpiar, Estandarizar, Disciplina","Controlar, Organizar, Limpiar, Entrenar, Documentar","Coordinar, Ordenar, Lavar, Sistematizar, Dirigir","Clasificar, Operar, Limpiar, Evaluar, Desarrollar"],"score":1.5,"question_order_id":46},{"id":"wast_2","category":"Desperdicios (Muda)","type":"Práctico","description":"La clasificación de productos no conformes es esencial para la contabilidad de producción.","question":"En términos de manufactura esbelta, el 'Scrap' se define como:","options":["Materia prima virgen lista para usar","Producto no conforme que no puede ser reparado","Herramientas desgastadas por el uso","Tiempo muerto por falla de máquina"],"score":1.5,"question_order_id":47},{"id":"qual_10","category":"Calidad y Defectos","type":"Práctico","description":"Los operadores requieren herramientas de referencia para evaluar la calidad.","question":"¿Cuál es el propósito de una 'Ayuda Visual' en la estación de trabajo?","options":["Decorar la estación para mejorar el ambiente","Proveer un estándar de comparación para la inspección","Registrar la asistencia del personal operativo","Sustituir la iluminación deficiente de la planta"],"score":1.5,"question_order_id":48},{"id":"mat_4","category":"Materiales Plásticos","type":"Teórico","description":"Existen aditivos específicos para modificar la apariencia estética de la resina base.","question":"¿Qué función cumple el 'Masterbatch' en el proceso?","options":["Actuar como agente de limpieza para purgar","Aportar color o aditivos concentrados a la resina base","Reducir la viscosidad del material reciclado","Servir como material de soporte en moldes complejos"],"score":1,"question_order_id":49},{"id":"mach_12","category":"Máquina e Inyectora","type":"Teórico","description":"El transporte de sólidos dentro del barril depende de principios físicos mecánicos.","question":"¿Qué fuerza física permite que el material sólido (pellets) avance desde la tolva hacia adelante en el tornillo?","options":["La presión hidráulica del sistema","La fricción entre los pellets y el barril","La fuerza de gravedad únicamente","La succión generada por el molde"],"score":1,"question_order_id":50},{"id":"mach_13","category":"Máquina e Inyectora","type":"Teórico","description":"La estructura de la máquina debe soportar los componentes principales del herramental.","question":"Las 'platinas' (platens) de la máquina tienen la función estructural de:","options":["Calentar el molde mediante resistencias","Soportar y sujetar las mitades del molde","Recoger las piezas expulsadas","Filtrar el aceite hidráulico"],"score":1,"question_order_id":51},{"id":"mach_14","category":"Máquina e Inyectora","type":"Práctico","description":"El mantenimiento de los componentes móviles del molde evita daños catastróficos.","question":"¿Qué consecuencia tiene operar un molde con los pernos guía dañados o sin lubricación?","options":["Desalineación de las mitades y daño severo al molde","Aumento inmediato de la temperatura del plástico","Disminución drástica e inmediata de la presión de inyección","Mejora en el sellado de la línea de partición"],"score":1.5,"question_order_id":52},{"id":"proc_11","category":"Proceso de Inyección","type":"Teórico","description":"Al finalizar la carga, se realiza un movimiento específico del husillo.","question":"¿Para qué se utiliza la 'descompresión' (suck back) después de la carga?","options":["Para aumentar la densidad del plástico fundido","Para aliviar presión y prevenir goteo por la boquilla","Para enfriar el tornillo más rápidamente","Para mezclar mejor los colorantes"],"score":1,"question_order_id":53},{"id":"wast_3","category":"Desperdicios (Muda)","type":"Práctico","description":"La transición entre diferentes materiales o colores requiere un procedimiento técnico.","question":"¿Cuál es el procedimiento correcto para 'purgar' al cambiar de un color oscuro a uno claro?","options":["Subir temperatura y usar material natural o compuesto de purga","Bajar temperatura inmediatamente y aumentar velocidad de inyección","Abrir el molde y limpiar con trapo manual","Mezclar el color claro sobre el oscuro directamente"],"score":1.5,"question_order_id":54},{"id":"wast_4","category":"Desperdicios (Muda)","type":"Práctico","description":"La eficiencia en los procedimientos de limpieza afecta los indicadores de producción.","question":"Observas a un operador purgando la máquina continuamente durante 20 minutos sin ajustar parámetros. Esto es:","options":["Un procedimiento estándar de calentamiento","Un desperdicio innecesario de resina y tiempo","Necesario para limpiar el husillo completamente","Requerido para estabilizar el aceite hidráulico"],"score":1.5,"question_order_id":55},{"id":"wast_5","category":"Desperdicios (Muda)","type":"Práctico","description":"El entorno de trabajo influye directamente en los defectos de las piezas.","question":"¿Cómo impacta directamente el orden y limpieza (5S) en la calidad de la pieza?","options":["Reduce la contaminación cruzada (puntos negros/rafagas)","Aumenta automáticamente la velocidad de la máquina","Elimina la necesidad de mantenimiento preventivo","Permite usar materiales de menor calidad"],"score":1.5,"question_order_id":56},{"id":"wast_6","category":"Desperdicios (Muda)","type":"Práctico","description":"El manejo de producto terminado requiere protocolos de higiene estrictos.","question":"Si una pieza recién inyectada cae al piso sucio, ¿cuál es la disposición correcta?","options":["Limpiarla con aire comprimido y empacarla","Marcarla como Scrap por contaminación potencial","Triturarla inmediatamente junto con las coladas limpias","Lavarla con agua y jabón en el baño"],"score":1.5,"question_order_id":57}],"ans":{"mach_1":{"correct_index":1,"reasoning":"Aunque el barril y las bandas calientan, solo el husillo gira y transporta el material mecánicamente.","score":1},"mach_2":{"correct_index":2,"reasoning":"La tolva es el reservorio montado directamente sobre la garganta de alimentación.","score":1},"mach_3":{"correct_index":1,"reasoning":"Las bandas aportan calor externo para mantener el material en estado fundido, complementando la fricción.","score":1},"mach_4":{"correct_index":1,"reasoning":"Si la unidad de cierre no resiste la presión interna (fuerza de separación), el molde se abrirá generando rebaba.","score":1},"mach_5":{"correct_index":2,"reasoning":"Los botadores empujan mecánicamente la pieza una vez que el molde está abierto.","score":1},"proc_1":{"correct_index":1,"reasoning":"Es la suma de todas las etapas (cierre, inyección, enfriamiento, apertura, expulsión) hasta reiniciar.","score":1},"qual_1":{"correct_index":1,"reasoning":"El tiro corto es la ausencia de material; los otros son excesos o deformaciones.","score":1.5},"qual_2":{"correct_index":0,"reasoning":"La rebaba ocurre cuando el plástico fuerza la apertura del molde; requiere más fuerza de cierre o menos presión.","score":1.5},"qual_3":{"correct_index":1,"reasoning":"El rechupado es una depresión superficial causada por contracción volumétrica en zonas calientes.","score":1.5},"safe_1":{"correct_index":1,"reasoning":"La purga puede liberar bolsas de gas comprimido que proyectan el material caliente hacia la cara.","score":1.5},"safe_2":{"correct_index":0,"reasoning":"El paro de emergencia corta la energía motriz inmediatamente; cualquier otra acción es demasiado lenta.","score":1.5},"safe_3":{"correct_index":1,"reasoning":"LOTO está diseñado específicamente para prevenir la activación accidental de energía (eléctrica, hidráulica, etc.).","score":1},"safe_4":{"correct_index":1,"reasoning":"Por normativa internacional, el paro de emergencia debe ser rojo, prominente y sobre fondo amarillo para fácil detección.","score":1},"safe_5":{"correct_index":1,"reasoning":"El barril y las bandas operan a cientos de grados centígrados y suelen estar expuestos o mal aislados.","score":1},"qual_4":{"correct_index":0,"reasoning":"Las quemaduras por venteo ocurren cuando el aire no puede escapar y se calienta por compresión rápida.","score":1.5},"qual_5":{"correct_index":1,"reasoning":"La línea de unión es la cicatriz visible donde convergen los flujos, comúnmente alrededor de agujeros.","score":1.5},"mat_1":{"correct_index":1,"reasoning":"La humedad se convierte en vapor o rompe las cadenas moleculares (hidrólisis), arruinando la pieza.","score":1},"mat_2":{"correct_index":0,"reasoning":"Higroscópico es el término técnico para la capacidad de absorber agua del aire circundante.","score":1},"mat_5":{"correct_index":1,"reasoning":"El material virgen viene cortado de fábrica uniformemente; el molido proviene de una trituradora, resultando en geometría irregular.","score":1},"mat_6":{"correct_index":1,"reasoning":"Dejar el material expuesto permite que partículas del ambiente (polvo, insectos, restos de empaque) caigan en la tolva.","score":1},"proc_2":{"correct_index":1,"reasoning":"El sistema de enfriamiento busca bajar la temperatura del plástico por debajo de su punto de deflexión para expulsarlo.","score":1},"proc_3":{"correct_index":1,"reasoning":"Si la pieza está muy caliente y blanda, los botadores la atravesarán o se doblará al caer.","score":1.5},"proc_4":{"correct_index":1,"reasoning":"La contrapresión asegura una mezcla homogénea y compacta al dificultar el retorno del tornillo.","score":1},"proc_5":{"correct_index":1,"reasoning":"Sin cojín, el tornillo toca fondo y no se puede aplicar presión de sostenimiento (hold) a la pieza.","score":1},"proc_6":{"correct_index":0,"reasoning":"Un cojín cero significa que no hubo material suficiente para compensar la contracción, generando piezas defectuosas.","score":1.5},"mach_6":{"correct_index":1,"reasoning":"El plástico no puede ocupar el lugar del aire si este no sale; si no hay venteo, el aire se quema.","score":1},"mat_3":{"correct_index":1,"reasoning":"Es el aprovechamiento de coladas y piezas rechazadas (si la calidad lo permite) trituradas en molino.","score":1.5},"eff_1":{"correct_index":1,"reasoning":"Es el estándar industrial: ¿La máquina funcionó? (Disp), ¿A qué velocidad? (Desemp), ¿Salieron bien? (Calidad).","score":1},"eff_2":{"correct_index":1,"reasoning":"SMED (Single Minute Exchange of Die) busca cambios rápidos para aumentar la disponibilidad.","score":1},"eff_3":{"correct_index":2,"reasoning":"El tiempo muerto es improductivo y reduce la disponibilidad del equipo para manufacturar.","score":1},"eff_4":{"correct_index":1,"reasoning":"El ciclo automático permite producción continua sin intervención; el semi-automático requiere que el operador valide cada pieza y reinicie.","score":1},"eff_5":{"correct_index":2,"reasoning":"Sin un conteo de scrap, el inventario de resina no cuadrará y los problemas de calidad pasarán desapercibidos.","score":1},"mach_7":{"correct_index":1,"reasoning":"A diferencia de un humano, el robot tarda siempre lo mismo, estabilizando el proceso térmico.","score":1},"proc_7":{"correct_index":1,"reasoning":"Una vez lleno el molde, se debe 'sostener' presión para meter más material mientras el plástico contrae.","score":1},"proc_8":{"correct_index":1,"reasoning":"La velocidad de inyección determina el caudal de llenado; las RPM son para la carga (plastificación).","score":1},"proc_9":{"correct_index":0,"reasoning":"Es el momento crítico donde se deja de empujar por velocidad y se empieza a empacar por presión.","score":1},"qual_6":{"correct_index":0,"reasoning":"El agua en el material se vuelve vapor al inyectar, dejando vetas plateadas (splay).","score":1.5},"qual_7":{"correct_index":1,"reasoning":"El pandeo es resultado de tensiones internas o enfriamiento desigual.","score":1.5},"qual_8":{"correct_index":0,"reasoning":"Si dos plásticos no son químicamente compatibles (ej. PP con ABS), no se funden y se separan en capas.","score":1.5},"mach_8":{"correct_index":0,"reasoning":"Es el primer conducto del molde; conecta la unidad de inyección con el sistema de distribución.","score":1},"mach_9":{"correct_index":1,"reasoning":"Es la 'baba' fría de la inyección anterior; si entra a la pieza, crea una marca o imperfección visible.","score":1.5},"mach_10":{"correct_index":1,"reasoning":"El desmoldante contamina la superficie del plástico, causando ráfagas, grietas (stress cracking) o fallas de adhesión.","score":1.5},"mach_11":{"correct_index":1,"reasoning":"El tonelaje es la fuerza que mantiene 'la puerta cerrada'. Si la inyección empuja más fuerte, sale rebaba.","score":1},"qual_9":{"correct_index":1,"reasoning":"Los puntos negros son material degradado (carbón) o contaminación externa; se debe limpiar el sistema.","score":1.5},"proc_10":{"correct_index":1,"reasoning":"Incluye las piezas, canales y bebedero. Es la cantidad de material que sale del barril.","score":1},"wast_1":{"correct_index":0,"reasoning":"Corresponden a Seiri, Seiton, Seiso, Seiketsu, Shitsuke.","score":1.5},"wast_2":{"correct_index":1,"reasoning":"Scrap es desperdicio material irreversible, a diferencia del re-trabajo.","score":1.5},"qual_10":{"correct_index":1,"reasoning":"Permite al operador comparar la pieza real contra fotos de defectos/aceptables para tomar decisiones.","score":1.5},"mat_4":{"correct_index":1,"reasoning":"Son pellets con alta carga de pigmento que se dosifican en porcentaje bajo para colorear.","score":1},"mach_12":{"correct_index":1,"reasoning":"Sin fricción, el tornillo giraría y los pellets resbalarían sin avanzar (como un coche en hielo).","score":1},"mach_13":{"correct_index":1,"reasoning":"Son las placas macizas de acero donde se atornilla o clampa el molde.","score":1},"mach_14":{"correct_index":0,"reasoning":"Las guías aseguran que cavidad y corazón embonen; si fallan, chocan metal con metal.","score":1.5},"proc_11":{"correct_index":1,"reasoning":"Al jalar el tornillo atrás sin girar, se quita presión en la punta para que no 'babee' material.","score":1},"wast_3":{"correct_index":0,"reasoning":"Se requiere limpiar mecánicamente y químicamente los residuos oscuros, usualmente con material virgen o purging compound.","score":1.5},"wast_4":{"correct_index":1,"reasoning":"La purga debe ser eficiente; hacerlo en exceso indica falta de control de proceso.","score":1.5},"wast_5":{"correct_index":0,"reasoning":"El polvo y gránulos sucios en el entorno son la causa #1 de contaminación en la pieza.","score":1.5},"wast_6":{"correct_index":1,"reasoning":"En industrias estrictas (automotriz/médica/alimenticia), el contacto con el suelo es contaminación automática.","score":1.5}},"meta":{"id":"basic","name_es":"Básico — Operadores de Piso","name_en":"Basic — Floor Operators","role_target":"Operadores Generales, Técnicos de Montaje (Set-Up)","pass_pct":75,"time_min":50,"badge_color":"#00B894","instructions":{"objective":"Evaluar el conocimiento operativo fundamental necesario para operar de forma segura y eficiente una máquina de inyección de plásticos.","audience":"Operadores generales y técnicos de montaje (set-up) con hasta 2 años de experiencia en producción.","format":"Opción múltiple — 4 respuestas por pregunta, una correcta.","scoring":"Preguntas teóricas: 1 punto. Preguntas prácticas: 1.5 puntos.","passing":"Puntaje mínimo aprobatorio: 75% del total de puntos.","time":"Tiempo estimado: 50 minutos.","instructions_list":["Lee cada pregunta completamente antes de responder.","Si no sabes una respuesta, pasa a la siguiente y regresa al final.","No se permite consultar manuales o celular durante la evaluación.","Asegúrate de que cada pregunta tenga una respuesta antes de enviar.","Tu resultado y plan de desarrollo te será enviado por correo electrónico."],"categories_covered":["Máquina e Inyectora","Proceso de Inyección","Calidad y Defectos","Seguridad Industrial","Materiales Plásticos","Eficiencia y Lean","Desperdicios (Muda)"],"tip":"En este nivel se evalúa conocimiento práctico de operación diaria. Piensa en lo que haces y observas en el piso de producción cada turno."}},"stats":{"total_questions":57,"max_score":69.0,"theoretical_count":27,"practical_count":30,"categories":{"Eficiencia y Lean":5,"Máquina e Inyectora":14,"Proceso de Inyección":11,"Desperdicios (Muda)":6,"Calidad y Defectos":10,"Materiales Plásticos":6,"Seguridad Industrial":5}}},"medium":{"qs":[{"id":"mach_1","category":"Máquina e Inyectora","type":"Teórico","description":"Los sensores de temperatura son los ojos del sistema de control.","question":"¿Qué variable física mide realmente un termopar insertado en una zona del barril de plastificación?","options":["La temperatura del núcleo de la masa de plástico fundido","La temperatura del acero del barril en ese punto específico","La temperatura superficial de la resistencia calefactora","La temperatura generada por la fricción de cizalla del husillo"],"score":1,"question_order_id":1},{"id":"mach_2","category":"Máquina e Inyectora","type":"Práctico","description":"La presión hidráulica no es equivalente a la presión ejercida sobre el polímero.","question":"Si el manómetro hidráulico marca 1,000 PSI y la máquina tiene un ratio de intensificación de 10:1, ¿cuál es la presión plástica aplicada?","options":["100 PSI (Reducción por fricción mecánica)","1,000 PSI (Relación directa hidráulica 1:1)","10,000 PSI (Multiplicación por área del pistón)","11,000 PSI (Suma acumulada de presiones)"],"score":1.5,"question_order_id":2},{"id":"mach_3","category":"Máquina e Inyectora","type":"Práctico","description":"La válvula antirretorno es crítica para mantener la presión durante el empaque.","question":"Durante la fase de sostenimiento, observas que el husillo sigue avanzando lentamente (creeping) sin detenerse. Diagnóstico probable:","options":["La compuerta del molde se congeló prematuramente por enfriamiento","Fuga interna en el anillo de cierre (válvula check)","Exceso de contrapresión programada durante la carga","El perfil de temperaturas del barril está invertido"],"score":1.5,"question_order_id":3},{"id":"mach_4","category":"Máquina e Inyectora","type":"Teórico","description":"La geometría del tornillo determina su capacidad para fundir y mezclar.","question":"¿Qué indica la relación L/D (Longitud/Diámetro) en la especificación de un husillo?","options":["La capacidad máxima de inyección calculada en gramos","La longitud de vuelo del husillo dividida por su diámetro","La distancia máxima de apertura permitida de la prensa","El ratio de compresión entre zona de alimentación y medición"],"score":1,"question_order_id":4},{"id":"mach_5","category":"Máquina e Inyectora","type":"Práctico","description":"La alimentación del material depende de condiciones específicas de fricción y temperatura.","question":"Si la temperatura en la garganta de alimentación no se controla y sube demasiado, ¿qué problema de proceso se genera?","options":["Puenteo de material (Bridging) y falla de carga","Degradación inmediata del pigmento en la tolva","Aumento descontrolado de la presión hidráulica","Cristalización prematura del polímero en el husillo"],"score":1.5,"question_order_id":5},{"id":"mach_6","category":"Máquina e Inyectora","type":"Teórico","description":"La unidad de potencia es la encargada de convertir energía eléctrica en energía de fluido.","question":"En un sistema hidráulico, ¿qué componente es responsable de generar el caudal necesario para el movimiento?","options":["La válvula proporcional de flujo","El acumulador de nitrógeno a presión","La bomba hidráulica principal","El cilindro de inyección trasero"],"score":1,"question_order_id":6},{"id":"mach_7","category":"Máquina e Inyectora","type":"Teórico","description":"La integridad estructural de la máquina depende de placas de acero específicas.","question":"Identifica cuál de las siguientes NO es una platina estándar en una inyectora:","options":["Platina Fija (Lado A)","Platina Móvil (Lado B)","Platina de Rotación Axial","Platina Trasera o de Soporte"],"score":1,"question_order_id":7},{"id":"mach_8","category":"Máquina e Inyectora","type":"Práctico","description":"La compatibilidad entre sensores y controladores es esencial para lecturas precisas.","question":"¿Qué consecuencia tiene conectar un termopar Tipo J en una tarjeta configurada para Tipo K?","options":["Ninguna, ambos miden la temperatura de la misma forma","Lectura errónea de temperatura y riesgo de proceso","Daño permanente e irreversible al PLC de la máquina","El calentamiento será mucho más lento pero preciso"],"score":1.5,"question_order_id":8},{"id":"mach_9","category":"Máquina e Inyectora","type":"Práctico","description":"Los mecanismos del molde deben coordinarse para evitar colisiones internas.","question":"¿Cuál es la función crítica de los 'Return Pins' (Pernos de retorno) en el molde?","options":["Empujar la pieza fuera del molde al abrir","Retraer la placa de botadores al cerrar el molde","Guiar la alineación fina entre cavidad y corazón","Soportar la presión de inyección en la placa trasera"],"score":1.5,"question_order_id":9},{"id":"proc_10","category":"Proceso de Inyección","type":"Teórico","description":"La inyección se divide en dos fases de control distintas.","question":"¿Qué define exactamente el punto de conmutación o transferencia (VPT)?","options":["El cambio de control de Velocidad a control de Presión","El momento exacto en que el molde se llena al 100%","El inicio inmediato del tiempo de enfriamiento del ciclo","El punto donde se activa la contrapresión del husillo"],"score":1,"question_order_id":10},{"id":"proc_11","category":"Proceso de Inyección","type":"Práctico","description":"La maquinaria global requiere manejar diferentes sistemas de unidades.","question":"Calcula rápidamente: Si tienes 350 Bar, ¿cuál es su equivalente aproximado en PSI? (Factor x14.5)","options":["2,400 PSI","3,500 PSI","5,075 PSI","50,000 PSI"],"score":1.5,"question_order_id":11},{"id":"proc_12","category":"Proceso de Inyección","type":"Teórico","description":"El comportamiento del plástico fundido no es lineal como el del agua.","question":"Debido al comportamiento pseudoplástico (Shear Thinning), ¿qué pasa con la viscosidad al aumentar la velocidad de inyección?","options":["La viscosidad aumenta (se hace más espeso)","La viscosidad disminuye (fluye más fácil)","La viscosidad permanece constante (Newtoniano)","El material se degrada instantáneamente"],"score":1,"question_order_id":12},{"id":"proc_13","category":"Proceso de Inyección","type":"Práctico","description":"Determinar el tiempo correcto de sostenimiento es un proceso científico.","question":"¿Qué determina un 'Estudio de Sellado de Compuerta' (Gate Freeze Study)?","options":["La temperatura exacta de fusión del material","El tiempo mínimo de sostenimiento para evitar reflujo","La presión máxima que soporta el molde sin abrirse","El tiempo total de enfriamiento requerido por la pieza"],"score":1.5,"question_order_id":13},{"id":"proc_14","category":"Proceso de Inyección","type":"Práctico","description":"La transferencia efectiva de presión requiere un colchón de material.","question":"Técnicamente, ¿por qué es grave que el cojín llegue a cero durante el proceso?","options":["Porque el impacto metal-metal daña la punta del husillo","Porque se pierde el control de la presión sobre la cavidad","Porque el sistema hidráulico entra en cavitación y pierde potencia","Porque aumenta el tiempo de ciclo innecesariamente"],"score":1.5,"question_order_id":14},{"id":"proc_15","category":"Proceso de Inyección","type":"Teórico","description":"El plástico reduce su volumen significativamente al enfriarse.","question":"¿Cuál es la variable de proceso más influyente para controlar la contracción final de la pieza?","options":["La temperatura de la zona de alimentación","La velocidad de rotación del husillo","La presión de sostenimiento (Packing pressure)","La velocidad de apertura del molde"],"score":1,"question_order_id":15},{"id":"proc_16","category":"Proceso de Inyección","type":"Teórico","description":"El control del estado del material fundido al finalizar la dosificación evita problemas en el siguiente ciclo.","question":"¿Qué defecto en la pieza o problema en el molde se genera por una falta de descompresión (suck-back)?","options":["Tiro corto en la pieza por falta de carga","Hilos o babeo en la boquilla que obstruyen la entrada","Quemaduras por efecto diesel en el molde","Deformación severa de la pieza al expulsar"],"score":1,"question_order_id":16},{"id":"proc_17","category":"Proceso de Inyección","type":"Práctico","description":"La compactación del fundido antes de la inyección asegura la consistencia.","question":"¿Qué defecto esperarías si la contrapresión (Back Pressure) es excesivamente baja?","options":["Rebaba excesiva en la línea de partición","Pobre mezcla, aire atrapado y peso inconsistente","Degradación del material por cizallamiento y fricción","Dificultad para expulsar la pieza por vacío"],"score":1.5,"question_order_id":17},{"id":"proc_18","category":"Proceso de Inyección","type":"Teórico","description":"La historia térmica del material afecta sus propiedades finales.","question":"¿Qué es el 'Tiempo de Residencia' en inyección?","options":["El tiempo total del ciclo de inyección completo","El tiempo que el polímero pasa expuesto a calor en el barril","El tiempo que tarda la pieza en solidificar","El tiempo de vida útil estimado del molde"],"score":1,"question_order_id":18},{"id":"qual_19","category":"Calidad y Defectos","type":"Práctico","description":"Defectos contradictorios suelen apuntar a problemas mecánicos del herramental.","question":"Tienes una pieza con Rebaba (Flash) pero con Peso Bajo (Short shot). ¿Qué indica esta contradicción?","options":["Exceso de presión de sostenimiento aplicada tardíamente","Daño en el molde o desalineación de platinas (Falta de sello)","Material demasiado viscoso para la temperatura actual","Tiempo de inyección programado muy corto"],"score":1.5,"question_order_id":19},{"id":"qual_20","category":"Calidad y Defectos","type":"Práctico","description":"El comportamiento del flujo depende de la velocidad de entrada a la cavidad.","question":"¿Qué defecto causa un 'gusanito' o serpenteo visible en la superficie de la pieza frente a la compuerta?","options":["Jetting (Efecto Jet)","Splay (Ráfagas)","Weld Line (Línea de unión)","Sink Mark (Rechupado)"],"score":1.5,"question_order_id":20},{"id":"qual_21","category":"Calidad y Defectos","type":"Práctico","description":"La compresión rápida de gases genera temperaturas extremas.","question":"¿Qué fenómeno físico causa el 'Efecto Diesel' (quemadura en el borde de la pieza)?","options":["Oxidación acelerada del metal del molde","Compresión adiabática del aire atrapado","Reacción química exotérmica del masterbatch","Fricción excesiva del husillo contra el barril"],"score":1.5,"question_order_id":21},{"id":"qual_22","category":"Calidad y Defectos","type":"Práctico","description":"Los volátiles en el material se expanden violentamente al perder presión.","question":"Las ráfagas plateadas (Silver streaks) distribuidas por toda la pieza suelen indicar:","options":["Exceso de fuerza de cierre en la máquina","Humedad en el material (Vapor)","Falta de velocidad de inyección","Temperatura de molde demasiado fría"],"score":1.5,"question_order_id":22},{"id":"qual_23","category":"Calidad y Defectos","type":"Teórico","description":"La forma en que se unen los frentes de flujo determina la resistencia mecánica.","question":"¿Cuál es la diferencia técnica entre Línea de Soldadura (Weld) y Línea de Fusión (Meld)?","options":["No existe diferencia, son sinónimos técnicos","El ángulo de encuentro de los frentes de flujo (<135° vs >135°)","La temperatura del molde en el punto de contacto","El tipo de material amorfo vs semicristalino"],"score":1,"question_order_id":23},{"id":"qual_24","category":"Calidad y Defectos","type":"Práctico","description":"El enfriamiento desigual crea tensiones internas que deforman la pieza.","question":"Para corregir un problema de Pandeo (Warpage) en una pieza plana, ¿qué ajuste es más efectivo?","options":["Aumentar significativamente la temperatura de la masa","Equilibrar el enfriamiento entre lado fijo y móvil","Incrementar la fuerza de cierre al máximo disponible","Reducir el tiempo de ciclo a la mitad"],"score":1.5,"question_order_id":24},{"id":"qual_25","category":"Calidad y Defectos","type":"Práctico","description":"La compatibilidad química es esencial para que el material se funda como una sola masa.","question":"La 'Delaminación' (capas que se desprenden) es síntoma inequívoco de:","options":["Contaminación con polímero incompatible","Velocidad de inyección excesivamente lenta","Presión de sostenimiento inusualmente alta","Temperatura de molde peligrosamente baja"],"score":1.5,"question_order_id":25},{"id":"qual_26","category":"Calidad y Defectos","type":"Práctico","description":"El material degradado puede acumularse en el sistema y desprenderse aleatoriamente.","question":"¿Cuál es la fuente más común de 'Puntos Negros' aleatorios en producción continua?","options":["Suciedad y sarro en el sistema de agua de enfriamiento","Acumulación de carbón en zonas muertas del barril/husillo","Falla intermitente en el sensor de presión de cavidad","Exceso de aditivo estabilizador UV en la mezcla"],"score":1.5,"question_order_id":26},{"id":"qual_27","category":"Calidad y Defectos","type":"Teórico","description":"La calidad moderna se basa en datos y prevención, no solo en inspección.","question":"¿Qué herramienta de Calidad se utiliza para monitorear la estabilidad estadística (Cpk) del proceso?","options":["Diagrama de Causa y Efecto (Ishikawa)","Gráficos de Control Estadístico (SPC)","Análisis de Modo y Efecto de Falla (AMEF)","Metodología de orden y limpieza (5S)"],"score":1,"question_order_id":27},{"id":"safe_28","category":"Seguridad Industrial","type":"Práctico","description":"Los dispositivos electrónicos pueden fallar; las barreras físicas son la única garantía.","question":"Antes de meter el cuerpo entre las platinas para mantenimiento, ¿qué paso es INNEGOCIABLE?","options":["Colocar un letrero visible de 'No Operar'","Aplicar bloqueo y etiquetado (LOTO) de energías","Avisar verbalmente al supervisor de turno","Confiar en que el sensor de seguridad funciona"],"score":1.5,"question_order_id":28},{"id":"safe_29","category":"Seguridad Industrial","type":"Práctico","description":"La descomposición térmica de polímeros genera presión interna peligrosa.","question":"¿Por qué la purga de material degradado representa un riesgo de explosión?","options":["Por una reacción química exotérmica con el oxígeno","Por la expansión violenta de gases atrapados a presión","Por el contacto térmico con el agua de refrigeración","Por la electricidad estática generada por fricción"],"score":1.5,"question_order_id":29},{"id":"safe_30","category":"Seguridad Industrial","type":"Práctico","description":"El cierre del molde debe ser monitoreado para evitar daños costosos.","question":"El sistema de 'Protección de Molde' (baja presión) sirve para:","options":["Ahorrar energía eléctrica durante la fase de cierre","Detectar obstrucciones y detener el cierre antes de dañar el molde","Mejorar el tiempo de ciclo en moldes de apertura rápida","Aumentar la vida útil del aceite hidráulico del sistema"],"score":1.5,"question_order_id":30},{"id":"safe_31","category":"Seguridad Industrial","type":"Práctico","description":"Los fluidos a alta presión pueden causar lesiones graves e incendios.","question":"Ante una ruptura de manguera hidráulica con fuga de aceite a alta presión, lo primero es:","options":["Intentar tapar la fuga manualmente con un trapo","Activar el Paro de Emergencia para detener la bomba","Colocar material absorbente en el piso","Buscar al técnico de mantenimiento especializado"],"score":1.5,"question_order_id":31},{"id":"safe_32","category":"Seguridad Industrial","type":"Práctico","description":"El equipo de protección estándar es insuficiente para temperaturas extremas.","question":"Para manipular purgas calientes, el EPP mínimo requerido incluye:","options":["Guantes de látex desechables y lentes oscuros","Careta facial completa y guantes térmicos largos","Mascarilla para polvos finos y tapones auditivos","Guantes de carnaza cortos y lentes de seguridad claros"],"score":1.5,"question_order_id":32},{"id":"safe_33","category":"Seguridad Industrial","type":"Práctico","description":"El izaje de cargas pesadas requiere componentes certificados.","question":"Al izar un molde, ¿qué condición deben cumplir los cáncamos (eyebolts)?","options":["Estar soldados permanentemente a la placa del molde","Tener capacidad de carga certificada mayor al peso del molde","Ser fabricados de acero inoxidable obligatoriamente","Estar pintados de color amarillo seguridad brillante"],"score":1.5,"question_order_id":33},{"id":"safe_34","category":"Seguridad Industrial","type":"Práctico","description":"Las zonas no visibles de la máquina requieren sistemas de seguridad automáticos.","question":"¿Qué función cumple el interbloqueo (interlock) de la puerta trasera?","options":["Mantener la puerta cerrada mediante electroimanes","Detener bomba y movimientos si la puerta es abierta","Encender la luz de alarma estroboscópica","Registrar el evento de apertura en el sistema"],"score":1,"question_order_id":34},{"id":"safe_35","category":"Seguridad Industrial","type":"Teórico","description":"El agente extintor incorrecto puede agravar un incendio eléctrico.","question":"Para un fuego eléctrico en el gabinete de control, ¿qué extintor usas?","options":["Tipo A (Agua presurizada)","Tipo C (CO2 o Polvo Químico)","Tipo K (Acetato de Potasio)","Tipo D (Polvo para metales)"],"score":1,"question_order_id":35},{"id":"safe_36","category":"Seguridad Industrial","type":"Teórico","description":"Las regulaciones locales dictan los estándares mínimos de protección.","question":"En México, la norma STPS que regula los dispositivos de seguridad en maquinaria es:","options":["NOM-017-STPS (Equipo de Protección Personal)","NOM-004-STPS (Maquinaria y Equipo)","NOM-002-STPS (Prevención de Incendios)","NOM-029-STPS (Mantenimiento Eléctrico)"],"score":1,"question_order_id":36},{"id":"mat_37","category":"Materiales Plásticos","type":"Teórico","description":"La fluidez es una propiedad fundamental para determinar la procesabilidad.","question":"¿Qué indica el índice MFI (Melt Flow Index) de una resina?","options":["Su resistencia al impacto según prueba Izod","Su viscosidad o facilidad para fluir","Su temperatura de transición vítrea específica","Su porcentaje de carga de fibra de vidrio"],"score":1,"question_order_id":37},{"id":"mat_38","category":"Materiales Plásticos","type":"Teórico","description":"Ciertos polímeros sufren daños moleculares irreversibles en presencia de agua.","question":"¿Qué fenómeno químico sufre el Policarbonato (PC) o Nylon (PA) si se inyecta húmedo?","options":["Polimerización (endurecimiento de la cadena)","Hidrólisis (rotura de cadenas moleculares)","Oxidación (cambio de coloración)","Reticulación (cross-linking de enlaces)"],"score":1,"question_order_id":38},{"id":"mat_39","category":"Materiales Plásticos","type":"Teórico","description":"La estructura molecular define cómo cambia el volumen al solidificar.","question":"Diferencia clave de procesamiento entre amorfos (ej. ABS) y semicristalinos (ej. PP):","options":["Los amorfos requieren temperaturas de molde superiores","Los semicristalinos tienen mayor contracción (shrinkage)","Los amorfos son siempre transparentes y rígidos","Los semicristalinos presentan menor resistencia al impacto"],"score":1,"question_order_id":39},{"id":"mat_40","category":"Materiales Plásticos","type":"Práctico","description":"El reprocesamiento de material afecta la integridad de las cadenas poliméricas.","question":"El uso de 'Regrind' (molido) por encima del 20% suele ocasionar:","options":["Mejora en el brillo superficial por cristalización","Pérdida de propiedades mecánicas e inestabilidad","Reducción en la temperatura de fusión requerida","Aumento considerable en la fuerza de cierre"],"score":1.5,"question_order_id":40},{"id":"mat_41","category":"Materiales Plásticos","type":"Teórico","description":"El aire de secado debe tener muy baja humedad relativa para ser efectivo.","question":"Para un secado eficiente, el 'Punto de Rocío' (Dew Point) del aire debe ser:","options":["Positivo (+10°C) para evitar condensación","Negativo (-40°C o inferior)","Igual a la temperatura ambiente del taller","Igual a la temperatura de fusión del material"],"score":1,"question_order_id":41},{"id":"mat_42","category":"Materiales Plásticos","type":"Teórico","description":"Los concentrados de color son potentes y deben usarse con precisión.","question":"¿Cuál es el rango típico de dosificación de Masterbatch (color)?","options":["10% a 15%","1% a 4%","0.01% a 0.05%","50% (mitad y mitad)"],"score":1,"question_order_id":42},{"id":"mat_43","category":"Materiales Plásticos","type":"Práctico","description":"La resistencia al flujo del material dicta los requisitos de la máquina.","question":"Procesar materiales de alta viscosidad (duros de fluir) requiere:","options":["Mayor presión de inyección y temperatura","Mayor velocidad de enfriamiento en el molde","Menor fuerza de cierre en la unidad de cierre","Husillos con bajo ratio de compresión"],"score":1.5,"question_order_id":43},{"id":"mat_44","category":"Materiales Plásticos","type":"Teórico","description":"La clasificación de los plásticos depende de sus prestaciones mecánicas y térmicas.","question":"¿Qué distingue a un plástico de 'Ingeniería' de un 'Commodity'?","options":["El precio de mercado internacional únicamente","Su desempeño térmico y mecánico superior","Su facilidad para ser reciclado químicamente","Su disponibilidad en colores naturales"],"score":1,"question_order_id":44},{"id":"eff_45","category":"Eficiencia y Lean","type":"Teórico","description":"El OEE se ve afectado cuando la máquina no opera a su velocidad de diseño.","question":"Si una máquina produce piezas buenas, pero corre a 30s de ciclo en lugar de los 25s estándar, ¿qué factor del OEE cae?","options":["Disponibilidad (Availability)","Desempeño (Performance)","Calidad (Quality)","Ninguno, todo está bien"],"score":1.5,"question_order_id":45},{"id":"eff_46","category":"Eficiencia y Lean","type":"Teórico","description":"Clasificar las tareas de preparación es el primer paso para reducir tiempos.","question":"En la técnica SMED, ¿cómo se define una operación 'Interna'?","options":["Aquella que se puede ejecutar con la máquina en ciclo automático","Aquella que solo se puede realizar con la máquina detenida","La que realiza el operador interno de la planta","La limpieza profunda del interior del molde"],"score":1,"question_order_id":46},{"id":"eff_47","category":"Eficiencia y Lean","type":"Práctico","description":"La pérdida de velocidad es uno de los desperdicios más difíciles de detectar.","question":"Si la máquina produce piezas buenas, pero corre a 30s de ciclo en lugar de los 25s estándar, ¿qué indicador del OEE cae?","options":["Disponibilidad (Availability)","Desempeño (Performance)","Calidad (Quality)","Ninguno, todo está bien"],"score":1.5,"question_order_id":47},{"id":"eff_48","category":"Eficiencia y Lean","type":"Práctico","description":"La preparación anticipada es clave para minimizar el tiempo de paro.","question":"En un cambio SMED, ¿qué es una actividad 'Externa'?","options":["Desmontar el molde viejo de la platina","Pre-calentar y preparar el molde nuevo mientras la máquina trabaja","Limpiar la platina con la máquina parada","Ajustar los botadores con la puerta abierta"],"score":1.5,"question_order_id":48},{"id":"eff_49","category":"Eficiencia y Lean","type":"Teórico","description":"La comparación con los mejores de la industria establece la meta a seguir.","question":"¿Qué porcentaje de OEE se considera 'Clase Mundial'?","options":["60% o más","85% o más","99.9%","100%"],"score":1,"question_order_id":49},{"id":"eff_50","category":"Eficiencia y Lean","type":"Práctico","description":"Ignorar la capacidad total del molde tiene costos ocultos altos.","question":"Operar un molde de 4 cavidades con 1 cavidad bloqueada afecta principalmente:","options":["La calidad dimensional de las otras 3 piezas restantes","El costo pieza y la eficiencia del activo","La vida útil del husillo y la válvula check","El consumo de energía eléctrica del motor principal"],"score":1.5,"question_order_id":50},{"id":"eff_51","category":"Eficiencia y Lean","type":"Teórico","description":"El ritmo de producción debe sincronizarse con la demanda del cliente.","question":"¿Qué es el 'Takt Time'?","options":["El tiempo mínimo que la máquina puede correr","El ritmo de producción necesario para cumplir la demanda del cliente","El tiempo que tarda el cambio de turno","El tiempo de enfriamiento calculado"],"score":1,"question_order_id":51},{"id":"eff_52","category":"Eficiencia y Lean","type":"Teórico","description":"El mantenimiento moderno se basa en datos reales, no en suposiciones.","question":"El Mantenimiento Predictivo se basa en:","options":["Reparar inmediatamente cuando la máquina falla","Monitoreo de condición (vibración, calor) para anticipar fallas","Cambiar piezas por calendario fijo anual","Inspección visual diaria por parte del operador"],"score":1,"question_order_id":52},{"id":"wast_53","category":"Desperdicios (Muda)","type":"Práctico","description":"La limpieza profunda revela anomalías antes de que causen fallas.","question":"¿Qué principio de las 5S implica que limpiar no es solo embellecer, sino inspeccionar fallas potenciales?","options":["Seiri (Clasificar)","Seiso (Limpiar)","Seiton (Ordenar)","Shitsuke (Disciplina)"],"score":1.5,"question_order_id":53},{"id":"wast_54","category":"Desperdicios (Muda)","type":"Teórico","description":"Producir más de lo necesario genera una cadena de problemas ocultos.","question":"¿Cuál se considera el 'peor' desperdicio porque oculta a los demás?","options":["Transporte innecesario de material","Sobreproducción","Movimientos excesivos del operador","Esperas y tiempos muertos en línea"],"score":1,"question_order_id":54},{"id":"wast_55","category":"Desperdicios (Muda)","type":"Práctico","description":"Realizar tareas que el cliente no valora es una pérdida neta.","question":"Tener que recortar rebaba a todas las piezas saliendo de la máquina es un ejemplo de:","options":["Valor Agregado al producto","Sobre-procesamiento (Extra-processing)","Eficiencia operativa en acabado","Control de Calidad en línea"],"score":1.5,"question_order_id":55},{"id":"wast_56","category":"Desperdicios (Muda)","type":"Teórico","description":"El material estancado representa capital inmovilizado y riesgo.","question":"El exceso de Inventario en proceso (WIP) causa:","options":["Mayor flexibilidad de producción diaria","Problemas de flujo de efectivo y riesgo de daños/obsolescencia","Reducción significativa de tiempos de entrega","Mejor utilización del espacio de planta"],"score":1,"question_order_id":56},{"id":"wast_57","category":"Desperdicios (Muda)","type":"Práctico","description":"Las herramientas de estandarización deben estar vigentes para ser útiles.","question":"¿Qué hace que una Ayuda Visual sea ineficaz o peligrosa para la calidad?","options":["Que tenga demasiados colores o gráficos","Que no esté actualizada o no muestre límites claros de aceptación","Que esté plastificada para protección","Que incluya fotos reales del producto"],"score":1.5,"question_order_id":57},{"id":"wast_58","category":"Desperdicios (Muda)","type":"Práctico","description":"El desorden en el área de trabajo es un indicador de falta de disciplina.","question":"Encontrar herramientas tiradas y piezas mezcladas bajo la máquina indica falla en:","options":["La programación de producción semanal","Las 5S (Orden y Limpieza)","El mantenimiento preventivo mensual","La calidad de la materia prima entrante"],"score":1.5,"question_order_id":58},{"id":"wast_59","category":"Desperdicios (Muda)","type":"Teórico","description":"Los sistemas a prueba de error previenen defectos desde su origen.","question":"Un dispositivo 'Poka-Yoke' sirve para:","options":["Aumentar la velocidad de la banda transportadora","Hacer imposible cometer un error específico (A prueba de error)","Medir la eficiencia del operador en tiempo real","Limpiar las piezas automáticamente al salir"],"score":1,"question_order_id":59},{"id":"wast_60","category":"Desperdicios (Muda)","type":"Teórico","description":"La filosofía Lean busca la optimización de los recursos.","question":"El objetivo final de eliminar desperdicios (Muda) es:","options":["Despedir personal sobrante en la planta","Aumentar el valor para el cliente y reducir costos","Tener la fábrica más bonita estéticamente","Cumplir con normas gubernamentales básicas"],"score":1,"question_order_id":60}],"ans":{"mach_1":{"correct_index":1,"reasoning":"El termopar toca el metal del barril. La temperatura del plástico es una consecuencia, pero no es lo que el sensor mide directamente.","score":1},"mach_2":{"correct_index":2,"reasoning":"La presión sobre el plástico es mayor que la hidráulica debido a la diferencia de áreas entre el pistón hidráulico y la punta del husillo.","score":1.5},"mach_3":{"correct_index":1,"reasoning":"Si el husillo avanza en 'Hold', significa que el material se está fugando hacia atrás a través del anillo check desgastado.","score":1.5},"mach_4":{"correct_index":1,"reasoning":"Es una medida geométrica clave (ej. 20:1) que determina la capacidad de mezclado y plastificación.","score":1},"mach_5":{"correct_index":0,"reasoning":"Los pellets se ablandan y se pegan entre sí en la garganta, bloqueando el paso hacia el tornillo.","score":1.5},"mach_6":{"correct_index":2,"reasoning":"La bomba convierte energía mecánica en energía hidráulica (caudal); las válvulas solo lo regulan.","score":1},"mach_7":{"correct_index":2,"reasoning":"Las platinas estándar son fija, móvil y de soporte. La rotación axial no es un componente estructural estándar.","score":1},"mach_8":{"correct_index":1,"reasoning":"Las curvas de voltaje/temperatura son diferentes. El controlador leerá una temperatura falsa, pudiendo sobrecalentar o enfriar el sistema.","score":1.5},"mach_9":{"correct_index":1,"reasoning":"Aseguran mecánicamente que los botadores regresen a posición cero antes de inyectar, evitando choques.","score":1.5},"proc_10":{"correct_index":0,"reasoning":"Es la transición crítica donde la máquina deja de empujar por velocidad (llenado) y empieza a empacar por presión.","score":1},"proc_11":{"correct_index":2,"reasoning":"Cálculo directo: 350 * 14.5 = 5,075. Es vital para operadores que manejan máquinas con diferentes unidades.","score":1.5},"proc_12":{"correct_index":1,"reasoning":"Los polímeros adelgazan por cizallamiento; a mayor velocidad, las cadenas se alinean y la resistencia al flujo baja.","score":1},"proc_13":{"correct_index":1,"reasoning":"Busca el punto en el tiempo donde la entrada se solidifica y el peso de la pieza se estabiliza.","score":1.5},"proc_14":{"correct_index":1,"reasoning":"Si el tornillo toca fondo, la presión hidráulica se transfiere al metal, no al plástico, dejando la pieza 'suelta'.","score":1.5},"proc_15":{"correct_index":2,"reasoning":"El empaque introduce material adicional para compensar la reducción de volumen al enfriar.","score":1},"proc_16":{"correct_index":1,"reasoning":"Sin descompresión, la presión residual hace que el plástico gotee (babeo), creando hilos fríos que bloquean el siguiente disparo.","score":1},"proc_17":{"correct_index":1,"reasoning":"La contrapresión compacta el fundido. Sin ella, entra aire y la densidad del disparo varía.","score":1.5},"proc_18":{"correct_index":1,"reasoning":"Es crucial para materiales sensibles; demasiado tiempo de residencia degrada el polímero.","score":1},"qual_19":{"correct_index":1,"reasoning":"Significa que el material se escapa antes de llenar la pieza. El molde no está sellando correctamente.","score":1.5},"qual_20":{"correct_index":0,"reasoning":"Ocurre cuando el plástico entra muy rápido a una cavidad abierta y no se pega a las paredes, 'volando' a través de ella.","score":1.5},"qual_21":{"correct_index":1,"reasoning":"El aire atrapado se comprime tan rápido que eleva su temperatura hasta incendiar el plástico (como un motor diesel).","score":1.5},"qual_22":{"correct_index":1,"reasoning":"La humedad explota en vapor al inyectarse, dejando estelas plateadas en la dirección del flujo.","score":1.5},"qual_23":{"correct_index":1,"reasoning":"En la 'Weld' los frentes chocan de frente (más débil); en la 'Meld' fluyen paralelos y se unen lateralmente.","score":1},"qual_24":{"correct_index":1,"reasoning":"El pandeo ocurre por enfriamiento diferencial; igualar las temperaturas de las caras del molde reduce la tensión interna.","score":1.5},"qual_25":{"correct_index":0,"reasoning":"Materiales como PE y ABS no se mezclan; forman capas separadas que se pelan como una cebolla.","score":1.5},"qual_26":{"correct_index":1,"reasoning":"Material estancado se degrada a carbón y se desprende poco a poco, contaminando disparos aleatorios.","score":1.5},"qual_27":{"correct_index":1,"reasoning":"El SPC permite ver si el proceso varía dentro de límites naturales o si hay causas especiales actuando.","score":1},"safe_28":{"correct_index":1,"reasoning":"Confiar en sensores o letreros es causa de muerte. Solo el bloqueo físico de energía garantiza seguridad.","score":1.5},"safe_29":{"correct_index":1,"reasoning":"El material descompuesto genera gases. Si la boquilla está tapada o fría, al destaparla, el gas expande violentamente.","score":1.5},"safe_30":{"correct_index":1,"reasoning":"Si el molde encuentra resistencia (pieza atorada) durante el cierre a baja presión, debe abortar para no aplastarla.","score":1.5},"safe_31":{"correct_index":1,"reasoning":"El aceite a presión inyecta la piel y es inflamable. Cortar la fuente de energía (bomba) es prioridad.","score":1.5},"safe_32":{"correct_index":1,"reasoning":"Se requiere protección contra calor extremo y salpicaduras a la cara/cuello.","score":1.5},"safe_33":{"correct_index":1,"reasoning":"El fallo de un cáncamo subdimensionado es catastrófico. La carga nominal debe exceder el peso total.","score":1.5},"safe_34":{"correct_index":1,"reasoning":"Es una zona ciega para el operador. Si se abre, la máquina debe morir instantáneamente.","score":1},"safe_35":{"correct_index":1,"reasoning":"El Tipo C es no conductivo. Usar agua en un tablero energizado causa electrocución.","score":1},"safe_36":{"correct_index":1,"reasoning":"La NOM-004 establece la obligación de guardas, paros de emergencia y bloqueos.","score":1},"mat_37":{"correct_index":1,"reasoning":"MFI alto = material muy fluido (baja viscosidad); MFI bajo = material duro (alta viscosidad).","score":1},"mat_38":{"correct_index":1,"reasoning":"El agua corta las cadenas del polímero, destruyendo sus propiedades mecánicas irreversiblemente.","score":1},"mat_39":{"correct_index":1,"reasoning":"Al cristalizar, las moléculas se empaquetan densamente, reduciendo volumen significativamente más que los amorfos.","score":1},"mat_40":{"correct_index":1,"reasoning":"El material reprocesado tiene historias térmicas previas (degradación) y cadenas más cortas.","score":1.5},"mat_41":{"correct_index":1,"reasoning":"Se requiere aire extremadamente seco para 'robarle' la humedad al plástico.","score":1},"mat_42":{"correct_index":1,"reasoning":"El masterbatch es muy concentrado. Usar más del 5% altera la química base del material y es costoso.","score":1},"mat_43":{"correct_index":0,"reasoning":"Necesitas más energía (calor y fuerza) para empujar un fluido espeso dentro del molde.","score":1.5},"mat_44":{"correct_index":1,"reasoning":"Los de ingeniería (PC, PA, POM) soportan cargas y temperaturas donde los commodities (PE, PP) fallan.","score":1},"eff_45":{"correct_index":1,"reasoning":"El Desempeño mide la velocidad real vs la velocidad teórica/estándar.","score":1.5},"eff_46":{"correct_index":1,"reasoning":"Las actividades internas son el cuello de botella del cambio, ya que requieren parar el equipo.","score":1},"eff_47":{"correct_index":1,"reasoning":"El Desempeño mide la velocidad real vs la velocidad teórica/estándar.","score":1.5},"eff_48":{"correct_index":1,"reasoning":"Son tareas que se hacen 'fuera' del tiempo de paro, sin detener la producción actual.","score":1.5},"eff_49":{"correct_index":1,"reasoning":"85% es el benchmark de excelencia aceptado internacionalmente.","score":1},"eff_50":{"correct_index":1,"reasoning":"Estás usando el 100% de la máquina para sacar el 75% de la producción. Es una pérdida financiera directa.","score":1.5},"eff_51":{"correct_index":1,"reasoning":"Es una métrica de demanda, no de capacidad de máquina. (Tiempo disponible / Demanda).","score":1},"eff_52":{"correct_index":1,"reasoning":"Usa datos para predecir cuándo fallará un componente antes de que suceda.","score":1},"wast_53":{"correct_index":1,"reasoning":"Limpiar es inspeccionar. Al limpiar detectas fugas, tornillos sueltos o cables pelados.","score":1.5},"wast_54":{"correct_index":1,"reasoning":"Hacer de más genera inventario, que esconde defectos, paros y problemas de flujo.","score":1},"wast_55":{"correct_index":1,"reasoning":"Es trabajo extra que el cliente no paga y que no debería existir si el proceso fuera correcto.","score":1.5},"wast_56":{"correct_index":1,"reasoning":"El inventario es dinero estancado en el piso que puede dañarse o perderse.","score":1},"wast_57":{"correct_index":1,"reasoning":"Una ayuda visual obsoleta puede inducir al operador a aceptar piezas malas o rechazar buenas.","score":1.5},"wast_58":{"correct_index":1,"reasoning":"Evidencia falta de Seiton (Orden) y Seiso (Limpieza).","score":1.5},"wast_59":{"correct_index":1,"reasoning":"Ejemplo: Un conector que solo entra en una posición para evitar polaridad invertida.","score":1},"wast_60":{"correct_index":1,"reasoning":"Lean Manufacturing busca maximizar el valor entregado minimizando los recursos usados.","score":1}},"meta":{"id":"medium","name_es":"Medio — Técnicos de Proceso","name_en":"Medium — Process Technicians","role_target":"Técnicos de Procesos, Supervisores de Turno","pass_pct":75,"time_min":60,"badge_color":"#E67E22","instructions":{"objective":"Certificar las competencias técnicas de diagnóstico, ajuste de parámetros y conocimiento profundo del proceso de moldeo por inyección.","audience":"Técnicos de proceso y supervisores con 2 a 6 años de experiencia, capaces de operar y ajustar máquinas de forma autónoma.","format":"Opción múltiple — 4 respuestas por pregunta, una correcta.","scoring":"Preguntas teóricas: 1 punto. Preguntas prácticas: 1.5 puntos.","passing":"Puntaje mínimo aprobatorio: 75% del total de puntos.","time":"Tiempo estimado: 60 minutos.","instructions_list":["Lee cada pregunta y todas las opciones antes de responder.","En preguntas de cálculo, trabaja el resultado antes de ver las opciones.","Algunas preguntas presentan situaciones de diagnóstico: identifica la causa raíz, no el síntoma.","No se permite consultar manuales, hojas técnicas o celular durante la evaluación.","Si no estás seguro, elimina las opciones obviamente incorrectas y elige la más probable."],"categories_covered":["Máquina e Inyectora","Proceso de Inyección","Calidad y Defectos","Seguridad Industrial","Materiales Plásticos","Eficiencia y Lean","Desperdicios (Muda)"],"tip":"Este nivel evalúa capacidad de diagnóstico. Pregúntate siempre: ¿cuál es la causa raíz del problema descrito? No te quedes en el síntoma visible."}},"stats":{"total_questions":60,"max_score":76.0,"theoretical_count":28,"practical_count":32,"categories":{"Eficiencia y Lean":8,"Máquina e Inyectora":9,"Proceso de Inyección":9,"Desperdicios (Muda)":8,"Calidad y Defectos":9,"Materiales Plásticos":8,"Seguridad Industrial":9}}},"advanced":{"qs":[{"id":"mach_1","category":"Máquina e Inyectora","type":"Práctico","description":"La presión hidráulica se multiplica en la punta del husillo debido a la Ley de Pascal y la diferencia de áreas.","question":"Con un ratio de intensificación de 10:1 y 1,500 PSI en el manómetro hidráulico, calcula la presión específica sobre el plástico:","options":["1,500 PSI (Relación directa 1:1)","150 PSI (Reducción por fricción del husillo)","15,000 PSI (Multiplicación por área)","16,500 PSI (Suma de presión absoluta + relativa)"],"score":1.5,"question_order_id":1},{"id":"mach_2","category":"Máquina e Inyectora","type":"Teórico","description":"El oxígeno a altas temperaturas reacciona rápidamente con polímeros orgánicos.","question":"¿Cuál es la consecuencia físico-química de una descompresión (suck-back) excesiva en resinas sensibles como el Nylon?","options":["Cristalización inducida por choque térmico en la boquilla","Oxidación y degradación por entrada de aire al barril","Aumento exponencial de la viscosidad intrínseca","Generación de vacío absoluto en la cavidad del molde"],"score":1,"question_order_id":2},{"id":"mach_3","category":"Máquina e Inyectora","type":"Práctico","description":"La consistencia del cojín es el mejor indicador de la repetibilidad volumétrica del proceso.","question":"Una variación del cojín (cushion) superior a +/- 10% ciclo a ciclo es un indicador primario de:","options":["Desviación en el algoritmo PID de temperatura de zonas","Fuga en la válvula check (anillo) o desgaste del barril","Variación en la velocidad de apertura de la rodillera","Fluctuación turbulenta en la presión de la red de agua"],"score":1.5,"question_order_id":3},{"id":"mach_4","category":"Máquina e Inyectora","type":"Teórico","description":"La velocidad de procesamiento de la CPU de la máquina influye en la precisión milimétrica.","question":"El 'Scan Time' o tiempo de respuesta del controlador de la máquina afecta críticamente a:","options":["La eficiencia energética del motor eléctrico principal","La repetibilidad del punto de transferencia (VPT)","La capacidad máxima de tonelaje de cierre","La temperatura operativa del aceite hidráulico"],"score":1,"question_order_id":4},{"id":"mach_5","category":"Máquina e Inyectora","type":"Teórico","description":"La geometría del husillo determina la calidad de la homogeneización térmica.","question":"Comparando un husillo L/D 24:1 contra uno 18:1, la principal ventaja técnica del 24:1 es:","options":["Mayor capacidad de transmisión de presión hidráulica","Mejor calidad de mezclado y homogeneidad térmica","Menor tiempo de residencia del material en el barril","Reducción significativa del torque requerido para girar"],"score":1,"question_order_id":5},{"id":"mach_6","category":"Máquina e Inyectora","type":"Práctico","description":"La contrapresión genera calor por fricción, pero también estrés mecánico.","question":"Además de aumentar la temperatura de la masa, ¿qué efecto mecánico negativo tiene la contrapresión excesiva?","options":["Desgaste acelerado en la punta del husillo y barril","Reducción de la fuerza de cierre disponible en la prensa","Fugas de aceite en el sistema de expulsión hidráulico","Deformación elástica permanente de las barras (tie-bars)"],"score":1,"question_order_id":6},{"id":"proc_1","category":"Proceso de Inyección","type":"Teórico","description":"La reología de polímeros estudia cómo fluye la materia bajo fuerzas aplicadas.","question":"En la curva de viscosidad, la región 'Newtonian Flat' (Meseta Newtoniana) se caracteriza porque:","options":["La viscosidad cae drásticamente con la velocidad de corte","La viscosidad es estable independientemente del corte (shear)","El material comienza a degradarse térmicamente por fricción","La presión de inyección requerida es cercana a cero"],"score":1,"question_order_id":7},{"id":"proc_2","category":"Proceso de Inyección","type":"Práctico","description":"Operar al límite de la capacidad de presión elimina la capacidad de control del proceso.","question":"El objetivo de un estudio de 'Caída de Presión' (Pressure Drop) es asegurar que:","options":["La máquina tenga ~10% de presión hidráulica de reserva","El molde soporte la fuerza de cierre máxima sin abrirse","El tiempo de ciclo sea lo más corto físicamente posible","La temperatura del agua mantenga un flujo turbulento"],"score":1.5,"question_order_id":8},{"id":"proc_3","category":"Proceso de Inyección","type":"Práctico","description":"El área bajo la curva de presión refleja la energía consumida para llenar el molde.","question":"Un aumento repentino en la integral de presión o 'Trabajo de Inyección' sugiere:","options":["Una fuga interna en la válvula check o anillo","Aumento de viscosidad por material frío u obstrucción","Disminución drástica de la fuerza de cierre real","Aumento inusual en la temperatura de las resistencias"],"score":1.5,"question_order_id":9},{"id":"proc_4","category":"Proceso de Inyección","type":"Práctico","description":"Determinar cuándo se corta físicamente la conexión entre la pieza y el sistema de alimentación.","question":"El criterio técnico definitivo para confirmar el 'Sellado de Compuerta' (Gate Freeze) es:","options":["Estabilización del peso de la pieza vs tiempo de hold","Enfriamiento de la colada a temperatura ambiente","Finalización del tiempo de dosificación del husillo","Ausencia total de rechupados en la superficie"],"score":1.5,"question_order_id":10},{"id":"proc_5","category":"Proceso de Inyección","type":"Teórico","description":"La fricción molecular a altas velocidades se convierte en energía térmica.","question":"Debido al calentamiento por cizalla (Shear Heating), aumentar la velocidad de inyección provoca:","options":["Enfriamiento adiabático del frente de flujo por expansión","Aumento real de la temperatura de la masa fundida","Aumento de la densidad del material por compactación","Reducción inmediata del índice de fluidez (MFI)"],"score":1,"question_order_id":11},{"id":"proc_6","category":"Proceso de Inyección","type":"Teórico","description":"La consistencia del proceso depende de cómo se controla el volumen inyectado.","question":"¿Por qué se prefiere el VPT (Transferencia) por Posición en lugar de por Tiempo o Presión?","options":["Porque es más fácil de programar en el controlador","Porque garantiza un volumen de disparo consistente","Porque protege el molde de picos de sobrepresión","Porque reduce el consumo energético del motor"],"score":1,"question_order_id":12},{"id":"qual_1","category":"Calidad y Defectos","type":"Práctico","description":"El flujo laminar es deseable para evitar marcas superficiales en la pieza.","question":"La solución técnica para eliminar el 'Jetting' (gusanito) es:","options":["Aumentar drásticamente la temperatura de boquilla y molde","Perfilar la velocidad (lento al inicio) para crear flujo laminar","Aumentar la contrapresión al máximo posible","Reducir el tiempo de enfriamiento para congelar el flujo"],"score":1.5,"question_order_id":13},{"id":"qual_2","category":"Calidad y Defectos","type":"Teórico","description":"La estructura molecular de los semicristalinos depende del tiempo que tienen para ordenarse.","question":"En polímeros semicristalinos, ¿qué factor determina el grado de cristalinidad y la contracción final?","options":["La presión de inyección máxima alcanzada","La tasa de enfriamiento (Temperatura de molde)","La velocidad de rotación del husillo en la carga","El porcentaje de carga de fibra de vidrio añadido"],"score":1,"question_order_id":14},{"id":"qual_3","category":"Calidad y Defectos","type":"Práctico","description":"Los índices de capacidad estadística predicen la tasa de rechazo a largo plazo.","question":"Un Cpk de 0.8 en una dimensión crítica indica estadísticamente que:","options":["El proceso es capaz y está perfectamente centrado","El proceso no es capaz; alta probabilidad de defectos","El instrumento de medición requiere calibración urgente","La varianza del proceso es menor a la tolerancia permitida"],"score":1.5,"question_order_id":15},{"id":"qual_4","category":"Calidad y Defectos","type":"Teórico","description":"La fusión de frentes de flujo requiere energía térmica para entrelazar las cadenas moleculares.","question":"Una línea de soldadura (Weld Line) se convierte en una falla estructural crítica si:","options":["Es visible a simple vista bajo luz normal","La temperatura del frente de flujo es inferior a la Tg al unirse","Se encuentra ubicada en una zona estética clase A","El molde tiene una textura superficial muy rugosa"],"score":1,"question_order_id":16},{"id":"qual_5","category":"Calidad y Defectos","type":"Práctico","description":"En zonas ciegas donde no es posible mecanizar un venteo tradicional, se requieren materiales especiales.","question":"Para prevenir el 'Efecto Diesel' en una costilla ciega (blind rib) donde no hay salida de aire, la solución de ingeniería es:","options":["Aumentar la velocidad de inyección para llenar rápido","Uso de insertos de acero poroso sinterizado","Bajar la temperatura del molde drásticamente","Aplicar vacío general a toda la máquina"],"score":1.5,"question_order_id":17},{"id":"safe_1","category":"Seguridad Industrial","type":"Práctico","description":"Ciertos materiales liberan gases altamente peligrosos al descomponerse.","question":"Al purgar POM (Acetal) degradado, el riesgo químico específico es:","options":["Liberación de gas Formaldehído (tóxico/irritante)","Formación de ácido clorhídrico altamente corrosivo","Generación de monóxido de carbono inodoro","Explosión por partículas de polvo en suspensión"],"score":1.5,"question_order_id":18},{"id":"safe_2","category":"Seguridad Industrial","type":"Práctico","description":"La seguridad moderna requiere validación activa, no solo colocar un candado.","question":"En un procedimiento LOTO avanzado, después de colocar el candado, ¿cuál es el paso final de verificación?","options":["Firmar la bitácora de mantenimiento en la oficina","Intentar arrancar el equipo para confirmar 'Energía Cero'","Avisar verbalmente al gerente de planta","Tomar una fotografía del candado colocado"],"score":1,"question_order_id":19},{"id":"safe_3","category":"Seguridad Industrial","type":"Teórico","description":"La energía hidráulica puede almacenarse incluso sin energía eléctrica.","question":"El peligro latente de un acumulador hidráulico, incluso con la máquina apagada, es:","options":["Alta temperatura residual en las líneas","Energía de presión almacenada lista para liberarse","Generación de campos magnéticos permanentes","Fugas de gas nitrógeno que causan asfixia"],"score":1.5,"question_order_id":20},{"id":"safe_4","category":"Seguridad Industrial","type":"Teórico","description":"El uso de agua en incendios eléctricos es fatal; se requieren agentes limpios.","question":"Extintor correcto para fuego en tableros electrónicos (Clase C):","options":["Agua a presión (Tipo A) con aditivo penetrante","Dióxido de Carbono (CO2) o Agente Limpio","Espuma formadora de película acuosa (AFFF)","Polvo especial para metales combustibles (Tipo D)"],"score":1,"question_order_id":21},{"id":"safe_5","category":"Seguridad Industrial","type":"Teórico","description":"La integración de robots requiere protocolos de comunicación de seguridad estandarizados.","question":"Según la norma Euromap 67, ¿cuál es la función de los canales de seguridad redundantes (doble canal)?","options":["Aumentar la velocidad de transmisión de datos al robot","Asegurar que si un canal falla, el otro detenga la máquina","Permitir el control remoto inalámbrico desde la oficina","Reducir la cantidad de cableado en la instalación"],"score":1.5,"question_order_id":22},{"id":"mat_1","category":"Materiales Plásticos","type":"Teórico","description":"El corte de las cadenas poliméricas cambia radicalmente la reología del material.","question":"La degradación por escisión de cadenas (Chain Scission) resulta en:","options":["Aumento de peso molecular y viscosidad","Reducción de peso molecular, viscosidad y propiedades","Mejora significativa en la resistencia al impacto","Reticulación (cross-linking) de la estructura molecular"],"score":1,"question_order_id":23},{"id":"mat_2","category":"Materiales Plásticos","type":"Teórico","description":"El agua actúa como un agente reactivo que destruye el polímero a nivel molecular.","question":"La hidrólisis en materiales como PC o PBT es una reacción química donde el agua:","options":["Actúa como un lubricante externo temporal","Rompe los enlaces covalentes de la cadena polimérica","Se evapora rápidamente sin afectar la estructura","Genera únicamente burbujas superficiales cosméticas"],"score":1,"question_order_id":24},{"id":"mat_3","category":"Materiales Plásticos","type":"Teórico","description":"El cambio de fase de sólido a líquido requiere más energía en materiales ordenados.","question":"Diferencia térmica clave: Los semicristalinos poseen Calor Latente de Fusión, lo que implica:","options":["Requieren menos energía térmica debido a su estructura","Requieren mucha más energía para fundir y enfriar que los amorfos","Se enfrían instantáneamente al tocar el molde","No tienen temperatura de fusión (Tm) definida"],"score":1,"question_order_id":25},{"id":"mat_4","category":"Materiales Plásticos","type":"Teórico","description":"Las pruebas de laboratorio estáticas no siempre reflejan la realidad dinámica de la inyección.","question":"¿Por qué el MFI no es representativo del comportamiento dentro del molde?","options":["Porque se mide a una temperatura demasiado baja","Porque es una prueba de bajo cizallamiento (Low Shear)","Porque usa un peso estándar no calibrado","Porque el material utilizado suele estar contaminado"],"score":1,"question_order_id":26},{"id":"mat_5","category":"Materiales Plásticos","type":"Teórico","description":"El comportamiento pvT (Presión-Volumen-Temperatura) es fundamental para predecir dimensiones.","question":"En un diagrama pvT, ¿qué representa la 'rodilla' o cambio brusco de pendiente en la curva de enfriamiento isobárico?","options":["El punto crítico de degradación térmica del polímero","La temperatura de transición vítrea (Tg) o cristalización","El momento exacto en que se abre el molde","La presión máxima alcanzada por la máquina"],"score":1,"question_order_id":27},{"id":"eff_1","category":"Eficiencia y Lean","type":"Práctico","description":"La termodinámica impone límites físicos a la velocidad de producción.","question":"El factor limitante físico (Cuello de botella) más común para reducir el tiempo de ciclo es:","options":["La velocidad de inyección máxima de la máquina","La conductividad térmica del plástico (Tiempo de enfriamiento)","La velocidad de los movimientos mecánicos del molde","El tiempo de reacción del robot de extracción"],"score":1.5,"question_order_id":28},{"id":"eff_2","category":"Eficiencia y Lean","type":"Práctico","description":"Distinguir entre tareas que detienen la máquina y las que no es la base del SMED.","question":"En SMED, un ejemplo de actividad INTERNA es:","options":["Precalentar el molde en un banco externo de pruebas","Asegurar el molde a la platina (Clamping)","Buscar las llaves y herramientas necesarias","Organizar las mangueras de agua antes del cambio"],"score":1.5,"question_order_id":29},{"id":"eff_3","category":"Eficiencia y Lean","type":"Práctico","description":"El cálculo del OEE revela dónde se pierden las oportunidades de producción.","question":"Si tu OEE es 60% pero la Calidad es 99% y la Disponibilidad 98%, el problema está en:","options":["Desempeño (Performance) - Ciclos lentos o micro-paros","Calidad - Piezas defectuosas ocultas en el proceso","Disponibilidad - Tiempos muertos largos no reportados","Planeación - Falta de órdenes de producción"],"score":1.5,"question_order_id":30},{"id":"eff_4","category":"Eficiencia y Lean","type":"Teórico","description":"La confiabilidad del equipo se mide por la frecuencia de sus averías.","question":"El MTBF (Mean Time Between Failures) mide:","options":["La velocidad promedio de reparación del equipo","La confiabilidad y frecuencia de fallas del equipo","El tiempo total de vida útil de la máquina","La eficiencia promedio del operador de turno"],"score":1,"question_order_id":31},{"id":"eff_5","category":"Eficiencia y Lean","type":"Teórico","description":"Los costos de mala calidad van mucho más allá del material tirado.","question":"El Costo Real de la 'No Calidad' incluye:","options":["Únicamente el valor de la resina desperdiciada","Material + Energía + Mano de obra + Costo de oportunidad + Riesgo cliente","El salario del departamento de calidad + Auditorías","El costo de la disposición de basura + Fletes"],"score":1,"question_order_id":32},{"id":"wast_1","category":"Desperdicios (Muda)","type":"Práctico","description":"Agregar valor es lo único por lo que el cliente paga; el resto es desperdicio.","question":"El sobre-empaque (overpacking) que causa piezas pesadas y estrés interno es un desperdicio de tipo:","options":["Transporte y Movimiento innecesario","Sobre-procesamiento y Material","Espera e Inventario acumulado","Talento Humano subutilizado"],"score":1.5,"question_order_id":33},{"id":"wast_2","category":"Desperdicios (Muda)","type":"Teórico","description":"El inventario excesivo actúa como un amortiguador que esconde problemas operativos.","question":"El exceso de inventario (WIP o Terminado) es negativo porque:","options":["Oculta ineficiencias del sistema y atrapa flujo de efectivo","Mejora la respuesta ante variaciones de demanda imprevistas","Asegura que los operadores siempre tengan trabajo disponible","Aumenta el valor de los activos circulantes de la empresa"],"score":1,"question_order_id":34},{"id":"wast_3","category":"Desperdicios (Muda)","type":"Práctico","description":"La falta de mantenimiento preventivo en moldes genera tiempos muertos reactivos.","question":"Un mantenimiento deficiente de venteos genera desperdicio principalmente por:","options":["Aumento en el consumo de energía eléctrica del motor","Paros no programados para limpieza y scrap por quemaduras","Desgaste prematuro del aceite hidráulico por calor","Reducción significativa de la fuerza de cierre"],"score":1.5,"question_order_id":35},{"id":"wast_4","category":"Desperdicios (Muda)","type":"Teórico","description":"El diseño del sistema de alimentación impacta la eficiencia del material.","question":"Técnicamente, usar Colada Fría en lugar de Colada Caliente implica:","options":["Mayor eficiencia energética del sistema","Generación intrínseca de desperdicio (scrap/regrind) en cada ciclo","Mejor control de la temperatura de masa fundida","Menor tiempo de ciclo total de enfriamiento"],"score":1,"question_order_id":36},{"id":"wast_5","category":"Desperdicios (Muda)","type":"Teórico","description":"La eficiencia energética es un indicador clave de sostenibilidad y costo.","question":"¿Qué métrica se utiliza comúnmente para comparar la eficiencia energética entre diferentes máquinas de inyección?","options":["Caballos de fuerza (HP) del motor principal","Consumo Específico de Energía (kWh/kg de material procesado)","Amperaje máximo del tablero de control","Voltaje de alimentación trifásico (220V vs 440V)"],"score":1,"question_order_id":37},{"id":"spec_1","category":"Ingeniería de Moldes","type":"Teórico","description":"La dinámica de fluidos dicta la eficiencia de la transferencia de calor.","question":"En refrigeración de moldes, un Número de Reynolds > 4,000 garantiza:","options":["Flujo Laminar (Estabilidad de presión sin turbulencia)","Flujo Turbulento (Máxima eficiencia de transferencia de calor)","Presión excesiva que puede dañar las mangueras","Ausencia total de corrosión galvánica en los canales"],"score":1,"question_order_id":38},{"id":"spec_2","category":"Ingeniería de Moldes","type":"Práctico","description":"La rigidez de la máquina interactúa con la estructura del molde.","question":"La 'Deflexión de Platinas' causa rebaba central aunque el tonelaje sea correcto debido a:","options":["Deformación elástica de la platina que abre el molde en el centro","Expansión térmica incontrolada de las placas del molde","Compresión plástica excesiva del acero del molde","Falta de paralelismo severo en las guías de las barras"],"score":1.5,"question_order_id":39},{"id":"spec_3","category":"Ingeniería de Moldes","type":"Teórico","description":"La simulación predictiva ahorra costos al identificar errores antes de cortar acero.","question":"¿En qué etapa es más rentable utilizar simulación CAE (Moldflow)?","options":["Durante la producción masiva para corregir fallas","En la fase de diseño de pieza y molde","Después de fabricar el molde para validarlo","Al cotizar el precio final de la resina"],"score":1,"question_order_id":40},{"id":"spec_4","category":"Ingeniería de Moldes","type":"Teórico","description":"Los sistemas de colada caliente avanzados permiten control secuencial.","question":"La ventaja técnica principal de una compuerta valvulada (Valve Gate) es:","options":["Menor costo operativo por eliminación de canales fríos","Control independiente del flujo y mejor acabado cosmético","Eliminación total del sistema de enfriamiento del molde","Reducción significativa de la fuerza de cierre requerida"],"score":1,"question_order_id":41},{"id":"spec_5","category":"Ingeniería de Moldes","type":"Práctico","description":"La geometría de la pieza afecta la disipación de calor.","question":"El 'Efecto de Esquina' (Corner Effect) en refrigeración provoca puntos calientes porque:","options":["El agua fluye mucho más lento en las esquinas agudas","Hay mayor masa de plástico transfiriendo calor a menor área de acero","El acero es estructuralmente más delgado en las esquinas","La fricción del flujo genera calor adicional en los bordes"],"score":1.5,"question_order_id":42},{"id":"spec_6","category":"Proceso de Inyección","type":"Práctico","description":"La presión efectiva sobre la pieza depende de la reserva de material.","question":"¿Por qué el monitoreo del 'Cojín' es más crítico que el 'Tiempo de Inyección' para la consistencia dimensional?","options":["Porque confirma que hubo material suficiente para transferir la presión","Porque es un parámetro más fácil de visualizar en la pantalla","Porque el tiempo de inyección nunca varía en máquinas modernas","Porque el cojín determina la velocidad de enfriamiento de la pieza"],"score":1.5,"question_order_id":43}],"ans":{"mach_1":{"correct_index":2,"reasoning":"La presión específica es el resultado de la presión hidráulica multiplicada por el ratio de área entre el pistón y el husillo (1500 * 10).","score":1.5},"mach_2":{"correct_index":1,"reasoning":"El retroceso excesivo aspira oxígeno atmosférico hacia la cámara caliente, provocando oxidación inmediata y manchas (splay).","score":1},"mach_3":{"correct_index":1,"reasoning":"La inestabilidad del cojín implica que el volumen de material delante del tornillo no se mantiene, fugándose hacia atrás durante la inyección.","score":1.5},"mach_4":{"correct_index":1,"reasoning":"Un escaneo lento provoca que la máquina reaccione tarde al alcanzar la posición de corte, variando el volumen inyectado.","score":1},"mach_5":{"correct_index":1,"reasoning":"Mayor longitud permite zonas de transición más suaves y mejor distribución de calor, resultando en un fundido (melt) más uniforme.","score":1},"mach_6":{"correct_index":0,"reasoning":"Aumenta la carga axial y la fricción del tornillo contra la pared del barril y el material, acelerando la abrasión.","score":1},"proc_1":{"correct_index":1,"reasoning":"Es la zona de baja cizalla donde el polímero se comporta como un fluido newtoniano antes de empezar a adelgazar (shear thinning).","score":1},"proc_2":{"correct_index":0,"reasoning":"Si la máquina usa el 100% de su presión para llenar, pierde control sobre la velocidad (Process Limited). Se requiere un margen de seguridad.","score":1.5},"proc_3":{"correct_index":1,"reasoning":"Más trabajo para llegar a la misma posición indica mayor resistencia al flujo (viscosidad alta o canal bloqueado).","score":1.5},"proc_4":{"correct_index":0,"reasoning":"Se grafica peso vs tiempo. Cuando el peso deja de subir, la compuerta se ha cerrado físicamente y ya no entra material.","score":1.5},"proc_5":{"correct_index":1,"reasoning":"La fricción molecular a alta velocidad genera calor interno, reduciendo la viscosidad efectiva.","score":1},"proc_6":{"correct_index":1,"reasoning":"La posición correlaciona directamente con el volumen desplazado. El tiempo varía si cambia la viscosidad, causando inestabilidad.","score":1},"qual_1":{"correct_index":1,"reasoning":"Entrar lento permite que el material toque las paredes y se expanda progresivamente (Fountain Flow) en lugar de dispararse.","score":1.5},"qual_2":{"correct_index":1,"reasoning":"Un enfriamiento lento (molde caliente) permite a las moléculas ordenarse en cristales, aumentando la densidad y contracción.","score":1},"qual_3":{"correct_index":1,"reasoning":"Cpk < 1.33 se considera no capaz. La curva de distribución del proceso excede los límites de especificación.","score":1.5},"qual_4":{"correct_index":1,"reasoning":"Si el material está demasiado frío, no hay entrelazamiento molecular (difusión) entre los frentes, creando una grieta potencial.","score":1},"qual_5":{"correct_index":1,"reasoning":"El acero poroso permite que el gas escape a través de la estructura del metal mientras retiene el plástico.","score":1.5},"safe_1":{"correct_index":0,"reasoning":"El POM se descompone en formaldehído, que ataca ojos y vías respiratorias severamente. Requiere ventilación.","score":1.5},"safe_2":{"correct_index":1,"reasoning":"El paso crítico de 'Try-out' o prueba de arranque confirma que el bloqueo fue efectivo y no hay energía residual.","score":1},"safe_3":{"correct_index":1,"reasoning":"El acumulador mantiene aceite a presión. Si se desconecta una manguera sin drenarlo, puede causar inyección de fluido letal.","score":1.5},"safe_4":{"correct_index":1,"reasoning":"Agentes no conductores y que no dejen residuo corrosivo son esenciales para equipo electrónico.","score":1},"safe_5":{"correct_index":1,"reasoning":"La redundancia es clave en seguridad (Categoría 3/4); el sistema debe detectar fallos en su propia supervisión.","score":1.5},"mat_1":{"correct_index":1,"reasoning":"Al romperse las cadenas largas, el material se vuelve más líquido (fluye más) pero pierde su fuerza estructural.","score":1},"mat_2":{"correct_index":1,"reasoning":"Es una degradación química irreversible a nivel molecular, no solo un defecto cosmético.","score":1},"mat_3":{"correct_index":1,"reasoning":"Se necesita energía extra para romper la estructura cristalina al fundir, y hay que extraer esa energía al enfriar.","score":1},"mat_4":{"correct_index":1,"reasoning":"La inyección es un proceso de ALTO cizallamiento. El MFI mide flujo casi estático, ignorando el adelgazamiento por corte.","score":1},"mat_5":{"correct_index":1,"reasoning":"Es el punto donde el material cambia de estado (fase), alterando drásticamente su volumen específico.","score":1},"eff_1":{"correct_index":1,"reasoning":"El plástico es un aislante térmico. Extraer el calor del centro de la pared es el proceso más lento por física pura.","score":1.5},"eff_2":{"correct_index":1,"reasoning":"Actividad Interna = Máquina detenida forzosamente. No puedes atornillar el molde si la máquina está produciendo.","score":1.5},"eff_3":{"correct_index":0,"reasoning":"Matemáticamente: Si AxQ son altos, P debe ser muy bajo para arrastrar el promedio a 60%.","score":1.5},"eff_4":{"correct_index":1,"reasoning":"Indica qué tan seguido se rompe la máquina. Clave para programar mantenimiento preventivo.","score":1},"eff_5":{"correct_index":1,"reasoning":"Producir basura cuesta lo mismo o más que producir piezas buenas, más el lucro cesante.","score":1},"wast_1":{"correct_index":1,"reasoning":"Usas más material del necesario y aplicas más presión (proceso) de la requerida, agregando costo sin valor.","score":1.5},"wast_2":{"correct_index":0,"reasoning":"Es la analogía del 'río y las rocas'. El nivel alto de agua (inventario) tapa los problemas (rocas) del fondo.","score":1},"wast_3":{"correct_index":1,"reasoning":"Los venteos sucios obligan a detener la producción para limpiar (Disponibilidad) y generan defectos (Calidad).","score":1.5},"wast_4":{"correct_index":1,"reasoning":"La colada fría es material que se calienta y enfría solo para ser tirado o re-molido, lo cual es ineficiente termodinámicamente.","score":1},"wast_5":{"correct_index":1,"reasoning":"El kWh/kg normaliza el consumo respecto a la producción, permitiendo comparar máquinas grandes y pequeñas.","score":1},"spec_1":{"correct_index":1,"reasoning":"La turbulencia rompe la capa límite aislante del agua contra el metal, extrayendo calor mucho más rápido.","score":1},"spec_2":{"correct_index":0,"reasoning":"Si el molde es pequeño, la platina se 'dobla' alrededor de él como una hoja de papel, perdiendo presión de sello en el centro.","score":1.5},"spec_3":{"correct_index":1,"reasoning":"El costo de corregir un error en diseño es despreciable comparado con modificar acero endurecido.","score":1},"spec_4":{"correct_index":1,"reasoning":"Permite abrir/cerrar la entrada a voluntad (secuenciado) y deja una marca casi invisible en la pieza.","score":1},"spec_5":{"correct_index":1,"reasoning":"Geometría básica: El calor converge desde dos lados hacia una esquina interna que tiene poca superficie para disiparlo.","score":1.5},"spec_6":{"correct_index":0,"reasoning":"Si no hay cojín, no hay presión hidráulica sobre la pieza (presión efectiva = 0), causando rechupados y medidas cortas.","score":1.5}},"meta":{"id":"advanced","name_es":"Avanzado — Ingenieros y Líderes","name_en":"Advanced — Engineers & Leaders","role_target":"Ingenieros de Procesos, Ingenieros de Moldes, Líderes Técnicos","pass_pct":80,"time_min":75,"badge_color":"#1B4F72","instructions":{"objective":"Evaluar competencias de ingeniería avanzada en moldeo científico, optimización de proceso, diseño de moldes y liderazgo técnico.","audience":"Ingenieros de procesos, ingenieros de moldes y líderes técnicos con más de 6 años de experiencia o formación universitaria en plásticos.","format":"Opción múltiple — 4 respuestas por pregunta, una correcta.","scoring":"Preguntas teóricas: 1 punto. Preguntas prácticas: 1.5 puntos.","passing":"Puntaje mínimo aprobatorio: 80% del total de puntos (requisito más estricto por nivel de responsabilidad).","time":"Tiempo estimado: 75 minutos.","instructions_list":["Lee cada escenario o problema con atención a los datos numéricos proporcionados.","En preguntas de cálculo o análisis estadístico, muestra el razonamiento mental antes de elegir.","Algunas preguntas tienen múltiples respuestas parcialmente correctas — elige la MEJOR y más completa.","No se permite consultar manuales, software ni celular durante la evaluación.","La profundidad del razonamiento es la diferencia entre nivel medio y avanzado."],"categories_covered":["Máquina e Inyectora","Proceso de Inyección","Calidad y Defectos","Seguridad Industrial","Materiales Plásticos","Eficiencia y Lean","Desperdicios (Muda)","Ingeniería de Moldes"],"tip":"En este nivel, la respuesta correcta requiere razonamiento de primer principios. Si dos opciones parecen correctas, la que explica el mecanismo físico o químico subyacente es la mejor."}},"stats":{"total_questions":43,"max_score":52.5,"theoretical_count":24,"practical_count":19,"categories":{"Eficiencia y Lean":5,"Ingeniería de Moldes":5,"Máquina e Inyectora":6,"Proceso de Inyección":7,"Desperdicios (Muda)":5,"Calidad y Defectos":5,"Materiales Plásticos":5,"Seguridad Industrial":5}}}};
+
+// ══════════════════════════════════════════ STATE ══
+const S = {
+  level: null,
+  candidate: null,
+  questions: [],
+  answers: {},
+  answerKey: {},
+  currentQ: 0,
+  timerInterval: null,
+  secondsLeft: 0,
+  secondsTotal: 0,
+  startTime: null,
+  submitted: false,
+  webhookUrl: 'https://your-n8n-instance.com/webhook/carol-assessment', // ← Configure
+};
+
+const CAT_COLORS = {
+  'Máquina e Inyectora':   '#1B4F72',
+  'Proceso de Inyección':  '#00B894',
+  'Calidad y Defectos':    '#E67E22',
+  'Seguridad Industrial':  '#C0392B',
+  'Materiales Plásticos':  '#8E44AD',
+  'Eficiencia y Lean':     '#2980B9',
+  'Desperdicios (Muda)':   '#27AE60',
+  'Ingeniería de Moldes':  '#D35400',
+};
+
+const ACTION_PLANS = {
+  'Máquina e Inyectora':   {duration:'1-2 semanas', actions:['Identificar componentes físicamente: husillo, barril, válvula check, boquilla.','Practicar lectura de manómetros hidráulicos y alarmas de máquina.','Ejercicio: cambio de boquilla y ajuste de termopar supervisado.'], kpi:'≥90% en re-evaluación práctica de componentes.'},
+  'Proceso de Inyección':  {duration:'1-2 semanas', actions:['Revisar parámetros primarios: Temperatura, Velocidad, Presión, Tiempo.','Práctica de estudio VPT (Velocity-Pressure Transfer) en máquina real.','Simulación de diagnóstico: ajustar proceso con defecto dado.'], kpi:'Completar estudio VPT documentado sin asistencia.'},
+  'Calidad y Defectos':    {duration:'1 semana',    actions:['Catálogo visual de 12 defectos principales con muestras físicas (boundary samples).','Ejercicio causa-raíz: asignar ajuste de proceso correcto a cada defecto.','Práctica con límites de muestra en piso de producción.'], kpi:'Identificar y diagnosticar ≥85% de defectos presentados.'},
+  'Seguridad Industrial':  {duration:'1 semana',    actions:['Entrenamiento LOTO con candadeo físico supervisado.','Simulacro de emergencia: derrame hidráulico y fuego eléctrico.','Revisión de NOM-004-STPS y EPP requerido por tarea.'], kpi:'Aprobar lista de verificación de seguridad al 100%.'},
+  'Materiales Plásticos':  {duration:'1 semana',    actions:['Taller: diferencias entre amorfos y semicristalinos (PP, ABS, PC, PA, POM).','Práctica de secado correcto: temperatura, tiempo y punto de rocío.','Identificación visual: material degradado, húmedo y contaminado.'], kpi:'Seleccionar condiciones de secado correctas para 5 materiales distintos.'},
+  'Eficiencia y Lean':     {duration:'1 semana',    actions:['Cálculo de OEE con datos reales de turno (Disponibilidad × Desempeño × Calidad).','Ejercicio SMED: clasificar actividades internas/externas en un cambio real.','Análisis de tiempos muertos del mes y propuesta de contramedidas.'], kpi:'Calcular OEE y proponer mejora ≥5pp documentada.'},
+  'Desperdicios (Muda)':   {duration:'1 semana',    actions:['Auditoría 5S en celda asignada con fotografía antes/después.','Identificación de los 8 desperdicios en un video de proceso real.','Proyecto kaizen de 1 semana: eliminar un desperdicio identificado.'], kpi:'Completar kaizen con reducción documentada de ≥1 desperdicio.'},
+  'Ingeniería de Moldes':  {duration:'2 semanas',   actions:['Revisión de anatomía de molde: canales de enfriamiento, compuertas, venteos.','Ejercicio: cálculo de Número de Reynolds para sistema de refrigeración.','Análisis de caso: diagnóstico de pandeo usando principios de enfriamiento diferencial.'], kpi:'Resolver caso de estudio de ingeniería de molde documentado.'},
+};
+
+// ══════════════════════════════════════════ SCREENS ══
+function show(id){['splash','register','instructions','quiz','results'].forEach(s=>document.getElementById('screen-'+s).style.display='none');document.getElementById('screen-'+id).style.display='block';window.scrollTo(0,0);}
+function showSplash(){stopTimer();show('splash');}
+function showRegister(){show('register');}
+
+// ══════════════════════════════════════════ INIT ══
+function init(){
+  // Populate year dropdown
+  const sel=document.getElementById('reg-birth-year');
+  const yr=new Date().getFullYear();
+  for(let y=yr-16;y>=yr-70;y--){const o=document.createElement('option');o.value=y;o.textContent=y;sel.appendChild(o);}
+  // Populate stats
+  ['basic','medium','advanced'].forEach(l=>{
+    const d=CAROL_DATA[l];
+    document.getElementById(l+'-q-count').textContent=d.stats.total_questions+' preguntas';
+    document.getElementById(l+'-pts').textContent=d.stats.max_score+' puntos';
+  });
+}
+
+function updateSelfEval(v){document.getElementById('self-eval-display').textContent=v+'%';}
+
+// ══════════════════════════════════════════ LEVEL SELECT ══
+function selectLevel(level){
+  S.level=level;
+  const d=CAROL_DATA[level];
+  document.getElementById('reg-level-badge').textContent=d.meta.name_es.split('—')[0].trim();
+  document.getElementById('reg-level-badge').style.background=d.meta.badge_color;
+  show('register');
+}
+
+// ══════════════════════════════════════════ REGISTER ══
+function submitRegistration(){
+  const name=document.getElementById('reg-name').value.trim();
+  const empId=document.getElementById('reg-id').value.trim();
+  const dept=document.getElementById('reg-dept').value;
+  const role=document.getElementById('reg-role').value;
+  const year=document.getElementById('reg-birth-year').value;
+  const exp=document.getElementById('reg-exp').value;
+  const err=document.getElementById('reg-error');
+  if(!name||!empId||!dept||!role||!year||exp===''){err.classList.remove('d-none');return;}
+  err.classList.add('d-none');
+  S.candidate={
+    full_name:name, employee_id:empId, department:dept, job_role:role,
+    birth_year:year, birth_month:document.getElementById('reg-birth-month').value||null,
+    years_experience:parseInt(exp)||0, self_evaluation:parseInt(document.getElementById('reg-self-eval').value),
+    age_at_assessment:new Date().getFullYear()-parseInt(year),
+  };
+  showInstructions();
+}
+
+// ══════════════════════════════════════════ INSTRUCTIONS ══
+function showInstructions(){
+  const d=CAROL_DATA[S.level];
+  const inst=d.meta.instructions;
+  const icons={'basic':'🟢','medium':'🟡','advanced':'🔵'};
+  document.getElementById('inst-icon').textContent=icons[S.level];
+  document.getElementById('inst-title').textContent='Instrucciones — '+d.meta.name_es;
+  document.getElementById('inst-subtitle').textContent='Nivel para: '+d.meta.role_target;
+  document.getElementById('inst-objective').querySelector('span').textContent=inst.objective;
+  document.getElementById('inst-q-count').textContent=d.stats.total_questions+' preguntas';
+  document.getElementById('inst-pts').textContent=d.stats.max_score+' pts';
+  document.getElementById('inst-pass').textContent=d.meta.pass_pct+'% ('+Math.ceil(d.stats.max_score*d.meta.pass_pct/100)+' pts)';
+  document.getElementById('inst-time').textContent=d.meta.time_min+' minutos';
+  // Cats
+  const catDiv=document.getElementById('inst-cats');
+  catDiv.innerHTML='';
+  inst.categories_covered.forEach(c=>{const ch=document.createElement('span');ch.className='chip';ch.textContent=c;catDiv.appendChild(ch);});
+  // Instructions
+  const ul=document.getElementById('inst-list');
+  ul.innerHTML='';
+  inst.instructions_list.forEach((txt,i)=>{const li=document.createElement('li');li.dataset.n=i+1;li.textContent=txt;ul.appendChild(li);});
+  document.getElementById('inst-tip').querySelector('span').textContent=inst.tip;
+  show('instructions');
+}
+
+// ══════════════════════════════════════════ QUIZ ══
+function startQuiz(){
+  const d=CAROL_DATA[S.level];
+  S.questions=[...d.qs];
+  S.answerKey={...d.ans};
+  S.answers={};
+  S.currentQ=0;
+  S.submitted=false;
+  S.secondsLeft=d.meta.time_min*60;
+  S.secondsTotal=d.meta.time_min*60;
+  S.startTime=Date.now();
+  // UI
+  document.getElementById('quiz-level-badge').textContent=d.meta.name_es.split('—')[0].trim();
+  document.getElementById('quiz-level-badge').style.background=d.meta.badge_color;
+  document.getElementById('progress-fill').style.background=d.meta.badge_color;
+  document.getElementById('quiz-candidate-name').textContent=S.candidate.full_name;
+  buildSidebar();
+  renderQuestion();
+  show('quiz');
+  startTimer();
+}
+
+function buildSidebar(){
+  const nav=document.getElementById('sidebar-nav');
+  nav.innerHTML='';
+  const cats={};
+  S.questions.forEach((q,i)=>{if(!cats[q.category])cats[q.category]=[];cats[q.category].push(i);});
+  Object.entries(cats).forEach(([cat,idxs])=>{
+    const sec=document.createElement('div');sec.className='cat-section';
+    const lbl=document.createElement('div');lbl.className='cat-label';lbl.textContent=cat;sec.appendChild(lbl);
+    const grid=document.createElement('div');grid.className='q-grid';
+    idxs.forEach(idx=>{
+      const d=document.createElement('div');d.className='q-dot';d.id='qdot-'+idx;
+      d.textContent=idx+1;d.onclick=()=>jumpTo(idx);grid.appendChild(d);
+    });
+    sec.appendChild(grid);nav.appendChild(sec);
+  });
+}
+
+function updateSidebarDot(idx){
+  const d=document.getElementById('qdot-'+idx);if(!d)return;
+  d.className='q-dot';
+  if(idx===S.currentQ)d.classList.add('current');
+  else if(S.answers[S.questions[idx].id]!==undefined)d.classList.add('answered');
+}
+
+function renderQuestion(){
+  const q=S.questions[S.currentQ];
+  const total=S.questions.length;
+  document.getElementById('q-num').textContent='PREGUNTA '+(S.currentQ+1)+' DE '+total;
+  document.getElementById('q-cat-badge').textContent=q.category;
+  const typeBadge=document.getElementById('q-type-badge');
+  typeBadge.textContent=q.type;
+  typeBadge.className='q-type-badge '+(q.type==='Teórico'?'teorico':'practico');
+  document.getElementById('q-score-badge').textContent=q.score+' pt'+(q.score!==1?'s':'');
+  document.getElementById('q-description').textContent=q.description;
+  document.getElementById('q-text').textContent=q.question;
+  const pct=Math.round((Object.keys(S.answers).length/total)*100);
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('q-progress-text').textContent=(S.currentQ+1)+' de '+total+' preguntas';
+  // Options
+  const letters=['A','B','C','D'];
+  const list=document.getElementById('options-list');
+  list.innerHTML='';
+  const chosen=S.answers[q.id];
+  q.options.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn'+(chosen===i?' selected':'');
+    if(S.submitted){const ak=S.answerKey[q.id];if(i===ak.correct_index)btn.classList.add('correct');else if(chosen===i&&chosen!==ak.correct_index)btn.classList.add('wrong');btn.disabled=true;}
+    btn.innerHTML=`<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
+    btn.onclick=()=>{if(!S.submitted)selectAnswer(q.id,i);};
+    list.appendChild(btn);
+  });
+  // Reasoning
+  const rb=document.getElementById('reasoning-box');
+  if(S.submitted&&chosen!==undefined){
+    document.getElementById('reasoning-text').textContent=S.answerKey[q.id].reasoning;
+    rb.classList.add('show');
+  }else{rb.classList.remove('show');}
+  // Nav buttons
+  document.getElementById('btn-prev').style.display=S.currentQ===0?'none':'';
+  const isLast=S.currentQ===total-1;
+  document.getElementById('btn-next').classList.toggle('d-none',isLast);
+  document.getElementById('btn-submit').classList.toggle('d-none',!isLast||S.submitted);
+  // Sidebar dots
+  for(let i=0;i<total;i++)updateSidebarDot(i);
+}
+
+function selectAnswer(qId,optIdx){
+  S.answers[qId]=optIdx;
+  renderQuestion();
+}
+
+function navigate(dir){
+  S.currentQ=Math.max(0,Math.min(S.questions.length-1,S.currentQ+dir));
+  renderQuestion();
+}
+
+function jumpTo(idx){S.currentQ=idx;renderQuestion();}
+
+function confirmSubmit(){
+  const total=S.questions.length;
+  const answered=Object.keys(S.answers).length;
+  if(answered<total){
+    if(!confirm(`Tienes ${total-answered} preguntas sin responder. ¿Deseas finalizar de todas formas?`))return;
+  }
+  submitQuiz();
+}
+
+// ══════════════════════════════════════════ TIMER ══
+function startTimer(){
+  clearInterval(S.timerInterval);
+  updateTimerDisplay();
+  S.timerInterval=setInterval(()=>{
+    S.secondsLeft--;
+    updateTimerDisplay();
+    if(S.secondsLeft<=0){clearInterval(S.timerInterval);submitQuiz();}
+  },1000);
+}
+
+function stopTimer(){clearInterval(S.timerInterval);}
+
+function updateTimerDisplay(){
+  const m=Math.floor(S.secondsLeft/60);const s=S.secondsLeft%60;
+  const el=document.getElementById('timer-display');
+  el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  const wrap=document.getElementById('quiz-timer');
+  wrap.classList.toggle('warning',S.secondsLeft<300);
+}
+
+// ══════════════════════════════════════════ SUBMIT & GRADE ══
+function submitQuiz(){
+  stopTimer();
+  S.submitted=true;
+  // Grade
+  let earned=0,maxPts=0,correct=0;
+  const catStats={};
+  S.questions.forEach(q=>{
+    const ak=S.answerKey[q.id];
+    const chosen=S.answers[q.id];
+    const isCorrect=(chosen===ak.correct_index);
+    maxPts+=q.score;
+    if(isCorrect){earned+=q.score;correct++;}
+    if(!catStats[q.category])catStats[q.category]={earned:0,max:0,correct:0,total:0};
+    catStats[q.category].max+=q.score;catStats[q.category].total++;
+    if(isCorrect){catStats[q.category].earned+=q.score;catStats[q.category].correct++;}
+  });
+  const pct=Math.round(earned/maxPts*100);
+  const d=CAROL_DATA[S.level];
+  const passed=pct>=d.meta.pass_pct;
+  const timeUsed=Math.round((Date.now()-S.startTime)/1000);
+  S.result={earned,maxPts,correct,pct,passed,catStats,timeUsed};
+  renderResults();
+  sendResultData();
+  show('results');
+}
+
+// ══════════════════════════════════════════ RESULTS ══
+function renderResults(){
+  const {earned,maxPts,correct,pct,passed,catStats,timeUsed}=S.result;
+  const d=CAROL_DATA[S.level];
+  const color=d.meta.badge_color;
+  // Hero
+  document.getElementById('results-hero').style.background=`linear-gradient(135deg,#0D1B2A 0%,${color}cc 100%)`;
+  const circ=276.46;
+  document.getElementById('donut-arc').style.stroke=passed?'#00B894':'#E74C3C';
+  setTimeout(()=>{document.getElementById('donut-arc').style.strokeDashoffset=circ*(1-pct/100);},200);
+  document.getElementById('result-pct').textContent=pct+'%';
+  document.getElementById('result-status-icon').textContent=passed?'✓ APROBADO':'✗ NO APROBÓ';
+  document.getElementById('result-status-icon').style.color=passed?'#6ee7b7':'#fca5a5';
+  document.getElementById('result-name').textContent=S.candidate.full_name;
+  document.getElementById('result-subtitle').textContent=d.meta.name_es+' · '+(passed?'APROBADO':'NO APROBÓ')+' (mínimo '+d.meta.pass_pct+'%)';
+  document.getElementById('kpi-pts').textContent=earned.toFixed(1);
+  document.getElementById('kpi-max').textContent=maxPts.toFixed(1);
+  document.getElementById('kpi-correct').textContent=correct+'/'+S.questions.length;
+  const m=Math.floor(timeUsed/60);const s=timeUsed%60;
+  document.getElementById('kpi-time').textContent=m+'m '+s+'s';
+  // Category breakdown
+  const bd=document.getElementById('cat-breakdown');bd.innerHTML='';
+  Object.entries(catStats).sort((a,b)=>a[1].correct/a[1].total-b[1].correct/b[1].total).forEach(([cat,st])=>{
+    const catPct=Math.round(st.correct/st.total*100);
+    const catColor=CAT_COLORS[cat]||'#64748b';
+    const passing=catPct>=65;
+    const row=document.createElement('div');row.className='cat-result-row';
+    row.innerHTML=`
+      <span class="cat-result-label">${cat}</span>
+      <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:0%;background:${catColor};" data-w="${catPct}"></div></div>
+      <span class="cat-result-pct" style="color:${passing?'#16a34a':'#dc2626'}">${catPct}%</span>
+      <span class="cat-result-pass" style="background:${passing?'#dcfce7':'#fee2e2'};color:${passing?'#166534':'#991b1b'}">${st.correct}/${st.total}</span>`;
+    bd.appendChild(row);
+    setTimeout(()=>{row.querySelector('.cat-bar-fill').style.width=catPct+'%';},300);
+  });
+  // Wrong questions
+  const wrongList=document.getElementById('wrong-list');wrongList.innerHTML='';
+  const wrongs=S.questions.filter(q=>S.answers[q.id]!==S.answerKey[q.id].correct_index);
+  document.getElementById('wrong-count-badge').textContent=wrongs.length+' preguntas';
+  const letters=['A','B','C','D'];
+  wrongs.forEach(q=>{
+    const ak=S.answerKey[q.id];const chosen=S.answers[q.id];
+    const div=document.createElement('div');div.className='wrong-item';
+    const wrongOpts=q.options.map((opt,i)=>{
+      if(i===ak.correct_index)return`<div class="wrong-opt correct"><i class="ti ti-check"></i>${letters[i]}. ${opt}</div>`;
+      if(i===chosen)return`<div class="wrong-opt chosen"><i class="ti ti-x"></i>${letters[i]}. ${opt}</div>`;
+      return'';
+    }).join('');
+    div.innerHTML=`
+      <div class="wrong-item-meta">
+        <span class="q-cat-badge">${q.category}</span>
+        <span class="q-type-badge ${q.type==='Teórico'?'teorico':'practico'}">${q.type}</span>
+        <span style="font-size:.72rem;color:#94a3b8;">${q.score} pts</span>
+      </div>
+      <div class="wrong-q-text">${q.question}</div>
+      <div class="wrong-options">${wrongOpts}</div>
+      <div class="wrong-reasoning"><i class="ti ti-bulb"></i>${ak.reasoning}</div>`;
+    wrongList.appendChild(div);
+  });
+  if(!wrongs.length)document.getElementById('wrong-review').style.display='none';
+  // Action plan
+  const weakCats=Object.entries(catStats).filter(([,st])=>st.correct/st.total<0.7).sort((a,b)=>a[1].correct/a[1].total-b[1].correct/b[1].total);
+  const steps=document.getElementById('action-steps');steps.innerHTML='';
+  if(!weakCats.length){
+    steps.innerHTML='<div style="padding:1.25rem 1.5rem;color:#16a34a;font-size:.9rem;display:flex;gap:.5rem;align-items:center;"><i class="ti ti-check-circle"></i> Excelente desempeño en todas las áreas. Se recomienda mantener y compartir conocimiento con el equipo.</div>';
+  }else{
+    weakCats.forEach(([cat,st])=>{
+      const plan=ACTION_PLANS[cat]||{duration:'1 semana',actions:['Revisión teórica del área.','Práctica supervisada en piso.'],kpi:'Superar 70% en re-evaluación del área.'};
+      const pct=Math.round(st.correct/st.total*100);
+      const isCrit=pct<55;
+      const sc=isCrit?'#dc2626':'#f59e0b';const scBg=isCrit?'#fee2e2':'#fef3c7';
+      const div=document.createElement('div');div.className='action-step';
+      div.innerHTML=`
+        <div class="step-priority">
+          <div class="step-priority-badge" style="background:${scBg};color:${sc};">${isCrit?'CRÍTICO':'MEJORA'}</div>
+          <div style="font-size:.7rem;color:#64748b;margin-top:.35rem;">${plan.duration}</div>
+          <div style="font-size:.75rem;font-weight:700;color:${sc};margin-top:.2rem;">${pct}%</div>
+        </div>
+        <div class="step-content">
+          <h5>${cat}</h5>
+          <ul>${plan.actions.map(a=>'<li>'+a+'</li>').join('')}</ul>
+          <div class="step-kpi"><i class="ti ti-target"></i>${plan.kpi}</div>
+        </div>`;
+      steps.appendChild(div);
+    });
+  }
+}
+
+// ══════════════════════════════════════════ WEBHOOK ══
+function buildPayload(){
+  const d=CAROL_DATA[S.level];
+  const {earned,maxPts,correct,pct,passed,catStats,timeUsed}=S.result;
+  return{
+    survey_id:'carol_assessment_v2',submitted_at:new Date().toISOString(),
+    candidate:{...S.candidate},
+    assessment:{level:S.level,level_name:d.meta.name_es,total_questions:S.questions.length,pass_pct:d.meta.pass_pct},
+    results:{earned_pts:parseFloat(earned.toFixed(2)),max_pts:maxPts,pct_score:pct,passed,correct_answers:correct,time_seconds:timeUsed},
+    category_breakdown:Object.fromEntries(Object.entries(catStats).map(([cat,st])=>[cat,{correct:st.correct,total:st.total,pct:Math.round(st.correct/st.total*100)}])),
+    wrong_question_ids:S.questions.filter(q=>S.answers[q.id]!==S.answerKey[q.id].correct_index).map(q=>q.id),
+  };
+}
+
+function sendResultData(){
+  const payload=buildPayload();
+  console.log('CAROL Result payload:',JSON.stringify(payload,null,2));
+  fetch(S.webhookUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+    .then(r=>{if(r.ok)console.log('Webhook sent OK');})
+    .catch(e=>console.warn('Webhook not configured:',e.message));
+}
+
+function sendToWebhook(){
+  const url=prompt('URL del Webhook (n8n):',S.webhookUrl);
+  if(!url)return;
+  S.webhookUrl=url;
+  const payload=buildPayload();
+  fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+    .then(r=>r.ok?alert('✅ Datos enviados correctamente al webhook.'):alert('⚠️ Error al enviar. Código: '+r.status))
+    .catch(()=>alert('⚠️ No se pudo conectar. Revisa la URL del webhook.'));
+}
+
+// ══════════════════════════════════════════ BOOT ══
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
