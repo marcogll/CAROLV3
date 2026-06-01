@@ -1,0 +1,971 @@
+[
+  {
+    "id": "mach_1",
+    "category": "Máquina e Inyectora",
+    "type": "Teórico",
+    "description": "La unidad de plastificación consta de varios elementos clave para procesar el material.",
+    "question": "En el sistema de plastificación, ¿cuál es el componente que gira para cizallar, fundir y transportar el material hacia adelante?",
+    "options": [
+      "El barril reforzado (cilindro)",
+      "El tornillo (husillo)",
+      "La válvula check (anillo)",
+      "La banda calefactora cerámica"
+    ],
+    "score": 1,
+    "question_order_id": 1,
+    "correct_index": 1,
+    "reasoning": "Aunque el barril y las bandas calientan, solo el husillo gira y transporta el material mecánicamente."
+  },
+  {
+    "id": "mach_2",
+    "category": "Máquina e Inyectora",
+    "type": "Teórico",
+    "description": "Antes de entrar al cañón, el material debe estar disponible en la máquina.",
+    "question": "¿Cuál es el punto de entrada donde se almacena la materia prima antes de ingresar a la garganta de alimentación?",
+    "options": [
+      "El secador de material deshumidificador",
+      "La unidad de inyección completa",
+      "La tolva de alimentación",
+      "El contenedor de purga y residuos"
+    ],
+    "score": 1,
+    "question_order_id": 2,
+    "correct_index": 2,
+    "reasoning": "La tolva es el reservorio montado directamente sobre la garganta de alimentación."
+  },
+  {
+    "id": "mach_3",
+    "category": "Máquina e Inyectora",
+    "type": "Teórico",
+    "description": "El control térmico es fundamental a lo largo del cilindro de inyección.",
+    "question": "¿Cuál es la función específica de las resistencias eléctricas (bandas) colocadas alrededor del cañón?",
+    "options": [
+      "Generar la fricción necesaria para fundir el polímero",
+      "Mantener el perfil de temperatura del barril",
+      "Enfriar el material rápidamente para evitar degradación",
+      "Medir la presión interna del plástico fundido"
+    ],
+    "score": 1,
+    "question_order_id": 3,
+    "correct_index": 1,
+    "reasoning": "Las bandas aportan calor externo para mantener el material en estado fundido, complementando la fricción."
+  },
+  {
+    "id": "mach_4",
+    "category": "Máquina e Inyectora",
+    "type": "Teórico",
+    "description": "La máquina se divide principalmente en unidad de inyección y unidad de cierre.",
+    "question": "Durante la etapa de inyección, ¿qué función crítica desempeña la unidad de cierre?",
+    "options": [
+      "Inyectar el material fundido dentro de la cavidad",
+      "Contrarrestar la fuerza de separación del molde",
+      "Regular la temperatura del sistema de enfriamiento",
+      "Accionar los mecanismos para expulsar la pieza"
+    ],
+    "score": 1,
+    "question_order_id": 4,
+    "correct_index": 1,
+    "reasoning": "Si la unidad de cierre no resiste la presión interna (fuerza de separación), el molde se abrirá generando rebaba."
+  },
+  {
+    "id": "mach_5",
+    "category": "Máquina e Inyectora",
+    "type": "Teórico",
+    "description": "Una vez que la pieza se ha enfriado y el molde se abre, el proceso debe continuar.",
+    "question": "Al finalizar el ciclo, ¿qué mecanismo se activa para desprender la pieza de la cavidad o corazón?",
+    "options": [
+      "El sistema de noyos hidráulicos",
+      "El sistema de refrigeración",
+      "El sistema de expulsión (botadores)",
+      "El sistema de cierre de rodillera"
+    ],
+    "score": 1,
+    "question_order_id": 5,
+    "correct_index": 2,
+    "reasoning": "Los botadores empujan mecánicamente la pieza una vez que el molde está abierto."
+  },
+  {
+    "id": "proc_1",
+    "category": "Proceso de Inyección",
+    "type": "Teórico",
+    "description": "La productividad se mide mediante la duración total de cada proceso de fabricación.",
+    "question": "¿Cómo se define correctamente el 'tiempo de ciclo' en moldeo por inyección?",
+    "options": [
+      "Tiempo total que tarda el material en fundirse dentro del barril",
+      "Tiempo transcurrido entre el inicio de una inyección y la siguiente",
+      "Tiempo necesario para enfriar completamente la pieza en el molde",
+      "Tiempo que toma el robot en extraer y depositar la pieza final"
+    ],
+    "score": 1,
+    "question_order_id": 6,
+    "correct_index": 1,
+    "reasoning": "Es la suma de todas las etapas (cierre, inyección, enfriamiento, apertura, expulsión) hasta reiniciar."
+  },
+  {
+    "id": "qual_1",
+    "category": "Calidad y Defectos",
+    "type": "Práctico",
+    "description": "La inspección visual permite identificar problemas de llenado en la pieza.",
+    "question": "Si observas una pieza a la que le faltan detalles geométricos o secciones completas, ¿qué defecto presenta?",
+    "options": [
+      "Rebaba excesiva (Flash)",
+      "Tiro Corto (Short Shot)",
+      "Rechupado superficial (Sink Mark)",
+      "Línea de flujo visible (Flow line)"
+    ],
+    "score": 1.5,
+    "question_order_id": 7,
+    "correct_index": 1,
+    "reasoning": "El tiro corto es la ausencia de material; los otros son excesos o deformaciones."
+  },
+  {
+    "id": "qual_2",
+    "category": "Calidad y Defectos",
+    "type": "Práctico",
+    "description": "El equilibrio entre la fuerza de la máquina y la presión del plástico es crítico.",
+    "question": "¿Cuál es la causa técnica más probable de la aparición de 'rebaba' (flash) en el borde de la pieza?",
+    "options": [
+      "Fuerza de cierre insuficiente para la presión inyectada",
+      "Temperatura excesiva del material en la zona de la boquilla",
+      "Tiempo de enfriamiento demasiado largo en el ciclo",
+      "Velocidad de inyección demasiado lenta durante el llenado"
+    ],
+    "score": 1.5,
+    "question_order_id": 8,
+    "correct_index": 0,
+    "reasoning": "La rebaba ocurre cuando el plástico fuerza la apertura del molde; requiere más fuerza de cierre o menos presión."
+  },
+  {
+    "id": "qual_3",
+    "category": "Calidad y Defectos",
+    "type": "Práctico",
+    "description": "Las variaciones de espesor en la pieza pueden generar defectos superficiales específicos.",
+    "question": "Identificas una depresión o hundimiento en una zona gruesa de la pieza. ¿Cómo se clasifica este defecto?",
+    "options": [
+      "Deformación geométrica (Warpage)",
+      "Rechupado (Sink Mark)",
+      "Vacío interno encapsulado (Void)",
+      "Marca de quemadura (Burn mark)"
+    ],
+    "score": 1.5,
+    "question_order_id": 9,
+    "correct_index": 1,
+    "reasoning": "El rechupado es una depresión superficial causada por contracción volumétrica en zonas calientes."
+  },
+  {
+    "id": "safe_1",
+    "category": "Seguridad Industrial",
+    "type": "Práctico",
+    "description": "El mantenimiento y limpieza de la unidad de inyección conllevan riesgos específicos.",
+    "question": "¿Cuál es el riesgo principal al realizar una purga de material a alta temperatura sin protección facial?",
+    "options": [
+      "Inhalación directa de polvos finos del ambiente",
+      "Salpicadura violenta de polímero fundido",
+      "Atrapamiento de extremidades en la unidad de cierre",
+      "Caída por resbalón con aceite hidráulico derramado"
+    ],
+    "score": 1.5,
+    "question_order_id": 10,
+    "correct_index": 1,
+    "reasoning": "La purga puede liberar bolsas de gas comprimido que proyectan el material caliente hacia la cara."
+  },
+  {
+    "id": "safe_2",
+    "category": "Seguridad Industrial",
+    "type": "Práctico",
+    "description": "Las situaciones de peligro requieren una reacción inmediata del operador.",
+    "question": "Ante un ruido anormal severo o riesgo inminente de aplastamiento, ¿qué acción inmediata debes tomar?",
+    "options": [
+      "Presionar el botón de paro de emergencia",
+      "Apagar manualmente el calentamiento del barril",
+      "Reducir gradualmente la velocidad de la máquina",
+      "Buscar inmediatamente al supervisor de turno"
+    ],
+    "score": 1.5,
+    "question_order_id": 11,
+    "correct_index": 0,
+    "reasoning": "El paro de emergencia corta la energía motriz inmediatamente; cualquier otra acción es demasiado lenta."
+  },
+  {
+    "id": "safe_3",
+    "category": "Seguridad Industrial",
+    "type": "Teórico",
+    "description": "Existen protocolos estandarizados para garantizar la seguridad durante intervenciones.",
+    "question": "¿Cuál es el objetivo del procedimiento LOTO (Candado y Etiqueta) antes de intervenir una máquina?",
+    "options": [
+      "Identificar y separar los defectos de calidad",
+      "Asegurar el bloqueo de todas las energías peligrosas",
+      "Registrar los tiempos de producción del operador",
+      "Limpiar y ordenar el área de trabajo según las 5S"
+    ],
+    "score": 1,
+    "question_order_id": 12,
+    "correct_index": 1,
+    "reasoning": "LOTO está diseñado específicamente para prevenir la activación accidental de energía (eléctrica, hidráulica, etc.)."
+  },
+  {
+    "id": "safe_4",
+    "category": "Seguridad Industrial",
+    "type": "Práctico",
+    "description": "Los dispositivos de seguridad críticos deben ser universalmente reconocibles.",
+    "question": "¿Cuál es la característica visual estándar de un botón de Paro de Emergencia?",
+    "options": [
+      "Botón verde pequeño oculto bajo el panel",
+      "Botón rojo en forma de hongo sobre fondo amarillo",
+      "Palanca azul ubicada al costado de la máquina",
+      "Interruptor negro de llave con bloqueo"
+    ],
+    "score": 1,
+    "question_order_id": 13,
+    "correct_index": 1,
+    "reasoning": "Por normativa internacional, el paro de emergencia debe ser rojo, prominente y sobre fondo amarillo para fácil detección."
+  },
+  {
+    "id": "safe_5",
+    "category": "Seguridad Industrial",
+    "type": "Práctico",
+    "description": "Existen zonas de la máquina que operan a altas temperaturas durante el funcionamiento normal.",
+    "question": "Además del material fundido, ¿qué componente de la máquina presenta un alto riesgo de quemaduras por contacto?",
+    "options": [
+      "El panel de control (Pantalla HMI)",
+      "El barril (cilindro) y sus bandas calefactoras",
+      "La puerta de seguridad frontal del operador",
+      "La tolva de alimentación en su parte exterior"
+    ],
+    "score": 1,
+    "question_order_id": 14,
+    "correct_index": 1,
+    "reasoning": "El barril y las bandas operan a cientos de grados centígrados y suelen estar expuestos o mal aislados."
+  },
+  {
+    "id": "qual_4",
+    "category": "Calidad y Defectos",
+    "type": "Práctico",
+    "description": "El aire atrapado dentro de la cavidad reacciona ante la alta presión de inyección.",
+    "question": "Si aparece una mancha negra o marrón al final del llenado de la pieza, ¿qué indica este defecto?",
+    "options": [
+      "Aire atrapado que se comprimió y quemó (Efecto Diesel)",
+      "Material base contaminado con grasa del molde",
+      "Falta crítica de presión de sostenimiento (Hold)",
+      "Exceso de agente desmoldante rociado en la cavidad"
+    ],
+    "score": 1.5,
+    "question_order_id": 15,
+    "correct_index": 0,
+    "reasoning": "Las quemaduras por venteo ocurren cuando el aire no puede escapar y se calienta por compresión rápida."
+  },
+  {
+    "id": "qual_5",
+    "category": "Calidad y Defectos",
+    "type": "Práctico",
+    "description": "La geometría de la pieza obliga al plástico a separarse y volver a unirse.",
+    "question": "¿Qué defecto visual se genera cuando dos frentes de flujo de plástico se encuentran y no se fusionan perfectamente?",
+    "options": [
+      "Ráfagas de humedad (Splay)",
+      "Línea de unión o soldadura (Weld line)",
+      "Delaminación estructural de capas",
+      "Piel de naranja superficial"
+    ],
+    "score": 1.5,
+    "question_order_id": 16,
+    "correct_index": 1,
+    "reasoning": "La línea de unión es la cicatriz visible donde convergen los flujos, comúnmente alrededor de agujeros."
+  },
+  {
+    "id": "mat_1",
+    "category": "Materiales Plásticos",
+    "type": "Teórico",
+    "description": "La preparación de la materia prima es un paso previo esencial al procesamiento.",
+    "question": "Técnicamente, ¿por qué es obligatorio secar ciertos plásticos de ingeniería antes de procesarlos?",
+    "options": [
+      "Para aumentar significativamente la fluidez del material (MFI)",
+      "Para evitar hidrólisis y defectos visuales por humedad",
+      "Para precalentar el material y reducir el ciclo",
+      "Para mezclar homogéneamente el concentrado de color"
+    ],
+    "score": 1,
+    "question_order_id": 17,
+    "correct_index": 1,
+    "reasoning": "La humedad se convierte en vapor o rompe las cadenas moleculares (hidrólisis), arruinando la pieza."
+  },
+  {
+    "id": "mat_2",
+    "category": "Materiales Plásticos",
+    "type": "Teórico",
+    "description": "Los polímeros interactúan de diferentes maneras con el ambiente que los rodea.",
+    "question": "¿Cómo se le llama a la propiedad de un material (como el Nylon o PC) de absorber humedad del ambiente?",
+    "options": [
+      "Higroscopía",
+      "Viscosidad",
+      "Cristalinidad",
+      "Termoplasticidad"
+    ],
+    "score": 1,
+    "question_order_id": 18,
+    "correct_index": 0,
+    "reasoning": "Higroscópico es el término técnico para la capacidad de absorber agua del aire circundante."
+  },
+  {
+    "id": "mat_5",
+    "category": "Materiales Plásticos",
+    "type": "Práctico",
+    "description": "El operador debe ser capaz de distinguir visualmente la calidad de la materia prima.",
+    "question": "¿Cuál es la diferencia visual principal entre el material virgen y el material molido (regrind)?",
+    "options": [
+      "El material virgen es siempre más oscuro que el molido",
+      "El molido es irregular y polvoriento; el virgen es uniforme",
+      "No existe diferencia visual, solo cambia la estructura química",
+      "El material molido siempre es transparente y limpio"
+    ],
+    "score": 1,
+    "question_order_id": 19,
+    "correct_index": 1,
+    "reasoning": "El material virgen viene cortado de fábrica uniformemente; el molido proviene de una trituradora, resultando en geometría irregular."
+  },
+  {
+    "id": "mat_6",
+    "category": "Materiales Plásticos",
+    "type": "Práctico",
+    "description": "La contaminación física en la tolva es una causa común de defectos.",
+    "question": "Si el contenedor de material no tiene tapa, ¿qué problema es más probable que ocurra?",
+    "options": [
+      "Sobrecalentamiento excesivo de la resina",
+      "Contaminación por polvo ambiental o cartón",
+      "Aumento involuntario de la velocidad de inyección",
+      "Mejora notable en la mezcla del color"
+    ],
+    "score": 1,
+    "question_order_id": 20,
+    "correct_index": 1,
+    "reasoning": "Dejar el material expuesto permite que partículas del ambiente (polvo, insectos, restos de empaque) caigan en la tolva."
+  },
+  {
+    "id": "proc_2",
+    "category": "Proceso de Inyección",
+    "type": "Teórico",
+    "description": "El control térmico del molde es esencial para la estabilidad del ciclo.",
+    "question": "¿Cuál es el propósito principal de circular agua a temperatura controlada a través del molde?",
+    "options": [
+      "Lubricar internamente los pernos botadores y las guías",
+      "Extraer calor del plástico para solidificarlo",
+      "Calentar el molde para mejorar el flujo del material",
+      "Limpiar automáticamente los canales de ventilación"
+    ],
+    "score": 1,
+    "question_order_id": 21,
+    "correct_index": 1,
+    "reasoning": "El sistema de enfriamiento busca bajar la temperatura del plástico por debajo de su punto de deflexión para expulsarlo."
+  },
+  {
+    "id": "proc_3",
+    "category": "Proceso de Inyección",
+    "type": "Práctico",
+    "description": "Modificar los tiempos del ciclo afecta directamente la integridad física del producto.",
+    "question": "Si el operador reduce arbitrariamente el tiempo de enfriamiento, ¿qué consecuencia es más probable?",
+    "options": [
+      "La pieza tendrá quemaduras visibles por fricción",
+      "La pieza se deformará o será perforada por los botadores",
+      "La máquina consumirá mucha más energía eléctrica",
+      "El material se degradará químicamente en el barril"
+    ],
+    "score": 1.5,
+    "question_order_id": 22,
+    "correct_index": 1,
+    "reasoning": "Si la pieza está muy caliente y blanda, los botadores la atravesarán o se doblará al caer."
+  },
+  {
+    "id": "proc_4",
+    "category": "Proceso de Inyección",
+    "type": "Teórico",
+    "description": "Durante la carga de material, existen fuerzas que actúan sobre el husillo en retroceso.",
+    "question": "¿Qué parámetro controla la resistencia que opone el husillo al retroceder durante la carga de material?",
+    "options": [
+      "Presión de inyección",
+      "Contrapresión (Back pressure)",
+      "Presión de sostenimiento",
+      "Fuerza de cierre"
+    ],
+    "score": 1,
+    "question_order_id": 23,
+    "correct_index": 1,
+    "reasoning": "La contrapresión asegura una mezcla homogénea y compacta al dificultar el retorno del tornillo."
+  },
+  {
+    "id": "proc_5",
+    "category": "Proceso de Inyección",
+    "type": "Teórico",
+    "description": "La posición final del husillo tras la inyección es un indicador de proceso clave.",
+    "question": "¿Qué representa el 'cojín' (cushion) remanente al final de la fase de inyección?",
+    "options": [
+      "El espacio de seguridad para evitar el choque de placas del molde",
+      "El material sobrante delante del husillo para transferir presión",
+      "La cantidad de plástico que se pierde por la boquilla",
+      "El recorrido total de apertura de la platina móvil"
+    ],
+    "score": 1,
+    "question_order_id": 24,
+    "correct_index": 1,
+    "reasoning": "Sin cojín, el tornillo toca fondo y no se puede aplicar presión de sostenimiento (hold) a la pieza."
+  },
+  {
+    "id": "proc_6",
+    "category": "Proceso de Inyección",
+    "type": "Práctico",
+    "description": "La estabilidad de la posición final del husillo afecta la calidad de la pieza.",
+    "question": "Al revisar los parámetros, notas que el cojín es inestable o llega a cero. ¿Qué problema implica esto?",
+    "options": [
+      "Falta de control dimensional y posibles rechupados",
+      "Exceso de enfriamiento en la parte fija del molde",
+      "Sobrecalentamiento de las resistencias del barril",
+      "Velocidad de cierre del molde demasiado alta"
+    ],
+    "score": 1.5,
+    "question_order_id": 25,
+    "correct_index": 0,
+    "reasoning": "Un cojín cero significa que no hubo material suficiente para compensar la contracción, generando piezas defectuosas."
+  },
+  {
+    "id": "mach_6",
+    "category": "Máquina e Inyectora",
+    "type": "Teórico",
+    "description": "El molde requiere mecanismos para gestionar los gases presentes en la cavidad.",
+    "question": "Los canales de venteo (vents) maquinados en el molde tienen la función crítica de:",
+    "options": [
+      "Facilitar la entrada de lubricante a la cavidad",
+      "Evacuar el aire desplazado por el plástico entrante",
+      "Mejorar el acabado superficial mediante pulido",
+      "Permitir la inspección visual del proceso"
+    ],
+    "score": 1,
+    "question_order_id": 26,
+    "correct_index": 1,
+    "reasoning": "El plástico no puede ocupar el lugar del aire si este no sale; si no hay venteo, el aire se quema."
+  },
+  {
+    "id": "mat_3",
+    "category": "Materiales Plásticos",
+    "type": "Práctico",
+    "description": "La gestión de residuos plásticos permite recuperar material para el proceso.",
+    "question": "En el contexto de producción, ¿a qué se refiere el término 'molienda' o 'regrind'?",
+    "options": [
+      "Aditivo químico líquido para mejorar el flujo",
+      "Material procesado, recuperado y triturado para reutilización",
+      "Resina virgen contaminada con polvo ambiental",
+      "Purga solidificada que se tira directamente a la basura"
+    ],
+    "score": 1.5,
+    "question_order_id": 27,
+    "correct_index": 1,
+    "reasoning": "Es el aprovechamiento de coladas y piezas rechazadas (si la calidad lo permite) trituradas en molino."
+  },
+  {
+    "id": "eff_1",
+    "category": "Eficiencia y Lean",
+    "type": "Teórico",
+    "description": "La eficiencia industrial se mide mediante indicadores estandarizados globalmente.",
+    "question": "¿Qué factores componen el cálculo del OEE (Eficiencia General de los Equipos)?",
+    "options": [
+      "Seguridad, Medio Ambiente y Costo",
+      "Disponibilidad, Desempeño y Calidad",
+      "Velocidad, Presión y Temperatura",
+      "Materia Prima, Mano de Obra y Energía"
+    ],
+    "score": 1,
+    "question_order_id": 28,
+    "correct_index": 1,
+    "reasoning": "Es el estándar industrial: ¿La máquina funcionó? (Disp), ¿A qué velocidad? (Desemp), ¿Salieron bien? (Calidad)."
+  },
+  {
+    "id": "eff_2",
+    "category": "Eficiencia y Lean",
+    "type": "Teórico",
+    "description": "Existen metodologías específicas para optimizar los tiempos de preparación de máquina.",
+    "question": "La metodología SMED se aplica en el área de inyección para:",
+    "options": [
+      "Reducir el consumo eléctrico de los motores",
+      "Reducir el tiempo de cambio de molde (Set-up)",
+      "Aumentar la presión máxima de inyección",
+      "Mejorar la mezcla de color en el husillo"
+    ],
+    "score": 1,
+    "question_order_id": 29,
+    "correct_index": 1,
+    "reasoning": "SMED (Single Minute Exchange of Die) busca cambios rápidos para aumentar la disponibilidad."
+  },
+  {
+    "id": "eff_3",
+    "category": "Eficiencia y Lean",
+    "type": "Práctico",
+    "description": "Las paradas no planificadas afectan directamente la capacidad productiva.",
+    "question": "¿Qué se entiende comúnmente por 'Tiempo Muerto' (Downtime) en producción?",
+    "options": [
+      "El tiempo en que la máquina está apagada por ser fin de semana",
+      "El tiempo programado para mantenimiento preventivo",
+      "El periodo en que la máquina debería producir pero está detenida",
+      "El tiempo de enfriamiento dentro del ciclo"
+    ],
+    "score": 1,
+    "question_order_id": 30,
+    "correct_index": 2,
+    "reasoning": "El tiempo muerto es improductivo y reduce la disponibilidad del equipo para manufacturar."
+  },
+  {
+    "id": "eff_4",
+    "category": "Eficiencia y Lean",
+    "type": "Teórico",
+    "description": "La operación continua de la máquina tiene diferentes modalidades de ejecución.",
+    "question": "¿Cuál es la diferencia básica entre un ciclo 'Automático' y uno 'Semi-automático'?",
+    "options": [
+      "En automático el operador abre la puerta; en semi-automático no",
+      "En automático la máquina reinicia sola; en semi hay intervención",
+      "El automático es siempre más lento que el semi-automático",
+      "No hay diferencia, son términos técnicos intercambiables"
+    ],
+    "score": 1,
+    "question_order_id": 31,
+    "correct_index": 1,
+    "reasoning": "El ciclo automático permite producción continua sin intervención; el semi-automático requiere que el operador valide cada pieza y reinicie."
+  },
+  {
+    "id": "eff_5",
+    "category": "Eficiencia y Lean",
+    "type": "Práctico",
+    "description": "El registro preciso de lo producido es vital para el control de costos.",
+    "question": "¿Por qué es importante que el operador registre la cantidad de Scrap (desperdicio) generado?",
+    "options": [
+      "Para culpar directamente al departamento de mantenimiento",
+      "Para descontarlo del salario semanal del operador",
+      "Para tener un inventario real y detectar problemas de calidad",
+      "Para llenar las hojas de reporte que nadie lee"
+    ],
+    "score": 1,
+    "question_order_id": 32,
+    "correct_index": 2,
+    "reasoning": "Sin un conteo de scrap, el inventario de resina no cuadrará y los problemas de calidad pasarán desapercibidos."
+  },
+  {
+    "id": "mach_7",
+    "category": "Máquina e Inyectora",
+    "type": "Teórico",
+    "description": "La automatización de la extracción de piezas influye en la estabilidad del proceso.",
+    "question": "¿Cuál es la ventaja principal de utilizar un robot cartesiano para la extracción de piezas?",
+    "options": [
+      "Reduce drásticamente el costo de mantenimiento del molde",
+      "Garantiza un tiempo de ciclo constante y estable",
+      "Disminuye drásticamente la temperatura de la masa fundida",
+      "Aumenta la fuerza de cierre disponible de la máquina"
+    ],
+    "score": 1,
+    "question_order_id": 33,
+    "correct_index": 1,
+    "reasoning": "A diferencia de un humano, el robot tarda siempre lo mismo, estabilizando el proceso térmico."
+  },
+  {
+    "id": "proc_7",
+    "category": "Proceso de Inyección",
+    "type": "Teórico",
+    "description": "Una vez que la cavidad está llena, el proceso requiere una etapa adicional antes del enfriamiento.",
+    "question": "¿Cuál es el objetivo de la etapa de 'presión de sostenimiento' (pack & hold)?",
+    "options": [
+      "Llenar el 95% de la cavidad lo más rápido posible",
+      "Compensar la contracción volumétrica mientras el material enfría",
+      "Empujar la pieza fuera del molde al momento de abrir",
+      "Generar fricción adicional para calentar el siguiente disparo"
+    ],
+    "score": 1,
+    "question_order_id": 34,
+    "correct_index": 1,
+    "reasoning": "Una vez lleno el molde, se debe 'sostener' presión para meter más material mientras el plástico contrae."
+  },
+  {
+    "id": "proc_8",
+    "category": "Proceso de Inyección",
+    "type": "Teórico",
+    "description": "El movimiento de avance del husillo durante el llenado se regula mediante parámetros específicos.",
+    "question": "¿Qué variable controla qué tan rápido se mueve el husillo hacia adelante durante el llenado?",
+    "options": [
+      "Velocidad de rotación (RPM)",
+      "Velocidad de inyección",
+      "Tiempo de enfriamiento",
+      "Presión de contrapresión"
+    ],
+    "score": 1,
+    "question_order_id": 35,
+    "correct_index": 1,
+    "reasoning": "La velocidad de inyección determina el caudal de llenado; las RPM son para la carga (plastificación)."
+  },
+  {
+    "id": "proc_9",
+    "category": "Proceso de Inyección",
+    "type": "Teórico",
+    "description": "El proceso de inyección consta de dos fases dinámicas principales que deben alternarse.",
+    "question": "¿Qué sucede exactamente en el 'Punto de Transferencia' (V-P switchover)?",
+    "options": [
+      "La máquina cambia de control de velocidad a control de presión",
+      "El molde comienza a abrirse automáticamente para expulsar la pieza",
+      "El husillo comienza a girar rápidamente para cargar material",
+      "El robot entra a la zona de molde para tomar la pieza"
+    ],
+    "score": 1,
+    "question_order_id": 36,
+    "correct_index": 0,
+    "reasoning": "Es el momento crítico donde se deja de empujar por velocidad y se empieza a empacar por presión."
+  },
+  {
+    "id": "qual_6",
+    "category": "Calidad y Defectos",
+    "type": "Práctico",
+    "description": "Ciertas condiciones del material generan marcas visuales características en la superficie.",
+    "question": "Observas marcas plateadas o ráfagas en la superficie de la pieza cerca de la entrada. ¿Causa más probable?",
+    "options": [
+      "Material contaminado con humedad (Hidrólisis)",
+      "Falta de presión de inyección durante el llenado",
+      "Temperatura de la superficie del molde demasiado baja",
+      "Exceso de agente desmoldante aplicado en la cavidad"
+    ],
+    "score": 1.5,
+    "question_order_id": 37,
+    "correct_index": 0,
+    "reasoning": "El agua en el material se vuelve vapor al inyectar, dejando vetas plateadas (splay)."
+  },
+  {
+    "id": "qual_7",
+    "category": "Calidad y Defectos",
+    "type": "Práctico",
+    "description": "La estabilidad dimensional de la pieza puede verse comprometida al salir del molde.",
+    "question": "Si la pieza sale del molde torcida o con dimensiones fuera de tolerancia geométrica, se le llama:",
+    "options": [
+      "Efecto Diesel (Quemadura)",
+      "Pandeo o Alabeo (Warpage)",
+      "Tiro Corto (Short Shot)",
+      "Delaminación (Peeling)"
+    ],
+    "score": 1.5,
+    "question_order_id": 38,
+    "correct_index": 1,
+    "reasoning": "El pandeo es resultado de tensiones internas o enfriamiento desigual."
+  },
+  {
+    "id": "qual_8",
+    "category": "Calidad y Defectos",
+    "type": "Práctico",
+    "description": "La cohesión estructural del material inyectado puede fallar bajo ciertas condiciones.",
+    "question": "La 'delaminación' es un defecto donde la superficie de la pieza se descascara. ¿Qué lo provoca?",
+    "options": [
+      "Contaminación por mezcla de materiales incompatibles",
+      "Velocidad de inyección excesivamente alta",
+      "Temperatura del molde demasiado caliente",
+      "Presión de sostenimiento insuficiente"
+    ],
+    "score": 1.5,
+    "question_order_id": 39,
+    "correct_index": 0,
+    "reasoning": "Si dos plásticos no son químicamente compatibles (ej. PP con ABS), no se funden y se separan en capas."
+  },
+  {
+    "id": "mach_8",
+    "category": "Máquina e Inyectora",
+    "type": "Teórico",
+    "description": "El sistema de alimentación del molde consta de varios componentes de distribución.",
+    "question": "¿Qué es el 'bebedero' (sprue) en un molde de inyección?",
+    "options": [
+      "El canal cónico principal que conecta la boquilla con los canales",
+      "El orificio por donde sale el aire atrapado (venteo)",
+      "El anillo que centra el molde en la platina",
+      "El sistema que expulsa la pieza final"
+    ],
+    "score": 1,
+    "question_order_id": 40,
+    "correct_index": 0,
+    "reasoning": "Es el primer conducto del molde; conecta la unidad de inyección con el sistema de distribución."
+  },
+  {
+    "id": "mach_9",
+    "category": "Máquina e Inyectora",
+    "type": "Práctico",
+    "description": "El control de la temperatura en la boquilla es crítico al inicio de la inyección.",
+    "question": "¿Qué representa un tapón frío (cold slug) si entra a la cavidad?",
+    "options": [
+      "Una mejora en la estructura cristalina de la pieza",
+      "Un defecto estético causado por material solidificado",
+      "Una fuga interna de agua del sistema de refrigeración",
+      "Un exceso de lubricante en los pernos botadores"
+    ],
+    "score": 1.5,
+    "question_order_id": 41,
+    "correct_index": 1,
+    "reasoning": "Es la 'baba' fría de la inyección anterior; si entra a la pieza, crea una marca o imperfección visible."
+  },
+  {
+    "id": "mach_10",
+    "category": "Máquina e Inyectora",
+    "type": "Práctico",
+    "description": "El uso de químicos auxiliares en el molde tiene efectos secundarios en la pieza final.",
+    "question": "El uso excesivo de spray desmoldante en el molde puede provocar:",
+    "options": [
+      "Mejor acabado superficial y brillo",
+      "Defectos cosméticos y problemas de pintado",
+      "Aumento en la velocidad de inyección",
+      "Reducción del tiempo de ciclo total"
+    ],
+    "score": 1.5,
+    "question_order_id": 42,
+    "correct_index": 1,
+    "reasoning": "El desmoldante contamina la superficie del plástico, causando ráfagas, grietas (stress cracking) o fallas de adhesión."
+  },
+  {
+    "id": "mach_11",
+    "category": "Máquina e Inyectora",
+    "type": "Teórico",
+    "description": "El cálculo correcto de los parámetros de cierre previene problemas de calidad.",
+    "question": "¿Por qué es crucial calcular correctamente la fuerza de cierre (tonelaje) requerida?",
+    "options": [
+      "Para ahorrar energía eléctrica en el motor",
+      "Para evitar que la presión de inyección abra el molde (rebaba)",
+      "Para que el robot pueda extraer la pieza más rápido",
+      "Para reducir la temperatura de fusión del material"
+    ],
+    "score": 1,
+    "question_order_id": 43,
+    "correct_index": 1,
+    "reasoning": "El tonelaje es la fuerza que mantiene 'la puerta cerrada'. Si la inyección empuja más fuerte, sale rebaba."
+  },
+  {
+    "id": "qual_9",
+    "category": "Calidad y Defectos",
+    "type": "Práctico",
+    "description": "La limpieza del sistema de plastificación impacta en la pureza visual del producto.",
+    "question": "Detectas puntos negros (black specks) aleatorios en las piezas claras. ¿Qué acción correctiva sugiere?",
+    "options": [
+      "Aumentar la velocidad de cierre del molde",
+      "Purgar la unidad y revisar limpieza del husillo/tolva",
+      "Reducir el tiempo de enfriamiento drásticamente",
+      "Incrementar la presión de sostenimiento"
+    ],
+    "score": 1.5,
+    "question_order_id": 44,
+    "correct_index": 1,
+    "reasoning": "Los puntos negros son material degradado (carbón) o contaminación externa; se debe limpiar el sistema."
+  },
+  {
+    "id": "proc_10",
+    "category": "Proceso de Inyección",
+    "type": "Teórico",
+    "description": "La dosificación de material debe corresponder a la capacidad requerida por el molde.",
+    "question": "¿A qué se refiere el término 'tamaño de disparo' (shot size)?",
+    "options": [
+      "Al peso total de la máquina de inyección",
+      "Al volumen total de polímero inyectado en un ciclo",
+      "A la longitud física del tornillo de plastificación",
+      "A la presión máxima que soporta el molde"
+    ],
+    "score": 1,
+    "question_order_id": 45,
+    "correct_index": 1,
+    "reasoning": "Incluye las piezas, canales y bebedero. Es la cantidad de material que sale del barril."
+  },
+  {
+    "id": "wast_1",
+    "category": "Desperdicios (Muda)",
+    "type": "Práctico",
+    "description": "La metodología de organización industrial sigue una secuencia lógica de pasos.",
+    "question": "¿Cuál es la secuencia correcta de las 5S traducidas al español?",
+    "options": [
+      "Clasificar, Ordenar, Limpiar, Estandarizar, Disciplina",
+      "Controlar, Organizar, Limpiar, Entrenar, Documentar",
+      "Coordinar, Ordenar, Lavar, Sistematizar, Dirigir",
+      "Clasificar, Operar, Limpiar, Evaluar, Desarrollar"
+    ],
+    "score": 1.5,
+    "question_order_id": 46,
+    "correct_index": 0,
+    "reasoning": "Corresponden a Seiri, Seiton, Seiso, Seiketsu, Shitsuke."
+  },
+  {
+    "id": "wast_2",
+    "category": "Desperdicios (Muda)",
+    "type": "Práctico",
+    "description": "La clasificación de productos no conformes es esencial para la contabilidad de producción.",
+    "question": "En términos de manufactura esbelta, el 'Scrap' se define como:",
+    "options": [
+      "Materia prima virgen lista para usar",
+      "Producto no conforme que no puede ser reparado",
+      "Herramientas desgastadas por el uso",
+      "Tiempo muerto por falla de máquina"
+    ],
+    "score": 1.5,
+    "question_order_id": 47,
+    "correct_index": 1,
+    "reasoning": "Scrap es desperdicio material irreversible, a diferencia del re-trabajo."
+  },
+  {
+    "id": "qual_10",
+    "category": "Calidad y Defectos",
+    "type": "Práctico",
+    "description": "Los operadores requieren herramientas de referencia para evaluar la calidad.",
+    "question": "¿Cuál es el propósito de una 'Ayuda Visual' en la estación de trabajo?",
+    "options": [
+      "Decorar la estación para mejorar el ambiente",
+      "Proveer un estándar de comparación para la inspección",
+      "Registrar la asistencia del personal operativo",
+      "Sustituir la iluminación deficiente de la planta"
+    ],
+    "score": 1.5,
+    "question_order_id": 48,
+    "correct_index": 1,
+    "reasoning": "Permite al operador comparar la pieza real contra fotos de defectos/aceptables para tomar decisiones."
+  },
+  {
+    "id": "mat_4",
+    "category": "Materiales Plásticos",
+    "type": "Teórico",
+    "description": "Existen aditivos específicos para modificar la apariencia estética de la resina base.",
+    "question": "¿Qué función cumple el 'Masterbatch' en el proceso?",
+    "options": [
+      "Actuar como agente de limpieza para purgar",
+      "Aportar color o aditivos concentrados a la resina base",
+      "Reducir la viscosidad del material reciclado",
+      "Servir como material de soporte en moldes complejos"
+    ],
+    "score": 1,
+    "question_order_id": 49,
+    "correct_index": 1,
+    "reasoning": "Son pellets con alta carga de pigmento que se dosifican en porcentaje bajo para colorear."
+  },
+  {
+    "id": "mach_12",
+    "category": "Máquina e Inyectora",
+    "type": "Teórico",
+    "description": "El transporte de sólidos dentro del barril depende de principios físicos mecánicos.",
+    "question": "¿Qué fuerza física permite que el material sólido (pellets) avance desde la tolva hacia adelante en el tornillo?",
+    "options": [
+      "La presión hidráulica del sistema",
+      "La fricción entre los pellets y el barril",
+      "La fuerza de gravedad únicamente",
+      "La succión generada por el molde"
+    ],
+    "score": 1,
+    "question_order_id": 50,
+    "correct_index": 1,
+    "reasoning": "Sin fricción, el tornillo giraría y los pellets resbalarían sin avanzar (como un coche en hielo)."
+  },
+  {
+    "id": "mach_13",
+    "category": "Máquina e Inyectora",
+    "type": "Teórico",
+    "description": "La estructura de la máquina debe soportar los componentes principales del herramental.",
+    "question": "Las 'platinas' (platens) de la máquina tienen la función estructural de:",
+    "options": [
+      "Calentar el molde mediante resistencias",
+      "Soportar y sujetar las mitades del molde",
+      "Recoger las piezas expulsadas",
+      "Filtrar el aceite hidráulico"
+    ],
+    "score": 1,
+    "question_order_id": 51,
+    "correct_index": 1,
+    "reasoning": "Son las placas macizas de acero donde se atornilla o clampa el molde."
+  },
+  {
+    "id": "mach_14",
+    "category": "Máquina e Inyectora",
+    "type": "Práctico",
+    "description": "El mantenimiento de los componentes móviles del molde evita daños catastróficos.",
+    "question": "¿Qué consecuencia tiene operar un molde con los pernos guía dañados o sin lubricación?",
+    "options": [
+      "Desalineación de las mitades y daño severo al molde",
+      "Aumento inmediato de la temperatura del plástico",
+      "Disminución drástica e inmediata de la presión de inyección",
+      "Mejora en el sellado de la línea de partición"
+    ],
+    "score": 1.5,
+    "question_order_id": 52,
+    "correct_index": 0,
+    "reasoning": "Las guías aseguran que cavidad y corazón embonen; si fallan, chocan metal con metal."
+  },
+  {
+    "id": "proc_11",
+    "category": "Proceso de Inyección",
+    "type": "Teórico",
+    "description": "Al finalizar la carga, se realiza un movimiento específico del husillo.",
+    "question": "¿Para qué se utiliza la 'descompresión' (suck back) después de la carga?",
+    "options": [
+      "Para aumentar la densidad del plástico fundido",
+      "Para aliviar presión y prevenir goteo por la boquilla",
+      "Para enfriar el tornillo más rápidamente",
+      "Para mezclar mejor los colorantes"
+    ],
+    "score": 1,
+    "question_order_id": 53,
+    "correct_index": 1,
+    "reasoning": "Al jalar el tornillo atrás sin girar, se quita presión en la punta para que no 'babee' material."
+  },
+  {
+    "id": "wast_3",
+    "category": "Desperdicios (Muda)",
+    "type": "Práctico",
+    "description": "La transición entre diferentes materiales o colores requiere un procedimiento técnico.",
+    "question": "¿Cuál es el procedimiento correcto para 'purgar' al cambiar de un color oscuro a uno claro?",
+    "options": [
+      "Subir temperatura y usar material natural o compuesto de purga",
+      "Bajar temperatura inmediatamente y aumentar velocidad de inyección",
+      "Abrir el molde y limpiar con trapo manual",
+      "Mezclar el color claro sobre el oscuro directamente"
+    ],
+    "score": 1.5,
+    "question_order_id": 54,
+    "correct_index": 0,
+    "reasoning": "Se requiere limpiar mecánicamente y químicamente los residuos oscuros, usualmente con material virgen o purging compound."
+  },
+  {
+    "id": "wast_4",
+    "category": "Desperdicios (Muda)",
+    "type": "Práctico",
+    "description": "La eficiencia en los procedimientos de limpieza afecta los indicadores de producción.",
+    "question": "Observas a un operador purgando la máquina continuamente durante 20 minutos sin ajustar parámetros. Esto es:",
+    "options": [
+      "Un procedimiento estándar de calentamiento",
+      "Un desperdicio innecesario de resina y tiempo",
+      "Necesario para limpiar el husillo completamente",
+      "Requerido para estabilizar el aceite hidráulico"
+    ],
+    "score": 1.5,
+    "question_order_id": 55,
+    "correct_index": 1,
+    "reasoning": "La purga debe ser eficiente; hacerlo en exceso indica falta de control de proceso."
+  },
+  {
+    "id": "wast_5",
+    "category": "Desperdicios (Muda)",
+    "type": "Práctico",
+    "description": "El entorno de trabajo influye directamente en los defectos de las piezas.",
+    "question": "¿Cómo impacta directamente el orden y limpieza (5S) en la calidad de la pieza?",
+    "options": [
+      "Reduce la contaminación cruzada (puntos negros/rafagas)",
+      "Aumenta automáticamente la velocidad de la máquina",
+      "Elimina la necesidad de mantenimiento preventivo",
+      "Permite usar materiales de menor calidad"
+    ],
+    "score": 1.5,
+    "question_order_id": 56,
+    "correct_index": 0,
+    "reasoning": "El polvo y gránulos sucios en el entorno son la causa #1 de contaminación en la pieza."
+  },
+  {
+    "id": "wast_6",
+    "category": "Desperdicios (Muda)",
+    "type": "Práctico",
+    "description": "El manejo de producto terminado requiere protocolos de higiene estrictos.",
+    "question": "Si una pieza recién inyectada cae al piso sucio, ¿cuál es la disposición correcta?",
+    "options": [
+      "Limpiarla con aire comprimido y empacarla",
+      "Marcarla como Scrap por contaminación potencial",
+      "Triturarla inmediatamente junto con las coladas limpias",
+      "Lavarla con agua y jabón en el baño"
+    ],
+    "score": 1.5,
+    "question_order_id": 57,
+    "correct_index": 1,
+    "reasoning": "En industrias estrictas (automotriz/médica/alimenticia), el contacto con el suelo es contaminación automática."
+  }
+]
