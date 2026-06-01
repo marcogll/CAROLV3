@@ -3,6 +3,8 @@
   "fields": [
     { "name": "full_name", "type": "text", "required": true },
     { "name": "employee_id", "type": "text", "required": true },
+    { "name": "company_name", "type": "text", "required": true },
+    { "name": "contact_email", "type": "email", "required": true },
     { "name": "birth_year", "type": "select", "required": true },
     { "name": "birth_month", "type": "select", "required": false },
     { "name": "department", "type": "select", "required": true },

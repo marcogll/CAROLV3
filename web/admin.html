@@ -10,6 +10,9 @@
     :root {
       --carol-navy: #0D1B2A;
       --carol-teal: #00B894;
+      --carol-amber: #E67E22;
+      --carol-blue: #1B4F72;
+      --carol-red: #C0392B;
     }
     body { font-family: 'Inter', system-ui, sans-serif; }
     .navbar-dark { background: var(--carol-navy) !important; }
@@ -19,30 +22,25 @@
       color: var(--carol-teal) !important;
     }
     .heatmap-cell {
-      width: 40px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-      font-weight: bold;
-      color: white;
-      border-radius: 4px;
-      margin: 1px;
+      width: 40px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: bold; color: white;
+      border-radius: 4px; margin: 1px;
     }
     .score-strong { background-color: #00B894; }
-    .score-ok { background-color: #27AE60; }
-    .score-weak { background-color: #E67E22; }
+    .score-ok     { background-color: #27AE60; }
+    .score-weak   { background-color: #E67E22; }
     .score-critical { background-color: #C0392B; }
+    .loading { opacity: .6; pointer-events: none; }
+    .empty-state { text-align: center; padding: 3rem; color: #64748b; }
   </style>
 </head>
 <body>
   <div class="page">
-    <!-- Navbar -->
     <header class="navbar navbar-expand-md navbar-dark d-print-none">
       <div class="container-xl">
         <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-          <a href=".">CAROL Admin</a>
+          <a href="./">CAROL Admin</a>
         </h1>
         <div class="navbar-nav flex-row order-md-last">
           <div class="nav-item">
@@ -62,8 +60,9 @@
       <div class="page-header d-print-none">
         <div class="container-xl">
           <div class="row g-2 align-items-center">
-            <div class="col">
-              <h2 class="page-title">Vista General del Equipo</h2>
+            <div class="col"><h2 class="page-title">Vista General del Equipo</h2></div>
+            <div class="col-auto">
+              <a href="/api/export.csv" class="btn btn-primary"><i class="ti ti-download"></i> Exportar CSV</a>
             </div>
           </div>
         </div>
@@ -72,64 +71,37 @@
       <div class="page-body">
         <div class="container-xl">
           <!-- KPIs -->
-          <div class="row row-cards mb-4">
-            <div class="col-sm-6 col-lg-3">
-              <div class="card card-sm">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="bg-primary text-white avatar"><i class="ti ti-users"></i></span>
-                    </div>
-                    <div class="col">
-                      <div class="font-weight-medium">142</div>
-                      <div class="text-muted">Evaluados</div>
-                    </div>
-                  </div>
+          <div class="row row-cards mb-4" id="kpi-row">
+            <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-primary text-white avatar"><i class="ti ti-users"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-total">—</div><div class="text-muted">Evaluados</div></div></div></div></div></div>
+            <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-green text-white avatar"><i class="ti ti-check"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-pass">—</div><div class="text-muted">Tasa de Aprobación</div></div></div></div></div></div>
+            <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-yellow text-white avatar"><i class="ti ti-trending-up"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-avg">—</div><div class="text-muted">Puntaje Promedio</div></div></div></div></div></div>
+            <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-red text-white avatar"><i class="ti ti-alert-triangle"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-pending">—</div><div class="text-muted">Revisiones Pendientes</div></div></div></div></div></div>
+          </div>
+
+          <!-- Filters -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row g-2">
+                <div class="col-md-3">
+                  <select class="form-select" id="filter-level" onchange="loadData()">
+                    <option value="">Todos los niveles</option>
+                    <option value="basic">Básico</option>
+                    <option value="medium">Medio</option>
+                    <option value="advanced">Avanzado</option>
+                  </select>
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-3">
-              <div class="card card-sm">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="bg-green text-white avatar"><i class="ti ti-check"></i></span>
-                    </div>
-                    <div class="col">
-                      <div class="font-weight-medium">67%</div>
-                      <div class="text-muted">Tasa de Aprobación</div>
-                    </div>
-                  </div>
+                <div class="col-md-3">
+                  <select class="form-select" id="filter-passed" onchange="loadData()">
+                    <option value="">Todos los estatus</option>
+                    <option value="true">Aprobado</option>
+                    <option value="false">No aprobado</option>
+                  </select>
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-3">
-              <div class="card card-sm">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="bg-yellow text-white avatar"><i class="ti ti-trending-up"></i></span>
-                    </div>
-                    <div class="col">
-                      <div class="font-weight-medium">71.4%</div>
-                      <div class="text-muted">Puntaje Promedio</div>
-                    </div>
-                  </div>
+                <div class="col-md-3">
+                  <input type="text" class="form-control" id="filter-search" placeholder="Buscar candidato..." oninput="loadData()">
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-3">
-              <div class="card card-sm">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <span class="bg-red text-white avatar"><i class="ti ti-alert-triangle"></i></span>
-                    </div>
-                    <div class="col">
-                      <div class="font-weight-medium">8</div>
-                      <div class="text-muted">Revisiones Pendientes</div>
-                    </div>
-                  </div>
+                <div class="col-md-3 text-end">
+                  <button class="btn btn-outline-primary" onclick="loadData()"><i class="ti ti-refresh"></i> Actualizar</button>
                 </div>
               </div>
             </div>
@@ -137,62 +109,16 @@
 
           <!-- Heatmap -->
           <div class="card mb-4">
-            <div class="card-header">
-              <h3 class="card-title">Mapa de Calor de Competencias</h3>
-            </div>
+            <div class="card-header"><h3 class="card-title">Mapa de Calor de Competencias</h3></div>
             <div class="table-responsive">
-              <table class="table table-vcenter card-table">
+              <table class="table table-vcenter card-table" id="heatmap-table">
                 <thead>
                   <tr>
-                    <th>Candidato</th>
-                    <th>Nivel</th>
-                    <th>Máq.</th>
-                    <th>Proc.</th>
-                    <th>Cal.</th>
-                    <th>Seg.</th>
-                    <th>Mat.</th>
-                    <th>Efic.</th>
-                    <th>Desp.</th>
-                    <th>Avg</th>
+                    <th>Candidato</th><th>Nivel</th><th>Máq.</th><th>Proc.</th><th>Cal.</th><th>Seg.</th><th>Mat.</th><th>Efic.</th><th>Desp.</th><th>Ing.M.</th><th>Avg</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>Juan García <small class="text-muted">EMP-1234</small></td>
-                    <td><span class="badge bg-yellow-lt">Medio</span></td>
-                    <td><div class="heatmap-cell score-ok">78%</div></td>
-                    <td><div class="heatmap-cell score-weak">56%</div></td>
-                    <td><div class="heatmap-cell score-strong">89%</div></td>
-                    <td><div class="heatmap-cell score-strong">100%</div></td>
-                    <td><div class="heatmap-cell score-weak">67%</div></td>
-                    <td><div class="heatmap-cell score-ok">72%</div></td>
-                    <td><div class="heatmap-cell score-ok">83%</div></td>
-                    <td><strong>78%</strong></td>
-                  </tr>
-                  <tr>
-                    <td>María López <small class="text-muted">EMP-5678</small></td>
-                    <td><span class="badge bg-blue-lt">Avanzado</span></td>
-                    <td><div class="heatmap-cell score-strong">91%</div></td>
-                    <td><div class="heatmap-cell score-ok">78%</div></td>
-                    <td><div class="heatmap-cell score-weak">67%</div></td>
-                    <td><div class="heatmap-cell score-strong">89%</div></td>
-                    <td><div class="heatmap-cell score-weak">55%</div></td>
-                    <td><div class="heatmap-cell score-ok">84%</div></td>
-                    <td><div class="heatmap-cell score-ok">76%</div></td>
-                    <td><strong>84%</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Roberto Pérez <small class="text-muted">EMP-9012</small></td>
-                    <td><span class="badge bg-green-lt">Básico</span></td>
-                    <td><div class="heatmap-cell score-critical">45%</div></td>
-                    <td><div class="heatmap-cell score-critical">34%</div></td>
-                    <td><div class="heatmap-cell score-weak">56%</div></td>
-                    <td><div class="heatmap-cell score-ok">78%</div></td>
-                    <td><div class="heatmap-cell score-critical">43%</div></td>
-                    <td><div class="heatmap-cell score-weak">65%</div></td>
-                    <td><div class="heatmap-cell score-weak">54%</div></td>
-                    <td><strong>53%</strong></td>
-                  </tr>
+                <tbody id="heatmap-body">
+                  <tr><td colspan="11" class="empty-state">Cargando datos…</td></tr>
                 </tbody>
               </table>
             </div>
@@ -200,41 +126,16 @@
 
           <!-- Candidates Table -->
           <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Evaluaciones Recientes</h3>
-            </div>
+            <div class="card-header"><h3 class="card-title">Evaluaciones Recientes</h3></div>
             <div class="table-responsive">
-              <table class="table table-vcenter card-table table-hover">
+              <table class="table table-vcenter card-table table-hover" id="results-table">
                 <thead>
                   <tr>
-                    <th>Candidato</th>
-                    <th>Nivel</th>
-                    <th>Score</th>
-                    <th>Estatus</th>
-                    <th>Depto</th>
-                    <th>Fecha</th>
-                    <th class="w-1"></th>
+                    <th>Candidato</th><th>Empresa</th><th>Nivel</th><th>Score</th><th>Estatus</th><th>Depto</th><th>Fecha</th><th class="w-1"></th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>Juan García</td>
-                    <td>Medio</td>
-                    <td class="text-muted">72%</td>
-                    <td><span class="badge bg-red-lt">NO APROBÓ</span></td>
-                    <td>Producción</td>
-                    <td>hace 3 días</td>
-                    <td><a href="#">Ver</a></td>
-                  </tr>
-                  <tr>
-                    <td>María López</td>
-                    <td>Avanzado</td>
-                    <td class="text-muted">88%</td>
-                    <td><span class="badge bg-green-lt">APROBADO</span></td>
-                    <td>Ingeniería</td>
-                    <td>hace 1 semana</td>
-                    <td><a href="#">Ver</a></td>
-                  </tr>
+                <tbody id="results-body">
+                  <tr><td colspan="8" class="empty-state">Cargando datos…</td></tr>
                 </tbody>
               </table>
             </div>
@@ -244,6 +145,211 @@
     </div>
   </div>
 
+  <script>
+    const API = '';
+
+    function cellClass(pct) {
+      if (pct >= 85) return 'score-strong';
+      if (pct >= 70) return 'score-ok';
+      if (pct >= 55) return 'score-weak';
+      return 'score-critical';
+    }
+    function levelBadge(level) {
+      if (level === 'basic') return '<span class="badge bg-green-lt">Básico</span>';
+      if (level === 'medium') return '<span class="badge bg-yellow-lt">Medio</span>';
+      if (level === 'advanced') return '<span class="badge bg-blue-lt">Avanzado</span>';
+      return '<span class="badge">' + level + '</span>';
+    }
+    function statusBadge(passed) {
+      return passed
+        ? '<span class="badge bg-green-lt">APROBADO</span>'
+        : '<span class="badge bg-red-lt">NO APROBÓ</span>';
+    }
+    function fmtDate(iso) {
+      if (!iso) return '—';
+      const d = new Date(iso);
+      return d.toLocaleDateString('es-MX');
+    }
+
+    async function loadStats() {
+      try {
+        const r = await fetch(API + '/api/stats');
+        const s = await r.json();
+        document.getElementById('kpi-total').textContent = s.total_evaluated || 0;
+        document.getElementById('kpi-pass').textContent = (s.pass_rate || 0) + '%';
+        document.getElementById('kpi-avg').textContent = (s.avg_score || 0) + '%';
+        document.getElementById('kpi-pending').textContent = s.pending_reviews || 0;
+      } catch (e) { console.error('stats', e); }
+    }
+
+    async function loadHeatmap() {
+      const tbody = document.getElementById('heatmap-body');
+      try {
+        const r = await fetch(API + '/api/heatmap');
+        const rows = await r.json();
+        const search = document.getElementById('filter-search').value.toLowerCase();
+        const levelFilter = document.getElementById('filter-level').value;
+        tbody.innerHTML = '';
+        if (!rows.length) {
+          tbody.innerHTML = '<tr><td colspan="11" class="empty-state">Sin datos de evaluación aún.</td></tr>';
+          return;
+        }
+        rows.forEach(row => {
+          if (levelFilter && row.level !== levelFilter) return;
+          if (search && !row.name.toLowerCase().includes(search) && !row.employee_id.toLowerCase().includes(search)) return;
+          const cats = row.categories || {};
+          const catKeys = ['Máquina e Inyectora','Proceso de Inyección','Calidad y Defectos','Seguridad Industrial','Materiales Plásticos','Eficiencia y Lean','Desperdicios (Muda)','Ingeniería de Moldes'];
+          const cells = catKeys.map(k => {
+            const p = cats[k] || 0;
+            return `<td><div class="heatmap-cell ${cellClass(p)}">${p}%</div></td>`;
+          }).join('');
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${row.name} <small class="text-muted">${row.employee_id}</small></td><td>${levelBadge(row.level)}</td>${cells}<td><strong>${row.avg}%</strong></td>`;
+          tbody.appendChild(tr);
+        });
+      } catch (e) {
+        console.error('heatmap', e);
+        tbody.innerHTML = '<tr><td colspan="11" class="empty-state">Error cargando heatmap.</td></tr>';
+      }
+    }
+
+    async function loadResults() {
+      const tbody = document.getElementById('results-body');
+      try {
+        const params = new URLSearchParams();
+        const level = document.getElementById('filter-level').value;
+        const passed = document.getElementById('filter-passed').value;
+        const search = document.getElementById('filter-search').value.toLowerCase();
+        if (level) params.set('level', level);
+        if (passed) params.set('passed', passed);
+        const r = await fetch(API + '/api/results?' + params.toString());
+        const rows = await r.json();
+        tbody.innerHTML = '';
+        if (!rows.length) {
+          tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Sin evaluaciones aún.</td></tr>';
+          return;
+        }
+        rows.forEach(row => {
+          const c = row.candidate || {};
+          const a = row.assessment || {};
+          const res = row.results || {};
+          if (search && !c.full_name?.toLowerCase().includes(search) && !c.employee_id?.toLowerCase().includes(search)) return;
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${c.full_name || '—'}</td>
+            <td>${c.company_name || '—'}</td>
+            <td>${levelBadge(a.level)}</td>
+            <td class="text-muted">${res.pct_score || 0}%</td>
+            <td>${statusBadge(res.passed)}</td>
+            <td>${c.department || '—'}</td>
+            <td>${fmtDate(row.submitted_at)}</td>
+            <td><a href="#" onclick="openDetail('${row.id}')">Ver</a></td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (e) {
+        console.error('results', e);
+        tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Error cargando resultados.</td></tr>';
+      }
+    }
+
+    function loadData() {
+      loadStats();
+      loadHeatmap();
+      loadResults();
+    }
+
+    async function openDetail(id) {
+      try {
+        const r = await fetch(API + '/api/result/' + id);
+        const data = await r.json();
+        if (data.error) { alert(data.error); return; }
+        const c = data.candidate || {};
+        const a = data.assessment || {};
+        const res = data.results || {};
+        const catBd = data.category_breakdown || {};
+        const wrongs = data.wrong_question_ids || [];
+
+        let catHtml = '<div style="display:grid;gap:.5rem;">';
+        Object.entries(catBd).forEach(([cat, st]) => {
+          const pct = st.pct || 0;
+          const barColor = pct >= 85 ? '#00B894' : pct >= 70 ? '#27AE60' : pct >= 55 ? '#E67E22' : '#C0392B';
+          catHtml += '<div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;">'+
+            '<span style="width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+cat+'</span>'+
+            '<div style="flex:1;height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;">'+
+              '<div style="width:'+pct+'%;height:100%;background:'+barColor+';"></div>'+
+            '</div>'+
+            '<span style="width:40px;text-align:right;font-weight:600;">'+pct+'%</span>'+
+            '<span style="width:50px;text-align:right;color:#64748b;font-size:.75rem;">'+st.correct+'/'+st.total+'</span>'+
+          '</div>';
+        });
+        catHtml += '</div>';
+
+        let wrongHtml = '';
+        if (wrongs.length) {
+          wrongHtml = '<h5 style="margin-top:1rem;font-size:.9rem;">❌ Preguntas incorrectas ('+wrongs.length+')</h5>'+
+            '<div style="max-height:300px;overflow:auto;background:#f8fafc;border-radius:8px;padding:.75rem;font-size:.8rem;">'+
+              wrongs.map(w => '<div style="padding:.35rem 0;border-bottom:1px solid #e2e8f0;"><code>'+w+'</code></div>').join('')+
+            '</div>';
+        } else {
+          wrongHtml = '<div style="margin-top:1rem;color:#16a34a;font-size:.9rem;">✅ Sin preguntas incorrectas</div>';
+        }
+
+        const modalBody = document.getElementById('modal-body');
+        modalBody.innerHTML =
+          '<div style="margin-bottom:1rem;">'+
+            '<h4 style="margin:0;">'+(c.full_name || '—')+' <small class="text-muted">'+(c.employee_id || '—')+'</small></h4>'+
+            '<div style="font-size:.8rem;color:#64748b;">'+(a.level_name || '—')+' · '+(c.department || '—')+' · '+(c.company_name || '—')+' · '+fmtDate(data.submitted_at)+'</div>'+
+          '</div>'+
+          '<div style="display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;">'+
+            '<div style="background:#f8fafc;border-radius:8px;padding:.75rem 1rem;text-align:center;min-width:80px;">'+
+              '<div style="font-size:1.4rem;font-weight:700;color:'+(res.passed?'#00B894':'#C0392B')+';">'+(res.pct_score || 0)+'%</div>'+
+              '<div style="font-size:.7rem;color:#64748b;">'+(res.passed?'APROBADO':'NO APROBÓ')+'</div>'+
+            '</div>'+
+            '<div style="background:#f8fafc;border-radius:8px;padding:.75rem 1rem;text-align:center;min-width:80px;">'+
+              '<div style="font-size:1.4rem;font-weight:700;">'+(res.correct_answers || 0)+'/'+(a.total_questions || '—')+'</div>'+
+              '<div style="font-size:.7rem;color:#64748b;">Correctas</div>'+
+            '</div>'+
+            '<div style="background:#f8fafc;border-radius:8px;padding:.75rem 1rem;text-align:center;min-width:80px;">'+
+              '<div style="font-size:1.4rem;font-weight:700;">'+(res.earned_pts || 0).toFixed(1)+'</div>'+
+              '<div style="font-size:.7rem;color:#64748b;">Pts obtenidos</div>'+
+            '</div>'+
+            '<div style="background:#f8fafc;border-radius:8px;padding:.75rem 1rem;text-align:center;min-width:80px;">'+
+              '<div style="font-size:1.4rem;font-weight:700;">'+Math.floor((res.time_seconds || 0)/60)+'m '+((res.time_seconds || 0)%60)+'s</div>'+
+              '<div style="font-size:.7rem;color:#64748b;">Tiempo</div>'+
+            '</div>'+
+          '</div>'+
+          '<h5 style="font-size:.9rem;">📊 Desempeño por categoría</h5>'+
+          catHtml + wrongHtml;
+        const modal = new bootstrap.Modal(document.getElementById('detailModal'));
+        modal.show();
+      } catch (e) {
+        console.error(e);
+        alert('Error cargando detalle');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadData);
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/tabler.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Modal -->
+  <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Detalle de Evaluación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modal-body">
+          Cargando...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
