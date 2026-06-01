@@ -14,7 +14,7 @@
       --carol-blue: #1B4F72;
       --carol-red: #C0392B;
     }
-    body { font-family: 'Inter', system-ui, sans-serif; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #f0f4f8; }
     .navbar-dark { background: var(--carol-navy) !important; }
     .nav-link.active {
       border-left: 3px solid var(--carol-teal);
@@ -33,111 +33,178 @@
     .score-critical { background-color: #C0392B; }
     .loading { opacity: .6; pointer-events: none; }
     .empty-state { text-align: center; padding: 3rem; color: #64748b; }
+
+    /* Login screen */
+    .login-wrap {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #0D1B2A 0%, #1B4F72 100%);
+      padding: 2rem;
+    }
+    .login-card {
+      width: 100%; max-width: 420px;
+      background: #fff; border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.2);
+      overflow: hidden;
+    }
+    .login-header {
+      background: var(--carol-navy);
+      color: #fff; padding: 2rem; text-align: center;
+    }
+    .login-header h2 { margin: 0; font-size: 1.4rem; font-weight: 700; }
+    .login-header p { margin: .5rem 0 0; color: #94a3b8; font-size: .88rem; }
+    .login-body { padding: 2rem; }
+    .login-btn {
+      width: 100%; padding: .75rem; border: none; border-radius: 8px;
+      background: var(--carol-teal); color: #fff; font-weight: 700;
+      font-size: .95rem; cursor: pointer; transition: filter .15s;
+    }
+    .login-btn:hover { filter: brightness(1.1); }
+    .login-error {
+      color: var(--carol-red); font-size: .85rem; text-align: center;
+      margin-top: .75rem; display: none;
+    }
+    .login-error.show { display: block; }
   </style>
 </head>
 <body>
-  <div class="page">
-    <header class="navbar navbar-expand-md navbar-dark d-print-none">
-      <div class="container-xl">
-        <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-          <a href="./">CAROL Admin</a>
-        </h1>
-        <div class="navbar-nav flex-row order-md-last">
-          <div class="nav-item">
-            <a href="#" class="nav-link d-flex lh-1 text-reset p-0">
-              <span class="avatar avatar-sm">AD</span>
-              <div class="d-none d-xl-block ps-2">
-                <div>Administrador</div>
-                <div class="mt-1 small text-muted">Planta Monterrey</div>
-              </div>
-            </a>
-          </div>
+
+  <!-- ═══════════════════════════════════════════════ LOGIN SCREEN ══ -->
+  <div id="login-screen" class="login-wrap">
+    <div class="login-card">
+      <div class="login-header">
+        <h2>CAROL Admin</h2>
+        <p>Panel de Control — Acceso restringido</p>
+      </div>
+      <div class="login-body">
+        <div class="mb-3">
+          <label class="form-label">Correo electrónico</label>
+          <input type="email" class="form-control" id="login-email" placeholder="marco@soul23.mx" value="marco@soul23.mx">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="login-password" placeholder="••••••••">
+        </div>
+        <button class="login-btn" onclick="doLogin()">
+          <i class="ti ti-lock"></i> Iniciar Sesión
+        </button>
+        <div class="login-error" id="login-error">
+          <i class="ti ti-alert-circle"></i> Correo o contraseña incorrectos
         </div>
       </div>
-    </header>
+    </div>
+  </div>
 
-    <div class="page-wrapper">
-      <div class="page-header d-print-none">
+  <!-- ═══════════════════════════════════════════════ DASHBOARD ══ -->
+  <div id="dashboard-screen" style="display:none;">
+    <div class="page">
+      <header class="navbar navbar-expand-md navbar-dark d-print-none">
         <div class="container-xl">
-          <div class="row g-2 align-items-center">
-            <div class="col"><h2 class="page-title">Vista General del Equipo</h2></div>
-            <div class="col-auto">
-              <a href="/api/export.csv" class="btn btn-primary"><i class="ti ti-download"></i> Exportar CSV</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="page-body">
-        <div class="container-xl">
-          <!-- KPIs -->
-          <div class="row row-cards mb-4" id="kpi-row">
-            <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-primary text-white avatar"><i class="ti ti-users"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-total">—</div><div class="text-muted">Evaluados</div></div></div></div></div></div>
-            <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-green text-white avatar"><i class="ti ti-check"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-pass">—</div><div class="text-muted">Tasa de Aprobación</div></div></div></div></div></div>
-            <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-yellow text-white avatar"><i class="ti ti-trending-up"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-avg">—</div><div class="text-muted">Puntaje Promedio</div></div></div></div></div></div>
-            <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-red text-white avatar"><i class="ti ti-alert-triangle"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-pending">—</div><div class="text-muted">Revisiones Pendientes</div></div></div></div></div></div>
-          </div>
-
-          <!-- Filters -->
-          <div class="card mb-4">
-            <div class="card-body">
-              <div class="row g-2">
-                <div class="col-md-3">
-                  <select class="form-select" id="filter-level" onchange="loadData()">
-                    <option value="">Todos los niveles</option>
-                    <option value="basic">Básico</option>
-                    <option value="medium">Medio</option>
-                    <option value="advanced">Avanzado</option>
-                  </select>
+          <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+            <a href="./">CAROL Admin</a>
+          </h1>
+          <div class="navbar-nav flex-row order-md-last">
+            <div class="nav-item dropdown">
+              <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown">
+                <span class="avatar avatar-sm" style="background:#00B894;" id="user-avatar">MG</span>
+                <div class="d-none d-xl-block ps-2">
+                  <div id="user-name">Administrador</div>
+                  <div class="mt-1 small text-muted" id="user-email">marco@soul23.mx</div>
                 </div>
-                <div class="col-md-3">
-                  <select class="form-select" id="filter-passed" onchange="loadData()">
-                    <option value="">Todos los estatus</option>
-                    <option value="true">Aprobado</option>
-                    <option value="false">No aprobado</option>
-                  </select>
-                </div>
-                <div class="col-md-3">
-                  <input type="text" class="form-control" id="filter-search" placeholder="Buscar candidato..." oninput="loadData()">
-                </div>
-                <div class="col-md-3 text-end">
-                  <button class="btn btn-outline-primary" onclick="loadData()"><i class="ti ti-refresh"></i> Actualizar</button>
-                </div>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <a href="#" class="dropdown-item" onclick="doLogout(); return false;">
+                  <i class="ti ti-logout"></i> Cerrar sesión
+                </a>
               </div>
             </div>
           </div>
+        </div>
+      </header>
 
-          <!-- Heatmap -->
-          <div class="card mb-4">
-            <div class="card-header"><h3 class="card-title">Mapa de Calor de Competencias</h3></div>
-            <div class="table-responsive">
-              <table class="table table-vcenter card-table" id="heatmap-table">
-                <thead>
-                  <tr>
-                    <th>Candidato</th><th>Nivel</th><th>Máq.</th><th>Proc.</th><th>Cal.</th><th>Seg.</th><th>Mat.</th><th>Efic.</th><th>Desp.</th><th>Ing.M.</th><th>Avg</th>
-                  </tr>
-                </thead>
-                <tbody id="heatmap-body">
-                  <tr><td colspan="11" class="empty-state">Cargando datos…</td></tr>
-                </tbody>
-              </table>
+      <div class="page-wrapper">
+        <div class="page-header d-print-none">
+          <div class="container-xl">
+            <div class="row g-2 align-items-center">
+              <div class="col"><h2 class="page-title">Vista General del Equipo</h2></div>
+              <div class="col-auto">
+                <a href="/api/export.csv" class="btn btn-primary"><i class="ti ti-download"></i> Exportar CSV</a>
+              </div>
             </div>
           </div>
+        </div>
 
-          <!-- Candidates Table -->
-          <div class="card">
-            <div class="card-header"><h3 class="card-title">Evaluaciones Recientes</h3></div>
-            <div class="table-responsive">
-              <table class="table table-vcenter card-table table-hover" id="results-table">
-                <thead>
-                  <tr>
-                    <th>Candidato</th><th>Empresa</th><th>Nivel</th><th>Score</th><th>Estatus</th><th>Depto</th><th>Fecha</th><th class="w-1"></th>
-                  </tr>
-                </thead>
-                <tbody id="results-body">
-                  <tr><td colspan="8" class="empty-state">Cargando datos…</td></tr>
-                </tbody>
-              </table>
+        <div class="page-body">
+          <div class="container-xl">
+            <!-- KPIs -->
+            <div class="row row-cards mb-4" id="kpi-row">
+              <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-primary text-white avatar"><i class="ti ti-users"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-total">—</div><div class="text-muted">Evaluados</div></div></div></div></div></div>
+              <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-green text-white avatar"><i class="ti ti-check"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-pass">—</div><div class="text-muted">Tasa de Aprobación</div></div></div></div></div></div>
+              <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-yellow text-white avatar"><i class="ti ti-trending-up"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-avg">—</div><div class="text-muted">Puntaje Promedio</div></div></div></div></div></div>
+              <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-red text-white avatar"><i class="ti ti-alert-triangle"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-pending">—</div><div class="text-muted">Revisiones Pendientes</div></div></div></div></div></div>
+            </div>
+
+            <!-- Filters -->
+            <div class="card mb-4">
+              <div class="card-body">
+                <div class="row g-2">
+                  <div class="col-md-3">
+                    <select class="form-select" id="filter-level" onchange="loadData()">
+                      <option value="">Todos los niveles</option>
+                      <option value="basic">Básico</option>
+                      <option value="medium">Medio</option>
+                      <option value="advanced">Avanzado</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <select class="form-select" id="filter-passed" onchange="loadData()">
+                      <option value="">Todos los estatus</option>
+                      <option value="true">Aprobado</option>
+                      <option value="false">No aprobado</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <input type="text" class="form-control" id="filter-search" placeholder="Buscar candidato..." oninput="loadData()">
+                  </div>
+                  <div class="col-md-3 text-end">
+                    <button class="btn btn-outline-primary" onclick="loadData()"><i class="ti ti-refresh"></i> Actualizar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Heatmap -->
+            <div class="card mb-4">
+              <div class="card-header"><h3 class="card-title">Mapa de Calor de Competencias</h3></div>
+              <div class="table-responsive">
+                <table class="table table-vcenter card-table" id="heatmap-table">
+                  <thead>
+                    <tr>
+                      <th>Candidato</th><th>Nivel</th><th>Máq.</th><th>Proc.</th><th>Cal.</th><th>Seg.</th><th>Mat.</th><th>Efic.</th><th>Desp.</th><th>Ing.M.</th><th>Avg</th>
+                    </tr>
+                  </thead>
+                  <tbody id="heatmap-body">
+                    <tr><td colspan="11" class="empty-state">Cargando datos…</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Candidates Table -->
+            <div class="card">
+              <div class="card-header"><h3 class="card-title">Evaluaciones Recientes</h3></div>
+              <div class="table-responsive">
+                <table class="table table-vcenter card-table table-hover" id="results-table">
+                  <thead>
+                    <tr>
+                      <th>Candidato</th><th>Empresa</th><th>Nivel</th><th>Score</th><th>Estatus</th><th>Depto</th><th>Fecha</th><th class="w-1"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="results-body">
+                    <tr><td colspan="8" class="empty-state">Cargando datos…</td></tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -148,6 +215,89 @@
   <script>
     const API = '';
 
+    // ══════════════════════════════════════════ AUTH ══
+    function getToken() { return localStorage.getItem('carol_admin_token'); }
+    function setToken(t) { localStorage.setItem('carol_admin_token', t); }
+    function clearToken() { localStorage.removeItem('carol_admin_token'); }
+
+    async function checkSession() {
+      const token = getToken();
+      if (!token) { showLogin(); return; }
+      try {
+        const r = await fetch(API + '/api/auth/me', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await r.json();
+        if (data.success) {
+          showDashboard(data.user);
+          loadData();
+        } else {
+          clearToken();
+          showLogin();
+        }
+      } catch (e) {
+        clearToken();
+        showLogin();
+      }
+    }
+
+    async function doLogin() {
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      const err = document.getElementById('login-error');
+      err.classList.remove('show');
+      try {
+        const r = await fetch(API + '/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await r.json();
+        if (data.success) {
+          setToken(data.token);
+          showDashboard(data.user);
+          loadData();
+        } else {
+          err.classList.add('show');
+        }
+      } catch (e) {
+        err.textContent = 'Error de conexión. Intenta de nuevo.';
+        err.classList.add('show');
+      }
+    }
+
+    function doLogout() {
+      clearToken();
+      showLogin();
+    }
+
+    function showLogin() {
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('dashboard-screen').style.display = 'none';
+      document.getElementById('login-password').value = '';
+      document.getElementById('login-error').classList.remove('show');
+    }
+
+    function showDashboard(user) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('dashboard-screen').style.display = 'block';
+      if (user) {
+        document.getElementById('user-name').textContent = user.name || 'Administrador';
+        document.getElementById('user-email').textContent = user.email || '';
+        const initials = (user.name || 'AD').split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
+        document.getElementById('user-avatar').textContent = initials;
+      }
+    }
+
+    // Allow Enter key on password field
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('login-password').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') doLogin();
+      });
+      checkSession();
+    });
+
+    // ══════════════════════════════════════════ DASHBOARD ══
     function cellClass(pct) {
       if (pct >= 85) return 'score-strong';
       if (pct >= 70) return 'score-ok';
@@ -173,7 +323,7 @@
 
     async function loadStats() {
       try {
-        const r = await fetch(API + '/api/stats');
+        const r = await fetch(API + '/api/stats', { headers: { 'Authorization': 'Bearer ' + getToken() } });
         const s = await r.json();
         document.getElementById('kpi-total').textContent = s.total_evaluated || 0;
         document.getElementById('kpi-pass').textContent = (s.pass_rate || 0) + '%';
@@ -185,7 +335,7 @@
     async function loadHeatmap() {
       const tbody = document.getElementById('heatmap-body');
       try {
-        const r = await fetch(API + '/api/heatmap');
+        const r = await fetch(API + '/api/heatmap', { headers: { 'Authorization': 'Bearer ' + getToken() } });
         const rows = await r.json();
         const search = document.getElementById('filter-search').value.toLowerCase();
         const levelFilter = document.getElementById('filter-level').value;
@@ -222,7 +372,7 @@
         const search = document.getElementById('filter-search').value.toLowerCase();
         if (level) params.set('level', level);
         if (passed) params.set('passed', passed);
-        const r = await fetch(API + '/api/results?' + params.toString());
+        const r = await fetch(API + '/api/results?' + params.toString(), { headers: { 'Authorization': 'Bearer ' + getToken() } });
         const rows = await r.json();
         tbody.innerHTML = '';
         if (!rows.length) {
@@ -261,7 +411,7 @@
 
     async function openDetail(id) {
       try {
-        const r = await fetch(API + '/api/result/' + id);
+        const r = await fetch(API + '/api/result/' + id, { headers: { 'Authorization': 'Bearer ' + getToken() } });
         const data = await r.json();
         if (data.error) { alert(data.error); return; }
         const c = data.candidate || {};
@@ -328,8 +478,6 @@
         alert('Error cargando detalle');
       }
     }
-
-    document.addEventListener('DOMContentLoaded', loadData);
   </script>
   <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/tabler.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

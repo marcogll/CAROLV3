@@ -3,9 +3,16 @@
 CAROL Server — Dual mode: MySQL (Docker/production) or JSON (local dev)
 Serves API/webhook endpoints. Static files handled by Caddy upstream in Docker.
 """
-import os, json, csv, io, uuid, urllib.parse, time
-from datetime import datetime
+import os, json, csv, io, uuid, urllib.parse, time, hmac, hashlib, base64
+from datetime import datetime, timedelta
 from http.server import HTTPServer, SimpleHTTPRequestHandler
+
+try:
+    import jwt
+    HAS_JWT = True
+except ImportError:
+    HAS_JWT = False
+    jwt = None
 
 # ── Config ───────────────────────────────────────────────────────────────────
 DB_HOST = os.getenv("DB_HOST", "")
@@ -15,6 +22,36 @@ DB_USER = os.getenv("DB_USER", "carol")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "carolpass")
 HOST = os.getenv("HOST", "0.0.0.0")
 PORT = int(os.getenv("PORT", "8000"))
+
+# ── Admin Auth Config ────────────────────────────────────────────────────────
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "marco@soul23.mx")
+ADMIN_NAME = os.getenv("ADMIN_NAME", "Marco Gallegos")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "Yamakasi111")
+JWT_SECRET = os.getenv("JWT_SECRET", "carol-jwt-change-me-in-production")
+JWT_ALGO = "HS256"
+
+def _make_token(payload: dict) -> str:
+    if HAS_JWT:
+        return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGO)
+    # fallback simple HMAC token
+    msg = json.dumps(payload, sort_keys=True)
+    sig = hmac.new(JWT_SECRET.encode(), msg.encode(), hashlib.sha256).hexdigest()
+    return base64.urlsafe_b64encode(f"{msg}.{sig}".encode()).decode().rstrip("=")
+
+def _decode_token(token: str) -> dict:
+    if HAS_JWT:
+        return jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGO])
+    # fallback
+    try:
+        padded = token + "=" * (4 - len(token) % 4)
+        decoded = base64.urlsafe_b64decode(padded).decode()
+        msg, sig = decoded.rsplit(".", 1)
+        expected = hmac.new(JWT_SECRET.encode(), msg.encode(), hashlib.sha256).hexdigest()
+        if not hmac.compare_digest(sig, expected):
+            raise ValueError("Invalid signature")
+        return json.loads(msg)
+    except Exception:
+        raise ValueError("Invalid token")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 WEB_DIR = os.path.join(BASE_DIR, "web")
@@ -441,11 +478,50 @@ class CarolHandler(SimpleHTTPRequestHandler):
             self._send_json(200, {"success": True, "stored": True, "id": result["id"]})
             return
 
+        # ── Auth: Login ──
+        if path == "/api/auth/login":
+            payload = self._read_body()
+            email = payload.get("email", "").strip().lower()
+            password = payload.get("password", "")
+            if email == ADMIN_EMAIL.lower() and password == ADMIN_PASSWORD:
+                exp = datetime.utcnow() + timedelta(hours=24)
+                token = _make_token({
+                    "sub": email,
+                    "name": ADMIN_NAME,
+                    "role": "admin",
+                    "exp": int(exp.timestamp()),
+                })
+                self._send_json(200, {
+                    "success": True,
+                    "token": token,
+                    "user": {"email": ADMIN_EMAIL, "name": ADMIN_NAME, "role": "admin"}
+                })
+            else:
+                self._send_json(401, {"success": False, "error": "Credenciales inválidas"})
+            return
+
         self._send_json(404, {"error": "Not found"})
 
     def do_GET(self):
         path = urllib.parse.urlparse(self.path).path
         qs = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+
+        # ── Auth: Me ──
+        if path == "/api/auth/me":
+            auth = self.headers.get("Authorization", "")
+            if auth.startswith("Bearer "):
+                try:
+                    token = auth.split(" ", 1)[1]
+                    decoded = _decode_token(token)
+                    self._send_json(200, {
+                        "success": True,
+                        "user": {"email": decoded.get("sub"), "name": decoded.get("name"), "role": decoded.get("role")}
+                    })
+                    return
+                except Exception:
+                    pass
+            self._send_json(401, {"success": False, "error": "No autorizado"})
+            return
 
         # ── API: Stats ──
         if path == "/api/stats":
