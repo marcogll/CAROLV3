@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CAROL Admin — Panel de Control</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+  <style>
+    :root {
+      --carol-navy: #0D1B2A;
+      --carol-teal: #00B894;
+    }
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .navbar-dark { background: var(--carol-navy) !important; }
+    .nav-link.active {
+      border-left: 3px solid var(--carol-teal);
+      background: rgba(0, 184, 148, .08);
+      color: var(--carol-teal) !important;
+    }
+    .heatmap-cell {
+      width: 40px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: white;
+      border-radius: 4px;
+      margin: 1px;
+    }
+    .score-strong { background-color: #00B894; }
+    .score-ok { background-color: #27AE60; }
+    .score-weak { background-color: #E67E22; }
+    .score-critical { background-color: #C0392B; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- Navbar -->
+    <header class="navbar navbar-expand-md navbar-dark d-print-none">
+      <div class="container-xl">
+        <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+          <a href=".">CAROL Admin</a>
+        </h1>
+        <div class="navbar-nav flex-row order-md-last">
+          <div class="nav-item">
+            <a href="#" class="nav-link d-flex lh-1 text-reset p-0">
+              <span class="avatar avatar-sm">AD</span>
+              <div class="d-none d-xl-block ps-2">
+                <div>Administrador</div>
+                <div class="mt-1 small text-muted">Planta Monterrey</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="page-wrapper">
+      <div class="page-header d-print-none">
+        <div class="container-xl">
+          <div class="row g-2 align-items-center">
+            <div class="col">
+              <h2 class="page-title">Vista General del Equipo</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-body">
+        <div class="container-xl">
+          <!-- KPIs -->
+          <div class="row row-cards mb-4">
+            <div class="col-sm-6 col-lg-3">
+              <div class="card card-sm">
+                <div class="card-body">
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      <span class="bg-primary text-white avatar"><i class="ti ti-users"></i></span>
+                    </div>
+                    <div class="col">
+                      <div class="font-weight-medium">142</div>
+                      <div class="text-muted">Evaluados</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="card card-sm">
+                <div class="card-body">
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      <span class="bg-green text-white avatar"><i class="ti ti-check"></i></span>
+                    </div>
+                    <div class="col">
+                      <div class="font-weight-medium">67%</div>
+                      <div class="text-muted">Tasa de Aprobación</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="card card-sm">
+                <div class="card-body">
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      <span class="bg-yellow text-white avatar"><i class="ti ti-trending-up"></i></span>
+                    </div>
+                    <div class="col">
+                      <div class="font-weight-medium">71.4%</div>
+                      <div class="text-muted">Puntaje Promedio</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="card card-sm">
+                <div class="card-body">
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      <span class="bg-red text-white avatar"><i class="ti ti-alert-triangle"></i></span>
+                    </div>
+                    <div class="col">
+                      <div class="font-weight-medium">8</div>
+                      <div class="text-muted">Revisiones Pendientes</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Heatmap -->
+          <div class="card mb-4">
+            <div class="card-header">
+              <h3 class="card-title">Mapa de Calor de Competencias</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-vcenter card-table">
+                <thead>
+                  <tr>
+                    <th>Candidato</th>
+                    <th>Nivel</th>
+                    <th>Máq.</th>
+                    <th>Proc.</th>
+                    <th>Cal.</th>
+                    <th>Seg.</th>
+                    <th>Mat.</th>
+                    <th>Efic.</th>
+                    <th>Desp.</th>
+                    <th>Avg</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Juan García <small class="text-muted">EMP-1234</small></td>
+                    <td><span class="badge bg-yellow-lt">Medio</span></td>
+                    <td><div class="heatmap-cell score-ok">78%</div></td>
+                    <td><div class="heatmap-cell score-weak">56%</div></td>
+                    <td><div class="heatmap-cell score-strong">89%</div></td>
+                    <td><div class="heatmap-cell score-strong">100%</div></td>
+                    <td><div class="heatmap-cell score-weak">67%</div></td>
+                    <td><div class="heatmap-cell score-ok">72%</div></td>
+                    <td><div class="heatmap-cell score-ok">83%</div></td>
+                    <td><strong>78%</strong></td>
+                  </tr>
+                  <tr>
+                    <td>María López <small class="text-muted">EMP-5678</small></td>
+                    <td><span class="badge bg-blue-lt">Avanzado</span></td>
+                    <td><div class="heatmap-cell score-strong">91%</div></td>
+                    <td><div class="heatmap-cell score-ok">78%</div></td>
+                    <td><div class="heatmap-cell score-weak">67%</div></td>
+                    <td><div class="heatmap-cell score-strong">89%</div></td>
+                    <td><div class="heatmap-cell score-weak">55%</div></td>
+                    <td><div class="heatmap-cell score-ok">84%</div></td>
+                    <td><div class="heatmap-cell score-ok">76%</div></td>
+                    <td><strong>84%</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Roberto Pérez <small class="text-muted">EMP-9012</small></td>
+                    <td><span class="badge bg-green-lt">Básico</span></td>
+                    <td><div class="heatmap-cell score-critical">45%</div></td>
+                    <td><div class="heatmap-cell score-critical">34%</div></td>
+                    <td><div class="heatmap-cell score-weak">56%</div></td>
+                    <td><div class="heatmap-cell score-ok">78%</div></td>
+                    <td><div class="heatmap-cell score-critical">43%</div></td>
+                    <td><div class="heatmap-cell score-weak">65%</div></td>
+                    <td><div class="heatmap-cell score-weak">54%</div></td>
+                    <td><strong>53%</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Candidates Table -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Evaluaciones Recientes</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-vcenter card-table table-hover">
+                <thead>
+                  <tr>
+                    <th>Candidato</th>
+                    <th>Nivel</th>
+                    <th>Score</th>
+                    <th>Estatus</th>
+                    <th>Depto</th>
+                    <th>Fecha</th>
+                    <th class="w-1"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Juan García</td>
+                    <td>Medio</td>
+                    <td class="text-muted">72%</td>
+                    <td><span class="badge bg-red-lt">NO APROBÓ</span></td>
+                    <td>Producción</td>
+                    <td>hace 3 días</td>
+                    <td><a href="#">Ver</a></td>
+                  </tr>
+                  <tr>
+                    <td>María López</td>
+                    <td>Avanzado</td>
+                    <td class="text-muted">88%</td>
+                    <td><span class="badge bg-green-lt">APROBADO</span></td>
+                    <td>Ingeniería</td>
+                    <td>hace 1 semana</td>
+                    <td><a href="#">Ver</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/tabler.min.js"></script>
+</body>
+</html>

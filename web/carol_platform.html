@@ -262,60 +262,16 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
   <div class="splash-tagline">Sistema de Evaluación Técnica · Moldeo por Inyección de Plásticos</div>
 
   <div class="splash-cards">
-    <!-- Basic -->
-    <div class="level-card" onclick="selectLevel('basic')">
-      <div class="level-card-header">
-        <div class="level-badge" style="background:#00B894">Básico</div>
-        <h3>Operadores de Piso</h3>
-        <p>Operadores generales y técnicos de montaje (set-up) con hasta 2 años de experiencia.</p>
-      </div>
-      <div class="level-card-body">
-        <div class="level-stat"><span>Preguntas</span><span id="basic-q-count">—</span></div>
-        <div class="level-stat"><span>Puntaje máximo</span><span id="basic-pts">—</span></div>
-        <div class="level-stat"><span>Mínimo aprobatorio</span><span>75%</span></div>
-        <div class="level-stat"><span>Tiempo estimado</span><span>50 min</span></div>
-        <div class="level-stat"><span>Áreas evaluadas</span><span>7 categorías</span></div>
-      </div>
-      <div class="level-card-footer">
-        <button class="btn-start" style="background:#00B894">Iniciar Evaluación Básica</button>
-      </div>
-    </div>
-
-    <!-- Medium -->
-    <div class="level-card" onclick="selectLevel('medium')">
-      <div class="level-card-header">
-        <div class="level-badge" style="background:#E67E22">Medio</div>
-        <h3>Técnicos de Proceso</h3>
-        <p>Técnicos de proceso y supervisores con 2 a 6 años de experiencia en moldeo.</p>
-      </div>
-      <div class="level-card-body">
-        <div class="level-stat"><span>Preguntas</span><span id="medium-q-count">—</span></div>
-        <div class="level-stat"><span>Puntaje máximo</span><span id="medium-pts">—</span></div>
-        <div class="level-stat"><span>Mínimo aprobatorio</span><span>75%</span></div>
-        <div class="level-stat"><span>Tiempo estimado</span><span>60 min</span></div>
-        <div class="level-stat"><span>Áreas evaluadas</span><span>7 categorías</span></div>
-      </div>
-      <div class="level-card-footer">
-        <button class="btn-start" style="background:#E67E22">Iniciar Evaluación Media</button>
-      </div>
-    </div>
-
-    <!-- Advanced -->
-    <div class="level-card" onclick="selectLevel('advanced')">
-      <div class="level-card-header">
-        <div class="level-badge" style="background:#1B4F72">Avanzado</div>
-        <h3>Ingenieros y Líderes</h3>
-        <p>Ingenieros de procesos, moldes y líderes técnicos con más de 6 años de experiencia.</p>
-      </div>
-      <div class="level-card-body">
-        <div class="level-stat"><span>Preguntas</span><span id="advanced-q-count">—</span></div>
-        <div class="level-stat"><span>Puntaje máximo</span><span id="advanced-pts">—</span></div>
-        <div class="level-stat"><span>Mínimo aprobatorio</span><span>80%</span></div>
-        <div class="level-stat"><span>Tiempo estimado</span><span>75 min</span></div>
-        <div class="level-stat"><span>Áreas evaluadas</span><span>8 categorías</span></div>
-      </div>
-      <div class="level-card-footer">
-        <button class="btn-start" style="background:#1B4F72">Iniciar Evaluación Avanzada</button>
+    <div class="level-card" style="width: 400px; padding: 2rem;" onclick="showRegister()">
+      <div class="text-center">
+        <div class="mb-3">
+          <i class="ti ti-user-check" style="font-size: 4rem; color: var(--carol-teal);"></i>
+        </div>
+        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Comenzar Evaluación</h3>
+        <p style="margin-bottom: 2rem;">El sistema asignará automáticamente tu nivel basado en tu perfil profesional y experiencia.</p>
+        <button class="btn-start" style="background: var(--carol-teal); height: 3.5rem; font-size: 1.1rem;">
+          Registrarse e Iniciar
+        </button>
       </div>
     </div>
   </div>
@@ -674,6 +630,32 @@ function selectLevel(level){
   show('register');
 }
 
+// ══════════════════════════════════════════ LEVEL ROUTING ══
+function autoAssignLevel(role, exp, selfEval) {
+  // IF self_evaluation < 35 → ASSIGN: Básico regardless of role
+  if (selfEval < 35) return 'basic';
+
+  // IF job_role IN [operator, setup_tech]
+  // OR (years_experience < 2 AND self_evaluation < 40)
+  if (['operator', 'setup_tech'].includes(role) || (exp < 2 && selfEval < 40)) {
+    return 'basic';
+  }
+
+  // IF job_role IN [process_tech, supervisor]
+  // OR (years_experience ≥ 2 AND years_experience < 6 AND self_evaluation 40–70)
+  if (['process_tech', 'supervisor'].includes(role) || (exp >= 2 && exp < 6 && selfEval >= 40 && selfEval <= 70)) {
+    return 'medium';
+  }
+
+  // IF job_role IN [process_eng, mold_eng, quality_eng, plant_manager]
+  // OR (years_experience ≥ 6 AND self_evaluation > 70)
+  if (['process_eng', 'mold_eng', 'quality_eng', 'plant_manager'].includes(role) || (exp >= 6 && selfEval > 70)) {
+    return 'advanced';
+  }
+
+  return 'basic'; // Safe default
+}
+
 // ══════════════════════════════════════════ REGISTER ══
 function submitRegistration(){
   const name=document.getElementById('reg-name').value.trim();
@@ -681,15 +663,21 @@ function submitRegistration(){
   const dept=document.getElementById('reg-dept').value;
   const role=document.getElementById('reg-role').value;
   const year=document.getElementById('reg-birth-year').value;
-  const exp=document.getElementById('reg-exp').value;
+  const exp=parseInt(document.getElementById('reg-exp').value);
+  const selfEval=parseInt(document.getElementById('reg-self-eval').value);
   const err=document.getElementById('reg-error');
-  if(!name||!empId||!dept||!role||!year||exp===''){err.classList.remove('d-none');return;}
+
+  if(!name||!empId||!dept||!role||!year||isNaN(exp)){err.classList.remove('d-none');return;}
   err.classList.add('d-none');
+
+  S.level = autoAssignLevel(role, exp, selfEval);
+
   S.candidate={
     full_name:name, employee_id:empId, department:dept, job_role:role,
     birth_year:year, birth_month:document.getElementById('reg-birth-month').value||null,
-    years_experience:parseInt(exp)||0, self_evaluation:parseInt(document.getElementById('reg-self-eval').value),
+    years_experience:exp, self_evaluation:selfEval,
     age_at_assessment:new Date().getFullYear()-parseInt(year),
+    assigned_level: S.level
   };
   showInstructions();
 }
@@ -986,9 +974,22 @@ function sendResultData(){
     .catch(e=>console.warn('Webhook not configured:',e.message));
 }
 
+function isValidUrl(string) {
+  try {
+    new URL(string);
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
 function sendToWebhook(){
   const url=prompt('URL del Webhook (n8n):',S.webhookUrl);
-  if(!url)return;
+  if(!url) return;
+  if(!isValidUrl(url)) {
+    alert('⚠️ Por favor ingresa una URL válida.');
+    return;
+  }
   S.webhookUrl=url;
   const payload=buildPayload();
   fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})

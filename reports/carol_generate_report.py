@@ -1152,14 +1152,18 @@ def main():
     parser = argparse.ArgumentParser(description="CAROL Report Generator")
     parser.add_argument("--level", choices=["basic", "medium", "advanced"],
                         default="medium")
-    parser.add_argument("--output", default="/mnt/user-data/outputs/carol_report.pdf")
+    parser.add_argument("--output", default="reports/carol_report.pdf")
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
 
+    # Get script directory to find assessments relative to it
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    assessments_dir = os.path.join(script_dir, "..", "assessments")
+
     file_map = {
-        "basic":    "/mnt/user-data/uploads/basic_v2.json",
-        "medium":   "/mnt/user-data/uploads/medium_v2.json",
-        "advanced": "/mnt/user-data/uploads/advanced_v2.json",
+        "basic":    os.path.join(assessments_dir, "carol_basic_prod.json"),
+        "medium":   os.path.join(assessments_dir, "carol_medium_prod.json"),
+        "advanced": os.path.join(assessments_dir, "carol_advanced_prod.json"),
     }
 
     with open(file_map[args.level]) as f:

@@ -52,27 +52,31 @@ BRAND = {
     "ink":       colors.HexColor("#1C2833"),
 }
 
+# Get script directory to find assessments relative to it
+_script_dir = os.path.dirname(os.path.abspath(__file__))
+_assessments_dir = os.path.join(_script_dir, "..", "assessments")
+
 LEVEL = {
     "basic": {
         "label": "Básico",  "role": "Operadores de Piso",
         "pass_pct": 75,     "time_min": 50,
         "hex": "#00B894",   "rl": colors.HexColor("#00B894"),
         "lt": colors.HexColor("#D0F0EA"),
-        "file": "/mnt/user-data/uploads/basic_v2.json",
+        "file": os.path.join(_assessments_dir, "carol_basic_prod.json"),
     },
     "medium": {
         "label": "Medio",   "role": "Técnicos de Proceso",
         "pass_pct": 75,     "time_min": 60,
         "hex": "#E67E22",   "rl": colors.HexColor("#E67E22"),
         "lt": colors.HexColor("#FEF0E3"),
-        "file": "/mnt/user-data/uploads/medium_v2.json",
+        "file": os.path.join(_assessments_dir, "carol_medium_prod.json"),
     },
     "advanced": {
         "label": "Avanzado","role": "Ingenieros y Líderes",
         "pass_pct": 80,     "time_min": 75,
         "hex": "#1B4F72",   "rl": colors.HexColor("#1B4F72"),
         "lt": colors.HexColor("#D6EAF8"),
-        "file": "/mnt/user-data/uploads/advanced_v2.json",
+        "file": os.path.join(_assessments_dir, "carol_advanced_prod.json"),
     },
 }
 
@@ -987,7 +991,7 @@ def build_pdf(output_path, all_questions, all_results, all_analysis, candidate):
 # ─────────────────────────────────────────────────────────────────────────────
 def main():
     parser = argparse.ArgumentParser(description="CAROL Unified Report")
-    parser.add_argument("--output", default="/mnt/user-data/outputs/carol_unified_report.pdf")
+    parser.add_argument("--output", default="reports/carol_unified_report.pdf")
     parser.add_argument("--seed",   type=int, default=42)
     args = parser.parse_args()
 
