@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CAROL — Sistema de Evaluación Técnica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
@@ -17,7 +20,7 @@
 }
 
 /* ── Layout ── */
-body{background:#f0f4f8;font-family:'Inter',system-ui,sans-serif;}
+body{background:#f0f4f8;font-family:'Roboto','Inter',system-ui,sans-serif;}
 .page-wrapper{min-height:100vh;transition:opacity .3s ease;}
 .screen-hidden{opacity:0;pointer-events:none;}
 .page-wrapper.screen-visible{opacity:1!important;pointer-events:auto!important;}
@@ -178,63 +181,66 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
 
 /* ── Results ── */
 #screen-results{display:none;opacity:0;}
-.results-layout{max-width:900px;margin:0 auto;padding:2rem 1rem;}
-.results-hero{background:var(--carol-navy);border-radius:16px;padding:2rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:2rem;color:#fff;flex-wrap:wrap;}
-.results-donut-wrap{position:relative;width:110px;height:110px;flex-shrink:0;}
-.results-donut-wrap svg{transform:rotate(-90deg);}
+.results-layout{max-width:960px;margin:0 auto;padding:1rem;}
+@media(min-width:640px){.results-layout{padding:1.5rem;}}
+
+.mui-paper{background:#fff;border-radius:12px;box-shadow:0px 1px 3px 0px rgba(0,0,0,0.12),0px 1px 1px 0px rgba(0,0,0,0.14),0px 2px 1px -1px rgba(0,0,0,0.2);overflow:hidden;margin-bottom:1rem;transition:box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);}
+.mui-card{padding:0;border-radius:12px;background:#fff;box-shadow:0px 1px 3px 0px rgba(0,0,0,0.12),0px 1px 1px 0px rgba(0,0,0,0.14),0px 2px 1px -1px rgba(0,0,0,0.2);margin-bottom:1rem;overflow:hidden;}
+
+.results-hero{background:var(--carol-navy);border-radius:16px;padding:1.5rem;margin-bottom:1.25rem;color:#fff;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;}
+.results-donut-wrap{position:relative;width:100px;height:100px;flex-shrink:0;}
+.results-donut-wrap svg{transform:rotate(-90deg);width:100%;height:100%;}
 .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.donut-pct{font-size:1.5rem;font-weight:800;color:#fff;}
-.donut-status{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:1px;}
-.results-info h2{font-size:1.4rem;font-weight:800;margin:0 0 .25rem;}
-.results-info p{margin:0;color:#94a3b8;font-size:.88rem;}
-.results-kpis{display:flex;gap:1.25rem;margin-top:1rem;flex-wrap:wrap;}
-.results-kpi{text-align:center;}
-.results-kpi-val{font-size:1.3rem;font-weight:800;display:block;}
-.results-kpi-label{font-size:.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;}
+.donut-pct{font-size:1.3rem;font-weight:800;color:#fff;}
+.donut-status{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:1px;}
+.results-info{flex:1;min-width:220px;}
+.results-info h2{font-size:1.25rem;font-weight:800;margin:0 0 .25rem;}
+.results-info p{margin:0;color:#94a3b8;font-size:.85rem;}
+.results-kpis{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap;}
+.results-kpi{text-align:center;flex:1;min-width:70px;background:rgba(255,255,255,.08);border-radius:8px;padding:.5rem;}
+.results-kpi-val{font-size:1.1rem;font-weight:800;display:block;}
+.results-kpi-label{font-size:.65rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;}
 
-.results-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem;}
-@media(max-width:640px){.results-grid{grid-template-columns:1fr;}}
+.cat-result-row{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;padding:1rem;background:#fff;border-radius:12px;box-shadow:0px 1px 3px rgba(0,0,0,.1);flex-wrap:wrap;}
+.cat-result-row:last-child{margin-bottom:0;}
+.cat-result-header{display:flex;justify-content:space-between;align-items:center;width:100%;margin-bottom:.5rem;}
+.cat-result-label{font-size:.85rem;font-weight:700;color:#1e293b;}
+.cat-result-ratio{font-size:.75rem;color:#64748b;font-weight:600;}
+.cat-bar-wrap{flex:1;height:10px;background:#e2e8f0;border-radius:99px;overflow:hidden;min-width:100px;}
+.cat-bar-fill{height:100%;border-radius:99px;transition:width 1s ease;}
+.cat-result-footer{display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:.35rem;}
+.cat-result-pct{font-size:.85rem;font-weight:700;}
+.cat-result-pass{font-size:.68rem;font-weight:700;padding:.15rem .5rem;border-radius:99px;}
 
-.results-card{background:#fff;border-radius:12px;padding:1.25rem;box-shadow:0 2px 8px rgba(0,0,0,.06);}
-.results-card h4{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin:0 0 1rem;}
+.mui-accordion{border:1px solid rgba(0,0,0,.08);border-radius:10px;margin-bottom:.6rem;overflow:hidden;background:#fff;box-shadow:0px 1px 2px rgba(0,0,0,.06);}
+.mui-accordion-summary{padding:.85rem 1rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;gap:.5rem;background:#fff;touch-action:manipulation;}
+.mui-accordion-summary:hover{background:#f8fafc;}
+.mui-accordion-summary-text{flex:1;font-size:.85rem;font-weight:600;color:#1e293b;line-height:1.3;}
+.mui-accordion-summary-meta{display:flex;gap:.4rem;align-items:center;flex-shrink:0;}
+.mui-accordion-details{padding:0 1rem 1rem;display:none;font-size:.85rem;color:#475569;}
+.mui-accordion-details.open{display:block;}
+.mui-accordion-details-body{padding:.75rem;background:#f8fafc;border-radius:8px;}
+.mui-chip{height:22px;padding:0 8px;border-radius:12px;font-size:.7rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:4px;}
+.mui-chip-teal{background:#e6f7f2;color:#00695c;}
+.mui-chip-amber{background:#fff3e0;color:#e65100;}
+.mui-chip-red{background:#ffebee;color:#c62828;}
+.mui-chip-blue{background:#e3f2fd;color:#1565c0;}
+.mui-chip-gray{background:#f1f5f9;color:#475569;}
 
-.cat-result-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem;}
-.cat-result-row:last-child{margin:0;}
-.cat-result-label{font-size:.8rem;font-weight:600;color:#374151;width:150px;flex-shrink:0;}
-.cat-bar-wrap{flex:1;height:8px;background:#f1f5f9;border-radius:99px;overflow:hidden;}
-.cat-bar-fill{height:100%;border-radius:99px;transition:width 1s;}
-.cat-result-pct{font-size:.78rem;font-weight:700;width:36px;text-align:right;}
-.cat-result-pass{font-size:.68rem;font-weight:700;padding:.1rem .4rem;border-radius:99px;}
-
-.wrong-review{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:1.5rem;overflow:hidden;}
-.wrong-review-header{padding:1rem 1.5rem;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:.75rem;}
-.wrong-review-header h4{font-size:.95rem;font-weight:700;color:#1e293b;margin:0;}
-.wrong-review-header .badge{font-size:.75rem;}
-.wrong-item{padding:1rem 1.5rem;border-bottom:1px solid #f8fafc;}
-.wrong-item:last-child{border:none;}
-.wrong-item-meta{display:flex;gap:.5rem;align-items:center;margin-bottom:.4rem;flex-wrap:wrap;}
-.wrong-q-text{font-size:.88rem;font-weight:600;color:#1e293b;margin-bottom:.5rem;line-height:1.4;}
-.wrong-options{display:grid;grid-template-columns:1fr 1fr;gap:.35rem;}
-.wrong-opt{font-size:.78rem;padding:.3rem .6rem;border-radius:6px;display:flex;align-items:center;gap:.4rem;}
-.wrong-opt.chosen{background:#fef2f2;color:#991b1b;}
-.wrong-opt.correct{background:#f0fdf4;color:#166534;}
-.wrong-opt .ti{font-size:.85rem;flex-shrink:0;}
-.wrong-reasoning{margin-top:.6rem;font-size:.79rem;color:#78350f;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:.5rem .75rem;display:flex;gap:.5rem;align-items:flex-start;}
-.wrong-reasoning .ti{flex-shrink:0;margin-top:1px;}
-
-.action-plan{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:1.5rem;}
-.action-plan-header{padding:1rem 1.5rem;border-bottom:1px solid #f1f5f9;}
-.action-plan-header h4{font-size:.95rem;font-weight:700;color:#1e293b;margin:0;}
-.action-step{padding:1rem 1.5rem;border-bottom:1px solid #f8fafc;display:flex;gap:1rem;}
-.action-step:last-child{border:none;}
+.action-step{padding:1rem;display:flex;gap:1rem;background:#fff;border-radius:12px;margin-bottom:.75rem;box-shadow:0px 1px 3px rgba(0,0,0,.1);flex-wrap:wrap;}
 .step-priority{width:80px;flex-shrink:0;text-align:center;}
-.step-priority-badge{display:inline-block;padding:.2rem .6rem;border-radius:6px;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;}
-.step-content h5{font-size:.88rem;font-weight:700;color:#1e293b;margin:0 0 .35rem;}
-.step-content ul{margin:0;padding-left:1.1rem;font-size:.8rem;color:#475569;line-height:1.6;}
-.step-kpi{margin-top:.4rem;font-size:.76rem;color:#92400e;background:#fef3c7;padding:.25rem .6rem;border-radius:4px;display:inline-flex;align-items:center;gap:.3rem;}
+.step-priority-badge{display:inline-block;padding:.25rem .6rem;border-radius:6px;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;}
+.step-content{flex:1;min-width:200px;}
+.step-content h5{font-size:.9rem;font-weight:700;color:#1e293b;margin:0 0 .35rem;}
+.step-content ul{margin:0;padding-left:1.1rem;font-size:.82rem;color:#475569;line-height:1.6;}
+.step-kpi{margin-top:.4rem;font-size:.76rem;color:#92400e;background:#fef3c7;padding:.35rem .6rem;border-radius:4px;display:inline-flex;align-items:center;gap:.3rem;}
 
-.results-footer{display:flex;gap:1rem;flex-wrap:wrap;}
-.btn-action{padding:.6rem 1.25rem;border-radius:8px;font-size:.88rem;font-weight:700;border:none;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:.4rem;}
+.results-footer{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center;padding:0 1rem;margin-bottom:1.5rem;}
+.btn-action{padding:.65rem 1.1rem;border-radius:8px;font-size:.85rem;font-weight:700;border:none;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:.4rem;white-space:nowrap;text-transform:uppercase;letter-spacing:.02em;}
+.save-status{font-size:.82rem;font-weight:600;padding:.6rem 1rem;border-radius:8px;margin-bottom:1rem;text-align:center;display:none;}
+.save-status.show{display:block;}
+.save-status.ok{background:#dcfce7;color:#166534;}
+.save-status.err{background:#fee2e2;color:#991b1b;}
 .btn-restart{background:#f1f5f9;color:#475569;}
 .btn-restart:hover{background:#e2e8f0;}
 .btn-print{background:var(--carol-navy);color:#fff;}
@@ -280,9 +286,10 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
     </div>
   </div>
 
-  <p style="margin-top:2.5rem;color:#475569;font-size:.82rem;text-align:center;">
-    Desarrollado por M. Gallegos / F. Salazar &nbsp;·&nbsp; CAROL Assessment System v2
-  </p>
+  <div style="margin-top:2.5rem;text-align:center;">
+    <img src="https://raw.githubusercontent.com/marcogll/mg_data_storage/refs/heads/main/soul23/logo/soul23_logo.svg" alt="Soul23" style="height:28px;opacity:.7;">
+    <p style="margin-top:.5rem;color:#475569;font-size:.82rem;">CAROL Assessment System v2 · Powered by Soul23</p>
+  </div>
 </div>
 
 <!-- ══════════════════════════════════════════════════ REGISTER ══ -->
@@ -522,9 +529,9 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
 <div id="screen-results" class="page-wrapper">
   <div id="inter-level-banner" class="d-none" style="background:var(--carol-navy);color:#fff;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
     <div style="display:flex;align-items:center;gap:.75rem;">
-      <i class="ti ti-check-circle" style="font-size:1.5rem;color:#00B894;"></i>
+      <i id="inter-level-icon" class="ti ti-check-circle" style="font-size:1.5rem;color:#00B894;"></i>
       <div>
-        <div style="font-size:1rem;font-weight:700;">Nivel Completado</div>
+        <div style="font-size:1rem;font-weight:700;" id="inter-level-title">Nivel Completado</div>
         <div style="font-size:.82rem;color:#94a3b8;" id="inter-level-subtitle"></div>
       </div>
     </div>
@@ -533,62 +540,66 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
         <div style="font-size:1.3rem;font-weight:700;color:#00B894;" id="inter-level-score">—</div>
         <div style="font-size:.65rem;color:#94a3b8;">Score</div>
       </div>
-      <button class="btn-action btn-webhook" onclick="nextLevel()" style="background:#00B894;color:#fff;padding:.65rem 1.5rem;font-size:.95rem;">
+      <button class="btn-action btn-webhook" id="inter-level-btn" onclick="startCooldownNextLevel()" style="background:#00B894;color:#fff;padding:.65rem 1.5rem;font-size:.95rem;">
         <i class="ti ti-player-play"></i> Siguiente Nivel
       </button>
     </div>
   </div>
+
   <div class="results-layout">
     <!-- Hero -->
-    <div class="results-hero" id="results-hero">
-      <div class="results-donut-wrap">
-        <svg width="110" height="110" viewBox="0 0 110 110">
-          <circle cx="55" cy="55" r="44" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="12"/>
-          <circle id="donut-arc" cx="55" cy="55" r="44" fill="none" stroke="#00B894" stroke-width="12"
-            stroke-dasharray="276.46" stroke-dashoffset="276.46" stroke-linecap="round"/>
-        </svg>
-        <div class="donut-center">
-          <div class="donut-pct" id="result-pct">0%</div>
-          <div class="donut-status" id="result-status-icon">—</div>
+    <div class="mui-paper" id="results-hero" style="background:linear-gradient(135deg,#0D1B2A 0%,#1B4F72 100%);color:#fff;border-radius:16px;padding:1.5rem;margin-bottom:1.25rem;">
+      <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
+        <div class="results-donut-wrap">
+          <svg viewBox="0 0 110 110">
+            <circle cx="55" cy="55" r="44" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="12"/>
+            <circle id="donut-arc" cx="55" cy="55" r="44" fill="none" stroke="#00B894" stroke-width="12"
+              stroke-dasharray="276.46" stroke-dashoffset="276.46" stroke-linecap="round"/>
+          </svg>
+          <div class="donut-center">
+            <div class="donut-pct" id="result-pct">0%</div>
+            <div class="donut-status" id="result-status-icon">—</div>
+          </div>
         </div>
-      </div>
-      <div class="results-info" style="flex:1;">
-        <h2 id="result-name">Resultado</h2>
-        <p id="result-subtitle">Nivel — Candidato</p>
-        <div class="results-kpis">
-          <div class="results-kpi"><span class="results-kpi-val" id="kpi-pts">—</span><span class="results-kpi-label">Pts. Obtenidos</span></div>
-          <div class="results-kpi"><span class="results-kpi-val" id="kpi-max">—</span><span class="results-kpi-label">Pts. Máximos</span></div>
-          <div class="results-kpi"><span class="results-kpi-val" id="kpi-correct">—</span><span class="results-kpi-label">Correctas</span></div>
-          <div class="results-kpi"><span class="results-kpi-val" id="kpi-time">—</span><span class="results-kpi-label">Tiempo usado</span></div>
+        <div class="results-info" style="flex:1;min-width:220px;">
+          <h2 id="result-name">Resultado</h2>
+          <p id="result-subtitle">Nivel — Candidato</p>
+          <div class="results-kpis">
+            <div class="results-kpi"><span class="results-kpi-val" id="kpi-pts">—</span><span class="results-kpi-label">Pts. Obtenidos</span></div>
+            <div class="results-kpi"><span class="results-kpi-val" id="kpi-max">—</span><span class="results-kpi-label">Pts. Máximos</span></div>
+            <div class="results-kpi"><span class="results-kpi-val" id="kpi-correct">—</span><span class="results-kpi-label">Correctas</span></div>
+            <div class="results-kpi"><span class="results-kpi-val" id="kpi-time">—</span><span class="results-kpi-label">Tiempo usado</span></div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Category breakdown + Type breakdown -->
-    <div class="results-grid">
-      <div class="results-card" style="grid-column:1/-1;">
-        <h4>Desempeño por Área de Conocimiento</h4>
-        <div id="cat-breakdown"></div>
-      </div>
+    <!-- Category breakdown -->
+    <div class="mui-paper" style="padding:1.25rem;margin-bottom:1.25rem;">
+      <h4 style="font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin:0 0 1rem;">Desempeño por Área de Conocimiento</h4>
+      <div id="cat-breakdown"></div>
     </div>
 
     <!-- Wrong questions -->
-    <div class="wrong-review" id="wrong-review">
-      <div class="wrong-review-header">
+    <div class="mui-paper" id="wrong-review" style="margin-bottom:1.25rem;">
+      <div style="padding:1rem 1.25rem;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:.75rem;">
         <i class="ti ti-x-circle" style="font-size:1.2rem;color:#dc2626;"></i>
-        <h4>Preguntas Incorrectas — Revisión de Aprendizaje</h4>
-        <span class="badge bg-red text-white" id="wrong-count-badge">0</span>
+        <h4 style="font-size:.95rem;font-weight:700;color:#1e293b;margin:0;">Preguntas Incorrectas — Revisión de Aprendizaje</h4>
+        <span class="mui-chip mui-chip-red" id="wrong-count-badge">0</span>
       </div>
-      <div id="wrong-list"></div>
+      <div style="padding:1rem;" id="wrong-list"></div>
     </div>
 
     <!-- Action plan -->
-    <div class="action-plan" id="action-plan">
-      <div class="action-plan-header">
-        <h4>Plan de Acción Recomendado</h4>
+    <div class="mui-paper" id="action-plan" style="margin-bottom:1.25rem;">
+      <div style="padding:1rem 1.25rem;border-bottom:1px solid #f1f5f9;">
+        <h4 style="font-size:.95rem;font-weight:700;color:#1e293b;margin:0;">Plan de Acción Recomendado</h4>
       </div>
-      <div id="action-steps"></div>
+      <div style="padding:1rem;" id="action-steps"></div>
     </div>
+
+    <!-- Save status -->
+    <div id="save-status" class="save-status"></div>
 
     <!-- Footer actions -->
     <div class="results-footer" id="results-footer">
@@ -623,6 +634,7 @@ const S = {
   submitted: false,
   allResults: [],
   webhookUrl: '/webhook/carol-results',
+  n8nWebhookUrl: 'https://flows.soul23.cloud/webhook/1xisi86df3c7t46s7h9usjonlb3pfwsyj7ix11xifrcycl743pz84',
 };
 
 const CAT_COLORS = {
@@ -919,7 +931,7 @@ function updateTimerDisplay(){
 }
 
 // ══════════════════════════════════════════ SUBMIT & GRADE ══
-function submitQuiz(){
+async function submitQuiz(){
   stopTimer();
   S.submitted=true;
   let earned=0,maxPts=0,correct=0;
@@ -947,11 +959,11 @@ function submitQuiz(){
   } else if(S.levels.length > 1){
     renderUnifiedResults();
     show('results');
-    sendUnifiedResultData();
+    await sendUnifiedResultData();
   } else {
     renderResults();
-    sendResultData();
     show('results');
+    await sendResultData();
   }
 }
 
@@ -984,43 +996,71 @@ function renderResults(){
     const passing=catPct>=65;
     const row=document.createElement('div');row.className='cat-result-row';
     row.innerHTML=`
-      <span class="cat-result-label">${cat}</span>
+      <div class="cat-result-header">
+        <span class="cat-result-label">${cat}</span>
+        <span class="cat-result-ratio">${st.correct}/${st.total}</span>
+      </div>
       <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:0%;background:${catColor};" data-w="${catPct}"></div></div>
-      <span class="cat-result-pct" style="color:${passing?'#16a34a':'#dc2626'}">${catPct}%</span>
-      <span class="cat-result-pass" style="background:${passing?'#dcfce7':'#fee2e2'};color:${passing?'#166534':'#991b1b'}">${st.correct}/${st.total}</span>`;
+      <div class="cat-result-footer">
+        <span class="cat-result-pct" style="color:${passing?'#16a34a':'#dc2626'}">${catPct}%</span>
+        <span class="cat-result-pass" style="background:${passing?'#dcfce7':'#fee2e2'};color:${passing?'#166534':'#991b1b'}">${passing?'Aprobado':'Requiere refuerzo'}</span>
+      </div>`;
     bd.appendChild(row);
     setTimeout(()=>{row.querySelector('.cat-bar-fill').style.width=catPct+'%';},300);
   });
-  // Wrong questions
+  // Wrong questions — SIN revelar respuesta correcta
   const wrongList=document.getElementById('wrong-list');wrongList.innerHTML='';
   const wrongs=S.questions.filter(q=>S.answers[q.id]!==S.answerKey[q.id].correct_index);
   document.getElementById('wrong-count-badge').textContent=wrongs.length+' preguntas';
   const letters=['A','B','C','D'];
-  wrongs.forEach(q=>{
-    const ak=S.answerKey[q.id];const chosen=S.answers[q.id];
-    const div=document.createElement('div');div.className='wrong-item';
-    const wrongOpts=q.options.map((opt,i)=>{
-      if(i===ak.correct_index)return`<div class="wrong-opt correct"><i class="ti ti-check"></i>${letters[i]}. ${opt}</div>`;
-      if(i===chosen)return`<div class="wrong-opt chosen"><i class="ti ti-x"></i>${letters[i]}. ${opt}</div>`;
-      return'';
-    }).join('');
-    div.innerHTML=`
-      <div class="wrong-item-meta">
-        <span class="q-cat-badge">${q.category}</span>
-        <span class="q-type-badge ${q.type==='Teórico'?'teorico':'practico'}">${q.type}</span>
-        <span style="font-size:.72rem;color:#94a3b8;">${q.score} pts</span>
+  wrongs.forEach((q,idx)=>{
+    const chosen=S.answers[q.id];
+    const div=document.createElement('div');div.className='mui-accordion';
+    const summary=document.createElement('div');summary.className='mui-accordion-summary';
+    summary.setAttribute('role','button');
+    summary.innerHTML=`
+      <div style="display:flex;align-items:center;gap:.5rem;flex:1;overflow:hidden;">
+        <span class="q-cat-badge" style="flex-shrink:0;">${q.category}</span>
+        <span class="q-type-badge ${q.type==='Teórico'?'teorico':'practico'}" style="flex-shrink:0;">${q.type}</span>
+        <span class="mui-accordion-summary-text" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${q.question}</span>
       </div>
-      <div class="wrong-q-text">${q.question}</div>
-      <div class="wrong-options">${wrongOpts}</div>
-      <div class="wrong-reasoning"><i class="ti ti-bulb"></i>${ak.reasoning}</div>`;
+      <div class="mui-accordion-summary-meta">
+        <span class="mui-chip mui-chip-red">${letters[chosen]}</span>
+        <i class="ti ti-chevron-down" style="color:#94a3b8;font-size:1rem;transition:transform .2s;"></i>
+      </div>`;
+    const details=document.createElement('div');details.className='mui-accordion-details';
+    details.innerHTML=`
+      <div class="mui-accordion-details-body">
+        <div style="font-size:.78rem;color:#64748b;margin-bottom:.5rem;">${q.description}</div>
+        <div style="font-size:.9rem;font-weight:600;color:#1e293b;margin-bottom:.75rem;line-height:1.4;">${q.question}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.75rem;">
+          ${q.options.map((opt,i)=>`<span class="mui-chip ${i===chosen?'mui-chip-red':'mui-chip-gray'}">${letters[i]}. ${opt}</span>`).join('')}
+        </div>
+        <div style="font-size:.8rem;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:.75rem;display:flex;align-items:flex-start;gap:.5rem;">
+          <i class="ti ti-book" style="flex-shrink:0;margin-top:2px;"></i>
+          <span>Revisa el material de estudio de <b>${q.category}</b> para reforzar este tema antes de la re-evaluación.</span>
+        </div>
+      </div>`;
+    summary.onclick=()=>{
+      const isOpen=details.classList.contains('open');
+      document.querySelectorAll('.mui-accordion-details.open').forEach(el=>el.classList.remove('open'));
+      document.querySelectorAll('.mui-accordion-summary .ti-chevron-down').forEach(el=>el.style.transform='rotate(0deg)');
+      if(!isOpen){
+        details.classList.add('open');
+        summary.querySelector('.ti-chevron-down').style.transform='rotate(180deg)';
+      }
+    };
+    div.appendChild(summary);
+    div.appendChild(details);
     wrongList.appendChild(div);
   });
   if(!wrongs.length)document.getElementById('wrong-review').style.display='none';
+  else document.getElementById('wrong-review').style.display='block';
   // Action plan
   const weakCats=Object.entries(catStats).filter(([,st])=>st.correct/st.total<0.7).sort((a,b)=>a[1].correct/a[1].total-b[1].correct/b[1].total);
   const steps=document.getElementById('action-steps');steps.innerHTML='';
   if(!weakCats.length){
-    steps.innerHTML='<div style="padding:1.25rem 1.5rem;color:#16a34a;font-size:.9rem;display:flex;gap:.5rem;align-items:center;"><i class="ti ti-check-circle"></i> Excelente desempeño en todas las áreas. Se recomienda mantener y compartir conocimiento con el equipo.</div>';
+    steps.innerHTML='<div style="padding:1rem;color:#16a34a;font-size:.9rem;display:flex;gap:.5rem;align-items:center;"><i class="ti ti-check-circle"></i> Excelente desempeño en todas las áreas. Se recomienda mantener y compartir conocimiento con el equipo.</div>';
   }else{
     weakCats.forEach(([cat,st])=>{
       const plan=ACTION_PLANS[cat]||{duration:'1 semana',actions:['Revisión teórica del área.','Práctica supervisada en piso.'],kpi:'Superar 70% en re-evaluación del área.'};
@@ -1050,9 +1090,61 @@ function renderInterLevel(){
   const nextLvl=S.levels[S.levelIndex+1];
   const nextName=CAROL_DATA[nextLvl].meta.name_es;
   const banner=document.getElementById('inter-level-banner');
+  const passed=S.result.passed;
+
+  const icon=document.getElementById('inter-level-icon');
+  const title=document.getElementById('inter-level-title');
+  const scoreEl=document.getElementById('inter-level-score');
+  const btn=document.getElementById('inter-level-btn');
+
+  if(passed){
+    icon.className='ti ti-check-circle';
+    icon.style.color='#00B894';
+    title.textContent='Nivel Aprobado';
+  }else{
+    icon.className='ti ti-x-circle';
+    icon.style.color='#E74C3C';
+    title.textContent='Nivel No Aprobado';
+  }
+
   document.getElementById('inter-level-subtitle').textContent='Has completado '+CAROL_DATA[S.level].meta.name_es+' · Prepárate para el siguiente nivel';
-  document.getElementById('inter-level-score').textContent=Math.round(S.result.pct)+'%';
+  scoreEl.textContent=Math.round(S.result.pct)+'%';
+  scoreEl.style.color=passed?'#00B894':'#E74C3C';
+
+  btn.disabled=false;
+  btn.style.opacity='1';
+  btn.style.cursor='pointer';
+  btn.innerHTML='<i class="ti ti-player-play"></i> Siguiente Nivel';
+  btn.onclick=startCooldownNextLevel;
+
   banner.classList.remove('d-none');
+}
+
+function startCooldownNextLevel(){
+  const btn=document.getElementById('inter-level-btn');
+  let secs=10;
+  btn.disabled=true;
+  btn.style.opacity='0.6';
+  btn.style.cursor='wait';
+  btn.innerHTML='<i class="ti ti-clock"></i> Espera '+secs+'s';
+  const interval=setInterval(()=>{
+    secs--;
+    btn.innerHTML='<i class="ti ti-clock"></i> Espera '+secs+'s';
+    if(secs<=0){
+      clearInterval(interval);
+      btn.disabled=false;
+      btn.style.opacity='1';
+      btn.style.cursor='pointer';
+      btn.innerHTML='<i class="ti ti-player-play"></i> Siguiente Nivel';
+      btn.onclick=nextLevel;
+    }
+  },1000);
+}
+
+function showSaveStatus(msg,type){
+  const el=document.getElementById('save-status');
+  el.textContent=msg;
+  el.className='save-status show '+type;
 }
 
 function nextLevel(){
@@ -1128,7 +1220,7 @@ function renderUnifiedResults(){
   footer.innerHTML='<button class="btn-action btn-restart" onclick="showSplash()"><i class="ti ti-home"></i> Inicio</button><button class="btn-action btn-print" onclick="window.print()"><i class="ti ti-printer"></i> Imprimir Reporte</button><button class="btn-action btn-webhook" onclick="sendToWebhook()"><i class="ti ti-send"></i> Enviar Resultados</button>';
 }
 
-function sendUnifiedResultData(){
+async function sendUnifiedResultData(){
   const payload={
     survey_id:'carol_assessment_v2_unified',
     submitted_at:new Date().toISOString(),
@@ -1149,15 +1241,42 @@ function sendUnifiedResultData(){
     })),
   };
   console.log('CAROL Unified Result payload:',JSON.stringify(payload,null,2));
-  fetch(S.webhookUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
-    .then(r=>{if(r.ok)console.log('Unified webhook sent OK');})
-    .catch(e=>console.warn('Unified webhook not configured:',e.message));
+  sendToN8N(payload);
+  try{
+    const r=await fetch(S.webhookUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(r.ok){
+      console.log('Unified webhook sent OK');
+      showSaveStatus('✅ Resultados guardados correctamente','ok');
+    }else{
+      console.warn('Unified webhook error:',r.status);
+      showSaveStatus('⚠️ Error al guardar resultados (código '+r.status+')','err');
+    }
+  }catch(e){
+    console.warn('Unified webhook not configured:',e.message);
+    showSaveStatus('⚠️ No se pudo conectar al servidor para guardar','err');
+  }
 }
 
 // ══════════════════════════════════════════ WEBHOOK ══
 function buildPayload(){
   const d=CAROL_DATA[S.level];
   const {earned,maxPts,correct,pct,passed,catStats,timeUsed}=S.result;
+  const answersMap={};
+  S.questions.forEach(q=>{
+    const ak=S.answerKey[q.id];
+    const chosen=S.answers[q.id];
+    answersMap[q.id]={
+      question:q.question,
+      category:q.category,
+      type:q.type,
+      options:q.options,
+      score:q.score,
+      correct_index:ak.correct_index,
+      chosen_index:chosen,
+      correct:(chosen===ak.correct_index),
+      reasoning:ak.reasoning,
+    };
+  });
   return{
     survey_id:'carol_assessment_v2',submitted_at:new Date().toISOString(),
     candidate:{...S.candidate},
@@ -1165,15 +1284,157 @@ function buildPayload(){
     results:{earned_pts:parseFloat(earned.toFixed(2)),max_pts:maxPts,pct_score:pct,passed,correct_answers:correct,time_seconds:timeUsed},
     category_breakdown:Object.fromEntries(Object.entries(catStats).map(([cat,st])=>[cat,{correct:st.correct,total:st.total,pct:Math.round(st.correct/st.total*100)}])),
     wrong_question_ids:S.questions.filter(q=>S.answers[q.id]!==S.answerKey[q.id].correct_index).map(q=>q.id),
+    answers:answersMap,
   };
 }
 
-function sendResultData(){
+function generateReportHTML(){
+  const d=CAROL_DATA[S.level];
+  const {earned,maxPts,correct,pct,passed,catStats,timeUsed}=S.result;
+  const c=S.candidate;
+  const letters=['A','B','C','D'];
+  const statusColor=passed?'#16a34a':'#dc2626';
+  const statusText=passed?'APROBADO':'NO APROBÓ';
+  const circ=2*Math.PI*44;
+  const offset=circ*(1-pct/100);
+
+  let catRows='';
+  Object.entries(catStats).forEach(([cat,st])=>{
+    const p=Math.round(st.correct/st.total*100);
+    const barColor=p>=85?'#00B894':p>=70?'#27AE60':p>=55?'#E67E22':'#C0392B';
+    catRows+=`<tr><td style="padding:.5rem;border-bottom:1px solid #f1f5f9;"><b>${cat}</b></td><td style="padding:.5rem;border-bottom:1px solid #f1f5f9;text-align:center;">${st.correct}/${st.total}</td><td style="padding:.5rem;border-bottom:1px solid #f1f5f9;text-align:center;color:${barColor};font-weight:700;">${p}%</td></tr>`;
+  });
+
+  let wrongHtml='';
+  const wrongs=S.questions.filter(q=>S.answers[q.id]!==S.answerKey[q.id].correct_index);
+  if(wrongs.length){
+    wrongHtml='<h3 style="font-size:1rem;color:#0D1B2A;margin:1.5rem 0 .5rem;">❌ Preguntas Incorrectas — Revisión</h3>';
+    wrongs.forEach(q=>{
+      const chosen=S.answers[q.id];
+      wrongHtml+=`<div style="padding:.75rem 0;border-bottom:1px solid #f1f5f9;">
+        <div style="font-size:.78rem;color:#64748b;margin-bottom:.25rem;">${q.category} · ${q.type} · ${q.score} pts</div>
+        <div style="font-size:.85rem;font-weight:600;color:#1e293b;line-height:1.4;margin-bottom:.25rem;">${q.question}</div>
+        <div style="font-size:.78rem;padding:.25rem .5rem;border-radius:6px;background:#fee2e2;color:#991b1b;display:inline-block;"><b>Tu respuesta:</b> ${letters[chosen]}. ${q.options[chosen]}</div>
+        <div style="font-size:.78rem;color:#78350f;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:.5rem .75rem;margin-top:.35rem;">📚 Revisa el material de estudio de <b>${q.category}</b> para reforzar este tema.</div>
+      </div>`;
+    });
+  }else{
+    wrongHtml='<div style="color:#16a34a;font-weight:700;padding:1rem 0;">✅ Sin preguntas incorrectas — excelente desempeño.</div>';
+  }
+
+  let actionHtml='';
+  const weakCats=Object.entries(catStats).filter(([,st])=>st.correct/st.total<0.7).sort((a,b)=>a[1].correct/a[1].total-b[1].correct/b[1].total);
+  if(weakCats.length){
+    actionHtml='<h3 style="font-size:1rem;color:#0D1B2A;margin:1.5rem 0 .5rem;">📋 Plan de Acción Recomendado</h3>';
+    weakCats.forEach(([cat,st])=>{
+      const p=Math.round(st.correct/st.total*100);
+      const isCrit=p<55;
+      const badgeBg=isCrit?'#fee2e2':'#fef3c7';
+      const badgeColor=isCrit?'#991b1b':'#92400e';
+      const plan=ACTION_PLANS[cat]||{duration:'1 semana',actions:['Revisión teórica del área.','Práctica supervisada en piso.'],kpi:'Superar 70% en re-evaluación del área.'};
+      actionHtml+=`<div style="padding:.75rem 0;border-bottom:1px solid #f1f5f9;display:flex;gap:1rem;">
+        <div style="width:70px;flex-shrink:0;text-align:center;">
+          <span style="display:inline-block;padding:.2rem .5rem;border-radius:6px;font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;background:${badgeBg};color:${badgeColor};">${isCrit?'CRÍTICO':'MEJORA'}</span>
+        </div>
+        <div>
+          <div style="font-size:.85rem;font-weight:700;color:#1e293b;margin-bottom:.25rem;">${cat}</div>
+          <div style="font-size:.78rem;color:#475569;">${plan.actions.join('<br>')}</div>
+          <div style="font-size:.72rem;color:#92400e;background:#fef3c7;padding:.25rem .5rem;border-radius:4px;display:inline-block;margin-top:.35rem;">🎯 ${plan.kpi}</div>
+        </div>
+      </div>`;
+    });
+  }else{
+    actionHtml='<div style="color:#16a34a;font-weight:700;padding:1rem 0;">✅ Excelente desempeño en todas las áreas.</div>';
+  }
+
+  const minutes=Math.floor(timeUsed/60);const seconds=timeUsed%60;
+
+  return `<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><title>Reporte CAROL — ${c.full_name}</title></head>
+<body style="margin:0;padding:0;background:#f0f4f8;font-family:'Inter',system-ui,Helvetica,Arial,sans-serif;">
+<div style="max-width:680px;margin:2rem auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08);">
+  <div style="background:linear-gradient(135deg,#0D1B2A 0%,#1B4F72 100%);padding:2rem;text-align:center;color:#fff;">
+    <div style="margin-bottom:.75rem;"><img src="https://raw.githubusercontent.com/marcogll/mg_data_storage/refs/heads/main/soul23/logo/s23_logo.svg" alt="Soul23" style="height:36px;filter:brightness(0) invert(1);"></div>
+    <h1 style="margin:0;font-size:1.6rem;font-weight:800;letter-spacing:-.02em;">CAROL <span style="color:#00B894;">.</span></h1>
+    <p style="margin:.35rem 0 0;color:#94a3b8;font-size:.88rem;">Reporte de Evaluación Técnica — Moldeo por Inyección</p>
+  </div>
+  <div style="padding:2rem;">
+    <h3 style="font-size:1rem;font-weight:700;color:#0D1B2A;margin:0 0 1rem;text-transform:uppercase;letter-spacing:.04em;">👤 Información del Candidato</h3>
+    <div style="background:#f8fafc;border-radius:12px;padding:1.25rem;display:grid;grid-template-columns:1fr 1fr;gap:.6rem 1rem;font-size:.85rem;">
+      <div><label style="color:#64748b;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:.15rem;">Nombre</label><strong style="color:#1e293b;font-weight:700;font-size:.9rem;">${c.full_name}</strong></div>
+      <div><label style="color:#64748b;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:.15rem;">ID Empleado</label><strong style="color:#1e293b;font-weight:700;font-size:.9rem;">${c.employee_id}</strong></div>
+      <div><label style="color:#64748b;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:.15rem;">Empresa</label><strong style="color:#1e293b;font-weight:700;font-size:.9rem;">${c.company_name}</strong></div>
+      <div><label style="color:#64748b;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:.15rem;">Departamento</label><strong style="color:#1e293b;font-weight:700;font-size:.9rem;">${c.department}</strong></div>
+      <div><label style="color:#64748b;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:.15rem;">Puesto</label><strong style="color:#1e293b;font-weight:700;font-size:.9rem;">${c.job_role}</strong></div>
+      <div><label style="color:#64748b;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:.15rem;">Nivel</label><strong style="color:#1e293b;font-weight:700;font-size:.9rem;">${d.meta.name_es}</strong></div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:2rem;margin:1.5rem 0;flex-wrap:wrap;">
+      <div style="position:relative;width:120px;height:120px;flex-shrink:0;">
+        <svg width="120" height="120" viewBox="0 0 120 120" style="transform:rotate(-90deg);">
+          <circle cx="60" cy="60" r="44" fill="none" stroke="#e2e8f0" stroke-width="12"/>
+          <circle cx="60" cy="60" r="44" fill="none" stroke="${passed?'#00B894':'#E74C3C'}" stroke-width="12" stroke-dasharray="${circ.toFixed(2)}" stroke-dashoffset="${offset.toFixed(2)}" stroke-linecap="round"/>
+        </svg>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <div style="font-size:1.6rem;font-weight:800;color:#1e293b;">${pct}%</div>
+          <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:${statusColor};">${statusText}</div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:200px;">
+        <div style="font-size:1.1rem;font-weight:700;margin-bottom:.5rem;color:${statusColor};">${statusText}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;">
+          <div style="background:#f8fafc;border-radius:8px;padding:.6rem;text-align:center;"><span style="display:block;font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.04em;">Pts. Obtenidos</span><b style="font-size:1rem;color:#1e293b;">${earned.toFixed(1)}</b></div>
+          <div style="background:#f8fafc;border-radius:8px;padding:.6rem;text-align:center;"><span style="display:block;font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.04em;">Pts. Máximos</span><b style="font-size:1rem;color:#1e293b;">${maxPts.toFixed(1)}</b></div>
+          <div style="background:#f8fafc;border-radius:8px;padding:.6rem;text-align:center;"><span style="display:block;font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.04em;">Correctas</span><b style="font-size:1rem;color:#1e293b;">${correct}/${S.questions.length}</b></div>
+          <div style="background:#f8fafc;border-radius:8px;padding:.6rem;text-align:center;"><span style="display:block;font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.04em;">Tiempo</span><b style="font-size:1rem;color:#1e293b;">${minutes}m ${seconds}s</b></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#0D1B2A;margin:0 0 1rem;text-transform:uppercase;letter-spacing:.04em;">📊 Desempeño por Área</h3>
+    <table style="width:100%;font-size:.82rem;margin-bottom:1.5rem;border-collapse:collapse;">
+      <thead><tr style="background:#0D1B2A;color:#fff;"><th style="padding:.6rem;text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;">Área</th><th style="padding:.6rem;text-align:center;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;">Correctas</th><th style="padding:.6rem;text-align:center;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;">%</th></tr></thead>
+      <tbody>${catRows}</tbody>
+    </table>
+
+    ${wrongHtml}
+    ${actionHtml}
+  </div>
+  <div style="background:#f8fafc;padding:1.25rem 2rem;text-align:center;font-size:.75rem;color:#94a3b8;">
+    Reporte generado automáticamente por <b>CAROL Assessment System</b> · Powered by Soul23<br>
+    <small>Confidencial · Uso interno autorizado</small>
+  </div>
+</div>
+</body></html>`;
+}
+
+function sendToN8N(payload){
+  if(!S.n8nWebhookUrl)return;
+  try{
+    payload.report_html=generateReportHTML();
+  }catch(e){console.warn('Could not generate report HTML for n8n:',e);}
+  fetch(S.n8nWebhookUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+    .then(r=>{if(r.ok)console.log('n8n webhook sent OK');else console.warn('n8n webhook error:',r.status);})
+    .catch(e=>console.warn('n8n webhook failed:',e.message));
+}
+
+async function sendResultData(){
   const payload=buildPayload();
   console.log('CAROL Result payload:',JSON.stringify(payload,null,2));
-  fetch(S.webhookUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
-    .then(r=>{if(r.ok)console.log('Webhook sent OK');})
-    .catch(e=>console.warn('Webhook not configured:',e.message));
+  sendToN8N(payload);
+  try{
+    const r=await fetch(S.webhookUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(r.ok){
+      console.log('Webhook sent OK');
+      showSaveStatus('✅ Resultados guardados correctamente','ok');
+    }else{
+      console.warn('Webhook error:',r.status);
+      showSaveStatus('⚠️ Error al guardar resultados (código '+r.status+')','err');
+    }
+  }catch(e){
+    console.warn('Webhook not configured:',e.message);
+    showSaveStatus('⚠️ No se pudo conectar al servidor para guardar','err');
+  }
 }
 
 function isValidUrl(string) {

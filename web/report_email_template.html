@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reporte CAROL — Resultado de Evaluación</title>
+<style>
+/* Reset */
+body{margin:0;padding:0;background:#f0f4f8;font-family:'Inter',system-ui,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+table{border-collapse:collapse;border-spacing:0;}
+img{border:0;height:auto;line-height:100%;outline:none;text-decoration:none;}
+/* Wrapper */
+.email-wrapper{max-width:680px;margin:2rem auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08);}
+/* Header */
+.email-header{background:linear-gradient(135deg,#0D1B2A 0%,#1B4F72 100%);padding:2rem;text-align:center;color:#fff;}
+.email-header h1{margin:0;font-size:1.6rem;font-weight:800;letter-spacing:-.02em;}
+.email-header p{margin:.35rem 0 0;color:#94a3b8;font-size:.88rem;}
+/* Body */
+.email-body{padding:2rem;}
+.section-title{font-size:1rem;font-weight:700;color:#0D1B2A;margin:0 0 1rem;text-transform:uppercase;letter-spacing:.04em;}
+/* Candidate card */
+.candidate-card{background:#f8fafc;border-radius:12px;padding:1.25rem;display:grid;grid-template-columns:1fr 1fr;gap:.6rem 1rem;font-size:.85rem;}
+.candidate-card label{color:#64748b;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:.15rem;}
+.candidate-card strong{color:#1e293b;font-weight:700;font-size:.9rem;}
+/* Score hero */
+.score-hero{display:flex;align-items:center;gap:2rem;margin:1.5rem 0;flex-wrap:wrap;}
+.score-donut{position:relative;width:120px;height:120px;flex-shrink:0;}
+.score-donut svg{transform:rotate(-90deg);}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.donut-pct{font-size:1.6rem;font-weight:800;color:#1e293b;}
+.donut-label{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+.score-meta{flex:1;min-width:200px;}
+.score-status{font-size:1.1rem;font-weight:700;margin-bottom:.5rem;}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.score-cell{background:#f8fafc;border-radius:8px;padding:.6rem;text-align:center;}
+.score-cell span{display:block;font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.04em;}
+.score-cell b{font-size:1rem;color:#1e293b;}
+/* Category table */
+.cat-table{width:100%;font-size:.82rem;margin-bottom:1.5rem;}
+.cat-table th{background:#0D1B2A;color:#fff;padding:.6rem;text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;}
+.cat-table td{padding:.55rem .6rem;border-bottom:1px solid #f1f5f9;}
+.cat-table tr:nth-child(even){background:#f8fafc;}
+.cat-bar-bg{width:100%;height:6px;background:#e2e8f0;border-radius:99px;overflow:hidden;}
+.cat-bar-fill{height:100%;border-radius:99px;}
+/* Wrong review */
+.wrong-item{padding:1rem 0;border-bottom:1px solid #f1f5f9;}
+.wrong-item:last-child{border:none;}
+.wrong-meta{display:flex;gap:.5rem;margin-bottom:.4rem;flex-wrap:wrap;}
+.wrong-meta span{font-size:.68rem;font-weight:600;padding:.15rem .5rem;border-radius:99px;background:#f1f5f9;color:#475569;}
+.wrong-q{font-size:.85rem;font-weight:600;color:#1e293b;line-height:1.4;margin-bottom:.4rem;}
+.wrong-opt{font-size:.78rem;padding:.25rem .5rem;border-radius:6px;display:inline-block;margin:.15rem .3rem 0 0;}
+.wrong-opt.chosen{background:#fee2e2;color:#991b1b;}
+.wrong-reasoning{font-size:.78rem;color:#78350f;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:.5rem .75rem;margin-top:.5rem;}
+/* Action plan */
+.action-item{padding:.85rem 0;border-bottom:1px solid #f1f5f9;display:flex;gap:1rem;}
+.action-item:last-child{border:none;}
+.action-priority{width:70px;flex-shrink:0;text-align:center;}
+.action-badge{display:inline-block;padding:.2rem .5rem;border-radius:6px;font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;}
+.action-area{font-size:.85rem;font-weight:700;color:#1e293b;margin-bottom:.25rem;}
+.action-kpi{font-size:.72rem;color:#92400e;background:#fef3c7;padding:.25rem .5rem;border-radius:4px;display:inline-block;margin-top:.35rem;}
+/* Footer */
+.email-footer{background:#f8fafc;padding:1.25rem 2rem;text-align:center;font-size:.75rem;color:#94a3b8;}
+.email-footer a{color:#1B4F72;text-decoration:none;}
+/* Print */
+@media print{body{background:#fff;}.email-wrapper{box-shadow:none;margin:0;border-radius:0;}}
+</style>
+</head>
+<body>
+
+<div class="email-wrapper" id="report-root">
+  <div style="text-align:center;padding:3rem;color:#94a3b8;font-size:.9rem;">
+    Cargando reporte…
+  </div>
+</div>
+
+<script>
+const API='';
+function getToken(){return localStorage.getItem('carol_admin_token');}
+
+async function loadReport(){
+  const params=new URLSearchParams(location.search);
+  const id=params.get('id');
+  const root=document.getElementById('report-root');
+  if(!id){root.innerHTML='<div style="padding:3rem;text-align:center;color:#dc2626;">Falta el parámetro ?id=</div>';return;}
+
+  try{
+    const r=await fetch(API+'/api/result/'+id,{headers:{'Authorization':'Bearer '+getToken()}});
+    const data=await r.json();
+    if(data.error){root.innerHTML='<div style="padding:3rem;text-align:center;color:#dc2626;">'+data.error+'</div>';return;}
+    render(data);
+  }catch(e){
+    root.innerHTML='<div style="padding:3rem;text-align:center;color:#dc2626;">Error cargando reporte. Inicia sesión en el admin primero.</div>';
+  }
+}
+
+function render(data){
+  const c=data.candidate||{};
+  const a=data.assessment||{};
+  const res=data.results||{};
+  const catBd=data.category_breakdown||{};
+  const answers=data.answers||{};
+  const passed=res.passed;
+  const pct=res.pct_score||0;
+
+  // Donut SVG
+  const circ=2*Math.PI*44;
+  const offset=circ*(1-pct/100);
+  const strokeColor=passed?'#00B894':'#E74C3C';
+  const statusText=passed?'✓ APROBADO':'✗ NO APROBÓ';
+  const statusColor=passed?'#16a34a':'#dc2626';
+
+  const letters=['A','B','C','D'];
+
+  // Build category rows
+  let catRows='';
+  Object.entries(catBd).forEach(([cat,st])=>{
+    const p=st.pct||0;
+    const barColor=p>=85?'#00B894':p>=70?'#27AE60':p>=55?'#E67E22':'#C0392B';
+    catRows+=`<tr>
+      <td><b>${cat}</b></td>
+      <td>${st.correct}/${st.total}</td>
+      <td>${p}%</td>
+      <td style="width:120px;"><div class="cat-bar-bg"><div class="cat-bar-fill" style="width:${p}%;background:${barColor};"></div></div></td>
+    </tr>`;
+  });
+
+  // Build wrong questions
+  let wrongHtml='';
+  const wrongIds=data.wrong_question_ids||[];
+  if(wrongIds.length){
+    wrongHtml='<h3 class="section-title">❌ Preguntas Incorrectas — Revisión</h3>';
+    wrongIds.forEach(qid=>{
+      const ans=answers[qid];
+      if(!ans)return;
+      const chosenOpt=ans.options[ans.chosen_index]||'Sin respuesta';
+      wrongHtml+=`<div class="wrong-item">
+        <div class="wrong-meta">
+          <span>${ans.category}</span>
+          <span>${ans.type}</span>
+          <span>${ans.score} pts</span>
+        </div>
+        <div class="wrong-q">${ans.question}</div>
+        <div class="wrong-opt chosen"><b>Tu respuesta:</b> ${letters[ans.chosen_index]}. ${chosenOpt}</div>
+        <div class="wrong-reasoning">📚 Revisa el material de estudio de <b>${ans.category}</b> para reforzar este tema.</div>
+      </div>`;
+    });
+  }else{
+    wrongHtml='<div style="color:#16a34a;font-weight:700;padding:1rem 0;">✅ Sin preguntas incorrectas — excelente desempeño.</div>';
+  }
+
+  // Action plan (reconstructed from weak categories)
+  let actionHtml='';
+  const weakCats=Object.entries(catBd).filter(([,st])=>(st.pct||0)<70).sort((a,b)=>a[1].pct-b[1].pct);
+  if(weakCats.length){
+    actionHtml='<h3 class="section-title">📋 Plan de Acción Recomendado</h3>';
+    weakCats.forEach(([cat,st])=>{
+      const p=st.pct||0;
+      const isCrit=p<55;
+      const badgeBg=isCrit?'#fee2e2':'#fef3c7';
+      const badgeColor=isCrit?'#991b1b':'#92400e';
+      actionHtml+=`<div class="action-item">
+        <div class="action-priority">
+          <span class="action-badge" style="background:${badgeBg};color:${badgeColor};">${isCrit?'CRÍTICO':'MEJORA'}</span>
+        </div>
+        <div>
+          <div class="action-area">${cat}</div>
+          <div style="font-size:.78rem;color:#475569;">Desempeño: ${p}% — Requiere refuerzo en esta área.</div>
+        </div>
+      </div>`;
+    });
+  }else{
+    actionHtml='<div style="color:#16a34a;font-weight:700;padding:1rem 0;">✅ Excelente desempeño en todas las áreas.</div>';
+  }
+
+  const html=`
+  <div class="email-header">
+    <div style="margin-bottom:.75rem;">
+      <img src="https://raw.githubusercontent.com/marcogll/mg_data_storage/refs/heads/main/soul23/logo/s23_logo.svg" alt="Soul23" style="height:36px;filter:brightness(0) invert(1);">
+    </div>
+    <h1>CAROL <span style="color:#00B894;">.</span></h1>
+    <p>Reporte de Evaluación Técnica — Moldeo por Inyección</p>
+  </div>
+
+  <div class="email-body">
+    <h3 class="section-title">👤 Información del Candidato</h3>
+    <div class="candidate-card">
+      <div><label>Nombre</label><strong>${c.full_name||'—'}</strong></div>
+      <div><label>ID Empleado</label><strong>${c.employee_id||'—'}</strong></div>
+      <div><label>Empresa</label><strong>${c.company_name||'—'}</strong></div>
+      <div><label>Departamento</label><strong>${c.department||'—'}</strong></div>
+      <div><label>Puesto</label><strong>${c.job_role||'—'}</strong></div>
+      <div><label>Experiencia</label><strong>${c.years_experience||'—'} años</strong></div>
+      <div><label>Nivel Evaluado</label><strong>${a.level_name||'—'}</strong></div>
+      <div><label>Fecha</label><strong>${fmtDate(data.submitted_at)}</strong></div>
+    </div>
+
+    <div class="score-hero">
+      <div class="score-donut">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="44" fill="none" stroke="#e2e8f0" stroke-width="12"/>
+          <circle cx="60" cy="60" r="44" fill="none" stroke="${strokeColor}" stroke-width="12"
+            stroke-dasharray="${circ.toFixed(2)}" stroke-dashoffset="${offset.toFixed(2)}" stroke-linecap="round"/>
+        </svg>
+        <div class="donut-center">
+          <div class="donut-pct">${pct}%</div>
+          <div class="donut-label" style="color:${statusColor};">${statusText}</div>
+        </div>
+      </div>
+      <div class="score-meta">
+        <div class="score-status" style="color:${statusColor};">${statusText}</div>
+        <div class="score-grid">
+          <div class="score-cell"><span>Pts. Obtenidos</span><b>${(res.earned_pts||0).toFixed(1)}</b></div>
+          <div class="score-cell"><span>Pts. Máximos</span><b>${(res.max_pts||0).toFixed(1)}</b></div>
+          <div class="score-cell"><span>Correctas</span><b>${res.correct_answers||0}</b></div>
+          <div class="score-cell"><span>Tiempo</span><b>${fmtTime(res.time_seconds||0)}</b></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="section-title">📊 Desempeño por Área</h3>
+    <table class="cat-table">
+      <thead><tr><th>Área</th><th>Correctas</th><th>%</th><th>Progreso</th></tr></thead>
+      <tbody>${catRows}</tbody>
+    </table>
+
+    ${wrongHtml}
+    ${actionHtml}
+  </div>
+
+  <div class="email-footer">
+    Reporte generado automáticamente por <b>CAROL Assessment System</b> · <a href="${location.origin}">${location.host}</a><br>
+    <small>Confidencial · Uso interno autorizado</small>
+  </div>`;
+
+  document.getElementById('report-root').innerHTML=html;
+  document.title='Reporte CAROL — '+c.full_name;
+}
+
+function fmtDate(iso){
+  if(!iso)return'—';
+  const d=new Date(iso);
+  return d.toLocaleDateString('es-MX');
+}
+function fmtTime(sec){
+  const m=Math.floor(sec/60);const s=sec%60;
+  return m+'m '+s+'s';
+}
+
+document.addEventListener('DOMContentLoaded',loadReport);
+</script>
+
+</body>
+</html>
