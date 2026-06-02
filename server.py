@@ -935,6 +935,8 @@ class CarolHandler(SimpleHTTPRequestHandler):
         # Fallback to static files
         if path == "/":
             self.path = "/carol_platform.html"
+        elif path in ("/admin", "/dashboard"):
+            self.path = "/admin.html"
         super().do_GET()
 
 
