@@ -605,6 +605,7 @@ class CarolHandler(SimpleHTTPRequestHandler):
                 "submitted_at": payload.get("submitted_at", _now_iso()),
             }
             store_candidate(candidate)
+            print(f"[WEBHOOK /webhook/carol-registration] stored candidate id={cid} email={candidate['contact_email']} mode={'MySQL' if USE_MYSQL else 'JSON'}")
             level = candidate["assigned_level"]
             self._send_json(200, {
                 "success": True,
@@ -618,6 +619,7 @@ class CarolHandler(SimpleHTTPRequestHandler):
         # ── Webhook: Results ──
         if path == "/webhook/carol-results":
             payload = self._read_body()
+            print(f"[WEBHOOK /webhook/carol-results] received payload for candidate: {payload.get('candidate', {}).get('contact_email', 'unknown')}")
 
             # Validation logic
             if not OPEN_MODE:
@@ -629,6 +631,7 @@ class CarolHandler(SimpleHTTPRequestHandler):
                 exists = any(c.get("contact_email") == email or c.get("employee_id") == emp_id for c in candidates)
 
                 if not exists:
+                    print(f"[WEBHOOK REJECTED] Candidate not registered: email={email}, emp_id={emp_id}")
                     self._send_json(403, {"error": "Candidato no registrado. Contacte a su administrador."})
                     return
 
@@ -640,9 +643,11 @@ class CarolHandler(SimpleHTTPRequestHandler):
                 "results": payload.get("results", {}),
                 "category_breakdown": payload.get("category_breakdown", {}),
                 "wrong_question_ids": payload.get("wrong_question_ids", []),
+                "answers": payload.get("answers", {}),
                 "stored_at": _now_iso(),
             }
             store_result(result)
+            print(f"[WEBHOOK STORED] Result id={result['id']} mode={'MySQL' if USE_MYSQL else 'JSON'}")
             self._send_json(200, {"success": True, "stored": True, "id": result["id"]})
             return
 
