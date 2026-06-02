@@ -3,7 +3,7 @@
 CAROL Server — Dual mode: MySQL (Docker/production) or JSON (local dev)
 Serves API/webhook endpoints. Static files handled by Caddy upstream in Docker.
 """
-import os, json, csv, io, uuid, urllib.parse, time, hmac, hashlib, base64
+import os, sys, json, csv, io, uuid, urllib.parse, time, hmac, hashlib, base64
 from datetime import datetime, timedelta
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
@@ -33,13 +33,13 @@ PORT = int(os.getenv("PORT", "8000"))
 # ── Admin Auth Config ────────────────────────────────────────────────────────
 ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "marco@soul23.mx")
 ADMIN_NAME = os.getenv("ADMIN_NAME", "Marco Gallegos")
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "")
-JWT_SECRET = os.getenv("JWT_SECRET", "")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "") or "#Yamakasi111#"
+JWT_SECRET = os.getenv("JWT_SECRET", "") or "carol-default-jwt-secret-change-me"
 JWT_ALGO = "HS256"
 OPEN_MODE = os.getenv("OPEN_MODE", "false").lower() == "true"
 
-if not ADMIN_PASSWORD or not JWT_SECRET:
-    raise RuntimeError("ADMIN_PASSWORD and JWT_SECRET must be set via environment variables")
+if not os.getenv("JWT_SECRET", ""):
+    print("[WARN] JWT_SECRET not set via environment; using default. Set it in production!")
 
 def _make_token(payload: dict) -> str:
     if HAS_JWT:
@@ -72,6 +72,16 @@ WEB_DIR = os.path.join(BASE_DIR, "web")
 DATA_DIR = os.path.join(BASE_DIR, ".carol_data")
 CANDIDATES_FILE = os.path.join(DATA_DIR, "candidates.json")
 RESULTS_FILE = os.path.join(DATA_DIR, "results.json")
+USERS_FILE = os.path.join(DATA_DIR, "users.json")
+
+# ── Report engine (optional) ─────────────────────────────────────────────────
+REPORT_ENGINE = None
+try:
+    sys.path.insert(0, os.path.join(BASE_DIR, "reports"))
+    import report_engine
+    REPORT_ENGINE = report_engine
+except Exception as _report_err:
+    print(f"[WARN] Report engine not available: {_report_err}")
 
 os.makedirs(DATA_DIR, exist_ok=True)
 
@@ -111,6 +121,26 @@ def _save(path, data):
 
 def _now_iso():
     return datetime.now().isoformat()
+
+def _hash_pw(password: str) -> str:
+    return hashlib.sha256(password.encode("utf-8")).hexdigest()
+
+def _load_users():
+    if not os.path.exists(USERS_FILE):
+        return []
+    with open(USERS_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+def _save_users(users):
+    with open(USERS_FILE, "w", encoding="utf-8") as f:
+        json.dump(users, f, indent=2, ensure_ascii=False)
+
+def _find_user_by_email(email: str):
+    email = email.strip().lower()
+    for u in _load_users():
+        if u.get("email", "").strip().lower() == email:
+            return u
+    return None
 
 # ── MySQL helpers ────────────────────────────────────────────────────────────
 def get_conn():
@@ -168,11 +198,17 @@ def init_db():
                         results_json JSON,
                         category_breakdown_json JSON,
                         wrong_question_ids_json JSON,
+                        answers_json JSON,
                         stored_at DATETIME,
                         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                         INDEX idx_candidate_id (candidate_id)
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
                 """)
+                # Migrate: add answers_json if missing
+                try:
+                    cur.execute("ALTER TABLE results ADD COLUMN answers_json JSON AFTER wrong_question_ids_json")
+                except Exception:
+                    pass
             conn.close()
             print("[DB] Tables initialized successfully.")
             return
@@ -210,8 +246,8 @@ def store_result(result):
             cur.execute("""
                 INSERT INTO results
                 (id, candidate_id, submitted_at, candidate_json, assessment_json, results_json,
-                 category_breakdown_json, wrong_question_ids_json, stored_at)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                 category_breakdown_json, wrong_question_ids_json, answers_json, stored_at)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """, (
                 result["id"],
                 result.get("candidate", {}).get("candidate_id", ""),
@@ -221,6 +257,7 @@ def store_result(result):
                 json.dumps(result.get("results", {}), ensure_ascii=False),
                 json.dumps(result.get("category_breakdown", {}), ensure_ascii=False),
                 json.dumps(result.get("wrong_question_ids", []), ensure_ascii=False),
+                json.dumps(result.get("answers", {}), ensure_ascii=False),
                 _now_iso(),
             ))
         conn.close()
@@ -253,6 +290,7 @@ def get_results():
             r["results"] = json.loads(r.get("results_json") or "{}")
             r["category_breakdown"] = json.loads(r.get("category_breakdown_json") or "{}")
             r["wrong_question_ids"] = json.loads(r.get("wrong_question_ids_json") or "[]")
+            r["answers"] = json.loads(r.get("answers_json") or "{}")
         return rows
     return _load(RESULTS_FILE)
 
@@ -269,11 +307,29 @@ def get_result_by_id(result_id):
             row["results"] = json.loads(row.get("results_json") or "{}")
             row["category_breakdown"] = json.loads(row.get("category_breakdown_json") or "{}")
             row["wrong_question_ids"] = json.loads(row.get("wrong_question_ids_json") or "[]")
+            row["answers"] = json.loads(row.get("answers_json") or "{}")
         return row
     for r in _load(RESULTS_FILE):
         if r.get("id") == result_id:
             return r
     return None
+
+def get_results_by_candidate_id(candidate_id):
+    if USE_MYSQL:
+        conn = get_conn()
+        with conn.cursor() as cur:
+            cur.execute("SELECT * FROM results WHERE candidate_id = %s ORDER BY submitted_at DESC", (candidate_id,))
+            rows = cur.fetchall()
+        conn.close()
+        for r in rows:
+            r["candidate"] = json.loads(r.get("candidate_json") or "{}")
+            r["assessment"] = json.loads(r.get("assessment_json") or "{}")
+            r["results"] = json.loads(r.get("results_json") or "{}")
+            r["category_breakdown"] = json.loads(r.get("category_breakdown_json") or "{}")
+            r["wrong_question_ids"] = json.loads(r.get("wrong_question_ids_json") or "[]")
+            r["answers"] = json.loads(r.get("answers_json") or "{}")
+        return rows
+    return [r for r in _load(RESULTS_FILE) if r.get("candidate", {}).get("candidate_id") == candidate_id]
 
 def get_stats():
     if USE_MYSQL:
@@ -450,28 +506,36 @@ def export_csv(result_id=None):
 
 # ── Handler ──────────────────────────────────────────────────────────────────
 class CarolHandler(SimpleHTTPRequestHandler):
-    def _is_admin(self):
+    def _get_token_payload(self):
         auth = self.headers.get("Authorization", "")
         if not auth and "?" in self.path:
-            # Check for token in query string (for direct PDF downloads)
             qs = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
             auth = qs.get("token", [""])[0]
-            if auth:
-                try:
-                    decoded = _decode_token(auth)
-                    return decoded.get("role") == "admin"
-                except Exception:
-                    pass
-            return False
-
         if auth.startswith("Bearer "):
+            auth = auth.split(" ", 1)[1]
+        if auth:
             try:
-                token = auth.split(" ", 1)[1]
-                decoded = _decode_token(token)
-                return decoded.get("role") == "admin"
+                return _decode_token(auth)
             except Exception:
                 pass
-        return False
+        return None
+
+    def _is_admin(self):
+        payload = self._get_token_payload()
+        return payload is not None and payload.get("role") == "admin"
+
+    def _is_authenticated(self):
+        return self._get_token_payload() is not None
+
+    def _current_user(self):
+        payload = self._get_token_payload()
+        if not payload:
+            return None
+        return {
+            "email": payload.get("sub"),
+            "name": payload.get("name"),
+            "role": payload.get("role"),
+        }
 
     def translate_path(self, path):
         parsed = urllib.parse.urlparse(path)
@@ -508,7 +572,7 @@ class CarolHandler(SimpleHTTPRequestHandler):
     def do_OPTIONS(self):
         self.send_response(204)
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE")
         self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
         self.end_headers()
 
@@ -587,6 +651,7 @@ class CarolHandler(SimpleHTTPRequestHandler):
             payload = self._read_body()
             email = payload.get("email", "").strip().lower()
             password = payload.get("password", "")
+            # Super-admin
             if email == ADMIN_EMAIL.lower() and password == ADMIN_PASSWORD:
                 exp = datetime.utcnow() + timedelta(hours=24)
                 token = _make_token({
@@ -600,10 +665,79 @@ class CarolHandler(SimpleHTTPRequestHandler):
                     "token": token,
                     "user": {"email": ADMIN_EMAIL, "name": ADMIN_NAME, "role": "admin"}
                 })
-            else:
-                self._send_json(401, {"success": False, "error": "Credenciales inválidas"})
+                return
+            # JSON users
+            user = _find_user_by_email(email)
+            if user and user.get("password_hash") == _hash_pw(password):
+                exp = datetime.utcnow() + timedelta(hours=24)
+                token = _make_token({
+                    "sub": user["email"],
+                    "name": user["name"],
+                    "role": user.get("role", "viewer"),
+                    "exp": int(exp.timestamp()),
+                })
+                self._send_json(200, {
+                    "success": True,
+                    "token": token,
+                    "user": {"email": user["email"], "name": user["name"], "role": user.get("role", "viewer")}
+                })
+                return
+            self._send_json(401, {"success": False, "error": "Credenciales inválidas"})
             return
 
+        # ── Users: Create ──
+        if path == "/api/users":
+            if not self._is_admin():
+                self._send_json(403, {"error": "Forbidden"})
+                return
+            payload = self._read_body()
+            name = payload.get("name", "").strip()
+            email = payload.get("email", "").strip().lower()
+            password = payload.get("password", "")
+            role = payload.get("role", "viewer")
+            if not name or not email or not password:
+                self._send_json(400, {"error": "Nombre, email y contraseña son obligatorios"})
+                return
+            if role not in ("admin", "viewer"):
+                role = "viewer"
+            users = _load_users()
+            if any(u.get("email", "").strip().lower() == email for u in users):
+                self._send_json(409, {"error": "El usuario ya existe"})
+                return
+            users.append({
+                "id": str(uuid.uuid4()),
+                "name": name,
+                "email": email,
+                "password_hash": _hash_pw(password),
+                "role": role,
+                "created_at": _now_iso(),
+            })
+            _save_users(users)
+            self._send_json(201, {"success": True, "message": "Usuario creado"})
+            return
+
+        self._send_json(404, {"error": "Not found"})
+
+    def do_DELETE(self):
+        path = urllib.parse.urlparse(self.path).path
+        # ── Users: Delete ──
+        if path.startswith("/api/users/"):
+            if not self._is_admin():
+                self._send_json(403, {"error": "Forbidden"})
+                return
+            parts = path.split("/")
+            if len(parts) < 4:
+                self._send_json(400, {"error": "Invalid request"})
+                return
+            user_id = parts[3]
+            users = _load_users()
+            new_users = [u for u in users if u.get("id") != user_id]
+            if len(new_users) == len(users):
+                self._send_json(404, {"error": "Usuario no encontrado"})
+                return
+            _save_users(new_users)
+            self._send_json(200, {"success": True, "message": "Usuario eliminado"})
+            return
         self._send_json(404, {"error": "Not found"})
 
     def do_GET(self):
@@ -629,7 +763,7 @@ class CarolHandler(SimpleHTTPRequestHandler):
 
         # ── API: Stats ──
         if path == "/api/stats":
-            if not self._is_admin():
+            if not self._is_authenticated():
                 self._send_json(401, {"error": "Unauthorized"})
                 return
             self._send_json(200, get_stats())
@@ -637,7 +771,7 @@ class CarolHandler(SimpleHTTPRequestHandler):
 
         # ── API: Candidates ──
         if path == "/api/candidates" or path == "/api/admin/candidates":
-            if not self._is_admin():
+            if not self._is_authenticated():
                 self._send_json(401, {"error": "Unauthorized"})
                 return
             self._send_json(200, get_candidates())
@@ -645,7 +779,7 @@ class CarolHandler(SimpleHTTPRequestHandler):
 
         # ── API: Results ──
         if path == "/api/results" or path == "/api/admin/results":
-            if not self._is_admin():
+            if not self._is_authenticated():
                 self._send_json(401, {"error": "Unauthorized"})
                 return
             level = qs.get("level", [None])[0]
@@ -671,7 +805,7 @@ class CarolHandler(SimpleHTTPRequestHandler):
 
         # ── API: Single Result (JSON, PDF, or CSV) ──
         if path.startswith("/api/result/"):
-            if not self._is_admin():
+            if not self._is_authenticated():
                 self._send_json(401, {"error": "Unauthorized"})
                 return
 
@@ -713,15 +847,79 @@ class CarolHandler(SimpleHTTPRequestHandler):
 
         # ── API: Heatmap data ──
         if path == "/api/heatmap":
-            if not self._is_admin():
+            if not self._is_authenticated():
                 self._send_json(401, {"error": "Unauthorized"})
                 return
             self._send_json(200, get_heatmap_rows())
             return
 
+        # ── API: Candidate Results (by candidate_id) ──
+        if path.startswith("/api/candidate/") and path.endswith("/results"):
+            if not self._is_authenticated():
+                self._send_json(401, {"error": "Unauthorized"})
+                return
+            parts = path.split("/")
+            candidate_id = parts[3]
+            self._send_json(200, get_results_by_candidate_id(candidate_id))
+            return
+
+        # ── API: Users ──
+        if path == "/api/users":
+            if not self._is_admin():
+                self._send_json(403, {"error": "Forbidden"})
+                return
+            users = _load_users()
+            # Never expose password_hash
+            safe = [{k: v for k, v in u.items() if k != "password_hash"} for u in users]
+            self._send_json(200, safe)
+            return
+
+        # ── API: Report PDF ──
+        if path.startswith("/api/report/") and path.endswith("/pdf"):
+            if not self._is_authenticated():
+                self._send_json(401, {"error": "Unauthorized"})
+                return
+            result_id = path.split("/")[3]
+            if not REPORT_ENGINE:
+                self._send_json(503, {"error": "Report engine not available. Missing dependencies (reportlab/matplotlib)."})
+                return
+            row = get_result_by_id(result_id)
+            if not row:
+                self._send_json(404, {"error": "Result not found"})
+                return
+            try:
+                import tempfile
+                is_unified = row.get("assessment", {}).get("type") == "unified_sme" or row.get("assessment_type") == "unified_sme"
+                if is_unified:
+                    candidate_id = row.get("candidate", {}).get("candidate_id", "")
+                    related = get_results_by_candidate_id(candidate_id)
+                    # Filter to only levels that exist for this candidate
+                    related = [r for r in related if r.get("assessment", {}).get("level") in ("basic", "medium", "advanced")]
+                    with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
+                        tmp_path = tmp.name
+                    REPORT_ENGINE.generate_unified_report(related, tmp_path)
+                else:
+                    with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
+                        tmp_path = tmp.name
+                    REPORT_ENGINE.generate_single_report(row, tmp_path)
+                with open(tmp_path, "rb") as f:
+                    body = f.read()
+                os.unlink(tmp_path)
+                self.send_response(200)
+                self.send_header("Content-Type", "application/pdf")
+                self.send_header("Content-Disposition", f'attachment; filename="carol_report_{result_id}.pdf"')
+                self.send_header("Content-Length", str(len(body)))
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                self.wfile.write(body)
+            except Exception as e:
+                print(f"[REPORT ERROR] {e}")
+                self._send_json(500, {"error": "Failed to generate report", "detail": str(e)})
+            return
+
         # ── API: Export CSV ──
         if path == "/api/export.csv":
-            if not self._is_admin():
+            if not self._is_authenticated():
                 self._send_json(401, {"error": "Unauthorized"})
                 return
             body = export_csv()

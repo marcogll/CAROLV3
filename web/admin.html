@@ -126,22 +126,51 @@
         <div class="page-header d-print-none">
           <div class="container-xl">
             <div class="row g-2 align-items-center">
-              <div class="col"><h2 class="page-title">Vista General del Equipo</h2></div>
+              <div class="col">
+                <ul class="nav nav-tabs card-header-tabs" id="main-tabs" style="background:none;border:none;">
+                  <li class="nav-item"><a class="nav-link active" href="#" onclick="switchTab('general')" id="tab-general">Vista General</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#" onclick="switchTab('persona')" id="tab-persona">Por Persona</a></li>
+                  <li class="nav-item" id="li-ajustes" style="display:none;"><a class="nav-link" href="#" onclick="switchTab('ajustes')" id="tab-ajustes">Ajustes</a></li>
+                </ul>
+              </div>
               <div class="col-auto">
-                <button onclick="doExportCSV()" class="btn btn-primary"><i class="ti ti-download"></i> Exportar CSV</button>
+                <a href="/api/export.csv" class="btn btn-primary"><i class="ti ti-download"></i> Exportar CSV</a>
               </div>
             </div>
           </div>
         </div>
 
         <div class="page-body">
-          <div class="container-xl">
+          <!-- ═══════════════════════════════════════ VISTA GENERAL ══ -->
+          <div id="view-general" class="container-xl tab-pane active">
             <!-- KPIs -->
             <div class="row row-cards mb-4" id="kpi-row">
               <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-primary text-white avatar"><i class="ti ti-users"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-total">—</div><div class="text-muted">Evaluados</div></div></div></div></div></div>
               <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-green text-white avatar"><i class="ti ti-check"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-pass">—</div><div class="text-muted">Tasa de Aprobación</div></div></div></div></div></div>
               <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-yellow text-white avatar"><i class="ti ti-trending-up"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-avg">—</div><div class="text-muted">Puntaje Promedio</div></div></div></div></div></div>
               <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-red text-white avatar"><i class="ti ti-alert-triangle"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-pending">—</div><div class="text-muted">Revisiones Pendientes</div></div></div></div></div></div>
+            </div>
+
+            <!-- Dashboard Charts -->
+            <div class="row row-cards mb-4">
+              <div class="col-lg-4">
+                <div class="card">
+                  <div class="card-header"><h3 class="card-title">Distribución por Nivel</h3></div>
+                  <div class="card-body"><canvas id="chart-levels" height="220"></canvas></div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="card">
+                  <div class="card-header"><h3 class="card-title">Aprobados vs Reprobados</h3></div>
+                  <div class="card-body"><canvas id="chart-pass" height="220"></canvas></div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="card">
+                  <div class="card-header"><h3 class="card-title">Tendencia de Puntajes</h3></div>
+                  <div class="card-body"><canvas id="chart-trend" height="220"></canvas></div>
+                </div>
+              </div>
             </div>
 
             <!-- Filters -->
@@ -207,6 +236,109 @@
               </div>
             </div>
           </div>
+
+          <!-- ═══════════════════════════════════════ POR PERSONA ══ -->
+          <div id="view-persona" class="container-xl tab-pane" style="display:none;">
+            <div class="row g-2 mb-4">
+              <div class="col-md-6">
+                <input type="text" class="form-control" id="persona-search" placeholder="Buscar candidato..." oninput="loadPersonas()">
+              </div>
+              <div class="col-md-3">
+                <select class="form-select" id="persona-level" onchange="loadPersonas()">
+                  <option value="">Todos los niveles</option>
+                  <option value="basic">Básico</option>
+                  <option value="medium">Medio</option>
+                  <option value="advanced">Avanzado</option>
+                </select>
+              </div>
+              <div class="col-md-3 text-end">
+                <button class="btn btn-outline-primary" onclick="loadPersonas()"><i class="ti ti-refresh"></i> Actualizar</button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3 class="card-title">Candidatos Registrados</h3></div>
+              <div class="table-responsive">
+                <table class="table table-vcenter card-table table-hover" id="personas-table">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th><th>ID Empleado</th><th>Empresa</th><th>Depto</th><th>Puesto</th><th>Nivel Asignado</th><th class="w-1"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="personas-body">
+                    <tr><td colspan="7" class="empty-state">Cargando datos…</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div id="persona-detail" class="mt-4" style="display:none;">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Evaluaciones de <span id="persona-name">—</span></h3>
+                  <div class="card-actions">
+                    <button class="btn btn-outline-secondary btn-sm" onclick="closePersonaDetail()">Cerrar</button>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-vcenter card-table table-hover">
+                    <thead>
+                      <tr><th>Fecha</th><th>Nivel</th><th>Score</th><th>Estatus</th><th>Tiempo</th><th class="w-1"></th></tr>
+                    </thead>
+                    <tbody id="persona-results-body">
+                      <tr><td colspan="6" class="empty-state">Sin evaluaciones</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════ AJUSTES ══ -->
+          <div id="view-ajustes" class="container-xl tab-pane" style="display:none;">
+            <div class="row row-cards">
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-header"><h3 class="card-title">Usuarios del Sistema</h3></div>
+                  <div class="card-body">
+                    <form id="user-form" onsubmit="createUser(event)">
+                      <div class="row g-2">
+                        <div class="col-md-4"><input type="text" class="form-control" id="u-name" placeholder="Nombre" required></div>
+                        <div class="col-md-4"><input type="email" class="form-control" id="u-email" placeholder="Email" required></div>
+                        <div class="col-md-3"><input type="password" class="form-control" id="u-password" placeholder="Contraseña" required></div>
+                        <div class="col-md-3">
+                          <select class="form-select" id="u-role">
+                            <option value="viewer">Viewer</option>
+                            <option value="admin">Admin</option>
+                          </select>
+                        </div>
+                        <div class="col-md-2"><button type="submit" class="btn btn-primary w-100">Agregar</button></div>
+                      </div>
+                    </form>
+                    <div id="user-form-msg" class="mt-2 text-sm"></div>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-vcenter card-table">
+                      <thead>
+                        <tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Creado</th><th class="w-1"></th></tr>
+                      </thead>
+                      <tbody id="users-body">
+                        <tr><td colspan="5" class="empty-state">Cargando usuarios…</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-header"><h3 class="card-title">Información de Cuenta</h3></div>
+                  <div class="card-body">
+                    <div class="mb-2"><strong>Nombre:</strong> <span id="acc-name">—</span></div>
+                    <div class="mb-2"><strong>Email:</strong> <span id="acc-email">—</span></div>
+                    <div class="mb-2"><strong>Rol:</strong> <span id="acc-role">—</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -214,6 +346,7 @@
 
   <script>
     const API = '';
+    let currentUser = null;
 
     // ══════════════════════════════════════════ AUTH ══
     function getToken() { return localStorage.getItem('carol_admin_token'); }
@@ -229,6 +362,7 @@
         });
         const data = await r.json();
         if (data.success) {
+          currentUser = data.user;
           showDashboard(data.user);
           loadData();
         } else {
@@ -286,7 +420,23 @@
         document.getElementById('user-email').textContent = user.email || '';
         const initials = (user.name || 'AD').split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
         document.getElementById('user-avatar').textContent = initials;
+        document.getElementById('acc-name').textContent = user.name || '—';
+        document.getElementById('acc-email').textContent = user.email || '—';
+        document.getElementById('acc-role').textContent = user.role === 'admin' ? 'Administrador' : 'Visualizador';
+        const ajustesTab = document.getElementById('li-ajustes');
+        if (ajustesTab) {
+          ajustesTab.style.display = user.role === 'admin' ? 'list-item' : 'none';
+        }
       }
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      document.querySelectorAll('.tab-pane').forEach(el => el.style.display = 'none');
+      document.getElementById('view-' + tab).style.display = 'block';
+      if (tab === 'persona') loadPersonas();
+      if (tab === 'ajustes') loadUsers();
     }
 
     // Allow Enter key on password field
@@ -296,22 +446,6 @@
       });
       checkSession();
     });
-
-    // ══════════════════════════════════════════ FETCH WRAPPER ══
-    async function fetchWithAuth(url, options = {}) {
-      const token = getToken();
-      const headers = {
-        'Authorization': 'Bearer ' + token,
-        ...(options.headers || {})
-      };
-      const r = await fetch(API + url, { ...options, headers });
-      if (r.status === 401) {
-        clearToken();
-        showLogin();
-        throw new Error('Sesión expirada');
-      }
-      return r;
-    }
 
     // ══════════════════════════════════════════ DASHBOARD ══
     function cellClass(pct) {
@@ -339,7 +473,7 @@
 
     async function loadStats() {
       try {
-        const r = await fetchWithAuth('/api/stats');
+        const r = await fetch(API + '/api/stats', { headers: { 'Authorization': 'Bearer ' + getToken() } });
         const s = await r.json();
         document.getElementById('kpi-total').textContent = s.total_evaluated || 0;
         document.getElementById('kpi-pass').textContent = (s.pass_rate || 0) + '%';
@@ -351,7 +485,7 @@
     async function loadHeatmap() {
       const tbody = document.getElementById('heatmap-body');
       try {
-        const r = await fetchWithAuth('/api/heatmap');
+        const r = await fetch(API + '/api/heatmap', { headers: { 'Authorization': 'Bearer ' + getToken() } });
         const rows = await r.json();
         const search = document.getElementById('filter-search').value.toLowerCase();
         const levelFilter = document.getElementById('filter-level').value;
@@ -388,7 +522,7 @@
         const search = document.getElementById('filter-search').value.toLowerCase();
         if (level) params.set('level', level);
         if (passed) params.set('passed', passed);
-        const r = await fetchWithAuth('/api/results?' + params.toString());
+        const r = await fetch(API + '/api/results?' + params.toString(), { headers: { 'Authorization': 'Bearer ' + getToken() } });
         const rows = await r.json();
         tbody.innerHTML = '';
         if (!rows.length) {
@@ -423,15 +557,81 @@
       loadStats();
       loadHeatmap();
       loadResults();
+      loadCharts();
     }
 
-    function doExportCSV() {
-      window.location.href = API + '/api/export.csv?token=' + getToken();
+    // ══════════════════════════════════════════ CHARTS ══
+    let charts = {};
+    async function loadCharts() {
+      try {
+        const r = await fetch(API + '/api/results', { headers: { 'Authorization': 'Bearer ' + getToken() } });
+        const rows = await r.json();
+        const levelFilter = document.getElementById('filter-level').value;
+        const passedFilter = document.getElementById('filter-passed').value;
+        const search = document.getElementById('filter-search').value.toLowerCase();
+
+        let filtered = rows.filter(row => {
+          const a = row.assessment || {};
+          const c = row.candidate || {};
+          const res = row.results || {};
+          if (levelFilter && a.level !== levelFilter) return false;
+          if (passedFilter) {
+            const target = passedFilter === 'true';
+            if (res.passed !== target) return false;
+          }
+          if (search && !c.full_name?.toLowerCase().includes(search) && !c.employee_id?.toLowerCase().includes(search)) return false;
+          return true;
+        });
+
+        // Level distribution
+        const levels = { basic: 0, medium: 0, advanced: 0 };
+        filtered.forEach(r => { const lv = (r.assessment?.level); if (levels[lv] !== undefined) levels[lv]++; });
+        renderDoughnut('chart-levels', ['Básico', 'Medio', 'Avanzado'], [levels.basic, levels.medium, levels.advanced], ['#00B894', '#E67E22', '#1B4F72']);
+
+        // Pass/Fail
+        const passed = filtered.filter(r => r.results?.passed).length;
+        const failed = filtered.length - passed;
+        renderDoughnut('chart-pass', ['Aprobado', 'No aprobó'], [passed, failed], ['#00B894', '#C0392B']);
+
+        // Trend (last 30 evals by date)
+        const byDate = {};
+        filtered.slice().sort((a, b) => new Date(a.submitted_at) - new Date(b.submitted_at)).forEach(r => {
+          const d = fmtDate(r.submitted_at);
+          if (!byDate[d]) byDate[d] = { sum: 0, count: 0 };
+          byDate[d].sum += (r.results?.pct_score || 0);
+          byDate[d].count++;
+        });
+        const dates = Object.keys(byDate).slice(-15);
+        const avgs = dates.map(d => Math.round(byDate[d].sum / byDate[d].count));
+        renderLine('chart-trend', dates, avgs);
+      } catch (e) { console.error('charts', e); }
+    }
+
+    function renderDoughnut(canvasId, labels, data, colors) {
+      const ctx = document.getElementById(canvasId);
+      if (!ctx) return;
+      if (charts[canvasId]) { charts[canvasId].destroy(); }
+      charts[canvasId] = new Chart(ctx, {
+        type: 'doughnut',
+        data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } } }
+      });
+    }
+
+    function renderLine(canvasId, labels, data) {
+      const ctx = document.getElementById(canvasId);
+      if (!ctx) return;
+      if (charts[canvasId]) { charts[canvasId].destroy(); }
+      charts[canvasId] = new Chart(ctx, {
+        type: 'line',
+        data: { labels, datasets: [{ label: 'Puntaje promedio (%)', data, borderColor: '#1B4F72', backgroundColor: 'rgba(27,79,114,0.1)', fill: true, tension: 0.3, pointRadius: 4 }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 100 } }, plugins: { legend: { display: false } } }
+      });
     }
 
     async function openDetail(id) {
       try {
-        const r = await fetchWithAuth('/api/result/' + id);
+        const r = await fetch(API + '/api/result/' + id, { headers: { 'Authorization': 'Bearer ' + getToken() } });
         const data = await r.json();
         if (data.error) { alert(data.error); return; }
         const c = data.candidate || {};
@@ -467,14 +667,17 @@
 
         const modalBody = document.getElementById('modal-body');
         modalBody.innerHTML =
-          '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">'+
-            '<div>'+
-              '<h4 style="margin:0;">'+(c.full_name || '—')+' <small class="text-muted">'+(c.employee_id || '—')+'</small></h4>'+
-              '<div style="font-size:.8rem;color:#64748b;">'+(a.level_name || '—')+' · '+(c.department || '—')+' · '+(c.company_name || '—')+' · '+fmtDate(data.submitted_at)+'</div>'+
+          '<div style="margin-bottom:1rem;">'+
+            '<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;">'+
+              '<div>'+
+                '<h4 style="margin:0;">'+(c.full_name || '—')+' <small class="text-muted">'+(c.employee_id || '—')+'</small></h4>'+
+                '<div style="font-size:.8rem;color:#64748b;">'+(a.level_name || '—')+' · '+(c.department || '—')+' · '+(c.company_name || '—')+' · '+fmtDate(data.submitted_at)+'</div>'+
+              '</div>'+
+              '<div style="display:flex;gap:.5rem;">'+
+                '<a href="/report_email_template.html?id='+id+'" target="_blank" class="btn btn-outline-primary btn-sm"><i class="ti ti-file-text"></i> Ver Reporte HTML</a>'+
+                '<a href="/api/report/'+id+'/pdf" target="_blank" class="btn btn-primary btn-sm"><i class="ti ti-file-download"></i> Descargar PDF</a>'+
+              '</div>'+
             '</div>'+
-            '<a href="/api/result/'+id+'/pdf?token='+getToken()+'" target="_blank" class="btn btn-sm btn-outline-primary" style="margin-left:1rem;">'+
-              '<i class="ti ti-file-type-pdf"></i> PDF'+
-            '</a>'+
           '</div>'+
           '<div style="display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;">'+
             '<div style="background:#f8fafc;border-radius:8px;padding:.75rem 1rem;text-align:center;min-width:80px;">'+
@@ -503,9 +706,161 @@
         alert('Error cargando detalle');
       }
     }
+
+    // ══════════════════════════════════════════ POR PERSONA ══
+    async function loadPersonas() {
+      const tbody = document.getElementById('personas-body');
+      try {
+        const r = await fetch(API + '/api/candidates', { headers: { 'Authorization': 'Bearer ' + getToken() } });
+        const rows = await r.json();
+        const search = document.getElementById('persona-search').value.toLowerCase();
+        const levelFilter = document.getElementById('persona-level').value;
+        tbody.innerHTML = '';
+        if (!rows.length) {
+          tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Sin candidatos registrados.</td></tr>';
+          return;
+        }
+        rows.forEach(row => {
+          const name = row.full_name || '—';
+          const empId = row.employee_id || '—';
+          if (search && !name.toLowerCase().includes(search) && !empId.toLowerCase().includes(search)) return;
+          if (levelFilter && row.assigned_level !== levelFilter) return;
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${name}</td>
+            <td>${empId}</td>
+            <td>${row.company_name || '—'}</td>
+            <td>${row.department || '—'}</td>
+            <td>${row.job_role || '—'}</td>
+            <td>${levelBadge(row.assigned_level)}</td>
+            <td><a href="#" onclick="openPersona('${row.candidate_id}', '${name.replace(/'/g, "\\'")}')">Ver evaluaciones</a></td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (e) {
+        console.error('personas', e);
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Error cargando candidatos.</td></tr>';
+      }
+    }
+
+    async function openPersona(candidateId, name) {
+      document.getElementById('persona-detail').style.display = 'block';
+      document.getElementById('persona-name').textContent = name;
+      const tbody = document.getElementById('persona-results-body');
+      try {
+        const r = await fetch(API + '/api/candidate/' + candidateId + '/results', { headers: { 'Authorization': 'Bearer ' + getToken() } });
+        const rows = await r.json();
+        tbody.innerHTML = '';
+        if (!rows.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Sin evaluaciones para este candidato.</td></tr>';
+          return;
+        }
+        rows.forEach(row => {
+          const a = row.assessment || {};
+          const res = row.results || {};
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${fmtDate(row.submitted_at)}</td>
+            <td>${levelBadge(a.level)}</td>
+            <td>${res.pct_score || 0}%</td>
+            <td>${statusBadge(res.passed)}</td>
+            <td>${Math.floor((res.time_seconds || 0)/60)}m ${(res.time_seconds || 0)%60}s</td>
+            <td><a href="#" onclick="openDetail('${row.id}')">Ver</a></td>
+          `;
+          tbody.appendChild(tr);
+        });
+        document.getElementById('persona-detail').scrollIntoView({ behavior: 'smooth' });
+      } catch (e) {
+        console.error('persona detail', e);
+        tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Error cargando evaluaciones.</td></tr>';
+      }
+    }
+
+    function closePersonaDetail() {
+      document.getElementById('persona-detail').style.display = 'none';
+    }
+
+    // ══════════════════════════════════════════ AJUSTES ══
+    async function loadUsers() {
+      const tbody = document.getElementById('users-body');
+      try {
+        const r = await fetch(API + '/api/users', { headers: { 'Authorization': 'Bearer ' + getToken() } });
+        const rows = await r.json();
+        tbody.innerHTML = '';
+        if (!rows.length) {
+          tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No hay usuarios adicionales.</td></tr>';
+          return;
+        }
+        rows.forEach(u => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${u.name || '—'}</td>
+            <td>${u.email || '—'}</td>
+            <td>${u.role === 'admin' ? 'Administrador' : 'Visualizador'}</td>
+            <td>${fmtDate(u.created_at)}</td>
+            <td><button class="btn btn-outline-danger btn-sm" onclick="deleteUser('${u.id}')"><i class="ti ti-trash"></i></button></td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (e) {
+        console.error('users', e);
+        tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Error cargando usuarios.</td></tr>';
+      }
+    }
+
+    async function createUser(e) {
+      e.preventDefault();
+      const msg = document.getElementById('user-form-msg');
+      msg.textContent = '';
+      const body = {
+        name: document.getElementById('u-name').value.trim(),
+        email: document.getElementById('u-email').value.trim(),
+        password: document.getElementById('u-password').value,
+        role: document.getElementById('u-role').value,
+      };
+      try {
+        const r = await fetch(API + '/api/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
+          body: JSON.stringify(body)
+        });
+        const data = await r.json();
+        if (data.success) {
+          msg.style.color = '#00B894';
+          msg.textContent = 'Usuario creado exitosamente.';
+          document.getElementById('user-form').reset();
+          loadUsers();
+        } else {
+          msg.style.color = '#C0392B';
+          msg.textContent = data.error || 'Error creando usuario.';
+        }
+      } catch (err) {
+        msg.style.color = '#C0392B';
+        msg.textContent = 'Error de conexión.';
+      }
+    }
+
+    async function deleteUser(id) {
+      if (!confirm('¿Eliminar este usuario?')) return;
+      try {
+        const r = await fetch(API + '/api/users/' + id, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + getToken() }
+        });
+        const data = await r.json();
+        if (data.success) {
+          loadUsers();
+        } else {
+          alert(data.error || 'Error eliminando usuario');
+        }
+      } catch (e) {
+        alert('Error de conexión');
+      }
+    }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/tabler.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <!-- Modal -->
   <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
