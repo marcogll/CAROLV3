@@ -128,7 +128,7 @@
             <div class="row g-2 align-items-center">
               <div class="col"><h2 class="page-title">Vista General del Equipo</h2></div>
               <div class="col-auto">
-                <a href="/api/export.csv" class="btn btn-primary"><i class="ti ti-download"></i> Exportar CSV</a>
+                <button onclick="doExportCSV()" class="btn btn-primary"><i class="ti ti-download"></i> Exportar CSV</button>
               </div>
             </div>
           </div>
@@ -297,6 +297,22 @@
       checkSession();
     });
 
+    // ══════════════════════════════════════════ FETCH WRAPPER ══
+    async function fetchWithAuth(url, options = {}) {
+      const token = getToken();
+      const headers = {
+        'Authorization': 'Bearer ' + token,
+        ...(options.headers || {})
+      };
+      const r = await fetch(API + url, { ...options, headers });
+      if (r.status === 401) {
+        clearToken();
+        showLogin();
+        throw new Error('Sesión expirada');
+      }
+      return r;
+    }
+
     // ══════════════════════════════════════════ DASHBOARD ══
     function cellClass(pct) {
       if (pct >= 85) return 'score-strong';
@@ -323,7 +339,7 @@
 
     async function loadStats() {
       try {
-        const r = await fetch(API + '/api/stats', { headers: { 'Authorization': 'Bearer ' + getToken() } });
+        const r = await fetchWithAuth('/api/stats');
         const s = await r.json();
         document.getElementById('kpi-total').textContent = s.total_evaluated || 0;
         document.getElementById('kpi-pass').textContent = (s.pass_rate || 0) + '%';
@@ -335,7 +351,7 @@
     async function loadHeatmap() {
       const tbody = document.getElementById('heatmap-body');
       try {
-        const r = await fetch(API + '/api/heatmap', { headers: { 'Authorization': 'Bearer ' + getToken() } });
+        const r = await fetchWithAuth('/api/heatmap');
         const rows = await r.json();
         const search = document.getElementById('filter-search').value.toLowerCase();
         const levelFilter = document.getElementById('filter-level').value;
@@ -372,7 +388,7 @@
         const search = document.getElementById('filter-search').value.toLowerCase();
         if (level) params.set('level', level);
         if (passed) params.set('passed', passed);
-        const r = await fetch(API + '/api/results?' + params.toString(), { headers: { 'Authorization': 'Bearer ' + getToken() } });
+        const r = await fetchWithAuth('/api/results?' + params.toString());
         const rows = await r.json();
         tbody.innerHTML = '';
         if (!rows.length) {
@@ -409,9 +425,13 @@
       loadResults();
     }
 
+    function doExportCSV() {
+      window.location.href = API + '/api/export.csv?token=' + getToken();
+    }
+
     async function openDetail(id) {
       try {
-        const r = await fetch(API + '/api/result/' + id, { headers: { 'Authorization': 'Bearer ' + getToken() } });
+        const r = await fetchWithAuth('/api/result/' + id);
         const data = await r.json();
         if (data.error) { alert(data.error); return; }
         const c = data.candidate || {};
@@ -447,9 +467,14 @@
 
         const modalBody = document.getElementById('modal-body');
         modalBody.innerHTML =
-          '<div style="margin-bottom:1rem;">'+
-            '<h4 style="margin:0;">'+(c.full_name || '—')+' <small class="text-muted">'+(c.employee_id || '—')+'</small></h4>'+
-            '<div style="font-size:.8rem;color:#64748b;">'+(a.level_name || '—')+' · '+(c.department || '—')+' · '+(c.company_name || '—')+' · '+fmtDate(data.submitted_at)+'</div>'+
+          '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">'+
+            '<div>'+
+              '<h4 style="margin:0;">'+(c.full_name || '—')+' <small class="text-muted">'+(c.employee_id || '—')+'</small></h4>'+
+              '<div style="font-size:.8rem;color:#64748b;">'+(a.level_name || '—')+' · '+(c.department || '—')+' · '+(c.company_name || '—')+' · '+fmtDate(data.submitted_at)+'</div>'+
+            '</div>'+
+            '<a href="/api/result/'+id+'/pdf?token='+getToken()+'" target="_blank" class="btn btn-sm btn-outline-primary" style="margin-left:1rem;">'+
+              '<i class="ti ti-file-type-pdf"></i> PDF'+
+            '</a>'+
           '</div>'+
           '<div style="display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;">'+
             '<div style="background:#f8fafc;border-radius:8px;padding:.75rem 1rem;text-align:center;min-width:80px;">'+
