@@ -1,0 +1,133 @@
+[
+  {
+    "id": "0c8f8b5d-0e8e-41e5-9ab1-4a8d174cf7bb",
+    "submitted_at": "2026-06-02T00:16:35.488Z",
+    "candidate": {
+      "full_name": "Verification User",
+      "employee_id": "VER-999",
+      "company_name": "Verify Corp",
+      "contact_email": "verify@example.com",
+      "department": "production",
+      "job_role": "operator",
+      "birth_year": "1985",
+      "birth_month": null,
+      "years_experience": 5,
+      "self_evaluation": 50,
+      "age_at_assessment": 41,
+      "assigned_level": "basic",
+      "is_sme": false,
+      "candidate_id": "3aec7be5-1111-4df9-87cc-a7004af3fb2f"
+    },
+    "assessment": {
+      "level": "basic",
+      "level_name": "Básico — Operadores de Piso",
+      "total_questions": 57,
+      "pass_pct": 75
+    },
+    "results": {
+      "earned_pts": 0,
+      "max_pts": 69,
+      "pct_score": 0,
+      "passed": false,
+      "correct_answers": 0,
+      "time_seconds": 0
+    },
+    "category_breakdown": {
+      "Máquina e Inyectora": {
+        "correct": 0,
+        "total": 14,
+        "pct": 0
+      },
+      "Proceso de Inyección": {
+        "correct": 0,
+        "total": 11,
+        "pct": 0
+      },
+      "Calidad y Defectos": {
+        "correct": 0,
+        "total": 10,
+        "pct": 0
+      },
+      "Seguridad Industrial": {
+        "correct": 0,
+        "total": 5,
+        "pct": 0
+      },
+      "Materiales Plásticos": {
+        "correct": 0,
+        "total": 6,
+        "pct": 0
+      },
+      "Eficiencia y Lean": {
+        "correct": 0,
+        "total": 5,
+        "pct": 0
+      },
+      "Desperdicios (Muda)": {
+        "correct": 0,
+        "total": 6,
+        "pct": 0
+      }
+    },
+    "wrong_question_ids": [
+      "mach_1",
+      "mach_2",
+      "mach_3",
+      "mach_4",
+      "mach_5",
+      "proc_1",
+      "qual_1",
+      "qual_2",
+      "qual_3",
+      "safe_1",
+      "safe_2",
+      "safe_3",
+      "safe_4",
+      "safe_5",
+      "qual_4",
+      "qual_5",
+      "mat_1",
+      "mat_2",
+      "mat_5",
+      "mat_6",
+      "proc_2",
+      "proc_3",
+      "proc_4",
+      "proc_5",
+      "proc_6",
+      "mach_6",
+      "mat_3",
+      "eff_1",
+      "eff_2",
+      "eff_3",
+      "eff_4",
+      "eff_5",
+      "mach_7",
+      "proc_7",
+      "proc_8",
+      "proc_9",
+      "qual_6",
+      "qual_7",
+      "qual_8",
+      "mach_8",
+      "mach_9",
+      "mach_10",
+      "mach_11",
+      "qual_9",
+      "proc_10",
+      "wast_1",
+      "wast_2",
+      "qual_10",
+      "mat_4",
+      "mach_12",
+      "mach_13",
+      "mach_14",
+      "proc_11",
+      "wast_3",
+      "wast_4",
+      "wast_5",
+      "wast_6"
+    ],
+    "stored_at": "2026-06-02T00:16:35.492679"
+  }
+]

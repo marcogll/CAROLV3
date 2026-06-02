@@ -750,6 +750,24 @@ function submitRegistration(){
     assigned_level: S.level,
     is_sme: isSME
   };
+
+  // Persist registration to server
+  const regPayload = {
+    respondent: { ...S.candidate },
+    computed: { assigned_level: S.level },
+    submitted_at: new Date().toISOString()
+  };
+  fetch('/webhook/carol-registration', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(regPayload)
+  }).then(r => r.json()).then(data => {
+    if (data.success && data.candidate_id) {
+      S.candidate.candidate_id = data.candidate_id;
+      console.log('Registration persisted:', data.candidate_id);
+    }
+  }).catch(e => console.error('Registration persistence failed:', e));
+
   showInstructions();
 }
 
