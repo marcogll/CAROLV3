@@ -74,6 +74,7 @@ CANDIDATES_FILE = os.path.join(DATA_DIR, "candidates.json")
 RESULTS_FILE = os.path.join(DATA_DIR, "results.json")
 USERS_FILE = os.path.join(DATA_DIR, "users.json")
 AUDIT_FILE = os.path.join(DATA_DIR, "audit_logs.json")
+SESSIONS_FILE = os.path.join(DATA_DIR, "sessions.json")
 
 # ── Report engine (optional) ─────────────────────────────────────────────────
 REPORT_ENGINE = None
@@ -268,6 +269,26 @@ def init_db():
                         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
                 """)
+                cur.execute("""
+                    CREATE TABLE IF NOT EXISTS quiz_sessions (
+                        id VARCHAR(36) PRIMARY KEY,
+                        candidate_id VARCHAR(36),
+                        level VARCHAR(50),
+                        levels_json JSON,
+                        level_index INT DEFAULT 0,
+                        answers_json JSON,
+                        current_q INT DEFAULT 0,
+                        seconds_left INT,
+                        seconds_total INT,
+                        started_at DATETIME,
+                        last_saved_at DATETIME,
+                        submitted BOOLEAN DEFAULT FALSE,
+                        all_results_json JSON,
+                        status VARCHAR(50) DEFAULT 'active',
+                        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                        INDEX idx_candidate_id (candidate_id)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+                """)
             conn.close()
             print("[DB] Tables initialized successfully.")
             return
@@ -417,6 +438,122 @@ def soft_delete_result(result_id, user_email):
                 break
         _save(RESULTS_FILE, results)
     _audit_log("delete", "result", result_id, user_email, f"Soft-deleted result {result_id}")
+
+# ── Session storage helpers ──────────────────────────────────────────────────
+
+def store_session(session):
+    if USE_MYSQL:
+        conn = get_conn()
+        with conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO quiz_sessions
+                (id, candidate_id, level, levels_json, level_index, answers_json, current_q,
+                 seconds_left, seconds_total, started_at, last_saved_at, submitted, all_results_json, status)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """, (
+                session["id"],
+                session.get("candidate_id", ""),
+                session.get("level", ""),
+                json.dumps(session.get("levels", []), ensure_ascii=False),
+                session.get("level_index", 0),
+                json.dumps(session.get("answers", {}), ensure_ascii=False),
+                session.get("current_q", 0),
+                session.get("seconds_left", 0),
+                session.get("seconds_total", 0),
+                session.get("started_at", _now_iso()),
+                session.get("last_saved_at", _now_iso()),
+                session.get("submitted", False),
+                json.dumps(session.get("all_results", []), ensure_ascii=False),
+                session.get("status", "active"),
+            ))
+        conn.close()
+    else:
+        sessions = _load(SESSIONS_FILE)
+        sessions.append(session)
+        _save(SESSIONS_FILE, sessions)
+
+def update_session(session_id, fields):
+    now = _now_iso()
+    if USE_MYSQL:
+        conn = get_conn()
+        with conn.cursor() as cur:
+            # Build dynamic SET clause
+            set_parts = []
+            values = []
+            for key, val in fields.items():
+                if key in ("answers", "levels", "all_results"):
+                    set_parts.append(f"{key}_json = %s")
+                    values.append(json.dumps(val, ensure_ascii=False))
+                elif key == "current_q":
+                    set_parts.append("current_q = %s")
+                    values.append(val)
+                elif key == "level_index":
+                    set_parts.append("level_index = %s")
+                    values.append(val)
+                elif key == "seconds_left":
+                    set_parts.append("seconds_left = %s")
+                    values.append(val)
+                elif key == "submitted":
+                    set_parts.append("submitted = %s")
+                    values.append(val)
+                elif key == "status":
+                    set_parts.append("status = %s")
+                    values.append(val)
+            if set_parts:
+                set_parts.append("last_saved_at = %s")
+                values.append(now)
+                values.append(session_id)
+                sql = f"UPDATE quiz_sessions SET {', '.join(set_parts)} WHERE id = %s"
+                cur.execute(sql, values)
+        conn.close()
+    else:
+        sessions = _load(SESSIONS_FILE)
+        for s in sessions:
+            if s.get("id") == session_id:
+                for key, val in fields.items():
+                    s[key] = val
+                s["last_saved_at"] = now
+                break
+        _save(SESSIONS_FILE, sessions)
+
+def get_session(session_id):
+    if USE_MYSQL:
+        conn = get_conn()
+        with conn.cursor() as cur:
+            cur.execute("SELECT * FROM quiz_sessions WHERE id = %s", (session_id,))
+            row = cur.fetchone()
+        conn.close()
+        if row:
+            row["levels"] = json.loads(row.get("levels_json") or "[]")
+            row["answers"] = json.loads(row.get("answers_json") or "{}")
+            row["all_results"] = json.loads(row.get("all_results_json") or "[]")
+        return row
+    for s in _load(SESSIONS_FILE):
+        if s.get("id") == session_id:
+            return s
+    return None
+
+def get_active_session(candidate_id):
+    if USE_MYSQL:
+        conn = get_conn()
+        with conn.cursor() as cur:
+            cur.execute(
+                "SELECT * FROM quiz_sessions WHERE candidate_id = %s AND submitted = FALSE ORDER BY last_saved_at DESC LIMIT 1",
+                (candidate_id,),
+            )
+            row = cur.fetchone()
+        conn.close()
+        if row:
+            row["levels"] = json.loads(row.get("levels_json") or "[]")
+            row["answers"] = json.loads(row.get("answers_json") or "{}")
+            row["all_results"] = json.loads(row.get("all_results_json") or "[]")
+        return row
+    sessions = _load(SESSIONS_FILE)
+    active = [s for s in sessions if s.get("candidate_id") == candidate_id and not s.get("submitted")]
+    if not active:
+        return None
+    active.sort(key=lambda x: x.get("last_saved_at", ""), reverse=True)
+    return active[0]
 
 def get_stats():
     if USE_MYSQL:
@@ -790,6 +927,66 @@ class CarolHandler(SimpleHTTPRequestHandler):
             self._send_json(401, {"success": False, "error": "Credenciales inválidas"})
             return
 
+        # ── Quiz Session: Create ──
+        if path == "/api/session/create":
+            payload = self._read_body()
+            sid = str(uuid.uuid4())
+            session = {
+                "id": sid,
+                "candidate_id": payload.get("candidate_id", ""),
+                "level": payload.get("level", ""),
+                "levels": payload.get("levels", []),
+                "level_index": payload.get("level_index", 0),
+                "answers": payload.get("answers", {}),
+                "current_q": payload.get("current_q", 0),
+                "seconds_left": payload.get("seconds_left", 0),
+                "seconds_total": payload.get("seconds_total", 0),
+                "started_at": payload.get("started_at", _now_iso()),
+                "last_saved_at": _now_iso(),
+                "submitted": False,
+                "all_results": payload.get("all_results", []),
+                "status": "active",
+            }
+            store_session(session)
+            self._send_json(200, {"success": True, "session_id": sid})
+            return
+
+        # ── Quiz Session: Save ──
+        if path == "/api/session/save":
+            payload = self._read_body()
+            sid = payload.get("session_id", "")
+            if not sid:
+                self._send_json(400, {"error": "session_id required"})
+                return
+            fields = {}
+            if "answers" in payload:
+                fields["answers"] = payload["answers"]
+            if "current_q" in payload:
+                fields["current_q"] = payload["current_q"]
+            if "seconds_left" in payload:
+                fields["seconds_left"] = payload["seconds_left"]
+            if "all_results" in payload:
+                fields["all_results"] = payload["all_results"]
+            if "level_index" in payload:
+                fields["level_index"] = payload["level_index"]
+            update_session(sid, fields)
+            self._send_json(200, {"success": True, "saved_at": _now_iso()})
+            return
+
+        # ── Quiz Session: Submit ──
+        if path == "/api/session/submit":
+            payload = self._read_body()
+            sid = payload.get("session_id", "")
+            if not sid:
+                self._send_json(400, {"error": "session_id required"})
+                return
+            fields = {"submitted": True, "status": "completed"}
+            if "all_results" in payload:
+                fields["all_results"] = payload["all_results"]
+            update_session(sid, fields)
+            self._send_json(200, {"success": True})
+            return
+
         # ── Users: Create ──
         if path == "/api/users":
             if not self._is_admin():
@@ -982,6 +1179,28 @@ class CarolHandler(SimpleHTTPRequestHandler):
             self._send_json(200, get_results_by_candidate_id(candidate_id))
             return
 
+        # ── API: Quiz Session (single) ──
+        if path.startswith("/api/session/") and not path.startswith("/api/session/active"):
+            parts = path.split("/")
+            if len(parts) >= 4:
+                session_id = parts[3]
+                session = get_session(session_id)
+                if session:
+                    self._send_json(200, {"success": True, "session": session})
+                    return
+                self._send_json(404, {"error": "Session not found"})
+                return
+
+        # ── API: Quiz Session (active) ──
+        if path == "/api/session/active":
+            candidate_id = qs.get("candidate_id", [None])[0]
+            if not candidate_id:
+                self._send_json(400, {"error": "candidate_id required"})
+                return
+            session = get_active_session(candidate_id)
+            self._send_json(200, {"success": True, "session": session})
+            return
+
         # ── API: Users ──
         if path == "/api/users":
             if not self._is_admin():
@@ -1083,6 +1302,11 @@ if __name__ == "__main__":
         print("  → Endpoints:")
         print(f"     POST /webhook/carol-registration")
         print(f"     POST /webhook/carol-results")
+        print(f"     POST /api/session/create")
+        print(f"     POST /api/session/save")
+        print(f"     POST /api/session/submit")
+        print(f"     GET  /api/session/active")
+        print(f"     GET  /api/session/<id>")
         print(f"     GET  /api/stats")
         print(f"     GET  /api/candidates")
         print(f"     GET  /api/results")
