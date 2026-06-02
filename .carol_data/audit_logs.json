@@ -1,0 +1,11 @@
+[
+  {
+    "id": "00253c74-ca23-4363-a4be-13fb51dbb8b4",
+    "action": "create",
+    "target_type": "api_key",
+    "target_id": "58a793d3-cd2b-41ca-9b5a-3eed9ae17633",
+    "user_email": "marco@soul23.mx",
+    "detail": "Created API key 'test-key' [viewer]",
+    "timestamp": "2026-06-02T17:57:35.014809"
+  }
+]

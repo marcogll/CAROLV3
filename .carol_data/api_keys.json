@@ -1,0 +1,12 @@
+[
+  {
+    "id": "58a793d3-cd2b-41ca-9b5a-3eed9ae17633",
+    "name": "test-key",
+    "key_hash": "4ae6dccd4a0b429c5310670fac1d2f76764b247b515d1ade66c3a0e0ebff5b92",
+    "key_prefix": "carol_6058c1",
+    "role": "viewer",
+    "created_by": "marco@soul23.mx",
+    "created_at": "2026-06-02T17:57:35.014532",
+    "last_used_at": null
+  }
+]

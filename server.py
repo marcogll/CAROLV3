@@ -75,6 +75,7 @@ RESULTS_FILE = os.path.join(DATA_DIR, "results.json")
 USERS_FILE = os.path.join(DATA_DIR, "users.json")
 AUDIT_FILE = os.path.join(DATA_DIR, "audit_logs.json")
 SESSIONS_FILE = os.path.join(DATA_DIR, "sessions.json")
+API_KEYS_FILE = os.path.join(DATA_DIR, "api_keys.json")
 
 # ── Report engine (optional) ─────────────────────────────────────────────────
 REPORT_ENGINE = None
@@ -165,6 +166,81 @@ def _audit_log(action: str, target_type: str, target_id: str, user_email: str, d
 
 def _hash_pw(password: str) -> str:
     return hashlib.sha256(password.encode("utf-8")).hexdigest()
+
+# ── API Keys helpers ────────────────────────────────────────────────────────
+
+def _generate_api_key() -> str:
+    return "carol_" + hashlib.sha256(os.urandom(32)).hexdigest()[:48]
+
+def _hash_api_key(key: str) -> str:
+    return hashlib.sha256(key.encode("utf-8")).hexdigest()
+
+def _load_api_keys():
+    if not os.path.exists(API_KEYS_FILE):
+        return []
+    with open(API_KEYS_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+def _save_api_keys(keys):
+    with open(API_KEYS_FILE, "w", encoding="utf-8") as f:
+        json.dump(keys, f, indent=2, ensure_ascii=False)
+
+def _find_api_key_by_hash(key_hash: str):
+    for k in _load_api_keys():
+        if k.get("key_hash") == key_hash:
+            return k
+    return None
+
+def store_api_key(api_key: dict):
+    if USE_MYSQL:
+        conn = get_conn()
+        with conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO api_keys (id, name, key_hash, key_prefix, role, created_by, created_at)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """, (api_key["id"], api_key["name"], api_key["key_hash"], api_key["key_prefix"],
+                  api_key["role"], api_key["created_by"], api_key["created_at"]))
+        conn.close()
+    else:
+        keys = _load_api_keys()
+        keys.append(api_key)
+        _save_api_keys(keys)
+
+def delete_api_key(key_id: str):
+    if USE_MYSQL:
+        conn = get_conn()
+        with conn.cursor() as cur:
+            cur.execute("DELETE FROM api_keys WHERE id = %s", (key_id,))
+        conn.close()
+    else:
+        keys = _load_api_keys()
+        keys = [k for k in keys if k.get("id") != key_id]
+        _save_api_keys(keys)
+
+def get_api_keys():
+    if USE_MYSQL:
+        conn = get_conn()
+        with conn.cursor() as cur:
+            cur.execute("SELECT * FROM api_keys ORDER BY created_at DESC")
+            rows = cur.fetchall()
+        conn.close()
+        return rows
+    return sorted(_load_api_keys(), key=lambda x: x.get("created_at", ""), reverse=True)
+
+def update_api_key_last_used(key_id: str):
+    now = _now_iso()
+    if USE_MYSQL:
+        conn = get_conn()
+        with conn.cursor() as cur:
+            cur.execute("UPDATE api_keys SET last_used_at = %s WHERE id = %s", (now, key_id))
+        conn.close()
+    else:
+        keys = _load_api_keys()
+        for k in keys:
+            if k.get("id") == key_id:
+                k["last_used_at"] = now
+                break
+        _save_api_keys(keys)
 
 def _load_users():
     if not os.path.exists(USERS_FILE):
@@ -287,6 +363,18 @@ def init_db():
                         status VARCHAR(50) DEFAULT 'active',
                         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                         INDEX idx_candidate_id (candidate_id)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+                """)
+                cur.execute("""
+                    CREATE TABLE IF NOT EXISTS api_keys (
+                        id VARCHAR(36) PRIMARY KEY,
+                        name VARCHAR(255),
+                        key_hash VARCHAR(64),
+                        key_prefix VARCHAR(12),
+                        role VARCHAR(50) DEFAULT 'viewer',
+                        created_by VARCHAR(255),
+                        created_at DATETIME,
+                        last_used_at DATETIME
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
                 """)
             conn.close()
@@ -744,6 +832,19 @@ def export_csv(result_id=None):
 # ── Handler ──────────────────────────────────────────────────────────────────
 class CarolHandler(SimpleHTTPRequestHandler):
     def _get_token_payload(self):
+        # Check X-API-Key header first
+        api_key = self.headers.get("X-API-Key", "")
+        if api_key:
+            key_hash = _hash_api_key(api_key)
+            api_key_obj = _find_api_key_by_hash(key_hash)
+            if api_key_obj:
+                update_api_key_last_used(api_key_obj["id"])
+                return {
+                    "sub": api_key_obj.get("created_by", "api"),
+                    "name": api_key_obj.get("name", "API Key"),
+                    "role": api_key_obj.get("role", "viewer"),
+                }
+        # Check JWT token
         auth = self.headers.get("Authorization", "")
         if not auth and "?" in self.path:
             qs = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
@@ -1018,6 +1119,44 @@ class CarolHandler(SimpleHTTPRequestHandler):
             self._send_json(201, {"success": True, "message": "Usuario creado"})
             return
 
+        # ── API Keys: Create ──
+        if path == "/api/api-keys":
+            if not self._is_admin():
+                self._send_json(403, {"error": "Forbidden"})
+                return
+            payload = self._read_body()
+            name = payload.get("name", "").strip()
+            role = payload.get("role", "viewer")
+            if not name:
+                self._send_json(400, {"error": "Nombre es obligatorio"})
+                return
+            if role not in ("admin", "viewer"):
+                role = "viewer"
+            raw_key = _generate_api_key()
+            key_hash = _hash_api_key(raw_key)
+            user = self._current_user()
+            api_key = {
+                "id": str(uuid.uuid4()),
+                "name": name,
+                "key_hash": key_hash,
+                "key_prefix": raw_key[:12],
+                "role": role,
+                "created_by": user.get("email") if user else "unknown",
+                "created_at": _now_iso(),
+                "last_used_at": None,
+            }
+            store_api_key(api_key)
+            _audit_log("create", "api_key", api_key["id"], user.get("email", "unknown"), f"Created API key '{name}' [{role}]")
+            self._send_json(201, {
+                "success": True,
+                "message": "API key creada. Guárdala, no se volverá a mostrar.",
+                "api_key": raw_key,
+                "key_id": api_key["id"],
+                "name": name,
+                "role": role,
+            })
+            return
+
         self._send_json(404, {"error": "Not found"})
 
     def do_DELETE(self):
@@ -1053,6 +1192,21 @@ class CarolHandler(SimpleHTTPRequestHandler):
             user = self._current_user()
             soft_delete_result(result_id, user.get("email") if user else "unknown")
             self._send_json(200, {"success": True, "message": "Evaluación eliminada (soft delete)"})
+            return
+        # ── API Keys: Delete ──
+        if path.startswith("/api/api-keys/"):
+            if not self._is_admin():
+                self._send_json(403, {"error": "Forbidden"})
+                return
+            parts = path.split("/")
+            if len(parts) < 4:
+                self._send_json(400, {"error": "Invalid request"})
+                return
+            key_id = parts[3]
+            user = self._current_user()
+            delete_api_key(key_id)
+            _audit_log("delete", "api_key", key_id, user.get("email") if user else "unknown", "Deleted API key")
+            self._send_json(200, {"success": True, "message": "API key eliminada"})
             return
         self._send_json(404, {"error": "Not found"})
 
@@ -1220,6 +1374,105 @@ class CarolHandler(SimpleHTTPRequestHandler):
             self._send_json(200, get_audit_logs())
             return
 
+        # ── API: API Keys ──
+        if path == "/api/api-keys":
+            if not self._is_admin():
+                self._send_json(403, {"error": "Forbidden"})
+                return
+            keys = get_api_keys()
+            safe = [{k: v for k, v in k_item.items() if k != "key_hash"} for k_item in keys]
+            self._send_json(200, safe)
+            return
+
+        # ── API: Reports — Full session analysis ──
+        if path.startswith("/api/reports/session/"):
+            if not self._is_authenticated():
+                self._send_json(401, {"error": "Unauthorized"})
+                return
+            parts = path.split("/")
+            session_id = parts[4] if len(parts) > 4 else ""
+            session = get_session(session_id)
+            if not session:
+                self._send_json(404, {"error": "Session not found"})
+                return
+            candidate_id = session.get("candidate_id", "")
+            candidate = None
+            for c in get_candidates():
+                if c.get("candidate_id") == candidate_id:
+                    candidate = c
+                    break
+            results = get_results_by_candidate_id(candidate_id)
+            all_sessions = []
+            if USE_MYSQL:
+                conn = get_conn()
+                with conn.cursor() as cur:
+                    cur.execute("SELECT * FROM quiz_sessions WHERE candidate_id = %s ORDER BY started_at DESC", (candidate_id,))
+                    all_sessions = cur.fetchall()
+                conn.close()
+                for s in all_sessions:
+                    s["levels"] = json.loads(s.get("levels_json") or "[]")
+                    s["answers"] = json.loads(s.get("answers_json") or "{}")
+                    s["all_results"] = json.loads(s.get("all_results_json") or "[]")
+            else:
+                all_sessions = [s for s in _load(SESSIONS_FILE) if s.get("candidate_id") == candidate_id]
+            total_time = sum(s.get("seconds_total", 0) - s.get("seconds_left", 0) for s in all_sessions if s.get("submitted"))
+            total_questions = sum(len(s.get("answers", {})) for s in all_sessions if s.get("submitted"))
+            scores = [r.get("results", {}).get("pct_score", 0) for r in results if r.get("results", {}).get("pct_score") is not None]
+            self._send_json(200, {
+                "success": True,
+                "session": session,
+                "candidate": candidate,
+                "results": results,
+                "total_sessions": len(all_sessions),
+                "completed_sessions": sum(1 for s in all_sessions if s.get("submitted")),
+                "total_time_seconds": total_time,
+                "total_questions_answered": total_questions,
+                "avg_score": round(sum(scores) / len(scores), 1) if scores else 0,
+                "best_score": max(scores) if scores else 0,
+                "attempts": len(results),
+            })
+            return
+
+        # ── API: Reports — Search by applicant data ──
+        if path == "/api/reports/search":
+            if not self._is_authenticated():
+                self._send_json(401, {"error": "Unauthorized"})
+                return
+            name = qs.get("name", [None])[0]
+            email = qs.get("email", [None])[0]
+            phone = qs.get("phone", [None])[0]
+            emp_id = qs.get("employee_id", [None])[0]
+            all_candidates = get_candidates()
+            matched = all_candidates
+            if name:
+                name_lower = name.lower()
+                matched = [c for c in matched if name_lower in (c.get("full_name") or "").lower()]
+            if email:
+                email_lower = email.lower()
+                matched = [c for c in matched if email_lower in (c.get("contact_email") or "").lower()]
+            if emp_id:
+                emp_lower = emp_id.lower()
+                matched = [c for c in matched if emp_lower in (c.get("employee_id") or "").lower()]
+            if phone:
+                phone_clean = phone.replace(" ", "").replace("-", "")
+                matched = [c for c in matched if phone_clean in (c.get("phone") or "").replace(" ", "").replace("-", "")]
+            results_all = get_results()
+            output = []
+            for c in matched:
+                cid = c.get("candidate_id", "")
+                c_results = [r for r in results_all if r.get("candidate", {}).get("candidate_id") == cid or r.get("candidate_id") == cid]
+                scores = [r.get("results", {}).get("pct_score", 0) for r in c_results if r.get("results", {}).get("pct_score") is not None]
+                output.append({
+                    "candidate": c,
+                    "total_evaluations": len(c_results),
+                    "avg_score": round(sum(scores) / len(scores), 1) if scores else 0,
+                    "best_score": max(scores) if scores else 0,
+                    "last_evaluation": c_results[0].get("submitted_at") if c_results else None,
+                    "levels_taken": list(set(r.get("assessment", {}).get("level", "") for r in c_results)),
+                })
+            self._send_json(200, {"success": True, "results": output, "total": len(output)})
+            return
+
         # ── API: Report PDF ──
         if path.startswith("/api/report/") and path.endswith("/pdf"):
             if not self._is_authenticated():
@@ -1312,6 +1565,13 @@ if __name__ == "__main__":
         print(f"     GET  /api/results")
         print(f"     GET  /api/heatmap")
         print(f"     GET  /api/export.csv")
+        print(f"     GET  /api/reports/session/<id>")
+        print(f"     GET  /api/reports/search?name=&email=&phone=&employee_id=")
+        print(f"     GET  /api/api-keys")
+        print(f"     POST /api/api-keys")
+        print(f"     DELETE /api/api-keys/<id>")
+        print(f"     GET  /api/auth/me")
+        print(f"     POST /api/auth/login")
         print("Press Ctrl+C to stop.")
         try:
             httpd.serve_forever()
