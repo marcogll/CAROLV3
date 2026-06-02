@@ -186,6 +186,17 @@ def _save_api_keys(keys):
         json.dump(keys, f, indent=2, ensure_ascii=False)
 
 def _find_api_key_by_hash(key_hash: str):
+    if USE_MYSQL:
+        try:
+            conn = get_conn()
+            with conn.cursor() as cur:
+                cur.execute("SELECT * FROM api_keys WHERE key_hash = %s", (key_hash,))
+                row = cur.fetchone()
+            conn.close()
+            if row:
+                return row
+        except Exception:
+            pass
     for k in _load_api_keys():
         if k.get("key_hash") == key_hash:
             return k
