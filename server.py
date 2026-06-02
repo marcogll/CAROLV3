@@ -14,6 +14,13 @@ except ImportError:
     HAS_JWT = False
     jwt = None
 
+try:
+    from fpdf import FPDF
+    HAS_FPDF = True
+except ImportError:
+    HAS_FPDF = False
+    FPDF = object
+
 # ── Config ───────────────────────────────────────────────────────────────────
 DB_HOST = os.getenv("DB_HOST", "")
 DB_PORT = int(os.getenv("DB_PORT", "3306"))
@@ -26,9 +33,13 @@ PORT = int(os.getenv("PORT", "8000"))
 # ── Admin Auth Config ────────────────────────────────────────────────────────
 ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "marco@soul23.mx")
 ADMIN_NAME = os.getenv("ADMIN_NAME", "Marco Gallegos")
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "Yamakasi111")
-JWT_SECRET = os.getenv("JWT_SECRET", "carol-jwt-change-me-in-production")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "")
+JWT_SECRET = os.getenv("JWT_SECRET", "")
 JWT_ALGO = "HS256"
+OPEN_MODE = os.getenv("OPEN_MODE", "false").lower() == "true"
+
+if not ADMIN_PASSWORD or not JWT_SECRET:
+    raise RuntimeError("ADMIN_PASSWORD and JWT_SECRET must be set via environment variables")
 
 def _make_token(payload: dict) -> str:
     if HAS_JWT:
@@ -49,9 +60,12 @@ def _decode_token(token: str) -> dict:
         expected = hmac.new(JWT_SECRET.encode(), msg.encode(), hashlib.sha256).hexdigest()
         if not hmac.compare_digest(sig, expected):
             raise ValueError("Invalid signature")
-        return json.loads(msg)
-    except Exception:
-        raise ValueError("Invalid token")
+        payload = json.loads(msg)
+        if "exp" in payload and time.time() > payload["exp"]:
+            raise ValueError("Token expired")
+        return payload
+    except Exception as e:
+        raise ValueError(f"Invalid token: {e}")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 WEB_DIR = os.path.join(BASE_DIR, "web")
@@ -79,11 +93,10 @@ if DB_HOST:
         )
         c.close()
         USE_MYSQL = True
-        print(f"[DB] MySQL mode enabled ({DB_HOST}:{DB_PORT})")
     except Exception as e:
         print(f"[DB] MySQL not available ({e}), falling back to JSON files.")
-else:
-    print("[DB] DB_HOST not set, using JSON file storage.")
+
+print(f"[DB] Mode: {'MySQL' if USE_MYSQL else 'JSON files'} ({DB_HOST or 'no host'})")
 
 # ── JSON helpers (fallback) ──────────────────────────────────────────────────
 def _load(path):
@@ -338,7 +351,74 @@ def get_heatmap_rows():
         })
     return out
 
-def export_csv():
+class ReportPDF(FPDF):
+    def header(self):
+        self.set_font("Helvetica", "B", 16)
+        self.cell(0, 10, "CAROL v3 — Reporte de Evaluación", ln=True, align='C')
+        self.ln(5)
+
+    def footer(self):
+        self.set_y(-15)
+        self.set_font("Helvetica", "I", 8)
+        self.cell(0, 10, f"Página {self.page_no()}/{{nb}} - CAROL Assessment System", align="C")
+
+def generate_pdf(result):
+    if not HAS_FPDF:
+        return None
+
+    pdf = ReportPDF()
+    pdf.alias_nb_pages()
+    pdf.add_page()
+
+    c = result.get("candidate", {})
+    a = result.get("assessment", {})
+    res = result.get("results", {})
+
+    # Candidate Info
+    pdf.set_font("Helvetica", "B", 12)
+    pdf.cell(0, 10, "Información del Candidato", ln=True)
+    pdf.set_font("Helvetica", "", 10)
+    pdf.cell(95, 8, f"Nombre: {c.get('full_name', '—')}", border=0)
+    pdf.cell(95, 8, f"ID: {c.get('employee_id', '—')}", ln=True)
+    pdf.cell(95, 8, f"Empresa: {c.get('company_name', '—')}", border=0)
+    pdf.cell(95, 8, f"Email: {c.get('contact_email', '—')}", ln=True)
+    pdf.cell(95, 8, f"Departamento: {c.get('department', '—')}", border=0)
+    pdf.cell(95, 8, f"Puesto: {c.get('job_role', '—')}", ln=True)
+    pdf.ln(5)
+
+    # Results Info
+    pdf.set_font("Helvetica", "B", 12)
+    pdf.cell(0, 10, "Resultados de la Evaluación", ln=True)
+    pdf.set_font("Helvetica", "", 10)
+    pdf.cell(95, 8, f"Nivel: {a.get('level_name', '—')}", border=0)
+    status = "APROBADO" if res.get("passed") else "NO APROBADO"
+    pdf.cell(95, 8, f"Estatus: {status}", ln=True)
+    pdf.cell(95, 8, f"Puntaje: {res.get('pct_score', 0)}%", border=0)
+    pdf.cell(95, 8, f"Correctas: {res.get('correct_answers', 0)} / {a.get('total_questions', '—')}", ln=True)
+    m = (res.get("time_seconds", 0) or 0) // 60
+    s = (res.get("time_seconds", 0) or 0) % 60
+    pdf.cell(95, 8, f"Tiempo: {m}m {s}s", border=0)
+    pdf.cell(95, 8, f"Fecha: {result.get('submitted_at', '—')[:10]}", ln=True)
+    pdf.ln(5)
+
+    # Category Breakdown
+    pdf.set_font("Helvetica", "B", 12)
+    pdf.cell(0, 10, "Desempeño por Categoría", ln=True)
+    pdf.set_font("Helvetica", "B", 10)
+    pdf.cell(100, 8, "Categoría", border=1)
+    pdf.cell(40, 8, "Puntaje", border=1, align='C')
+    pdf.cell(40, 8, "Correctas", border=1, ln=True, align='C')
+
+    pdf.set_font("Helvetica", "", 10)
+    cats = result.get("category_breakdown", {})
+    for cat, st in cats.items():
+        pdf.cell(100, 8, cat, border=1)
+        pdf.cell(40, 8, f"{st.get('pct', 0)}%", border=1, align='C')
+        pdf.cell(40, 8, f"{st.get('correct', 0)}/{st.get('total', 0)}", border=1, ln=True, align='C')
+
+    return pdf.output()
+
+def export_csv(result_id=None):
     output = io.StringIO()
     writer = csv.writer(output)
     writer.writerow([
@@ -346,43 +426,53 @@ def export_csv():
         "company_name", "contact_email", "level", "score_pct", "earned_pts", "max_pts", "passed",
         "correct_answers", "time_seconds", "submitted_at"
     ])
-    if USE_MYSQL:
-        conn = get_conn()
-        with conn.cursor() as cur:
-            cur.execute("SELECT * FROM results ORDER BY created_at DESC")
-            rows = cur.fetchall()
-        conn.close()
-        for r in rows:
-            c = json.loads(r.get("candidate_json") or "{}")
-            a = json.loads(r.get("assessment_json") or "{}")
-            res = json.loads(r.get("results_json") or "{}")
-            writer.writerow([
-                c.get("candidate_id", ""), c.get("full_name", ""), c.get("employee_id", ""),
-                c.get("department", ""), c.get("job_role", ""),
-                c.get("company_name", ""), c.get("contact_email", ""),
-                a.get("level", ""), res.get("pct_score", ""), res.get("earned_pts", ""),
-                res.get("max_pts", ""), "APROBADO" if res.get("passed") else "NO_APROBADO",
-                res.get("correct_answers", ""), res.get("time_seconds", ""),
-                r.get("submitted_at", ""),
-            ])
+
+    if result_id:
+        res = get_result_by_id(result_id)
+        rows = [res] if res else []
     else:
-        for r in _load(RESULTS_FILE):
-            c = r.get("candidate", {})
-            a = r.get("assessment", {})
-            res = r.get("results", {})
-            writer.writerow([
-                c.get("candidate_id", ""), c.get("full_name", ""), c.get("employee_id", ""),
-                c.get("department", ""), c.get("job_role", ""),
-                c.get("company_name", ""), c.get("contact_email", ""),
-                a.get("level", ""), res.get("pct_score", ""), res.get("earned_pts", ""),
-                res.get("max_pts", ""), "APROBADO" if res.get("passed") else "NO_APROBADO",
-                res.get("correct_answers", ""), res.get("time_seconds", ""),
-                r.get("submitted_at", ""),
-            ])
+        rows = get_results()
+
+    for r in rows:
+        c = r.get("candidate", {})
+        a = r.get("assessment", {})
+        res = r.get("results", {})
+        writer.writerow([
+            c.get("candidate_id", ""), c.get("full_name", ""), c.get("employee_id", ""),
+            c.get("department", ""), c.get("job_role", ""),
+            c.get("company_name", ""), c.get("contact_email", ""),
+            a.get("level", ""), res.get("pct_score", ""), res.get("earned_pts", ""),
+            res.get("max_pts", ""), "APROBADO" if res.get("passed") else "NO_APROBADO",
+            res.get("correct_answers", ""), res.get("time_seconds", ""),
+            r.get("submitted_at", ""),
+        ])
     return output.getvalue().encode("utf-8")
 
 # ── Handler ──────────────────────────────────────────────────────────────────
 class CarolHandler(SimpleHTTPRequestHandler):
+    def _is_admin(self):
+        auth = self.headers.get("Authorization", "")
+        if not auth and "?" in self.path:
+            # Check for token in query string (for direct PDF downloads)
+            qs = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+            auth = qs.get("token", [""])[0]
+            if auth:
+                try:
+                    decoded = _decode_token(auth)
+                    return decoded.get("role") == "admin"
+                except Exception:
+                    pass
+            return False
+
+        if auth.startswith("Bearer "):
+            try:
+                token = auth.split(" ", 1)[1]
+                decoded = _decode_token(token)
+                return decoded.get("role") == "admin"
+            except Exception:
+                pass
+        return False
+
     def translate_path(self, path):
         parsed = urllib.parse.urlparse(path)
         clean = urllib.parse.unquote(parsed.path)
@@ -419,7 +509,7 @@ class CarolHandler(SimpleHTTPRequestHandler):
         self.send_response(204)
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
         self.end_headers()
 
     def do_POST(self):
@@ -464,6 +554,20 @@ class CarolHandler(SimpleHTTPRequestHandler):
         # ── Webhook: Results ──
         if path == "/webhook/carol-results":
             payload = self._read_body()
+
+            # Validation logic
+            if not OPEN_MODE:
+                candidate_info = payload.get("candidate", {})
+                email = candidate_info.get("contact_email")
+                emp_id = candidate_info.get("employee_id")
+
+                candidates = get_candidates()
+                exists = any(c.get("contact_email") == email or c.get("employee_id") == emp_id for c in candidates)
+
+                if not exists:
+                    self._send_json(403, {"error": "Candidato no registrado. Contacte a su administrador."})
+                    return
+
             result = {
                 "id": str(uuid.uuid4()),
                 "submitted_at": payload.get("submitted_at", _now_iso()),
@@ -525,16 +629,25 @@ class CarolHandler(SimpleHTTPRequestHandler):
 
         # ── API: Stats ──
         if path == "/api/stats":
+            if not self._is_admin():
+                self._send_json(401, {"error": "Unauthorized"})
+                return
             self._send_json(200, get_stats())
             return
 
         # ── API: Candidates ──
-        if path == "/api/candidates":
+        if path == "/api/candidates" or path == "/api/admin/candidates":
+            if not self._is_admin():
+                self._send_json(401, {"error": "Unauthorized"})
+                return
             self._send_json(200, get_candidates())
             return
 
         # ── API: Results ──
-        if path == "/api/results":
+        if path == "/api/results" or path == "/api/admin/results":
+            if not self._is_admin():
+                self._send_json(401, {"error": "Unauthorized"})
+                return
             level = qs.get("level", [None])[0]
             dept = qs.get("department", [None])[0]
             passed_q = qs.get("passed", [None])[0]
@@ -556,23 +669,61 @@ class CarolHandler(SimpleHTTPRequestHandler):
             self._send_json(200, filtered)
             return
 
-        # ── API: Single Result ──
+        # ── API: Single Result (JSON, PDF, or CSV) ──
         if path.startswith("/api/result/"):
-            result_id = path.split("/")[-1]
+            if not self._is_admin():
+                self._send_json(401, {"error": "Unauthorized"})
+                return
+
+            parts = path.split("/")
+            # Handle /api/result/{id} or /api/result/{id}/pdf or /api/result/{id}/csv
+            result_id = parts[3]
+            is_pdf = path.endswith("/pdf")
+            is_csv = path.endswith("/csv")
+
             row = get_result_by_id(result_id)
-            if row:
-                self._send_json(200, row)
-            else:
+            if not row:
                 self._send_json(404, {"error": "Result not found"})
+                return
+
+            if is_pdf:
+                if not HAS_FPDF:
+                    self._send_json(500, {"error": "FPDF not installed"})
+                    return
+                body = generate_pdf(row)
+                self.send_response(200)
+                self.send_header("Content-Type", "application/pdf")
+                self.send_header("Content-Disposition", f"attachment; filename=report_{result_id}.pdf")
+                self.send_header("Content-Length", str(len(body)))
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                self.wfile.write(body)
+            elif is_csv:
+                body = export_csv(result_id)
+                self.send_response(200)
+                self.send_header("Content-Type", "text/csv; charset=utf-8")
+                self.send_header("Content-Disposition", f"attachment; filename=result_{result_id}.csv")
+                self.send_header("Content-Length", str(len(body)))
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                self.wfile.write(body)
+            else:
+                self._send_json(200, row)
             return
 
         # ── API: Heatmap data ──
         if path == "/api/heatmap":
+            if not self._is_admin():
+                self._send_json(401, {"error": "Unauthorized"})
+                return
             self._send_json(200, get_heatmap_rows())
             return
 
         # ── API: Export CSV ──
         if path == "/api/export.csv":
+            if not self._is_admin():
+                self._send_json(401, {"error": "Unauthorized"})
+                return
             body = export_csv()
             self.send_response(200)
             self.send_header("Content-Type", "text/csv; charset=utf-8")
