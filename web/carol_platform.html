@@ -729,7 +729,7 @@ function autoAssignLevel(role, exp, selfEval) {
 }
 
 // ══════════════════════════════════════════ REGISTER ══
-function submitRegistration(){
+async function submitRegistration(){
   const name=document.getElementById('reg-name').value.trim();
   const empId=document.getElementById('reg-id').value.trim();
   const company=document.getElementById('reg-company').value.trim();
@@ -769,16 +769,28 @@ function submitRegistration(){
     computed: { assigned_level: S.level },
     submitted_at: new Date().toISOString()
   };
-  fetch('/webhook/carol-registration', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(regPayload)
-  }).then(r => r.json()).then(data => {
-    if (data.success && data.candidate_id) {
-      S.candidate.candidate_id = data.candidate_id;
-      console.log('Registration persisted:', data.candidate_id);
+  try {
+    const r = await fetch('/webhook/carol-registration', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(regPayload)
+    });
+    let data = {};
+    try { data = await r.json(); } catch (_) {}
+    if (!r.ok || !data.success) {
+      err.querySelector('span').textContent = 'Error al registrar: ' + (data.error || ('HTTP ' + r.status));
+      err.classList.remove('d-none');
+      return;
     }
-  }).catch(e => console.error('Registration persistence failed:', e));
+    if (data.candidate_id) {
+      S.candidate.candidate_id = data.candidate_id;
+    }
+  } catch (e) {
+    err.querySelector('span').textContent = 'Error de conexión al registrar. Intenta de nuevo.';
+    err.classList.remove('d-none');
+    console.error('Registration persistence failed:', e);
+    return;
+  }
 
   showInstructions();
 }
@@ -918,13 +930,18 @@ function navigate(dir){
 
 function jumpTo(idx){S.currentQ=idx;renderQuestion();}
 
-function confirmSubmit(){
+async function confirmSubmit(){
   const total=S.questions.length;
   const answered=Object.keys(S.answers).length;
   if(answered<total){
     if(!confirm(`Tienes ${total-answered} preguntas sin responder. ¿Deseas finalizar de todas formas?`))return;
   }
-  submitQuiz();
+  try {
+    await submitQuiz();
+  } catch (e) {
+    console.error('submitQuiz error:', e);
+    alert('⚠️ Ocurrió un error al enviar los resultados. Por favor toma una captura de pantalla y contacta al administrador.');
+  }
 }
 
 // ══════════════════════════════════════════ TIMER ══
