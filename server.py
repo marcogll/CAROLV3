@@ -73,6 +73,7 @@ DATA_DIR = os.path.join(BASE_DIR, ".carol_data")
 CANDIDATES_FILE = os.path.join(DATA_DIR, "candidates.json")
 RESULTS_FILE = os.path.join(DATA_DIR, "results.json")
 USERS_FILE = os.path.join(DATA_DIR, "users.json")
+AUDIT_FILE = os.path.join(DATA_DIR, "audit_logs.json")
 
 # ── Report engine (optional) ─────────────────────────────────────────────────
 REPORT_ENGINE = None
@@ -121,6 +122,45 @@ def _save(path, data):
 
 def _now_iso():
     return datetime.now().isoformat()
+
+def _audit_log(action: str, target_type: str, target_id: str, user_email: str, detail: str = ""):
+    entry = {
+        "id": str(uuid.uuid4()),
+        "action": action,
+        "target_type": target_type,
+        "target_id": target_id,
+        "user_email": user_email,
+        "detail": detail,
+        "timestamp": _now_iso(),
+    }
+    if USE_MYSQL:
+        try:
+            conn = get_conn()
+            with conn.cursor() as cur:
+                cur.execute("""
+                    CREATE TABLE IF NOT EXISTS audit_logs (
+                        id VARCHAR(36) PRIMARY KEY,
+                        action VARCHAR(50),
+                        target_type VARCHAR(50),
+                        target_id VARCHAR(36),
+                        user_email VARCHAR(255),
+                        detail TEXT,
+                        timestamp DATETIME,
+                        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+                """)
+                cur.execute("""
+                    INSERT INTO audit_logs (id, action, target_type, target_id, user_email, detail, timestamp)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)
+                """, (entry["id"], entry["action"], entry["target_type"], entry["target_id"],
+                      entry["user_email"], entry["detail"], entry["timestamp"]))
+            conn.close()
+        except Exception as e:
+            print(f"[AUDIT ERROR] {e}")
+    else:
+        logs = _load(AUDIT_FILE)
+        logs.append(entry)
+        _save(AUDIT_FILE, logs)
 
 def _hash_pw(password: str) -> str:
     return hashlib.sha256(password.encode("utf-8")).hexdigest()
@@ -200,15 +240,34 @@ def init_db():
                         wrong_question_ids_json JSON,
                         answers_json JSON,
                         stored_at DATETIME,
+                        deleted_at DATETIME,
+                        deleted_by VARCHAR(255),
                         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                         INDEX idx_candidate_id (candidate_id)
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
                 """)
-                # Migrate: add answers_json if missing
-                try:
-                    cur.execute("ALTER TABLE results ADD COLUMN answers_json JSON AFTER wrong_question_ids_json")
-                except Exception:
-                    pass
+                # Migrate: add columns if missing
+                for col_sql in [
+                    "ALTER TABLE results ADD COLUMN answers_json JSON AFTER wrong_question_ids_json",
+                    "ALTER TABLE results ADD COLUMN deleted_at DATETIME AFTER stored_at",
+                    "ALTER TABLE results ADD COLUMN deleted_by VARCHAR(255) AFTER deleted_at",
+                ]:
+                    try:
+                        cur.execute(col_sql)
+                    except Exception:
+                        pass
+                cur.execute("""
+                    CREATE TABLE IF NOT EXISTS audit_logs (
+                        id VARCHAR(36) PRIMARY KEY,
+                        action VARCHAR(50),
+                        target_type VARCHAR(50),
+                        target_id VARCHAR(36),
+                        user_email VARCHAR(255),
+                        detail TEXT,
+                        timestamp DATETIME,
+                        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+                """)
             conn.close()
             print("[DB] Tables initialized successfully.")
             return
@@ -276,14 +335,16 @@ def get_candidates():
         return rows
     return _load(CANDIDATES_FILE)
 
-def get_results():
+def get_results(include_deleted=False):
     if USE_MYSQL:
         conn = get_conn()
         with conn.cursor() as cur:
-            cur.execute("SELECT * FROM results ORDER BY created_at DESC")
+            if include_deleted:
+                cur.execute("SELECT * FROM results ORDER BY created_at DESC")
+            else:
+                cur.execute("SELECT * FROM results WHERE deleted_at IS NULL ORDER BY created_at DESC")
             rows = cur.fetchall()
         conn.close()
-        # Flatten JSON columns for frontend compatibility
         for r in rows:
             r["candidate"] = json.loads(r.get("candidate_json") or "{}")
             r["assessment"] = json.loads(r.get("assessment_json") or "{}")
@@ -292,13 +353,19 @@ def get_results():
             r["wrong_question_ids"] = json.loads(r.get("wrong_question_ids_json") or "[]")
             r["answers"] = json.loads(r.get("answers_json") or "{}")
         return rows
-    return _load(RESULTS_FILE)
+    rows = _load(RESULTS_FILE)
+    if not include_deleted:
+        rows = [r for r in rows if not r.get("deleted_at")]
+    return rows
 
-def get_result_by_id(result_id):
+def get_result_by_id(result_id, include_deleted=False):
     if USE_MYSQL:
         conn = get_conn()
         with conn.cursor() as cur:
-            cur.execute("SELECT * FROM results WHERE id = %s", (result_id,))
+            if include_deleted:
+                cur.execute("SELECT * FROM results WHERE id = %s", (result_id,))
+            else:
+                cur.execute("SELECT * FROM results WHERE id = %s AND deleted_at IS NULL", (result_id,))
             row = cur.fetchone()
         conn.close()
         if row:
@@ -310,15 +377,18 @@ def get_result_by_id(result_id):
             row["answers"] = json.loads(row.get("answers_json") or "{}")
         return row
     for r in _load(RESULTS_FILE):
-        if r.get("id") == result_id:
+        if r.get("id") == result_id and (include_deleted or not r.get("deleted_at")):
             return r
     return None
 
-def get_results_by_candidate_id(candidate_id):
+def get_results_by_candidate_id(candidate_id, include_deleted=False):
     if USE_MYSQL:
         conn = get_conn()
         with conn.cursor() as cur:
-            cur.execute("SELECT * FROM results WHERE candidate_id = %s ORDER BY submitted_at DESC", (candidate_id,))
+            if include_deleted:
+                cur.execute("SELECT * FROM results WHERE candidate_id = %s ORDER BY submitted_at DESC", (candidate_id,))
+            else:
+                cur.execute("SELECT * FROM results WHERE candidate_id = %s AND deleted_at IS NULL ORDER BY submitted_at DESC", (candidate_id,))
             rows = cur.fetchall()
         conn.close()
         for r in rows:
@@ -329,20 +399,37 @@ def get_results_by_candidate_id(candidate_id):
             r["wrong_question_ids"] = json.loads(r.get("wrong_question_ids_json") or "[]")
             r["answers"] = json.loads(r.get("answers_json") or "{}")
         return rows
-    return [r for r in _load(RESULTS_FILE) if r.get("candidate", {}).get("candidate_id") == candidate_id]
+    rows = _load(RESULTS_FILE)
+    return [r for r in rows if r.get("candidate", {}).get("candidate_id") == candidate_id and (include_deleted or not r.get("deleted_at"))]
+
+def soft_delete_result(result_id, user_email):
+    if USE_MYSQL:
+        conn = get_conn()
+        with conn.cursor() as cur:
+            cur.execute("UPDATE results SET deleted_at = %s, deleted_by = %s WHERE id = %s", (_now_iso(), user_email, result_id))
+        conn.close()
+    else:
+        results = _load(RESULTS_FILE)
+        for r in results:
+            if r.get("id") == result_id:
+                r["deleted_at"] = _now_iso()
+                r["deleted_by"] = user_email
+                break
+        _save(RESULTS_FILE, results)
+    _audit_log("delete", "result", result_id, user_email, f"Soft-deleted result {result_id}")
 
 def get_stats():
     if USE_MYSQL:
         conn = get_conn()
         with conn.cursor() as cur:
-            cur.execute("SELECT COUNT(*) as total FROM results")
+            cur.execute("SELECT COUNT(*) as total FROM results WHERE deleted_at IS NULL")
             total = cur.fetchone()["total"]
-            cur.execute("SELECT COUNT(*) as passed FROM results WHERE JSON_EXTRACT(results_json, '$.passed') = TRUE")
+            cur.execute("SELECT COUNT(*) as passed FROM results WHERE deleted_at IS NULL AND JSON_EXTRACT(results_json, '$.passed') = TRUE")
             passed = cur.fetchone()["passed"]
-            cur.execute("SELECT AVG(JSON_EXTRACT(results_json, '$.pct_score')) as avg FROM results")
+            cur.execute("SELECT AVG(JSON_EXTRACT(results_json, '$.pct_score')) as avg FROM results WHERE deleted_at IS NULL")
             avg_row = cur.fetchone()
             avg = round(avg_row["avg"] or 0, 1)
-            cur.execute("SELECT COUNT(*) as pending FROM results WHERE JSON_EXTRACT(results_json, '$.passed') = FALSE")
+            cur.execute("SELECT COUNT(*) as pending FROM results WHERE deleted_at IS NULL AND JSON_EXTRACT(results_json, '$.passed') = FALSE")
             pending = cur.fetchone()["pending"]
             cur.execute("SELECT COUNT(*) as c FROM candidates")
             total_candidates = cur.fetchone()["c"]
@@ -354,7 +441,7 @@ def get_stats():
             "avg_score": avg,
             "pending_reviews": pending,
         }
-    results = _load(RESULTS_FILE)
+    results = [r for r in _load(RESULTS_FILE) if not r.get("deleted_at")]
     candidates = _load(CANDIDATES_FILE)
     total = len(results)
     passed = sum(1 for r in results if r.get("results", {}).get("passed", False))
@@ -373,7 +460,7 @@ def get_heatmap_rows():
     if USE_MYSQL:
         conn = get_conn()
         with conn.cursor() as cur:
-            cur.execute("SELECT candidate_json, assessment_json, results_json, category_breakdown_json FROM results")
+            cur.execute("SELECT candidate_json, assessment_json, results_json, category_breakdown_json FROM results WHERE deleted_at IS NULL")
             rows = cur.fetchall()
         conn.close()
         out = []
@@ -393,6 +480,8 @@ def get_heatmap_rows():
         return out
     out = []
     for r in _load(RESULTS_FILE):
+        if r.get("deleted_at"):
+            continue
         c = r.get("candidate", {})
         cat = r.get("category_breakdown", {})
         scores = {k: v.get("pct", 0) for k, v in cat.items()}
@@ -406,6 +495,17 @@ def get_heatmap_rows():
             "passed": r.get("results", {}).get("passed", False),
         })
     return out
+
+def get_audit_logs(limit=200):
+    if USE_MYSQL:
+        conn = get_conn()
+        with conn.cursor() as cur:
+            cur.execute("SELECT * FROM audit_logs ORDER BY timestamp DESC LIMIT %s", (limit,))
+            rows = cur.fetchall()
+        conn.close()
+        return rows
+    logs = _load(AUDIT_FILE)
+    return sorted(logs, key=lambda x: x.get("timestamp", ""), reverse=True)[:limit]
 
 class ReportPDF(FPDF):
     def header(self):
@@ -743,6 +843,20 @@ class CarolHandler(SimpleHTTPRequestHandler):
             _save_users(new_users)
             self._send_json(200, {"success": True, "message": "Usuario eliminado"})
             return
+        # ── Results: Soft Delete ──
+        if path.startswith("/api/result/"):
+            if not self._is_admin():
+                self._send_json(403, {"error": "Forbidden"})
+                return
+            parts = path.split("/")
+            if len(parts) < 4:
+                self._send_json(400, {"error": "Invalid request"})
+                return
+            result_id = parts[3]
+            user = self._current_user()
+            soft_delete_result(result_id, user.get("email") if user else "unknown")
+            self._send_json(200, {"success": True, "message": "Evaluación eliminada (soft delete)"})
+            return
         self._send_json(404, {"error": "Not found"})
 
     def do_GET(self):
@@ -877,6 +991,14 @@ class CarolHandler(SimpleHTTPRequestHandler):
             # Never expose password_hash
             safe = [{k: v for k, v in u.items() if k != "password_hash"} for u in users]
             self._send_json(200, safe)
+            return
+
+        # ── API: Audit Logs ──
+        if path == "/api/audit/logs":
+            if not self._is_admin():
+                self._send_json(403, {"error": "Forbidden"})
+                return
+            self._send_json(200, get_audit_logs())
             return
 
         # ── API: Report PDF ──

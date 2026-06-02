@@ -338,6 +338,23 @@
                 </div>
               </div>
             </div>
+            <div class="row row-cards mt-4">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header"><h3 class="card-title">Auditoría / Logs</h3></div>
+                  <div class="table-responsive">
+                    <table class="table table-vcenter card-table">
+                      <thead>
+                        <tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Tipo</th><th>ID</th><th>Detalle</th></tr>
+                      </thead>
+                      <tbody id="audit-body">
+                        <tr><td colspan="6" class="empty-state">Cargando logs…</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -436,7 +453,7 @@
       document.querySelectorAll('.tab-pane').forEach(el => el.style.display = 'none');
       document.getElementById('view-' + tab).style.display = 'block';
       if (tab === 'persona') loadPersonas();
-      if (tab === 'ajustes') loadUsers();
+      if (tab === 'ajustes') { loadUsers(); loadAuditLogs(); }
     }
 
     // Allow Enter key on password field
@@ -535,6 +552,8 @@
           const res = row.results || {};
           if (search && !c.full_name?.toLowerCase().includes(search) && !c.employee_id?.toLowerCase().includes(search)) return;
           const tr = document.createElement('tr');
+          const isAdmin = currentUser && currentUser.role === 'admin';
+          const deleteBtn = isAdmin ? `<button class="btn btn-outline-danger btn-sm" onclick="deleteResult('${row.id}')" title="Eliminar"><i class="ti ti-trash"></i></button>` : '';
           tr.innerHTML = `
             <td>${c.full_name || '—'}</td>
             <td>${c.company_name || '—'}</td>
@@ -543,7 +562,7 @@
             <td>${statusBadge(res.passed)}</td>
             <td>${c.department || '—'}</td>
             <td>${fmtDate(row.submitted_at)}</td>
-            <td><a href="#" onclick="openDetail('${row.id}')">Ver</a></td>
+            <td><a href="#" onclick="openDetail('${row.id}')">Ver</a> ${deleteBtn}</td>
           `;
           tbody.appendChild(tr);
         });
@@ -627,6 +646,24 @@
         data: { labels, datasets: [{ label: 'Puntaje promedio (%)', data, borderColor: '#1B4F72', backgroundColor: 'rgba(27,79,114,0.1)', fill: true, tension: 0.3, pointRadius: 4 }] },
         options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 100 } }, plugins: { legend: { display: false } } }
       });
+    }
+
+    async function deleteResult(id) {
+      if (!confirm('¿Eliminar esta evaluación? Se mantendrá en auditoría.')) return;
+      try {
+        const r = await fetch(API + '/api/result/' + id, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + getToken() }
+        });
+        const data = await r.json();
+        if (data.success) {
+          loadData();
+        } else {
+          alert(data.error || 'Error eliminando evaluación');
+        }
+      } catch (e) {
+        alert('Error de conexión');
+      }
     }
 
     async function openDetail(id) {
@@ -805,6 +842,34 @@
       } catch (e) {
         console.error('users', e);
         tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Error cargando usuarios.</td></tr>';
+      }
+    }
+
+    async function loadAuditLogs() {
+      const tbody = document.getElementById('audit-body');
+      try {
+        const r = await fetch(API + '/api/audit/logs', { headers: { 'Authorization': 'Bearer ' + getToken() } });
+        const rows = await r.json();
+        tbody.innerHTML = '';
+        if (!rows.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Sin registros de auditoría.</td></tr>';
+          return;
+        }
+        rows.forEach(log => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${fmtDate(log.timestamp)}</td>
+            <td>${log.user_email || '—'}</td>
+            <td><span class="badge bg-red-lt">${log.action || '—'}</span></td>
+            <td>${log.target_type || '—'}</td>
+            <td><code>${log.target_id || '—'}</code></td>
+            <td style="font-size:.8rem;color:#64748b;">${log.detail || '—'}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (e) {
+        console.error('audit', e);
+        tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Error cargando auditoría.</td></tr>';
       }
     }
 
