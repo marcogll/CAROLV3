@@ -148,16 +148,32 @@ body{margin:0;padding:0;background:var(--bg-page);font-family:'Inter',system-ui,
 const API='';
 function getToken(){return localStorage.getItem('carol_admin_token');}
 
+// Global fallback: if report doesn't render in 6 seconds, show error
+setTimeout(()=>{
+  const root=document.getElementById('report-root');
+  if(root && root.innerHTML.includes('Cargando reporte')){
+    root.innerHTML='<div style="padding:3rem;text-align:center;color:#dc2626;"><h3>⚠️ Error cargando reporte</h3><p style="font-size:.85rem;">El reporte no pudo generarse. Revisa la consola (F12) para detalles.</p><p style="font-size:.8rem;color:var(--text-muted);margin-top:1rem;">Datos embebidos: '+(window.__REPORT_DATA__?'Sí':'No')+'<br>Chart.js: '+(typeof Chart)+'</p></div>';
+  }
+},6000);
+
 async function loadReport(){
   const root=document.getElementById('report-root');
+  console.log('[CAROL Report] loadReport called');
 
   // Check for embedded data first (from /api/report/{id}/view)
   if(window.__REPORT_DATA__){
-    render(window.__REPORT_DATA__);
+    console.log('[CAROL Report] Using embedded data');
+    try{
+      render(window.__REPORT_DATA__);
+    }catch(e){
+      console.error('[CAROL Report] Render error:',e);
+      root.innerHTML='<div style="padding:3rem;text-align:center;color:#dc2626;"><h3>Error al renderizar</h3><p>'+e.message+'</p><pre style="font-size:.7rem;text-align:left;background:rgba(0,0,0,.05);padding:1rem;border-radius:6px;margin-top:1rem;overflow:auto;">'+e.stack+'</pre></div>';
+    }
     return;
   }
 
   // Fallback: fetch from API
+  console.log('[CAROL Report] No embedded data, fetching from API...');
   const params=new URLSearchParams(location.search);
   let id=params.get('id');
   if(!id){
@@ -171,6 +187,7 @@ async function loadReport(){
     if(data.error){root.innerHTML='<div style="padding:3rem;text-align:center;color:#dc2626;">'+data.error+'</div>';return;}
     render(data);
   }catch(e){
+    console.error('[CAROL Report] Fetch error:',e);
     root.innerHTML='<div style="padding:3rem;text-align:center;color:#dc2626;">Error cargando reporte. Inicia sesión en el admin primero.</div>';
   }
 }

@@ -35,6 +35,9 @@ def _transform_answers(answers_map: dict) -> list:
     out = []
     for qid, a in answers_map.items():
         cat_en = CAT_MAP_ES_TO_EN.get(a.get("category", ""), a.get("category", ""))
+        # Handle None scores (default to 10 points per question)
+        raw_score = a.get("score")
+        score = raw_score if isinstance(raw_score, (int, float)) else 10
         out.append({
             "id": qid,
             "category": cat_en,
@@ -44,8 +47,8 @@ def _transform_answers(answers_map: dict) -> list:
             "correct_index": a.get("correct_index", 0),
             "chosen_index": a.get("chosen_index", -1),
             "correct": bool(a.get("correct", False)),
-            "score_earned": a.get("score", 0) if a.get("correct") else 0,
-            "score_max": a.get("score", 0),
+            "score_earned": score if a.get("correct") else 0,
+            "score_max": score,
             "reasoning": a.get("reasoning", ""),
         })
     return out
