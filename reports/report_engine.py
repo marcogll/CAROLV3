@@ -65,14 +65,21 @@ def _build_categories(answers_list: list) -> dict:
     return cats
 
 
-def _make_candidate(candidate_json: dict, submitted_at: str) -> dict:
+def _make_candidate(candidate_json: dict, submitted_at) -> dict:
+    # Handle both string and datetime objects from MySQL
+    if hasattr(submitted_at, 'strftime'):
+        date_str = submitted_at.strftime('%Y-%m-%d')
+    elif isinstance(submitted_at, str) and submitted_at:
+        date_str = submitted_at[:10]
+    else:
+        date_str = "—"
     return {
         "full_name": candidate_json.get("full_name", "Candidato"),
         "employee_id": candidate_json.get("employee_id", "—"),
         "department": candidate_json.get("department", "—"),
         "job_role": candidate_json.get("job_role", "—"),
         "years_experience": str(candidate_json.get("years_experience", "—")),
-        "date": submitted_at[:10] if submitted_at else "—",
+        "date": date_str,
     }
 
 

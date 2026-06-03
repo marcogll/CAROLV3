@@ -176,6 +176,7 @@ async function loadReport(){
 }
 
 function render(data){
+  try{
   const c=data.candidate||{};
   const a=data.assessment||{};
   const res=data.results||{};
@@ -464,6 +465,10 @@ function render(data){
       }
     }catch(e){console.error('Chart error:',e);}
   },300);
+  }catch(err){
+    console.error('Render error:',err);
+    document.getElementById('report-root').innerHTML='<div style="padding:3rem;text-align:center;color:#dc2626;"><h3>Error al generar el reporte</h3><p style="font-size:.85rem;color:var(--text-muted);">'+err.message+'</p><p style="font-size:.8rem;margin-top:1rem;">Revisa la consola (F12) para más detalles.</p></div>';
+  }
 }
 
 function fmtDate(iso){if(!iso)return'—';return new Date(iso).toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'});}
