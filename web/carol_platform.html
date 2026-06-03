@@ -944,6 +944,10 @@ function init(){
 
 function updateSelfEval(v){document.getElementById('self-eval-display').textContent=v+'%';}
 
+function serverTimestamp(){
+  return new Date().toISOString().slice(0,19).replace('T',' ');
+}
+
 async function fetchWithTransientRetry(url, options, attempts=3){
   let lastResponse=null;
   for(let i=0;i<attempts;i++){
@@ -971,7 +975,7 @@ async function createSession(){
     current_q: S.currentQ,
     seconds_left: S.secondsLeft,
     seconds_total: S.secondsTotal,
-    started_at: new Date().toISOString(),
+    started_at: serverTimestamp(),
     all_results: S.allResults,
     answer_key: S.answerKey,
     questions: S.questions.map(q=>({id:q.id,options:q.options})),
@@ -1169,7 +1173,7 @@ async function submitRegistration(){
   const regPayload = {
     respondent: { ...S.candidate },
     computed: { assigned_level: S.level },
-    submitted_at: new Date().toISOString()
+    submitted_at: serverTimestamp()
   };
   try {
     const r = await fetchWithTransientRetry('/webhook/carol-registration', {
@@ -1761,7 +1765,7 @@ function renderUnifiedResults(){
 async function sendUnifiedResultData(){
   const payload={
     survey_id:'carol_assessment_v2_unified',
-    submitted_at:new Date().toISOString(),
+    submitted_at:serverTimestamp(),
     candidate:{...S.candidate},
     assessment_type:'unified_sme',
     total_levels:3,
@@ -1818,7 +1822,7 @@ function buildPayload(){
     };
   });
   return{
-    survey_id:'carol_assessment_v2',submitted_at:new Date().toISOString(),
+    survey_id:'carol_assessment_v2',submitted_at:serverTimestamp(),
     candidate:{...S.candidate},
     assessment:{level:S.level,level_name:d.meta.name_es,total_questions:S.questions.length,pass_pct:d.meta.pass_pct},
     results:{earned_pts:parseFloat(earned.toFixed(2)),max_pts:maxPts,pct_score:pct,passed,correct_answers:correct,time_seconds:timeUsed},
