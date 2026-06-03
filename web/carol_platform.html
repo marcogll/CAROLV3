@@ -166,15 +166,24 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
 .chip{background:var(--bg-card-alt);border-radius:99px;padding:.2rem .65rem;font-size:.74rem;color:var(--text-muted);font-weight:500;}
 .instructions-footer{padding:1rem 2rem 1.75rem;border-top:1px solid var(--border-light);display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:1rem;align-items:start;}
 .instructions-actions{display:flex;flex-direction:column;gap:.75rem;min-width:0;}
-#level-selector{display:none;gap:.6rem;align-items:stretch;min-width:0;}
-#level-selector label{font-size:.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;align-self:center;}
-.level-selector-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;flex:1;min-width:0;}
+#level-selector{display:none;flex-direction:column;gap:.6rem;align-items:stretch;min-width:0;}
+#level-selector label{font-size:.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;white-space:normal;align-self:flex-start;}
+.level-selector-options{display:grid;grid-template-columns:repeat(3,minmax(120px,1fr));gap:.5rem;width:100%;min-width:0;}
 .level-choice{min-width:0;padding:.55rem .6rem;font-size:.72rem;border-radius:8px;border:2px solid var(--border-color);background:transparent;color:var(--text-primary);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.1rem;text-align:center;line-height:1.15;}
 .level-choice.active{border-color:var(--carol-teal);background:var(--carol-teal);color:#fff;}
 .level-choice span{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;}
 .level-choice-icon{font-size:1rem;line-height:1;}
 .level-choice-assigned{font-size:.6rem;opacity:.82;}
 #level-warning{max-width:100%;line-height:1.45;}
+
+@media(max-width:900px){
+  .instructions-footer{grid-template-columns:1fr;gap:.75rem;}
+  .instructions-footer > .btn-action{width:100%;}
+  .level-selector-options{grid-template-columns:1fr;}
+  .level-choice{flex-direction:row;gap:.5rem;justify-content:flex-start;text-align:left;font-size:.8rem;padding:.65rem .8rem;}
+  .level-choice span{white-space:normal;overflow:visible;text-overflow:clip;}
+  .instructions-actions .btn-webhook{width:100%;}
+}
 
 /* ── Quiz ── */
 #screen-quiz{display:none;opacity:0;}
