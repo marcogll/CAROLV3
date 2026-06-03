@@ -392,68 +392,78 @@ function render(data){
 
   // Draw charts
   setTimeout(()=>{
-    // Donut
-    new Chart(document.getElementById('donutChart'),{
-      type:'doughnut',
-      data:{datasets:[{data:[pct,100-pct],backgroundColor:[passed?'#00B894':'#E74C3C','#e2e8f0'],borderWidth:0}]},
-      options:{cutout:'72%',responsive:false,plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{animateRotate:true}}
-    });
+    if(typeof Chart==='undefined'){console.error('Chart.js not loaded');return;}
+    try{
+      // Donut
+      const donutCtx=document.getElementById('donutChart');
+      if(donutCtx) new Chart(donutCtx,{
+        type:'doughnut',
+        data:{datasets:[{data:[pct,100-pct],backgroundColor:[passed?'#00B894':'#E74C3C','#e2e8f0'],borderWidth:0}]},
+        options:{cutout:'72%',responsive:false,plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{animateRotate:true}}
+      });
 
-    // Radar
-    new Chart(document.getElementById('radarChart'),{
-      type:'radar',
-      data:{
-        labels:cats.map(c=>c.length>16?c.substring(0,14)+'…':c),
-        datasets:[
-          {label:'Candidato',data:catPcts,backgroundColor:'rgba(0,184,148,.2)',borderColor:'#00B894',borderWidth:2,pointBackgroundColor:'#00B894',pointRadius:4},
-          {label:'Mínimo (55%)',data:radarMin,backgroundColor:'rgba(231,76,60,.08)',borderColor:'#E74C3C',borderWidth:1,borderDash:[4,4],pointRadius:0},
-          {label:'Ideal (85%)',data:radarIdeal,backgroundColor:'rgba(39,174,96,.08)',borderColor:'#27AE60',borderWidth:1,borderDash:[4,4],pointRadius:0}
-        ]
-      },
-      options:{scales:{r:{min:0,max:100,ticks:{stepSize:20,font:{size:10}},pointLabels:{font:{size:10}}}},plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:12}}}}
-    });
+      // Radar
+      const radarCtx=document.getElementById('radarChart');
+      if(radarCtx && cats.length) new Chart(radarCtx,{
+        type:'radar',
+        data:{
+          labels:cats.map(c=>c.length>16?c.substring(0,14)+'…':c),
+          datasets:[
+            {label:'Candidato',data:catPcts,backgroundColor:'rgba(0,184,148,.2)',borderColor:'#00B894',borderWidth:2,pointBackgroundColor:'#00B894',pointRadius:4},
+            {label:'Mínimo (55%)',data:radarMin,backgroundColor:'rgba(231,76,60,.08)',borderColor:'#E74C3C',borderWidth:1,borderDash:[4,4],pointRadius:0},
+            {label:'Ideal (85%)',data:radarIdeal,backgroundColor:'rgba(39,174,96,.08)',borderColor:'#27AE60',borderWidth:1,borderDash:[4,4],pointRadius:0}
+          ]
+        },
+        options:{scales:{r:{min:0,max:100,ticks:{stepSize:20,font:{size:10}},pointLabels:{font:{size:10}}}},plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:12}}}}
+      });
 
-    // Bar chart
-    new Chart(document.getElementById('barChart'),{
-      type:'bar',
-      data:{
-        labels:cats.map(c=>c.length>12?c.substring(0,10)+'…':c),
-        datasets:[
-          {label:'Candidato',data:catPcts,backgroundColor:catPcts.map(p=>p>=85?'#00B894':p>=70?'#27AE60':p>=55?'#E67E22':'#E74C3C'),borderRadius:4},
-        ]
-      },
-      options:{indexAxis:'y',scales:{x:{min:0,max:100,ticks:{callback:v=>v+'%'}}},plugins:{legend:{display:false}}}
-    });
+      // Bar chart
+      const barCtx=document.getElementById('barChart');
+      if(barCtx && cats.length) new Chart(barCtx,{
+        type:'bar',
+        data:{
+          labels:cats.map(c=>c.length>12?c.substring(0,10)+'…':c),
+          datasets:[
+            {label:'Candidato',data:catPcts,backgroundColor:catPcts.map(p=>p>=85?'#00B894':p>=70?'#27AE60':p>=55?'#E67E22':'#E74C3C'),borderRadius:4},
+          ]
+        },
+        options:{indexAxis:'y',scales:{x:{min:0,max:100,ticks:{callback:v=>v+'%'}}},plugins:{legend:{display:false}}}
+      });
 
-    // Polar Area chart
-    new Chart(document.getElementById('polarChart'),{
-      type:'polarArea',
-      data:{
-        labels:cats,
-        datasets:[{
-          data:catPcts,
-          backgroundColor:catPcts.map(p=>p>=85?'rgba(0,184,148,.7)':p>=70?'rgba(39,174,96,.7)':p>=55?'rgba(230,126,34,.7)':'rgba(231,76,60,.7)'),
-          borderColor:catPcts.map(p=>p>=85?'#00B894':p>=70?'#27AE60':p>=55?'#E67E22':'#E74C3C'),
-          borderWidth:2
-        }]
-      },
-      options:{scales:{r:{min:0,max:100,ticks:{stepSize:20,backdropColor:'transparent',font:{size:10}},grid:{color:'#e2e8f0'}}},plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:14,padding:12}},tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.raw+'%'}}}}
-    });
+      // Polar Area chart
+      const polarCtx=document.getElementById('polarChart');
+      if(polarCtx && cats.length) new Chart(polarCtx,{
+        type:'polarArea',
+        data:{
+          labels:cats,
+          datasets:[{
+            data:catPcts,
+            backgroundColor:catPcts.map(p=>p>=85?'rgba(0,184,148,.7)':p>=70?'rgba(39,174,96,.7)':p>=55?'rgba(230,126,34,.7)':'rgba(231,76,60,.7)'),
+            borderColor:catPcts.map(p=>p>=85?'#00B894':p>=70?'#27AE60':p>=55?'#E67E22':'#E74C3C'),
+            borderWidth:2
+          }]
+        },
+        options:{scales:{r:{min:0,max:100,ticks:{stepSize:20,backdropColor:'transparent',font:{size:10}},grid:{color:'#e2e8f0'}}},plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:14,padding:12}},tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.raw+'%'}}}}
+      });
 
-    // Reactives stacked bar (correct vs incorrect per category)
-    const catIncorrect=cats.map((k,i)=>(catTotal[i]||0)-(catCorrect[i]||0));
-    new Chart(document.getElementById('reactivesChart'),{
-      type:'bar',
-      data:{
-        labels:cats.map(c=>c.length>18?c.substring(0,16)+'…':c),
-        datasets:[
-          {label:'Correctas',data:catCorrect,backgroundColor:'rgba(0,184,148,.8)',borderRadius:4},
-          {label:'Incorrectas',data:catIncorrect,backgroundColor:'rgba(231,76,60,.7)',borderRadius:4}
-        ]
-      },
-      options:{indexAxis:'y',scales:{x:{stacked:true,grid:{color:'rgba(0,0,0,.06)'},ticks:{stepSize:1}},y:{stacked:true,grid:{display:false}}},plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:14,padding:12}},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.raw+' reactivos'}}}}
-    });
-  },100);
+      // Reactives stacked bar (correct vs incorrect per category)
+      const reactCtx=document.getElementById('reactivesChart');
+      if(reactCtx && cats.length){
+        const catIncorrect=cats.map((k,i)=>(catTotal[i]||0)-(catCorrect[i]||0));
+        new Chart(reactCtx,{
+          type:'bar',
+          data:{
+            labels:cats.map(c=>c.length>18?c.substring(0,16)+'…':c),
+            datasets:[
+              {label:'Correctas',data:catCorrect,backgroundColor:'rgba(0,184,148,.8)',borderRadius:4},
+              {label:'Incorrectas',data:catIncorrect,backgroundColor:'rgba(231,76,60,.7)',borderRadius:4}
+            ]
+          },
+          options:{indexAxis:'y',scales:{x:{stacked:true,grid:{color:'rgba(0,0,0,.06)'},ticks:{stepSize:1}},y:{stacked:true,grid:{display:false}}},plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:14,padding:12}},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.raw+' reactivos'}}}}
+        );
+      }
+    }catch(e){console.error('Chart error:',e);}
+  },300);
 }
 
 function fmtDate(iso){if(!iso)return'—';return new Date(iso).toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'});}
