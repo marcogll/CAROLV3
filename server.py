@@ -469,7 +469,11 @@ def get_results(include_deleted=False):
             r["candidate"] = json.loads(r.get("candidate_json") or "{}")
             r["assessment"] = json.loads(r.get("assessment_json") or "{}")
             r["results"] = json.loads(r.get("results_json") or "{}")
-            r["category_breakdown"] = json.loads(r.get("category_breakdown_json") or "{}")
+            cat_bd = json.loads(r.get("category_breakdown_json") or "{}")
+            if not cat_bd:
+                cr = r["results"].get("categories_results", {})
+                cat_bd = {k: {"correct": v.get("score", 0), "total": v.get("total", 0), "pct": v.get("pct_score", v.get("pct", 0))} for k, v in cr.items()}
+            r["category_breakdown"] = cat_bd
             r["wrong_question_ids"] = json.loads(r.get("wrong_question_ids_json") or "[]")
             r["answers"] = json.loads(r.get("answers_json") or "{}")
         return rows
@@ -492,7 +496,11 @@ def get_result_by_id(result_id, include_deleted=False):
             row["candidate"] = json.loads(row.get("candidate_json") or "{}")
             row["assessment"] = json.loads(row.get("assessment_json") or "{}")
             row["results"] = json.loads(row.get("results_json") or "{}")
-            row["category_breakdown"] = json.loads(row.get("category_breakdown_json") or "{}")
+            cat_bd = json.loads(row.get("category_breakdown_json") or "{}")
+            if not cat_bd:
+                cr = row["results"].get("categories_results", {})
+                cat_bd = {k: {"correct": v.get("score", 0), "total": v.get("total", 0), "pct": v.get("pct_score", v.get("pct", 0))} for k, v in cr.items()}
+            row["category_breakdown"] = cat_bd
             row["wrong_question_ids"] = json.loads(row.get("wrong_question_ids_json") or "[]")
             row["answers"] = json.loads(row.get("answers_json") or "{}")
         return row
@@ -515,7 +523,11 @@ def get_results_by_candidate_id(candidate_id, include_deleted=False):
             r["candidate"] = json.loads(r.get("candidate_json") or "{}")
             r["assessment"] = json.loads(r.get("assessment_json") or "{}")
             r["results"] = json.loads(r.get("results_json") or "{}")
-            r["category_breakdown"] = json.loads(r.get("category_breakdown_json") or "{}")
+            cat_bd = json.loads(r.get("category_breakdown_json") or "{}")
+            if not cat_bd:
+                cr = r["results"].get("categories_results", {})
+                cat_bd = {k: {"correct": v.get("score", 0), "total": v.get("total", 0), "pct": v.get("pct_score", v.get("pct", 0))} for k, v in cr.items()}
+            r["category_breakdown"] = cat_bd
             r["wrong_question_ids"] = json.loads(r.get("wrong_question_ids_json") or "[]")
             r["answers"] = json.loads(r.get("answers_json") or "{}")
         return rows
