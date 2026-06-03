@@ -159,13 +159,14 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
 .quiz-sidebar{background:var(--bg-card);border-radius:12px;padding:1rem;box-shadow:0 2px 8px var(--shadow-color);position:sticky;top:1rem;}
 .sidebar-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:.75rem;}
 .cat-section{margin-bottom:.75rem;}
-.cat-label{font-size:.73rem;font-weight:700;color:var(--text-muted);margin-bottom:.4rem;padding-left:.25rem;display:flex;align-items:center;gap:.35rem;}
-.cat-label::before{content:'';width:8px;height:8px;border-radius:2px;background:currentColor;display:inline-block;opacity:.7;}
+.cat-label{font-size:.73rem;font-weight:700;margin-bottom:.4rem;padding-left:.25rem;display:flex;align-items:center;gap:.35rem;}
+.cat-label::before{content:'';width:10px;height:10px;border-radius:3px;background:currentColor;display:inline-block;flex-shrink:0;}
 .q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;}
 .q-dot{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:600;cursor:pointer;transition:all .12s;background:var(--bg-card-alt);color:var(--text-muted);border:1.5px solid transparent;}
-.q-dot.active{border-color:var(--text-primary);color:var(--text-primary);}
+.q-dot.active{border-color:var(--text-primary);color:var(--text-primary);background:var(--bg-card);}
 .q-dot.answered{background:rgba(0,184,148,.2);color:var(--ctp-green);border-color:var(--ctp-green);}
-.q-dot.current{background:var(--text-primary);color:var(--bg-card);border-color:var(--text-primary);}
+.q-dot.current{background:var(--ctp-blue);color:#fff;border-color:var(--ctp-blue);}
+[data-theme="dark"] .q-dot.current{background:var(--ctp-blue);color:var(--ctp-crust);}
 .q-dot.wrong-preview{background:rgba(220,38,38,.15);color:var(--ctp-red);border-color:var(--ctp-red);}
 
 /* Question card */
@@ -173,7 +174,7 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
 .q-header{padding:1.25rem 1.5rem 1rem;border-bottom:1px solid var(--border-light);}
 .q-meta{display:flex;gap:.5rem;align-items:center;margin-bottom:.6rem;flex-wrap:wrap;}
 .q-num{font-size:.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;}
-.q-cat-badge{font-size:.7rem;font-weight:600;padding:.18rem .7rem;border-radius:99px;background:var(--bg-card-alt);color:var(--text-muted);border:1px solid transparent;transition:all .2s;}
+.q-cat-badge{font-size:.7rem;font-weight:600;padding:.18rem .7rem;border-radius:99px;background:var(--bg-card-alt);border:1px solid transparent;transition:all .2s;}
 .q-type-badge{font-size:.68rem;font-weight:700;padding:.15rem .55rem;border-radius:99px;}
 .q-type-badge.teorico{background:rgba(30,102,245,.15);color:var(--ctp-blue);}
 .q-type-badge.practico{background:rgba(223,142,29,.15);color:var(--ctp-yellow);}
@@ -191,7 +192,7 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
   box-shadow:0 1px 2px var(--shadow-color);
 }
 .option-btn:active:not(:disabled){transform:scale(.992);}
-.option-btn:hover:not(:disabled){background:var(--bg-card-alt);border-color:var(--text-muted);box-shadow:0 2px 6px var(--shadow-color);}
+.option-btn:hover:not(:disabled){background:var(--bg-card-alt);border-color:var(--text-secondary);box-shadow:0 2px 6px var(--shadow-color);}
 .option-letter{
   width:24px;height:24px;border-radius:7px;background:var(--bg-card-alt);
   font-size:.72rem;font-weight:700;color:var(--text-muted);
@@ -335,7 +336,7 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
   </div>
 
   <div style="margin-top:2.5rem;text-align:center;">
-    <img src="soul23-logo.svg" alt="Soul23" style="height:28px;width:auto;opacity:.7;">
+    <a href="https://soul23.mx" target="_blank" style="text-decoration:none;"><img src="soul23-logo.svg" alt="Soul23" style="height:28px;width:auto;opacity:.7;"></a>
     <p style="margin-top:.5rem;color:var(--text-muted);font-size:.82rem;">CAROL Assessment System v2 · Powered by Soul23</p>
   </div>
 </div>
@@ -506,7 +507,7 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
     <div class="quiz-top-bar">
       <div style="display:flex;align-items:center;gap:.75rem;">
         <div style="display:flex;align-items:center;gap:.6rem;">
-          <img src="soul23-logo.svg" alt="Soul23" style="height:28px;width:auto;">
+          <a href="https://soul23.mx" target="_blank" style="text-decoration:none;"><img src="soul23-logo.svg" alt="Soul23" style="height:28px;width:auto;"></a>
           <div class="quiz-logo">CAROL<span>.</span></div>
         </div>
         <span class="quiz-seq-badge d-none" id="quiz-seq-badge" style="font-size:.68rem;font-weight:700;padding:.2rem .6rem;border-radius:99px;background:rgba(255,255,255,.15);color:#fff;">1/3</span>
@@ -691,14 +692,25 @@ const S = {
 };
 
 const CAT_COLORS = {
-  'Máquina e Inyectora':   '#1B4F72',
-  'Proceso de Inyección':  '#00B894',
-  'Calidad y Defectos':    '#E67E22',
-  'Seguridad Industrial':  '#C0392B',
-  'Materiales Plásticos':  '#8E44AD',
-  'Eficiencia y Lean':     '#2980B9',
-  'Desperdicios (Muda)':   '#27AE60',
-  'Ingeniería de Moldes':  '#D35400',
+  'Máquina e Inyectora':   'var(--ctp-blue)',
+  'Proceso de Inyección':  'var(--ctp-green)',
+  'Calidad y Defectos':    'var(--ctp-peach)',
+  'Seguridad Industrial':  'var(--ctp-red)',
+  'Materiales Plásticos':  'var(--ctp-mauve)',
+  'Eficiencia y Lean':     'var(--ctp-sky)',
+  'Desperdicios (Muda)':   'var(--ctp-teal)',
+  'Ingeniería de Moldes':  'var(--ctp-yellow)',
+  'Normatividad':          'var(--ctp-lavender)',
+  'Diseño de Moldes':      'var(--ctp-pink)',
+  'Ingeniería de Procesos':'var(--ctp-sapphire)',
+  'Resolución de Problemas':'var(--ctp-maroon)',
+  'Terminología Técnica':  'var(--ctp-flamingo)',
+  'Procesos de Moldeo':    'var(--ctp-green)',
+  'Control de Calidad':    'var(--ctp-peach)',
+  'Parámetros de Proceso': 'var(--ctp-blue)',
+  'Herramienta de Moldeo': 'var(--ctp-teal)',
+  'Materiales y Resinas':  'var(--ctp-mauve)',
+  'Optimización':          'var(--ctp-yellow)',
 };
 
 const ACTION_PLANS = {
@@ -1064,12 +1076,12 @@ function renderQuestion(){
   const q=S.questions[S.currentQ];
   const total=S.questions.length;
   document.getElementById('q-num').textContent='PREGUNTA '+(S.currentQ+1)+' DE '+total;
-  const catColor=CAT_COLORS[q.category]||'#64748b';
+  const catColor=CAT_COLORS[q.category]||'var(--text-muted)';
   const catBadge=document.getElementById('q-cat-badge');
   catBadge.textContent=q.category;
-  catBadge.style.backgroundColor=catColor+'15';
   catBadge.style.color=catColor;
-  catBadge.style.borderColor=catColor+'30';
+  catBadge.style.border='1px solid '+catColor;
+  catBadge.style.background='transparent';
   document.getElementById('q-description').style.borderLeftColor=catColor;
   const typeBadge=document.getElementById('q-type-badge');
   typeBadge.textContent=q.type;
@@ -1215,13 +1227,13 @@ function renderResults(){
   const d=CAROL_DATA[S.level];
   const color=d.meta.badge_color;
   // Hero
-  document.getElementById('results-hero').style.background=`linear-gradient(135deg,#0D1B2A 0%,${color}cc 100%)`;
+  document.getElementById('results-hero').style.background=`linear-gradient(135deg,var(--ctp-mantle) 0%,var(--ctp-surface0) 100%)`;
   const circ=276.46;
-  document.getElementById('donut-arc').style.stroke=passed?'#00B894':'#E74C3C';
+  document.getElementById('donut-arc').style.stroke=passed?'var(--ctp-green)':'var(--ctp-red)';
   setTimeout(()=>{document.getElementById('donut-arc').style.strokeDashoffset=circ*(1-pct/100);},200);
   document.getElementById('result-pct').textContent=pct+'%';
   document.getElementById('result-status-icon').textContent=passed?'✓ APROBADO':'✗ NO APROBÓ';
-  document.getElementById('result-status-icon').style.color=passed?'#6ee7b7':'#fca5a5';
+  document.getElementById('result-status-icon').style.color=passed?'var(--ctp-green)':'var(--ctp-red)';
   document.getElementById('result-name').textContent=S.candidate.full_name;
   document.getElementById('result-subtitle').textContent=d.meta.name_es+' · '+(passed?'APROBADO':'NO APROBÓ')+' (mínimo '+d.meta.pass_pct+'%)';
   document.getElementById('kpi-pts').textContent=earned.toFixed(1);
@@ -1233,18 +1245,18 @@ function renderResults(){
   const bd=document.getElementById('cat-breakdown');bd.innerHTML='';
   Object.entries(catStats).sort((a,b)=>a[1].correct/a[1].total-b[1].correct/b[1].total).forEach(([cat,st])=>{
     const catPct=Math.round(st.correct/st.total*100);
-    const catColor=CAT_COLORS[cat]||'#64748b';
+    const catColor=CAT_COLORS[cat]||'var(--text-muted)';
     const passing=catPct>=65;
     const row=document.createElement('div');row.className='cat-result-row';
     row.innerHTML=`
       <div class="cat-result-header">
-        <span class="cat-result-label">${cat}</span>
+        <span class="cat-result-label" style="color:${catColor}">${cat}</span>
         <span class="cat-result-ratio">${st.correct}/${st.total}</span>
       </div>
       <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:0%;background:${catColor};" data-w="${catPct}"></div></div>
       <div class="cat-result-footer">
-        <span class="cat-result-pct" style="color:${passing?'#16a34a':'#dc2626'}">${catPct}%</span>
-        <span class="cat-result-pass" style="background:${passing?'#dcfce7':'#fee2e2'};color:${passing?'#166534':'#991b1b'}">${passing?'Aprobado':'Requiere refuerzo'}</span>
+        <span class="cat-result-pct" style="color:${passing?'var(--ctp-green)':'var(--ctp-red)'}">${catPct}%</span>
+        <span class="cat-result-pass" style="background:${passing?'rgba(0,184,148,.15)':'rgba(220,38,38,.15)'};color:${passing?'var(--ctp-green)':'var(--ctp-red)'}">${passing?'Aprobado':'Requiere refuerzo'}</span>
       </div>`;
     bd.appendChild(row);
     setTimeout(()=>{row.querySelector('.cat-bar-fill').style.width=catPct+'%';},300);
@@ -1307,7 +1319,7 @@ function renderResults(){
       const plan=ACTION_PLANS[cat]||{duration:'1 semana',actions:['Revisión teórica del área.','Práctica supervisada en piso.'],kpi:'Superar 70% en re-evaluación del área.'};
       const pct=Math.round(st.correct/st.total*100);
       const isCrit=pct<55;
-      const sc=isCrit?'#dc2626':'#f59e0b';const scBg=isCrit?'#fee2e2':'#fef3c7';
+      const sc=isCrit?'var(--ctp-red)':'var(--ctp-yellow)';const scBg=isCrit?'rgba(220,38,38,.15)':'rgba(223,142,29,.15)';
       const div=document.createElement('div');div.className='action-step';
       div.innerHTML=`
         <div class="step-priority">
@@ -1340,17 +1352,17 @@ function renderInterLevel(){
 
   if(passed){
     icon.className='ti ti-check-circle';
-    icon.style.color='#00B894';
+    icon.style.color='var(--ctp-green)';
     title.textContent='Nivel Aprobado';
   }else{
     icon.className='ti ti-x-circle';
-    icon.style.color='#E74C3C';
+    icon.style.color='var(--ctp-red)';
     title.textContent='Nivel No Aprobado';
   }
 
   document.getElementById('inter-level-subtitle').textContent='Has completado '+CAROL_DATA[S.level].meta.name_es+' · Prepárate para el siguiente nivel';
   scoreEl.textContent=Math.round(S.result.pct)+'%';
-  scoreEl.style.color=passed?'#00B894':'#E74C3C';
+  scoreEl.style.color=passed?'var(--ctp-green)':'var(--ctp-red)';
 
   btn.disabled=false;
   btn.style.opacity='1';
@@ -1409,7 +1421,7 @@ function renderUnifiedResults(){
   // Hero
   const hero=document.getElementById('results-hero');
   hero.style.background='linear-gradient(135deg,#0D1B2A 0%,#1B4F72 100%)';
-  document.getElementById('donut-arc').style.stroke=passedAll?'#00B894':'#E74C3C';
+  document.getElementById('donut-arc').style.stroke=passedAll?'var(--ctp-green)':'var(--ctp-red)';
   document.getElementById('donut-arc').style.strokeDashoffset='0';
   document.getElementById('result-pct').textContent='3 NIVELES';
   document.getElementById('result-status-icon').textContent=passedAll?'✓ APROBADO TODOS':'✗ NO APROBÓ TODOS';
@@ -1434,10 +1446,10 @@ function renderUnifiedResults(){
   const bd=document.getElementById('cat-breakdown');bd.innerHTML='';
   Object.entries(aggCats).sort((a,b)=>a[1].correct/a[1].total-b[1].correct/b[1].total).forEach(([cat,st])=>{
     const catPct=Math.round(st.correct/st.total*100);
-    const catColor=CAT_COLORS[cat]||'#64748b';
+    const catColor=CAT_COLORS[cat]||'var(--text-muted)';
     const passing=catPct>=65;
     const row=document.createElement('div');row.className='cat-result-row';
-    row.innerHTML='<span class="cat-result-label">'+cat+'</span><div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:'+catPct+'%;background:'+catColor+';"></div></div><span class="cat-result-pct" style="color:'+(passing?'#16a34a':'#dc2626')+'">'+catPct+'%</span><span class="cat-result-pass" style="background:'+(passing?'#dcfce7':'#fee2e2')+';color:'+(passing?'#166534':'#991b1b')+'">'+st.correct+'/'+st.total+'</span>';
+    row.innerHTML='<span class="cat-result-label" style="color:'+catColor+'">'+cat+'</span><div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:'+catPct+'%;background:'+catColor+';"></div></div><span class="cat-result-pct" style="color:'+(passing?'var(--ctp-green)':'var(--ctp-red)')+'">'+catPct+'%</span><span class="cat-result-pass" style="background:'+(passing?'rgba(0,184,148,.15)':'rgba(220,38,38,.15)')+';color:'+(passing?'var(--ctp-green)':'var(--ctp-red)')+'">'+st.correct+'/'+st.total+'</span>';
     bd.appendChild(row);
   });
 
@@ -1446,7 +1458,7 @@ function renderUnifiedResults(){
   let lvlHtml='<h4>Resumen por Nivel</h4><table style="width:100%;font-size:.85rem;border-collapse:collapse;"><thead><tr style="border-bottom:1px solid #e2e8f0;"><th style="text-align:left;padding:.5rem;">Nivel</th><th style="text-align:center;padding:.5rem;">Score</th><th style="text-align:center;padding:.5rem;">Correctas</th><th style="text-align:center;padding:.5rem;">Estatus</th></tr></thead><tbody>';
   r.forEach(res=>{
     const meta=CAROL_DATA[res.level].meta;
-    lvlHtml+='<tr style="border-bottom:1px solid var(--border-light);"><td style="padding:.5rem;font-weight:600;">'+meta.name_es+'</td><td style="text-align:center;padding:.5rem;">'+res.pct+'%</td><td style="text-align:center;padding:.5rem;">'+res.correct+'/'+CAROL_DATA[res.level].stats.total_questions+'</td><td style="text-align:center;padding:.5rem;"><span style="color:'+(res.passed?'#16a34a':'#dc2626')+'">'+(res.passed?'APROBADO':'NO APROBÓ')+'</span></td></tr>';
+    lvlHtml+='<tr style="border-bottom:1px solid var(--border-light);"><td style="padding:.5rem;font-weight:600;">'+meta.name_es+'</td><td style="text-align:center;padding:.5rem;">'+res.pct+'%</td><td style="text-align:center;padding:.5rem;">'+res.correct+'/'+CAROL_DATA[res.level].stats.total_questions+'</td><td style="text-align:center;padding:.5rem;"><span style="color:'+(res.passed?'var(--ctp-green)':'var(--ctp-red)')+'">'+(res.passed?'APROBADO':'NO APROBÓ')+'</span></td></tr>';
   });
   lvlHtml+='</tbody></table>';
   lvlDiv.innerHTML=lvlHtml;
@@ -1534,7 +1546,7 @@ function generateReportHTML(){
   const {earned,maxPts,correct,pct,passed,catStats,timeUsed}=S.result;
   const c=S.candidate;
   const letters=['A','B','C','D'];
-  const statusColor=passed?'#16a34a':'#dc2626';
+  const statusColor=passed?'var(--ctp-green)':'var(--ctp-red)';
   const statusText=passed?'APROBADO':'NO APROBÓ';
   const circ=2*Math.PI*44;
   const offset=circ*(1-pct/100);
@@ -1542,7 +1554,7 @@ function generateReportHTML(){
   let catRows='';
   Object.entries(catStats).forEach(([cat,st])=>{
     const p=Math.round(st.correct/st.total*100);
-    const barColor=p>=85?'#00B894':p>=70?'#27AE60':p>=55?'#E67E22':'#C0392B';
+    const barColor=p>=85?'var(--ctp-green)':p>=70?'var(--ctp-green)':p>=55?'var(--ctp-peach)':'var(--ctp-red)';
     catRows+=`<tr><td style="padding:.5rem;border-bottom:1px solid var(--border-light);"><b>${cat}</b></td><td style="padding:.5rem;border-bottom:1px solid var(--border-light);text-align:center;">${st.correct}/${st.total}</td><td style="padding:.5rem;border-bottom:1px solid var(--border-light);text-align:center;color:${barColor};font-weight:700;">${p}%</td></tr>`;
   });
 
@@ -1570,8 +1582,8 @@ function generateReportHTML(){
     weakCats.forEach(([cat,st])=>{
       const p=Math.round(st.correct/st.total*100);
       const isCrit=p<55;
-      const badgeBg=isCrit?'#fee2e2':'#fef3c7';
-      const badgeColor=isCrit?'#991b1b':'#92400e';
+      const badgeBg=isCrit?'rgba(220,38,38,.15)':'rgba(223,142,29,.15)';
+      const badgeColor=isCrit?'var(--ctp-red)':'var(--ctp-peach)';
       const plan=ACTION_PLANS[cat]||{duration:'1 semana',actions:['Revisión teórica del área.','Práctica supervisada en piso.'],kpi:'Superar 70% en re-evaluación del área.'};
       actionHtml+=`<div style="padding:.75rem 0;border-bottom:1px solid var(--border-light);display:flex;gap:1rem;">
         <div style="width:70px;flex-shrink:0;text-align:center;">
@@ -1595,7 +1607,7 @@ function generateReportHTML(){
 <body style="margin:0;padding:0;background:#f0f4f8;font-family:'Inter',system-ui,Helvetica,Arial,sans-serif;">
 <div style="max-width:680px;margin:2rem auto;background:var(--bg-card)fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08);">
   <div style="background:linear-gradient(135deg,#0D1B2A 0%,#1B4F72 100%);padding:2rem;text-align:center;color:#fff;">
-    <div style="margin-bottom:.75rem;"><img src="soul23-logo.svg" alt="Soul23" style="height:36px;width:auto;"></div>
+    <div style="margin-bottom:.75rem;"><a href="https://soul23.mx" target="_blank" style="text-decoration:none;"><img src="soul23-logo.svg" alt="Soul23" style="height:36px;width:auto;"></a></div>
     <h1 style="margin:0;font-size:1.6rem;font-weight:800;letter-spacing:-.02em;">CAROL <span style="color:#00B894;">.</span></h1>
     <p style="margin:.35rem 0 0;color:var(--text-muted);font-size:.88rem;">Reporte de Evaluación Técnica — Moldeo por Inyección</p>
   </div>
@@ -1614,7 +1626,7 @@ function generateReportHTML(){
       <div style="position:relative;width:120px;height:120px;flex-shrink:0;">
         <svg width="120" height="120" viewBox="0 0 120 120" style="transform:rotate(-90deg);">
           <circle cx="60" cy="60" r="44" fill="none" stroke="#e2e8f0" stroke-width="12"/>
-          <circle cx="60" cy="60" r="44" fill="none" stroke="${passed?'#00B894':'#E74C3C'}" stroke-width="12" stroke-dasharray="${circ.toFixed(2)}" stroke-dashoffset="${offset.toFixed(2)}" stroke-linecap="round"/>
+          <circle cx="60" cy="60" r="44" fill="none" stroke="${passed?'var(--ctp-green)':'var(--ctp-red)'}" stroke-width="12" stroke-dasharray="${circ.toFixed(2)}" stroke-dashoffset="${offset.toFixed(2)}" stroke-linecap="round"/>
         </svg>
         <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
           <div style="font-size:1.6rem;font-weight:800;color:var(--text-primary);">${pct}%</div>
