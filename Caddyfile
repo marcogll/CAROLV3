@@ -2,68 +2,9 @@
 	encode gzip zstd
 
 	# ═══════════════════════════════════════════════════════════════
-	#  USER ROUTES  (públicas)
+	#  ALL TRAFFIC → Python backend (serves static + API)
 	# ═══════════════════════════════════════════════════════════════
-	# Plataforma principal SPA — cualquier ruta de user sirve la misma app
-	handle /basic {
-		rewrite * /carol_platform.html
-		file_server {
-			root /srv/web
-		}
-	}
-	handle /inter {
-		rewrite * /carol_platform.html
-		file_server {
-			root /srv/web
-		}
-	}
-	handle /advanced {
-		rewrite * /carol_platform.html
-		file_server {
-			root /srv/web
-		}
-	}
-	handle /instructions {
-		rewrite * /carol_platform.html
-		file_server {
-			root /srv/web
-		}
-	}
-	handle /funnel {
-		rewrite * /carol_platform.html
-		file_server {
-			root /srv/web
-		}
-	}
-	handle / {
-		root * /srv/web
-		try_files {path} /carol_platform.html
-		file_server
-	}
-
-	# ═══════════════════════════════════════════════════════════════
-	#  ADMIN ROUTES  (protegidas por login en frontend)
-	# ═══════════════════════════════════════════════════════════════
-	handle /admin {
-		rewrite * /admin.html
-		file_server {
-			root /srv/web
-		}
-	}
-	handle /dashboard {
-		rewrite * /admin.html
-		file_server {
-			root /srv/web
-		}
-	}
-
-	# ═══════════════════════════════════════════════════════════════
-	#  API & WEBHOOKS  → Python backend
-	# ═══════════════════════════════════════════════════════════════
-	handle /api/* {
-		reverse_proxy app:8000
-	}
-	handle /webhook/* {
+	handle {
 		reverse_proxy app:8000
 	}
 }

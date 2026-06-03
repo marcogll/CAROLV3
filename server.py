@@ -1572,6 +1572,27 @@ class CarolHandler(SimpleHTTPRequestHandler):
             self.path = "/carol_platform.html"
         elif path in ("/admin", "/dashboard"):
             self.path = "/admin.html"
+
+        # Serve any static file from web/ directory
+        clean_path = urllib.parse.urlparse(self.path).path
+        if clean_path.startswith("/"):
+            clean_path = clean_path[1:]
+        target = os.path.join(WEB_DIR, clean_path)
+        if os.path.isfile(target):
+            ext = os.path.splitext(target)[1].lower()
+            ct = {".html":"text/html",".css":"text/css",".js":"application/javascript",
+                  ".svg":"image/svg+xml",".json":"application/json",".png":"image/png",
+                  ".jpg":"image/jpeg",".ico":"image/x-icon",".woff2":"font/woff2"}.get(ext,"application/octet-stream")
+            with open(target, "rb") as f:
+                body = f.read()
+            self.send_response(200)
+            self.send_header("Content-Type", ct)
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(body)
+            return
+
         super().do_GET()
 
 
