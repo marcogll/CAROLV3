@@ -200,8 +200,9 @@ function render(data){
     });
     catBd=tmp;
   }
-  // If still empty, build from answers
-  if(!Object.keys(catBd).length && Object.keys(answers).length){
+  // If still empty or all pcts are 0, build from answers (most reliable fallback)
+  const needsFallback=!Object.keys(catBd).length || Object.values(catBd).every(v=>!v.pct);
+  if(needsFallback && Object.keys(answers).length){
     const tmp={};
     Object.entries(answers).forEach(([k,v])=>{
       const cat=v.category||'General';
@@ -277,7 +278,7 @@ function render(data){
       <canvas id="donutChart"></canvas>
       <div class="donut-center">
         <div class="donut-pct">${pct}%</div>
-        <div class="donut-label" style="color:${passed?'#16a34a':'#dc2626'};">${passed?'✓ APROBADO':'✗ NO APROBÓ'}</div>
+        <div class="donut-label" style="color:${passed?'var(--ctp-green)':'var(--ctp-red)'};">${passed?'✓ APROBADO':'✗ NO APROBÓ'}</div>
       </div>
     </div>
     <div class="score-kpis">
@@ -286,7 +287,7 @@ function render(data){
       <div class="kpi-card"><span>Puntos</span><b>${earnedPts.toFixed(1)}/${maxPts.toFixed(1)}</b></div>
       <div class="kpi-card"><span>Tiempo</span><b>${fmtTime(timeSec)}</b></div>
       <div class="kpi-card"><span>Áreas Evaluadas</span><b>${cats.length}</b></div>
-      <div class="kpi-card"><span>Áreas Débiles</span><b style="color:${weaknesses.length?'#dc2626':'#16a34a'};">${weaknesses.length}</b></div>
+      <div class="kpi-card"><span>Áreas Débiles</span><b style="color:${weaknesses.length?'var(--ctp-red)':'var(--ctp-green)'};">${weaknesses.length}</b></div>
     </div>
   </div>
 
@@ -314,7 +315,7 @@ function render(data){
     <thead><tr><th>Área</th><th>Correctas</th><th>%</th><th>Progreso</th></tr></thead>
     <tbody>${cats.map((cat,i)=>{
       const p=catPcts[i];
-      const col=p>=85?'#00B894':p>=70?'#27AE60':p>=55?'#E67E22':'#C0392B';
+      const col=p>=85?'var(--ctp-green)':p>=70?'var(--ctp-teal)':p>=55?'var(--ctp-peach)':'var(--ctp-red)';
       return `<tr><td><b>${cat}</b></td><td>${catCorrect[i]}/${catTotal[i]}</td><td style="font-weight:700;color:${col};">${p}%</td><td style="width:140px;"><div class="cat-bar-bg"><div class="cat-bar-fill" style="width:${p}%;background:${col};"></div></div></td></tr>`;
     }).join('')}</tbody>
   </table>
@@ -364,7 +365,7 @@ function render(data){
       <div class="wrong-opt chosen"><b>Tu respuesta:</b> ${chosen}</div>
       <div class="wrong-hint">📚 Revisa el material de estudio de <b>${ans.category||'esta área'}</b> para reforzar este tema.</div>
     </div>`;
-  }).join('')}`:'<div class="sec-title">✅ Preguntas Incorrectas</div><div style="color:#16a34a;font-weight:700;">Sin preguntas incorrectas — excelente desempeño.</div>'}
+  }).join('')}`:'<div class="sec-title">✅ Preguntas Incorrectas</div><div style="color:var(--ctp-green);font-weight:700;">Sin preguntas incorrectas — excelente desempeño.</div>'}
 
   </div>
 
