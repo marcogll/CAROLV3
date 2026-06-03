@@ -128,6 +128,19 @@ def _now_iso():
 def _clean_key(value):
     return str(value or "").strip().lower()
 
+def _db_datetime(value=None):
+    value = value or _now_iso()
+    if isinstance(value, datetime):
+        return value.replace(tzinfo=None).strftime("%Y-%m-%d %H:%M:%S")
+    text = str(value).strip()
+    if not text:
+        return None
+    try:
+        dt = datetime.fromisoformat(text.replace("Z", "+00:00"))
+        return dt.replace(tzinfo=None).strftime("%Y-%m-%d %H:%M:%S")
+    except ValueError:
+        return text.replace("T", " ").replace("Z", "").split(".")[0]
+
 def _audit_log(action: str, target_type: str, target_id: str, user_email: str, detail: str = ""):
     entry = {
         "id": str(uuid.uuid4()),
@@ -158,7 +171,7 @@ def _audit_log(action: str, target_type: str, target_id: str, user_email: str, d
                     INSERT INTO audit_logs (id, action, target_type, target_id, user_email, detail, timestamp)
                     VALUES (%s, %s, %s, %s, %s, %s, %s)
                 """, (entry["id"], entry["action"], entry["target_type"], entry["target_id"],
-                      entry["user_email"], entry["detail"], entry["timestamp"]))
+                      entry["user_email"], entry["detail"], _db_datetime(entry["timestamp"])))
             conn.close()
         except Exception as e:
             print(f"[AUDIT ERROR] {e}")
@@ -213,7 +226,7 @@ def store_api_key(api_key: dict):
                 INSERT INTO api_keys (id, name, key_hash, key_prefix, role, created_by, created_at)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
             """, (api_key["id"], api_key["name"], api_key["key_hash"], api_key["key_prefix"],
-                  api_key["role"], api_key["created_by"], api_key["created_at"]))
+                  api_key["role"], api_key["created_by"], _db_datetime(api_key["created_at"])))
         conn.close()
     else:
         keys = _load_api_keys()
@@ -246,7 +259,7 @@ def update_api_key_last_used(key_id: str):
     if USE_MYSQL:
         conn = get_conn()
         with conn.cursor() as cur:
-            cur.execute("UPDATE api_keys SET last_used_at = %s WHERE id = %s", (now, key_id))
+            cur.execute("UPDATE api_keys SET last_used_at = %s WHERE id = %s", (_db_datetime(now), key_id))
         conn.close()
     else:
         keys = _load_api_keys()
@@ -423,6 +436,9 @@ def init_db():
 # ── Unified storage helpers ──────────────────────────────────────────────────
 def store_candidate(candidate):
     if USE_MYSQL:
+        row = {**candidate}
+        row["registered_at"] = _db_datetime(row.get("registered_at"))
+        row["submitted_at"] = _db_datetime(row.get("submitted_at"))
         conn = get_conn()
         with conn.cursor() as cur:
             sql = """
@@ -435,7 +451,7 @@ def store_candidate(candidate):
                  %(department)s, %(job_role)s, %(years_experience)s, %(self_evaluation)s, %(company_name)s, %(contact_email)s,
                  %(assigned_level)s, %(status)s, %(registered_at)s, %(submitted_at)s)
             """
-            cur.execute(sql, candidate)
+            cur.execute(sql, row)
         conn.close()
     else:
         candidates = _load(CANDIDATES_FILE)
@@ -454,14 +470,14 @@ def store_result(result):
             """, (
                 result["id"],
                 result.get("candidate", {}).get("candidate_id", ""),
-                result.get("submitted_at", _now_iso()),
+                _db_datetime(result.get("submitted_at", _now_iso())),
                 json.dumps(result.get("candidate", {}), ensure_ascii=False),
                 json.dumps(result.get("assessment", {}), ensure_ascii=False),
                 json.dumps(result.get("results", {}), ensure_ascii=False),
                 json.dumps(result.get("category_breakdown", {}), ensure_ascii=False),
                 json.dumps(result.get("wrong_question_ids", []), ensure_ascii=False),
                 json.dumps(result.get("answers", {}), ensure_ascii=False),
-                _now_iso(),
+                _db_datetime(),
             ))
         conn.close()
     else:
@@ -581,7 +597,7 @@ def soft_delete_result(result_id, user_email):
     if USE_MYSQL:
         conn = get_conn()
         with conn.cursor() as cur:
-            cur.execute("UPDATE results SET deleted_at = %s, deleted_by = %s WHERE id = %s", (_now_iso(), user_email, result_id))
+            cur.execute("UPDATE results SET deleted_at = %s, deleted_by = %s WHERE id = %s", (_db_datetime(), user_email, result_id))
         conn.close()
     else:
         results = _load(RESULTS_FILE)
@@ -624,7 +640,7 @@ def soft_delete_results_by_candidate(candidate_id, user_email):
                 WHERE deleted_at IS NULL
                   AND (candidate_id = %s OR candidate_json LIKE %s)
                 """,
-                (_now_iso(), user_email, candidate_id, like_candidate_id),
+                (_db_datetime(), user_email, candidate_id, like_candidate_id),
             )
             deleted = cur.rowcount
         conn.close()
@@ -668,8 +684,8 @@ def store_session(session):
                 session.get("current_q", 0),
                 session.get("seconds_left", 0),
                 session.get("seconds_total", 0),
-                session.get("started_at", _now_iso()),
-                session.get("last_saved_at", _now_iso()),
+                _db_datetime(session.get("started_at", _now_iso())),
+                _db_datetime(session.get("last_saved_at", _now_iso())),
                 session.get("submitted", False),
                 json.dumps(session.get("all_results", []), ensure_ascii=False),
                 session.get("status", "active"),
@@ -714,7 +730,7 @@ def update_session(session_id, fields):
                     values.append(val)
             if set_parts:
                 set_parts.append("last_saved_at = %s")
-                values.append(now)
+                values.append(_db_datetime(now))
                 values.append(session_id)
                 sql = f"UPDATE quiz_sessions SET {', '.join(set_parts)} WHERE id = %s"
                 cur.execute(sql, values)
