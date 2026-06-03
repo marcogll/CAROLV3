@@ -944,6 +944,21 @@ function init(){
 
 function updateSelfEval(v){document.getElementById('self-eval-display').textContent=v+'%';}
 
+async function fetchWithTransientRetry(url, options, attempts=3){
+  let lastResponse=null;
+  for(let i=0;i<attempts;i++){
+    try{
+      const response=await fetch(url,options);
+      if(![502,503,504].includes(response.status)) return response;
+      lastResponse=response;
+    }catch(e){
+      if(i===attempts-1) throw e;
+    }
+    await new Promise(resolve=>setTimeout(resolve,700*(i+1)));
+  }
+  return lastResponse;
+}
+
 // ── Session helpers ──
 async function createSession(){
   if(!S.candidate || !S.candidate.candidate_id) throw new Error('candidate_id missing');
@@ -1157,7 +1172,7 @@ async function submitRegistration(){
     submitted_at: new Date().toISOString()
   };
   try {
-    const r = await fetch('/webhook/carol-registration', {
+    const r = await fetchWithTransientRetry('/webhook/carol-registration', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(regPayload)
