@@ -944,8 +944,14 @@ function show(id){
   });
   window.scrollTo(0,0);
 }
-function showSplash(){stopTimer();show('splash');}
-function showRegister(){show('register');}
+function showSplash(){stopTimer();show('splash');checkResume({nextScreen:'splash'});}
+function showRegister(){
+  if(localStorage.getItem('carol_active_session')){
+    checkResume({nextScreen:'register'});
+    return;
+  }
+  show('register');
+}
 
 // ══════════════════════════════════════════ INIT ══
 function init(){
@@ -1047,16 +1053,16 @@ async function submitSession(){
   localStorage.removeItem('carol_active_session');
 }
 
-async function checkResume(){
+async function checkResume(options={}){
   const urlParams=new URLSearchParams(window.location.search);
   const resumeId=urlParams.get('resume') || localStorage.getItem('carol_active_session');
-  if(!resumeId) return;
+  if(!resumeId) return false;
   try{
     const res=await fetch('/api/session/'+resumeId);
     const data=await res.json();
     if(!data.success || !data.session || data.session.submitted){
       localStorage.removeItem('carol_active_session');
-      return;
+      return false;
     }
     const session=data.session;
     // Show resume modal
@@ -1064,8 +1070,11 @@ async function checkResume(){
     document.getElementById('resume-candidate-name').textContent=session.candidate_id ? 'Sesión guardada' : 'Evaluación en progreso';
     // Store session data temporarily on the modal buttons
     window._pendingSession=session;
+    window._resumeNextScreen=options.nextScreen || null;
+    return true;
   }catch(e){
     localStorage.removeItem('carol_active_session');
+    return false;
   }
 }
 
@@ -1120,6 +1129,9 @@ function discardSession(){
   localStorage.removeItem('carol_candidate');
   S.candidate=null;
   document.getElementById('resume-modal').classList.add('d-none');
+  if(window._resumeNextScreen==='register') show('register');
+  else show('splash');
+  window._resumeNextScreen=null;
 }
 
 // ══════════════════════════════════════════ LEVEL SELECT ══
