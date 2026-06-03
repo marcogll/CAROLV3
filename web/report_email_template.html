@@ -105,14 +105,21 @@ const API='';
 function getToken(){return localStorage.getItem('carol_admin_token');}
 
 async function loadReport(){
+  const root=document.getElementById('report-root');
+
+  // Check for embedded data first (from /api/report/{id}/view)
+  if(window.__REPORT_DATA__){
+    render(window.__REPORT_DATA__);
+    return;
+  }
+
+  // Fallback: fetch from API
   const params=new URLSearchParams(location.search);
   let id=params.get('id');
-  // Also support /api/report/{id}/view path
   if(!id){
     const m=location.pathname.match(/\/api\/report\/([^/]+)\/view/);
     if(m)id=m[1];
   }
-  const root=document.getElementById('report-root');
   if(!id){root.innerHTML='<div style="padding:3rem;text-align:center;color:#dc2626;">Falta el parámetro ?id=</div>';return;}
   try{
     const r=await fetch(API+'/api/result/'+id,{headers:{'Authorization':'Bearer '+getToken()}});

@@ -1343,6 +1343,10 @@ class CarolHandler(SimpleHTTPRequestHandler):
                 return
             with open(report_path, "r", encoding="utf-8") as f:
                 html = f.read()
+            # Embed data into HTML so JS doesn't need a second auth call
+            data_json = json.dumps(row).replace("</script>", "<\\/script>")
+            embed_script = f"<script>window.__REPORT_DATA__={data_json};</script>"
+            html = html.replace("</head>", embed_script + "</head>")
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header("Content-Length", str(len(html.encode())))
