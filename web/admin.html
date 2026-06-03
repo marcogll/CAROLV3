@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,64 +8,603 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
   <style>
+    /* ═══════════════════════════════════════════════ CATPPUCCIN THEME ══ */
     :root {
+      --ctp-rosewater: #dc8a78;
+      --ctp-flamingo: #dd7878;
+      --ctp-pink: #ea76cb;
+      --ctp-mauve: #8839ef;
+      --ctp-red: #d20f39;
+      --ctp-maroon: #e64553;
+      --ctp-peach: #fe640b;
+      --ctp-yellow: #df8e1d;
+      --ctp-green: #40a02b;
+      --ctp-teal: #179299;
+      --ctp-sky: #04a5e5;
+      --ctp-sapphire: #209fb5;
+      --ctp-blue: #1e66f5;
+      --ctp-lavender: #7287fd;
+
       --carol-navy: #0D1B2A;
       --carol-teal: #00B894;
       --carol-amber: #E67E22;
       --carol-blue: #1B4F72;
       --carol-red: #C0392B;
     }
-    body { font-family: 'Inter', system-ui, sans-serif; background: #f0f4f8; }
-    .navbar-dark { background: var(--carol-navy) !important; }
-    .nav-link.active {
-      border-left: 3px solid var(--carol-teal);
-      background: rgba(0, 184, 148, .08);
-      color: var(--carol-teal) !important;
-    }
-    .heatmap-cell {
-      width: 40px; height: 36px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.75rem; font-weight: bold; color: white;
-      border-radius: 4px; margin: 1px;
-    }
-    .score-strong { background-color: #00B894; }
-    .score-ok     { background-color: #27AE60; }
-    .score-weak   { background-color: #E67E22; }
-    .score-critical { background-color: #C0392B; }
-    .loading { opacity: .6; pointer-events: none; }
-    .empty-state { text-align: center; padding: 3rem; color: #64748b; }
 
-    /* Login screen */
+    [data-theme="light"] {
+      --bg-base: #eff1f5;
+      --bg-mantle: #e6e9ef;
+      --bg-crust: #dce0e8;
+      --bg-surface0: #ccd0da;
+      --bg-surface1: #bcc0cc;
+      --bg-surface2: #acb0be;
+      --bg-overlay0: #9ca0b0;
+      --bg-overlay1: #8c8fa1;
+      --text-main: #4c4f69;
+      --text-sub: #5c5f77;
+      --text-muted: #7c7f93;
+      --text-overlay: #9ca0b0;
+      --card-bg: #ffffff;
+      --card-border: #e6e9ef;
+      --card-shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+      --card-shadow-hover: 0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
+      --input-bg: #ffffff;
+      --input-border: #ccd0da;
+      --input-focus: #8839ef;
+      --table-hover: #f5f5f8;
+      --table-stripe: #f8f8fb;
+      --table-border: #e6e9ef;
+      --kpi-1-bg: linear-gradient(135deg, #8839ef 0%, #7287fd 100%);
+      --kpi-2-bg: linear-gradient(135deg, #40a02b 0%, #179299 100%);
+      --kpi-3-bg: linear-gradient(135deg, #df8e1d 0%, #fe640b 100%);
+      --kpi-4-bg: linear-gradient(135deg, #d20f39 0%, #e64553 100%);
+      --navbar-bg: linear-gradient(135deg, #0D1B2A 0%, #1B4F72 100%);
+      --scrollbar-track: #e6e9ef;
+      --scrollbar-thumb: #ccd0da;
+      --badge-admin-bg: #d20f3915;
+      --badge-admin-text: #d20f39;
+      --badge-viewer-bg: #1e66f515;
+      --badge-viewer-text: #1e66f5;
+      --pill-bg: #e6e9ef;
+      --pill-active-bg: #8839ef;
+      --pill-active-text: #ffffff;
+      --modal-bg: rgba(0,0,0,.4);
+      --empty-illustration: #ccd0da;
+    }
+
+    [data-theme="dark"] {
+      --bg-base: #1e1e2e;
+      --bg-mantle: #181825;
+      --bg-crust: #11111b;
+      --bg-surface0: #313244;
+      --bg-surface1: #45475a;
+      --bg-surface2: #585b70;
+      --bg-overlay0: #6c7086;
+      --bg-overlay1: #7f849c;
+      --text-main: #cdd6f4;
+      --text-sub: #bac2de;
+      --text-muted: #a6adc8;
+      --text-overlay: #6c7086;
+      --card-bg: #1e1e2e;
+      --card-border: #313244;
+      --card-shadow: 0 1px 3px rgba(0,0,0,.3), 0 1px 2px rgba(0,0,0,.2);
+      --card-shadow-hover: 0 4px 12px rgba(0,0,0,.4), 0 2px 4px rgba(0,0,0,.2);
+      --input-bg: #313244;
+      --input-border: #45475a;
+      --input-focus: #cba6f7;
+      --table-hover: #313244;
+      --table-stripe: #252536;
+      --table-border: #313244;
+      --kpi-1-bg: linear-gradient(135deg, #cba6f7 0%, #b4befe 100%);
+      --kpi-2-bg: linear-gradient(135deg, #a6e3a1 0%, #94e2d5 100%);
+      --kpi-3-bg: linear-gradient(135deg, #f9e2af 0%, #fab387 100%);
+      --kpi-4-bg: linear-gradient(135deg, #f38ba8 0%, #eba0ac 100%);
+      --navbar-bg: linear-gradient(135deg, #11111b 0%, #181825 100%);
+      --scrollbar-track: #313244;
+      --scrollbar-thumb: #45475a;
+      --badge-admin-bg: #f38ba820;
+      --badge-admin-text: #f38ba8;
+      --badge-viewer-bg: #89b4fa20;
+      --badge-viewer-text: #89b4fa;
+      --pill-bg: #313244;
+      --pill-active-bg: #cba6f7;
+      --pill-active-text: #1e1e2e;
+      --modal-bg: rgba(0,0,0,.6);
+      --empty-illustration: #45475a;
+    }
+
+    /* ═══════════════════════════════════════════════ BASE RESET ══ */
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-base);
+      color: var(--text-main);
+      margin: 0;
+      transition: background .3s, color .3s;
+    }
+
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+    ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+
+    /* ═══════════════════════════════════════════════ LOGIN SCREEN ══ */
     .login-wrap {
       min-height: 100vh;
       display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg, #0D1B2A 0%, #1B4F72 100%);
+      background: var(--navbar-bg);
       padding: 2rem;
     }
     .login-card {
       width: 100%; max-width: 420px;
-      background: #fff; border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0,0,0,.2);
+      background: var(--card-bg); border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.25);
       overflow: hidden;
+      transition: background .3s;
     }
     .login-header {
-      background: var(--carol-navy);
+      background: var(--navbar-bg);
       color: #fff; padding: 2rem; text-align: center;
     }
     .login-header h2 { margin: 0; font-size: 1.4rem; font-weight: 700; }
-    .login-header p { margin: .5rem 0 0; color: #94a3b8; font-size: .88rem; }
+    .login-header p { margin: .5rem 0 0; color: rgba(255,255,255,.65); font-size: .88rem; }
     .login-body { padding: 2rem; }
     .login-btn {
-      width: 100%; padding: .75rem; border: none; border-radius: 8px;
+      width: 100%; padding: .75rem; border: none; border-radius: 10px;
       background: var(--carol-teal); color: #fff; font-weight: 700;
-      font-size: .95rem; cursor: pointer; transition: filter .15s;
+      font-size: .95rem; cursor: pointer; transition: all .2s;
     }
-    .login-btn:hover { filter: brightness(1.1); }
+    .login-btn:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,184,148,.3); }
     .login-error {
       color: var(--carol-red); font-size: .85rem; text-align: center;
       margin-top: .75rem; display: none;
     }
     .login-error.show { display: block; }
+
+    /* ═══════════════════════════════════════════════ NAVBAR ══ */
+    .navbar-custom {
+      background: var(--navbar-bg);
+      padding: .75rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    }
+    .navbar-brand-custom {
+      display: flex; align-items: center; gap: .75rem;
+      text-decoration: none; color: #fff;
+    }
+    .navbar-brand-custom span { font-weight: 700; font-size: 1.1rem; }
+    .navbar-right { display: flex; align-items: center; gap: 1rem; }
+    .theme-toggle {
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+      color: #fff; border-radius: 8px; padding: .4rem .6rem;
+      cursor: pointer; font-size: 1rem; transition: all .2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .theme-toggle:hover { background: rgba(255,255,255,.2); }
+    .navbar-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--carol-teal); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 700;
+    }
+    .navbar-user-info { color: #fff; line-height: 1.2; }
+    .navbar-user-info .name { font-size: .85rem; font-weight: 600; }
+    .navbar-user-info .email { font-size: .72rem; color: rgba(255,255,255,.6); }
+    .dropdown-menu-custom {
+      position: absolute; right: 1rem; top: 100%; margin-top: .25rem;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.15);
+      padding: .25rem; min-width: 160px; display: none; z-index: 200;
+    }
+    .dropdown-menu-custom.show { display: block; }
+    .dropdown-item-custom {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .5rem .75rem; border-radius: 6px; color: var(--text-main);
+      text-decoration: none; font-size: .85rem; transition: background .15s;
+      cursor: pointer; border: none; background: none; width: 100%;
+    }
+    .dropdown-item-custom:hover { background: var(--table-hover); }
+
+    /* ═══════════════════════════════════════════════ TAB NAVIGATION ══ */
+    .tab-nav-container {
+      padding: .75rem 1.5rem .25rem;
+      background: var(--bg-mantle);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .tab-nav {
+      display: flex; gap: .25rem; max-width: 1400px; margin: 0 auto;
+      overflow-x: auto;
+    }
+    .tab-nav-item {
+      padding: .6rem 1rem; border-radius: 8px 8px 0 0;
+      font-size: .85rem; font-weight: 500;
+      color: var(--text-muted); cursor: pointer;
+      border: none; background: none;
+      transition: all .2s; white-space: nowrap;
+      text-decoration: none;
+    }
+    .tab-nav-item:hover { color: var(--text-main); background: var(--card-bg); }
+    .tab-nav-item.active {
+      color: var(--carol-teal); background: var(--card-bg);
+      border-bottom: 2px solid var(--carol-teal); font-weight: 600;
+    }
+    .tab-nav-actions {
+      margin-left: auto; display: flex; align-items: center; gap: .5rem;
+      padding-right: .5rem;
+    }
+
+    /* ═══════════════════════════════════════════════ PAGE CONTENT ══ */
+    .page-content {
+      max-width: 1400px; margin: 0 auto;
+      padding: 1.25rem 1.5rem 2rem;
+      min-height: calc(100vh - 120px);
+      animation: fadeIn .3s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ═══════════════════════════════════════════════ KPI CARDS ══ */
+    .kpi-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .kpi-card {
+      border-radius: 14px; padding: 1.25rem;
+      color: #fff; position: relative; overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,.12);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .kpi-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.18); }
+    .kpi-card::after {
+      content: ''; position: absolute; right: -20px; top: -20px;
+      width: 100px; height: 100px; border-radius: 50%;
+      background: rgba(255,255,255,.12);
+    }
+    .kpi-card.kpi-1 { background: var(--kpi-1-bg); }
+    .kpi-card.kpi-2 { background: var(--kpi-2-bg); }
+    .kpi-card.kpi-3 { background: var(--kpi-3-bg); }
+    .kpi-card.kpi-4 { background: var(--kpi-4-bg); }
+    .kpi-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: rgba(255,255,255,.2); display: flex;
+      align-items: center; justify-content: center;
+      font-size: 1.1rem; margin-bottom: .75rem;
+    }
+    .kpi-value {
+      font-size: 1.8rem; font-weight: 800; line-height: 1;
+      margin-bottom: .25rem;
+    }
+    .kpi-label { font-size: .78rem; opacity: .85; font-weight: 500; }
+    .kpi-trend {
+      display: inline-flex; align-items: center; gap: .2rem;
+      font-size: .72rem; margin-top: .4rem; padding: .15rem .5rem;
+      border-radius: 20px; font-weight: 600;
+    }
+    .kpi-trend.up { background: rgba(255,255,255,.2); color: #fff; }
+    .kpi-trend.down { background: rgba(0,0,0,.15); color: #fff; }
+
+    /* ═══════════════════════════════════════════════ CARDS ══ */
+    .card-custom {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; box-shadow: var(--card-shadow);
+      transition: background .3s, border-color .3s, box-shadow .3s;
+    }
+    .card-custom:hover { box-shadow: var(--card-shadow-hover); }
+    .card-header-custom {
+      padding: 1rem 1.25rem; border-bottom: 1px solid var(--card-border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-header-custom h3 {
+      margin: 0; font-size: .95rem; font-weight: 600;
+      color: var(--text-main); display: flex; align-items: center; gap: .5rem;
+    }
+    .card-body-custom { padding: 1.25rem; }
+
+    /* ═══════════════════════════════════════════════ FILTER BAR ══ */
+    .filter-bar {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .75rem 1rem; background: var(--card-bg);
+      border: 1px solid var(--card-border); border-radius: 12px;
+      margin-bottom: 1rem; flex-wrap: wrap;
+      box-shadow: var(--card-shadow);
+    }
+    .filter-search {
+      position: relative; flex: 1; min-width: 200px;
+    }
+    .filter-search input {
+      width: 100%; padding: .5rem .75rem .5rem 2.25rem;
+      border: 1px solid var(--input-border); border-radius: 8px;
+      background: var(--input-bg); color: var(--text-main);
+      font-size: .85rem; transition: border-color .2s, box-shadow .2s;
+    }
+    .filter-search input:focus {
+      outline: none; border-color: var(--input-focus);
+      box-shadow: 0 0 0 3px rgba(136,57,239,.15);
+    }
+    .filter-search .search-icon {
+      position: absolute; left: .75rem; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted); font-size: .9rem;
+    }
+    .filter-select {
+      padding: .5rem 2rem .5rem .75rem;
+      border: 1px solid var(--input-border); border-radius: 8px;
+      background: var(--input-bg); color: var(--text-main);
+      font-size: .85rem; cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236c7086' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right .5rem center;
+      transition: border-color .2s;
+    }
+    .filter-select:focus {
+      outline: none; border-color: var(--input-focus);
+      box-shadow: 0 0 0 3px rgba(136,57,239,.15);
+    }
+    .btn-filter {
+      padding: .5rem 1rem; border-radius: 8px;
+      font-size: .85rem; font-weight: 500;
+      display: inline-flex; align-items: center; gap: .4rem;
+      cursor: pointer; transition: all .2s;
+      border: 1px solid var(--input-border); background: var(--input-bg);
+      color: var(--text-main);
+    }
+    .btn-filter:hover { border-color: var(--carol-teal); color: var(--carol-teal); }
+    .btn-primary-custom {
+      padding: .5rem 1rem; border-radius: 8px;
+      font-size: .85rem; font-weight: 600;
+      background: var(--carol-teal); color: #fff;
+      border: none; cursor: pointer;
+      display: inline-flex; align-items: center; gap: .4rem;
+      transition: all .2s;
+    }
+    .btn-primary-custom:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+    /* ═══════════════════════════════════════════════ TABLES ══ */
+    .table-wrapper { overflow-x: auto; }
+    .data-table {
+      width: 100%; border-collapse: collapse; font-size: .85rem;
+    }
+    .data-table thead th {
+      position: sticky; top: 0; z-index: 10;
+      background: var(--bg-mantle); color: var(--text-muted);
+      font-weight: 600; font-size: .78rem; text-transform: uppercase;
+      letter-spacing: .03em; padding: .65rem .75rem;
+      border-bottom: 2px solid var(--card-border);
+      white-space: nowrap; user-select: none;
+    }
+    .data-table thead th.sortable { cursor: pointer; }
+    .data-table thead th.sortable:hover { color: var(--text-main); }
+    .data-table thead th .sort-icon { font-size: .7rem; margin-left: .3rem; opacity: .4; }
+    .data-table thead th.sort-asc .sort-icon,
+    .data-table thead th.sort-desc .sort-icon { opacity: 1; color: var(--carol-teal); }
+    .data-table tbody tr {
+      border-bottom: 1px solid var(--table-border);
+      transition: background .15s;
+    }
+    .data-table tbody tr:nth-child(even) { background: var(--table-stripe); }
+    .data-table tbody tr:hover { background: var(--table-hover); }
+    .data-table tbody td {
+      padding: .6rem .75rem; color: var(--text-sub);
+      vertical-align: middle;
+    }
+
+    /* ═══════════════════════════════════════════════ PAGINATION ══ */
+    .table-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .75rem 1rem; border-top: 1px solid var(--card-border);
+      font-size: .8rem; color: var(--text-muted);
+      flex-wrap: wrap; gap: .5rem;
+    }
+    .pagination-controls { display: flex; align-items: center; gap: .25rem; }
+    .page-btn {
+      padding: .3rem .6rem; border-radius: 6px;
+      border: 1px solid var(--table-border); background: var(--card-bg);
+      color: var(--text-sub); font-size: .78rem; cursor: pointer;
+      transition: all .15s;
+    }
+    .page-btn:hover { border-color: var(--carol-teal); color: var(--carol-teal); }
+    .page-btn.active {
+      background: var(--carol-teal); color: #fff; border-color: var(--carol-teal);
+    }
+    .page-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+    /* ═══════════════════════════════════════════════ BADGES ══ */
+    .badge-custom {
+      display: inline-flex; align-items: center; padding: .2rem .6rem;
+      border-radius: 6px; font-size: .72rem; font-weight: 600;
+      letter-spacing: .02em;
+    }
+    .badge-green { background: rgba(64,160,43,.12); color: #40a02b; }
+    .badge-red { background: rgba(210,15,57,.12); color: #d20f39; }
+    .badge-yellow { background: rgba(223,142,29,.12); color: #df8e1d; }
+    .badge-blue { background: rgba(30,102,245,.12); color: #1e66f5; }
+    .badge-purple { background: rgba(136,57,239,.12); color: #8839ef; }
+    .badge-admin { background: var(--badge-admin-bg); color: var(--badge-admin-text); }
+    .badge-viewer { background: var(--badge-viewer-bg); color: var(--badge-viewer-text); }
+
+    .score-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: .2rem .5rem; border-radius: 6px;
+      font-size: .78rem; font-weight: 700; min-width: 42px;
+    }
+    .score-green { background: rgba(64,160,43,.12); color: #40a02b; }
+    .score-yellow { background: rgba(223,142,29,.12); color: #df8e1d; }
+    .score-red { background: rgba(210,15,57,.12); color: #d20f39; }
+
+    /* ═══════════════════════════════════════════════ HEATMAP ══ */
+    .heatmap-cell {
+      width: 42px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .72rem; font-weight: 700; color: #fff;
+      border-radius: 6px; margin: 1px auto;
+    }
+    .score-strong { background: #40a02b; }
+    .score-ok     { background: #27AE60; }
+    .score-weak   { background: #df8e1d; }
+    .score-critical { background: #d20f39; }
+
+    /* ═══════════════════════════════════════════════ CHARTS ══ */
+    .charts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1rem; }
+    .chart-card { min-height: 300px; }
+    .chart-card canvas { max-height: 260px; }
+
+    /* ═══════════════════════════════════════════════ PERSONA CARDS ══ */
+    .persona-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+    .persona-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 1.25rem;
+      cursor: pointer; transition: all .2s;
+      box-shadow: var(--card-shadow);
+    }
+    .persona-card:hover {
+      border-color: var(--carol-teal); transform: translateY(-2px);
+      box-shadow: var(--card-shadow-hover);
+    }
+    .persona-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: .75rem; }
+    .persona-avatar {
+      width: 42px; height: 42px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; font-weight: 700; color: #fff;
+    }
+    .persona-card-name { font-weight: 600; font-size: .95rem; color: var(--text-main); margin-bottom: .15rem; }
+    .persona-card-id { font-size: .75rem; color: var(--text-muted); }
+    .persona-card-meta {
+      display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem;
+    }
+    .persona-card-meta span {
+      font-size: .75rem; color: var(--text-muted);
+      display: flex; align-items: center; gap: .25rem;
+    }
+
+    /* ═══════════════════════════════════════════════ SKELETON ══ */
+    .skeleton {
+      background: linear-gradient(90deg, var(--bg-surface0) 25%, var(--bg-surface1) 50%, var(--bg-surface0) 75%);
+      background-size: 200% 100%;
+      animation: skeleton-shimmer 1.5s ease-in-out infinite;
+      border-radius: 6px;
+    }
+    @keyframes skeleton-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .skeleton-row { display: flex; gap: 1rem; padding: .6rem .75rem; }
+    .skeleton-cell { height: 16px; border-radius: 4px; }
+    .skeleton-cell.wide { width: 120px; }
+    .skeleton-cell.medium { width: 80px; }
+    .skeleton-cell.narrow { width: 50px; }
+
+    /* ═══════════════════════════════════════════════ EMPTY STATE ══ */
+    .empty-state {
+      text-align: center; padding: 3rem 1.5rem;
+      color: var(--text-muted);
+    }
+    .empty-state-icon {
+      width: 64px; height: 64px; margin: 0 auto 1rem;
+      background: var(--bg-surface0); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: var(--text-overlay);
+    }
+    .empty-state h4 { margin: 0 0 .25rem; color: var(--text-sub); font-size: 1rem; }
+    .empty-state p { margin: 0; font-size: .85rem; }
+
+    /* ═══════════════════════════════════════════════ MODAL ══ */
+    .modal-backdrop-custom {
+      position: fixed; inset: 0; background: var(--modal-bg);
+      z-index: 1000; display: none; align-items: center; justify-content: center;
+      animation: fadeIn .2s;
+    }
+    .modal-backdrop-custom.show { display: flex; }
+    .modal-custom {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 16px; width: 90%; max-width: 800px;
+      max-height: 85vh; overflow: hidden;
+      box-shadow: 0 16px 48px rgba(0,0,0,.2);
+      display: flex; flex-direction: column;
+    }
+    .modal-header-custom {
+      padding: 1rem 1.25rem; border-bottom: 1px solid var(--card-border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .modal-header-custom h5 { margin: 0; font-size: 1rem; font-weight: 600; color: var(--text-main); }
+    .modal-close {
+      background: none; border: none; color: var(--text-muted);
+      font-size: 1.2rem; cursor: pointer; padding: .25rem;
+      border-radius: 6px; transition: all .15s;
+    }
+    .modal-close:hover { background: var(--bg-surface0); color: var(--text-main); }
+    .modal-body-custom { padding: 1.25rem; overflow-y: auto; flex: 1; }
+    .modal-footer-custom {
+      padding: .75rem 1.25rem; border-top: 1px solid var(--card-border);
+      display: flex; justify-content: flex-end;
+    }
+
+    /* ═══════════════════════════════════════════════ FORMS ══ */
+    .form-group { margin-bottom: 1rem; }
+    .form-label-custom {
+      display: block; font-size: .8rem; font-weight: 600;
+      color: var(--text-sub); margin-bottom: .35rem;
+    }
+    .form-input {
+      width: 100%; padding: .55rem .75rem;
+      border: 1px solid var(--input-border); border-radius: 8px;
+      background: var(--input-bg); color: var(--text-main);
+      font-size: .85rem; transition: border-color .2s, box-shadow .2s;
+    }
+    .form-input:focus {
+      outline: none; border-color: var(--input-focus);
+      box-shadow: 0 0 0 3px rgba(136,57,239,.15);
+    }
+    .form-row { display: grid; gap: .75rem; }
+    .form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+    .form-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .form-row.cols-5 { grid-template-columns: 2fr 2fr 1.5fr 1fr auto; }
+
+    /* ═══════════════════════════════════════════════ COPY BTN ══ */
+    .copy-btn {
+      background: var(--bg-surface0); border: 1px solid var(--input-border);
+      border-radius: 6px; padding: .3rem .6rem; cursor: pointer;
+      color: var(--text-muted); font-size: .75rem;
+      transition: all .15s; display: inline-flex; align-items: center; gap: .25rem;
+    }
+    .copy-btn:hover { border-color: var(--carol-teal); color: var(--carol-teal); }
+
+    /* ═══════════════════════════════════════════════ TOAST ══ */
+    .toast-custom {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 2000;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 10px; padding: .75rem 1rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,.15);
+      font-size: .85rem; color: var(--text-main);
+      display: none; animation: slideUp .3s ease;
+    }
+    .toast-custom.show { display: flex; align-items: center; gap: .5rem; }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* ═══════════════════════════════════════════════ RESPONSIVE ══ */
+    @media (max-width: 1024px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .charts-grid { grid-template-columns: 1fr; }
+      .form-row.cols-5 { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+      .navbar-custom { padding: .5rem 1rem; }
+      .page-content { padding: 1rem; }
+      .filter-bar { flex-direction: column; align-items: stretch; }
+      .filter-search { min-width: 100%; }
+      .persona-grid { grid-template-columns: 1fr; }
+      .table-footer { flex-direction: column; align-items: flex-start; }
+      .form-row.cols-2, .form-row.cols-3, .form-row.cols-5 { grid-template-columns: 1fr; }
+      .modal-custom { width: 95%; max-height: 90vh; }
+      .tab-nav { gap: 0; }
+      .tab-nav-item { padding: .5rem .75rem; font-size: .8rem; }
+    }
+
+    /* ═══════════════════════════════════════════════ PRINT ══ */
+    @media print {
+      .navbar-custom, .tab-nav-container, .filter-bar, .table-footer { display: none !important; }
+      .card-custom { box-shadow: none; border: 1px solid #ddd; }
+    }
   </style>
 </head>
 <body>
@@ -79,13 +618,13 @@
         <p>Panel de Control — Acceso restringido</p>
       </div>
       <div class="login-body">
-        <div class="mb-3">
-          <label class="form-label">Correo electrónico</label>
-          <input type="email" class="form-control" id="login-email" placeholder="marco@soul23.mx" value="marco@soul23.mx">
+        <div class="form-group">
+          <label class="form-label-custom">Correo electrónico</label>
+          <input type="email" class="form-input" id="login-email" placeholder="marco@soul23.mx" value="marco@soul23.mx">
         </div>
-        <div class="mb-3">
-          <label class="form-label">Contraseña</label>
-          <input type="password" class="form-control" id="login-password" placeholder="••••••••">
+        <div class="form-group">
+          <label class="form-label-custom">Contraseña</label>
+          <input type="password" class="form-input" id="login-password" placeholder="••••••••">
         </div>
         <button class="login-btn" onclick="doLogin()">
           <i class="ti ti-lock"></i> Iniciar Sesión
@@ -99,326 +638,397 @@
 
   <!-- ═══════════════════════════════════════════════ DASHBOARD ══ -->
   <div id="dashboard-screen" style="display:none;">
-    <div class="page">
-      <header class="navbar navbar-expand-md navbar-dark d-print-none">
-        <div class="container-xl">
-          <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-            <a href="./" style="display:flex;align-items:center;gap:.5rem;text-decoration:none;">
-              <img src="soul23-logo.svg" alt="Soul23" style="height:28px;width:auto;">
-              <span>CAROL Admin</span>
-            </a>
-          </h1>
-          <div class="navbar-nav flex-row order-md-last">
-            <div class="nav-item dropdown">
-              <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown">
-                <span class="avatar avatar-sm" style="background:#00B894;" id="user-avatar">MG</span>
-                <div class="d-none d-xl-block ps-2">
-                  <div id="user-name">Administrador</div>
-                  <div class="mt-1 small text-muted" id="user-email">marco@soul23.mx</div>
-                </div>
-              </a>
-              <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <a href="#" class="dropdown-item" onclick="doLogout(); return false;">
-                  <i class="ti ti-logout"></i> Cerrar sesión
-                </a>
-              </div>
+
+    <!-- Navbar -->
+    <div class="navbar-custom">
+      <a href="./" class="navbar-brand-custom">
+        <img src="soul23-logo.svg" alt="Soul23" style="height:26px;width:auto;">
+        <span>CAROL Admin</span>
+      </a>
+      <div class="navbar-right">
+        <button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">
+          <i class="ti ti-sun" id="theme-icon-light"></i>
+          <i class="ti ti-moon" id="theme-icon-dark" style="display:none;"></i>
+        </button>
+        <div style="position:relative;">
+          <div style="display:flex;align-items:center;gap:.5rem;cursor:pointer;" onclick="toggleUserDropdown()">
+            <span class="navbar-avatar" id="user-avatar">MG</span>
+            <div class="navbar-user-info d-none d-xl-block">
+              <div class="name" id="user-name">Administrador</div>
+              <div class="email" id="user-email">marco@soul23.mx</div>
             </div>
+            <i class="ti ti-chevron-down" style="color:rgba(255,255,255,.5);font-size:.8rem;"></i>
+          </div>
+          <div class="dropdown-menu-custom" id="user-dropdown">
+            <button class="dropdown-item-custom" onclick="doLogout(); return false;">
+              <i class="ti ti-logout"></i> Cerrar sesión
+            </button>
           </div>
         </div>
-      </header>
+      </div>
+    </div>
 
-      <div class="page-wrapper">
-        <div class="page-header d-print-none">
-          <div class="container-xl">
-            <div class="row g-2 align-items-center">
-              <div class="col">
-                <ul class="nav nav-tabs card-header-tabs" id="main-tabs" style="background:none;border:none;">
-                  <li class="nav-item"><a class="nav-link active" href="#" onclick="switchTab('general')" id="tab-general">Vista General</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#" onclick="switchTab('persona')" id="tab-persona">Por Persona</a></li>
-                  <li class="nav-item" id="li-ajustes" style="display:none;"><a class="nav-link" href="#" onclick="switchTab('ajustes')" id="tab-ajustes">Ajustes</a></li>
-                </ul>
-              </div>
-              <div class="col-auto">
-                <a href="/api/export.csv" class="btn btn-primary"><i class="ti ti-download"></i> Exportar CSV</a>
-              </div>
-            </div>
+    <!-- Tabs -->
+    <div class="tab-nav-container">
+      <div class="tab-nav">
+        <button class="tab-nav-item active" onclick="switchTab('general')" id="tab-general">
+          <i class="ti ti-layout-dashboard"></i> Vista General
+        </button>
+        <button class="tab-nav-item" onclick="switchTab('persona')" id="tab-persona">
+          <i class="ti ti-users"></i> Por Persona
+        </button>
+        <button class="tab-nav-item" onclick="switchTab('ajustes')" id="tab-ajustes" style="display:none;">
+          <i class="ti ti-settings"></i> Ajustes
+        </button>
+        <div class="tab-nav-actions">
+          <a href="/api/export.csv" class="btn-primary-custom">
+            <i class="ti ti-download"></i> Exportar CSV
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ VISTA GENERAL ══ -->
+    <div id="view-general" class="page-content" style="display:block;">
+      <!-- KPIs -->
+      <div class="kpi-grid" id="kpi-row">
+        <div class="kpi-card kpi-1">
+          <div class="kpi-icon"><i class="ti ti-users"></i></div>
+          <div class="kpi-value" id="kpi-total">—</div>
+          <div class="kpi-label">Evaluados</div>
+        </div>
+        <div class="kpi-card kpi-2">
+          <div class="kpi-icon"><i class="ti ti-check"></i></div>
+          <div class="kpi-value" id="kpi-pass">—</div>
+          <div class="kpi-label">Tasa de Aprobación</div>
+        </div>
+        <div class="kpi-card kpi-3">
+          <div class="kpi-icon"><i class="ti ti-trending-up"></i></div>
+          <div class="kpi-value" id="kpi-avg">—</div>
+          <div class="kpi-label">Puntaje Promedio</div>
+        </div>
+        <div class="kpi-card kpi-4">
+          <div class="kpi-icon"><i class="ti ti-alert-triangle"></i></div>
+          <div class="kpi-value" id="kpi-pending">—</div>
+          <div class="kpi-label">Revisiones Pendientes</div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-grid">
+        <div class="card-custom chart-card">
+          <div class="card-header-custom"><h3><i class="ti ti-chart-donut" style="color:var(--carol-teal);"></i> Distribución por Nivel</h3></div>
+          <div class="card-body-custom"><canvas id="chart-levels" height="220"></canvas></div>
+        </div>
+        <div class="card-custom chart-card">
+          <div class="card-header-custom"><h3><i class="ti ti-chart-donut" style="color:var(--carol-teal);"></i> Aprobados vs Reprobados</h3></div>
+          <div class="card-body-custom"><canvas id="chart-pass" height="220"></canvas></div>
+        </div>
+        <div class="card-custom chart-card">
+          <div class="card-header-custom"><h3><i class="ti ti-chart-line" style="color:var(--carol-teal);"></i> Tendencia de Puntajes</h3></div>
+          <div class="card-body-custom"><canvas id="chart-trend" height="220"></canvas></div>
+        </div>
+        <div class="card-custom chart-card">
+          <div class="card-header-custom"><h3><i class="ti ti-chart-bar" style="color:var(--carol-teal);"></i> Puntaje Promedio por Departamento</h3></div>
+          <div class="card-body-custom"><canvas id="chart-dept-avg" height="260"></canvas></div>
+        </div>
+      </div>
+      <div class="charts-grid">
+        <div class="card-custom chart-card" style="grid-column:1/-1;">
+          <div class="card-header-custom"><h3><i class="ti ti-chart-bar" style="color:var(--carol-teal);"></i> Aprobados vs Reprobados por Departamento</h3></div>
+          <div class="card-body-custom"><canvas id="chart-dept-pass" height="260"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-bar">
+        <div class="filter-search">
+          <i class="ti ti-search search-icon"></i>
+          <input type="text" id="filter-search" placeholder="Buscar candidato, ID, empresa..." oninput="loadData()">
+        </div>
+        <select class="filter-select" id="filter-level" onchange="loadData()">
+          <option value="">Todos los niveles</option>
+          <option value="basic">Básico</option>
+          <option value="medium">Medio</option>
+          <option value="advanced">Avanzado</option>
+        </select>
+        <select class="filter-select" id="filter-passed" onchange="loadData()">
+          <option value="">Todos los estatus</option>
+          <option value="true">Aprobado</option>
+          <option value="false">No aprobado</option>
+        </select>
+        <button class="btn-filter" onclick="loadData()"><i class="ti ti-refresh"></i> Actualizar</button>
+      </div>
+
+      <!-- Heatmap -->
+      <div class="card-custom" style="margin-bottom:1rem;">
+        <div class="card-header-custom"><h3><i class="ti ti-grid-dots" style="color:var(--carol-teal);"></i> Mapa de Calor de Competencias</h3></div>
+        <div class="table-wrapper">
+          <table class="data-table" id="heatmap-table">
+            <thead id="heatmap-head">
+              <tr><th colspan="20" class="empty-state">Cargando datos…</th></tr>
+            </thead>
+            <tbody id="heatmap-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Results Table -->
+      <div class="card-custom">
+        <div class="card-header-custom"><h3><i class="ti ti-list" style="color:var(--carol-teal);"></i> Evaluaciones Recientes</h3></div>
+        <div class="table-wrapper">
+          <table class="data-table" id="results-table">
+            <thead>
+              <tr>
+                <th class="sortable" onclick="sortTable('results-table', 0)">Candidato <span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 1)">Empresa <span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 2)">Nivel <span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 3)">Score <span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 4)">Estatus <span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 5)">Depto <span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 6)">Fecha <span class="sort-icon">↕</span></th>
+                <th class="w-1"></th>
+              </tr>
+            </thead>
+            <tbody id="results-body">
+              <tr><td colspan="8" class="empty-state">Cargando datos…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-footer" id="results-footer" style="display:none;">
+          <span id="results-count">Mostrando 0 de 0</span>
+          <div class="pagination-controls" id="results-pagination"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ POR PERSONA ══ -->
+    <div id="view-persona" class="page-content" style="display:none;">
+      <div class="filter-bar">
+        <div class="filter-search">
+          <i class="ti ti-search search-icon"></i>
+          <input type="text" id="persona-search" placeholder="Buscar candidato..." oninput="loadPersonas()">
+        </div>
+        <select class="filter-select" id="persona-level" onchange="loadPersonas()">
+          <option value="">Todos los niveles</option>
+          <option value="basic">Básico</option>
+          <option value="medium">Medio</option>
+          <option value="advanced">Avanzado</option>
+        </select>
+        <button class="btn-filter" onclick="loadPersonas()"><i class="ti ti-refresh"></i> Actualizar</button>
+      </div>
+
+      <div class="persona-grid" id="personas-grid">
+        <div class="empty-state" style="grid-column:1/-1;">
+          <div class="empty-state-icon"><i class="ti ti-users"></i></div>
+          <h4>Cargando candidatos…</h4>
+        </div>
+      </div>
+
+      <div id="persona-detail" class="mt-4" style="display:none;">
+        <div class="card-custom">
+          <div class="card-header-custom">
+            <h3><i class="ti ti-user" style="color:var(--carol-teal);"></i> Evaluaciones de <span id="persona-name">—</span></h3>
+            <button class="btn-filter" onclick="closePersonaDetail()"><i class="ti ti-x"></i> Cerrar</button>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr><th>Fecha</th><th>Nivel</th><th>Score</th><th>Estatus</th><th>Tiempo</th><th class="w-1"></th></tr>
+              </thead>
+              <tbody id="persona-results-body">
+                <tr><td colspan="6" class="empty-state">Sin evaluaciones</td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="page-body">
-          <!-- ═══════════════════════════════════════ VISTA GENERAL ══ -->
-          <div id="view-general" class="container-xl tab-pane active">
-            <!-- KPIs -->
-            <div class="row row-cards mb-4" id="kpi-row">
-              <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-primary text-white avatar"><i class="ti ti-users"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-total">—</div><div class="text-muted">Evaluados</div></div></div></div></div></div>
-              <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-green text-white avatar"><i class="ti ti-check"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-pass">—</div><div class="text-muted">Tasa de Aprobación</div></div></div></div></div></div>
-              <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-yellow text-white avatar"><i class="ti ti-trending-up"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-avg">—</div><div class="text-muted">Puntaje Promedio</div></div></div></div></div></div>
-              <div class="col-sm-6 col-lg-3"><div class="card card-sm"><div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-red text-white avatar"><i class="ti ti-alert-triangle"></i></span></div><div class="col"><div class="font-weight-medium" id="kpi-pending">—</div><div class="text-muted">Revisiones Pendientes</div></div></div></div></div></div>
-            </div>
-
-            <!-- Dashboard Charts -->
-            <div class="row row-cards mb-4">
-              <div class="col-lg-4">
-                <div class="card">
-                  <div class="card-header"><h3 class="card-title">Distribución por Nivel</h3></div>
-                  <div class="card-body"><canvas id="chart-levels" height="220"></canvas></div>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="card">
-                  <div class="card-header"><h3 class="card-title">Aprobados vs Reprobados</h3></div>
-                  <div class="card-body"><canvas id="chart-pass" height="220"></canvas></div>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="card">
-                  <div class="card-header"><h3 class="card-title">Tendencia de Puntajes</h3></div>
-                  <div class="card-body"><canvas id="chart-trend" height="220"></canvas></div>
-                </div>
-              </div>
-            </div>
-            <div class="row row-cards mb-4">
-              <div class="col-lg-6">
-                <div class="card">
-                  <div class="card-header"><h3 class="card-title">Aprobados vs Reprobados por Departamento</h3></div>
-                  <div class="card-body"><canvas id="chart-dept-pass" height="260"></canvas></div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="card">
-                  <div class="card-header"><h3 class="card-title">Puntaje Promedio por Departamento</h3></div>
-                  <div class="card-body"><canvas id="chart-dept-avg" height="260"></canvas></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Filters -->
-            <div class="card mb-4">
-              <div class="card-body">
-                <div class="row g-2">
-                  <div class="col-md-3">
-                    <select class="form-select" id="filter-level" onchange="loadData()">
-                      <option value="">Todos los niveles</option>
-                      <option value="basic">Básico</option>
-                      <option value="medium">Medio</option>
-                      <option value="advanced">Avanzado</option>
-                    </select>
-                  </div>
-                  <div class="col-md-3">
-                    <select class="form-select" id="filter-passed" onchange="loadData()">
-                      <option value="">Todos los estatus</option>
-                      <option value="true">Aprobado</option>
-                      <option value="false">No aprobado</option>
-                    </select>
-                  </div>
-                  <div class="col-md-3">
-                    <input type="text" class="form-control" id="filter-search" placeholder="Buscar candidato..." oninput="loadData()">
-                  </div>
-                  <div class="col-md-3 text-end">
-                    <button class="btn btn-outline-primary" onclick="loadData()"><i class="ti ti-refresh"></i> Actualizar</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Heatmap -->
-            <div class="card mb-4">
-              <div class="card-header"><h3 class="card-title">Mapa de Calor de Competencias</h3></div>
-              <div class="table-responsive">
-                <table class="table table-vcenter card-table" id="heatmap-table">
-                  <thead id="heatmap-head">
-                    <tr><th colspan="20" class="empty-state">Cargando datos…</th></tr>
-                  </thead>
-                  <tbody id="heatmap-body">
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <!-- Candidates Table -->
-            <div class="card">
-              <div class="card-header"><h3 class="card-title">Evaluaciones Recientes</h3></div>
-              <div class="table-responsive">
-                <table class="table table-vcenter card-table table-hover" id="results-table">
-                  <thead>
-                    <tr>
-                      <th>Candidato</th><th>Empresa</th><th>Nivel</th><th>Score</th><th>Estatus</th><th>Depto</th><th>Fecha</th><th class="w-1"></th>
-                    </tr>
-                  </thead>
-                  <tbody id="results-body">
-                    <tr><td colspan="8" class="empty-state">Cargando datos…</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <!-- ═══════════════════════════════════════ POR PERSONA ══ -->
-          <div id="view-persona" class="container-xl tab-pane" style="display:none;">
-            <div class="row g-2 mb-4">
-              <div class="col-md-6">
-                <input type="text" class="form-control" id="persona-search" placeholder="Buscar candidato..." oninput="loadPersonas()">
-              </div>
-              <div class="col-md-3">
-                <select class="form-select" id="persona-level" onchange="loadPersonas()">
-                  <option value="">Todos los niveles</option>
-                  <option value="basic">Básico</option>
-                  <option value="medium">Medio</option>
-                  <option value="advanced">Avanzado</option>
+    <!-- ═══════════════════════════════════════ AJUSTES ══ -->
+    <div id="view-ajustes" class="page-content" style="display:none;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <!-- Users -->
+        <div class="card-custom">
+          <div class="card-header-custom"><h3><i class="ti ti-users" style="color:var(--carol-teal);"></i> Usuarios del Sistema</h3></div>
+          <div class="card-body-custom">
+            <form id="user-form" onsubmit="createUser(event)">
+              <div class="form-row cols-5">
+                <input type="text" class="form-input" id="u-name" placeholder="Nombre" required>
+                <input type="email" class="form-input" id="u-email" placeholder="Email" required>
+                <input type="password" class="form-input" id="u-password" placeholder="Contraseña" required>
+                <select class="form-input" id="u-role">
+                  <option value="viewer">Viewer</option>
+                  <option value="admin">Admin</option>
                 </select>
+                <button type="submit" class="btn-primary-custom" style="white-space:nowrap;">Agregar</button>
               </div>
-              <div class="col-md-3 text-end">
-                <button class="btn btn-outline-primary" onclick="loadPersonas()"><i class="ti ti-refresh"></i> Actualizar</button>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-header"><h3 class="card-title">Candidatos Registrados</h3></div>
-              <div class="table-responsive">
-                <table class="table table-vcenter card-table table-hover" id="personas-table">
-                  <thead>
-                    <tr>
-                      <th>Nombre</th><th>ID Empleado</th><th>Empresa</th><th>Depto</th><th>Puesto</th><th>Nivel Asignado</th><th class="w-1"></th>
-                    </tr>
-                  </thead>
-                  <tbody id="personas-body">
-                    <tr><td colspan="7" class="empty-state">Cargando datos…</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div id="persona-detail" class="mt-4" style="display:none;">
-              <div class="card">
-                <div class="card-header">
-                  <h3 class="card-title">Evaluaciones de <span id="persona-name">—</span></h3>
-                  <div class="card-actions">
-                    <button class="btn btn-outline-secondary btn-sm" onclick="closePersonaDetail()">Cerrar</button>
-                  </div>
-                </div>
-                <div class="table-responsive">
-                  <table class="table table-vcenter card-table table-hover">
-                    <thead>
-                      <tr><th>Fecha</th><th>Nivel</th><th>Score</th><th>Estatus</th><th>Tiempo</th><th class="w-1"></th></tr>
-                    </thead>
-                    <tbody id="persona-results-body">
-                      <tr><td colspan="6" class="empty-state">Sin evaluaciones</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+            </form>
+            <div id="user-form-msg" class="mt-2" style="font-size:.8rem;"></div>
           </div>
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Creado</th><th class="w-1"></th></tr>
+              </thead>
+              <tbody id="users-body">
+                <tr><td colspan="5" class="empty-state">Cargando usuarios…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-          <!-- ═══════════════════════════════════════ AJUSTES ══ -->
-          <div id="view-ajustes" class="container-xl tab-pane" style="display:none;">
-            <div class="row row-cards">
-              <div class="col-lg-6">
-                <div class="card">
-                  <div class="card-header"><h3 class="card-title">Usuarios del Sistema</h3></div>
-                  <div class="card-body">
-                    <form id="user-form" onsubmit="createUser(event)">
-                      <div class="row g-2">
-                        <div class="col-md-4"><input type="text" class="form-control" id="u-name" placeholder="Nombre" required></div>
-                        <div class="col-md-4"><input type="email" class="form-control" id="u-email" placeholder="Email" required></div>
-                        <div class="col-md-3"><input type="password" class="form-control" id="u-password" placeholder="Contraseña" required></div>
-                        <div class="col-md-3">
-                          <select class="form-select" id="u-role">
-                            <option value="viewer">Viewer</option>
-                            <option value="admin">Admin</option>
-                          </select>
-                        </div>
-                        <div class="col-md-2"><button type="submit" class="btn btn-primary w-100">Agregar</button></div>
-                      </div>
-                    </form>
-                    <div id="user-form-msg" class="mt-2 text-sm"></div>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table table-vcenter card-table">
-                      <thead>
-                        <tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Creado</th><th class="w-1"></th></tr>
-                      </thead>
-                      <tbody id="users-body">
-                        <tr><td colspan="5" class="empty-state">Cargando usuarios…</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="card">
-                  <div class="card-header"><h3 class="card-title">Información de Cuenta</h3></div>
-                  <div class="card-body">
-                    <div class="mb-2"><strong>Nombre:</strong> <span id="acc-name">—</span></div>
-                    <div class="mb-2"><strong>Email:</strong> <span id="acc-email">—</span></div>
-                    <div class="mb-2"><strong>Rol:</strong> <span id="acc-role">—</span></div>
-                  </div>
-                </div>
-              </div>
+        <!-- Account Info -->
+        <div class="card-custom">
+          <div class="card-header-custom"><h3><i class="ti ti-id" style="color:var(--carol-teal);"></i> Información de Cuenta</h3></div>
+          <div class="card-body-custom">
+            <div class="form-group">
+              <div class="form-label-custom">Nombre</div>
+              <div id="acc-name" style="font-size:.9rem;color:var(--text-main);">—</div>
             </div>
-            <div class="row row-cards mt-4">
-              <div class="col-12">
-                <div class="card">
-                  <div class="card-header"><h3 class="card-title">Auditoría / Logs</h3></div>
-                  <div class="table-responsive">
-                    <table class="table table-vcenter card-table">
-                      <thead>
-                        <tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Tipo</th><th>ID</th><th>Detalle</th></tr>
-                      </thead>
-                      <tbody id="audit-body">
-                        <tr><td colspan="6" class="empty-state">Cargando logs…</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
+            <div class="form-group">
+              <div class="form-label-custom">Email</div>
+              <div id="acc-email" style="font-size:.9rem;color:var(--text-main);">—</div>
             </div>
-            <div class="row row-cards mt-4">
-              <div class="col-12">
-                <div class="card">
-                  <div class="card-header"><h3 class="card-title">API Keys</h3></div>
-                  <div class="card-body">
-                    <form id="apikey-form" onsubmit="createApiKey(event)">
-                      <div class="row g-2">
-                        <div class="col-md-4"><input type="text" class="form-control" id="ak-name" placeholder="Nombre (ej. n8n, integración)" required></div>
-                        <div class="col-md-3">
-                          <select class="form-select" id="ak-role">
-                            <option value="viewer">Viewer</option>
-                            <option value="admin">Admin</option>
-                          </select>
-                        </div>
-                        <div class="col-md-3"><button type="submit" class="btn btn-primary w-100">Generar API Key</button></div>
-                      </div>
-                    </form>
-                    <div id="apikey-form-msg" class="mt-2 text-sm"></div>
-                    <div id="apikey-new-key" class="mt-3 p-3 rounded d-none" style="background:#f0fdf4;border:1px solid #bbf7d0;">
-                      <strong style="color:#166534;">API Key generada:</strong>
-                      <code id="apikey-raw" class="d-block mt-1" style="word-break:break-all;font-size:.8rem;background:#fff;padding:.5rem;border-radius:6px;border:1px solid #e2e8f0;"></code>
-                      <small class="text-muted d-block mt-1">Cópiala ahora. No se volverá a mostrar.</small>
-                    </div>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table table-vcenter card-table">
-                      <thead>
-                        <tr><th>Nombre</th><th>Prefijo</th><th>Rol</th><th>Creada</th><th>Último uso</th><th></th></tr>
-                      </thead>
-                      <tbody id="apikeys-body">
-                        <tr><td colspan="6" class="empty-state">Cargando API keys…</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
+            <div class="form-group">
+              <div class="form-label-custom">Rol</div>
+              <div id="acc-role" style="font-size:.9rem;color:var(--text-main);">—</div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Audit Logs -->
+      <div class="card-custom" style="margin-top:1rem;">
+        <div class="card-header-custom"><h3><i class="ti ti-history" style="color:var(--carol-teal);"></i> Auditoría / Logs</h3></div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Tipo</th><th>ID</th><th>Detalle</th></tr>
+            </thead>
+            <tbody id="audit-body">
+              <tr><td colspan="6" class="empty-state">Cargando logs…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- API Keys -->
+      <div class="card-custom" style="margin-top:1rem;">
+        <div class="card-header-custom"><h3><i class="ti ti-key" style="color:var(--carol-teal);"></i> API Keys</h3></div>
+        <div class="card-body-custom">
+          <form id="apikey-form" onsubmit="createApiKey(event)">
+            <div class="form-row cols-3">
+              <input type="text" class="form-input" id="ak-name" placeholder="Nombre (ej. n8n, integración)" required>
+              <select class="form-input" id="ak-role">
+                <option value="viewer">Viewer</option>
+                <option value="admin">Admin</option>
+              </select>
+              <button type="submit" class="btn-primary-custom">Generar API Key</button>
+            </div>
+          </form>
+          <div id="apikey-form-msg" class="mt-2" style="font-size:.8rem;"></div>
+          <div id="apikey-new-key" class="mt-3" style="display:none;background:rgba(64,160,43,.08);border:1px solid rgba(64,160,43,.2);border-radius:10px;padding:.75rem 1rem;">
+            <div style="font-size:.85rem;font-weight:600;color:var(--ctp-green);margin-bottom:.35rem;">
+              <i class="ti ti-check-circle"></i> API Key generada
+            </div>
+            <div style="display:flex;align-items:center;gap:.5rem;">
+              <code id="apikey-raw" style="flex:1;word-break:break-all;font-size:.8rem;background:var(--input-bg);padding:.5rem;border-radius:6px;border:1px solid var(--input-border);color:var(--text-main);"></code>
+              <button class="copy-btn" onclick="copyApiKey()"><i class="ti ti-copy"></i> Copiar</button>
+            </div>
+            <small style="color:var(--text-muted);font-size:.75rem;display:block;margin-top:.35rem;">Cópiala ahora. No se volverá a mostrar.</small>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr><th>Nombre</th><th>Prefijo</th><th>Rol</th><th>Creada</th><th>Último uso</th><th></th></tr>
+            </thead>
+            <tbody id="apikeys-body">
+              <tr><td colspan="6" class="empty-state">Cargando API keys…</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════════ MODAL ══ -->
+  <div class="modal-backdrop-custom" id="detailModal">
+    <div class="modal-custom">
+      <div class="modal-header-custom">
+        <h5>Detalle de Evaluación</h5>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body-custom" id="modal-body">Cargando...</div>
+      <div class="modal-footer-custom">
+        <button class="btn-filter" onclick="closeModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-custom" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/tabler.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script>
     const API = '';
     let currentUser = null;
 
-    // ══════════════════════════════════════════ AUTH ══
+    /* ═══════════════════════════════════════════════ THEME ══ */
+    function initTheme() {
+      const saved = localStorage.getItem('carol_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', saved);
+      updateThemeIcons(saved);
+    }
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('carol_theme', next);
+      updateThemeIcons(next);
+      Object.keys(charts).forEach(k => {
+        if (charts[k]) { charts[k].destroy(); charts[k] = null; }
+      });
+      loadCharts();
+    }
+    function updateThemeIcons(theme) {
+      const sun = document.getElementById('theme-icon-light');
+      const moon = document.getElementById('theme-icon-dark');
+      if (sun) sun.style.display = theme === 'dark' ? 'none' : 'block';
+      if (moon) moon.style.display = theme === 'dark' ? 'block' : 'none';
+    }
+    initTheme();
+
+    /* ═══════════════════════════════════════════════ TOAST ══ */
+    function showToast(msg, type) {
+      const t = document.getElementById('toast');
+      const icon = type === 'success' ? 'ti-check-circle' : 'ti-alert-circle';
+      const color = type === 'success' ? 'var(--ctp-green)' : 'var(--ctp-red)';
+      t.innerHTML = '<i class="ti ' + icon + '" style="color:' + color + ';"></i> ' + msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    /* ═══════════════════════════════════════════════ MODAL ══ */
+    function openModal() { document.getElementById('detailModal').classList.add('show'); }
+    function closeModal() { document.getElementById('detailModal').classList.remove('show'); }
+    document.getElementById('detailModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    /* ═══════════════════════════════════════════════ DROPDOWN ══ */
+    function toggleUserDropdown() {
+      document.getElementById('user-dropdown').classList.toggle('show');
+    }
+    document.addEventListener('click', function(e) {
+      const dd = document.getElementById('user-dropdown');
+      if (dd && !e.target.closest('.navbar-right')) dd.classList.remove('show');
+    });
+
+    /* ═══════════════════════════════════════════════ AUTH ══ */
     function getToken() { return localStorage.getItem('carol_admin_token'); }
     function setToken(t) { localStorage.setItem('carol_admin_token', t); }
     function clearToken() { localStorage.removeItem('carol_admin_token'); }
@@ -493,23 +1103,23 @@
         document.getElementById('acc-name').textContent = user.name || '—';
         document.getElementById('acc-email').textContent = user.email || '—';
         document.getElementById('acc-role').textContent = user.role === 'admin' ? 'Administrador' : 'Visualizador';
-        const ajustesTab = document.getElementById('li-ajustes');
+        const ajustesTab = document.getElementById('tab-ajustes');
         if (ajustesTab) {
-          ajustesTab.style.display = user.role === 'admin' ? 'list-item' : 'none';
+          ajustesTab.style.display = user.role === 'admin' ? 'inline-flex' : 'none';
         }
       }
     }
 
     function switchTab(tab) {
-      document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-nav-item').forEach(el => el.classList.remove('active'));
       document.getElementById('tab-' + tab).classList.add('active');
-      document.querySelectorAll('.tab-pane').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.page-content').forEach(el => el.style.display = 'none');
       document.getElementById('view-' + tab).style.display = 'block';
+      if (tab === 'general') loadData();
       if (tab === 'persona') loadPersonas();
       if (tab === 'ajustes') { loadUsers(); loadAuditLogs(); loadApiKeys(); }
     }
 
-    // Allow Enter key on password field
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('login-password').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') doLogin();
@@ -517,30 +1127,142 @@
       checkSession();
     });
 
-    // ══════════════════════════════════════════ DASHBOARD ══
+    /* ═══════════════════════════════════════════════ TABLE UTILS ══ */
     function cellClass(pct) {
       if (pct >= 85) return 'score-strong';
       if (pct >= 70) return 'score-ok';
       if (pct >= 55) return 'score-weak';
       return 'score-critical';
     }
+
     function levelBadge(level) {
-      if (level === 'basic') return '<span class="badge bg-green-lt">Básico</span>';
-      if (level === 'medium') return '<span class="badge bg-yellow-lt">Medio</span>';
-      if (level === 'advanced') return '<span class="badge bg-blue-lt">Avanzado</span>';
-      return '<span class="badge">' + level + '</span>';
+      if (level === 'basic') return '<span class="badge-custom badge-green">Básico</span>';
+      if (level === 'medium') return '<span class="badge-custom badge-yellow">Medio</span>';
+      if (level === 'advanced') return '<span class="badge-custom badge-blue">Avanzado</span>';
+      return '<span class="badge-custom">' + level + '</span>';
     }
+
     function statusBadge(passed) {
       return passed
-        ? '<span class="badge bg-green-lt">APROBADO</span>'
-        : '<span class="badge bg-red-lt">NO APROBÓ</span>';
+        ? '<span class="badge-custom badge-green">APROBADO</span>'
+        : '<span class="badge-custom badge-red">NO APROBÓ</span>';
     }
+
     function fmtDate(iso) {
       if (!iso) return '—';
       const d = new Date(iso);
       return d.toLocaleDateString('es-MX');
     }
 
+    function scoreBadgeHtml(score) {
+      const pct = score || 0;
+      const cls = pct >= 70 ? 'score-green' : pct >= 55 ? 'score-yellow' : 'score-red';
+      return '<span class="score-badge ' + cls + '">' + pct + '%</span>';
+    }
+
+    /* ═══════════════════════════════════════════════ SORT ══ */
+    const sortState = {};
+    function sortTable(tableId, colIdx) {
+      const table = document.getElementById(tableId);
+      if (!table) return;
+      const tbody = table.querySelector('tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      if (!rows.length || rows[0].querySelector('.empty-state')) return;
+
+      const key = tableId + '-' + colIdx;
+      const asc = sortState[key] = !sortState[key];
+
+      rows.sort((a, b) => {
+        let va = a.cells[colIdx] ? a.cells[colIdx].textContent.trim() : '';
+        let vb = b.cells[colIdx] ? b.cells[colIdx].textContent.trim() : '';
+        const na = parseFloat(va), nb = parseFloat(vb);
+        if (!isNaN(na) && !isNaN(nb)) return asc ? na - nb : nb - na;
+        return asc ? va.localeCompare(vb, 'es') : vb.localeCompare(va, 'es');
+      });
+
+      rows.forEach(r => tbody.appendChild(r));
+
+      table.querySelectorAll('thead th').forEach((th, i) => {
+        th.classList.remove('sort-asc', 'sort-desc');
+        if (i === colIdx) th.classList.add(asc ? 'sort-asc' : 'sort-desc');
+        const icon = th.querySelector('.sort-icon');
+        if (icon) icon.textContent = i === colIdx ? (asc ? '↑' : '↓') : '↕';
+      });
+    }
+
+    /* ═══════════════════════════════════════════════ PAGINATION ══ */
+    let resultsState = { page: 1, perPage: 10, rows: [] };
+
+    function paginateTable(containerId, page, perPage) {
+      const tbody = document.getElementById(containerId);
+      if (!tbody) return;
+      const rows = resultsState.rows;
+      resultsState.page = page;
+      resultsState.perPage = perPage;
+
+      const totalPages = Math.ceil(rows.length / perPage) || 1;
+      if (page > totalPages) resultsState.page = totalPages;
+
+      const start = (resultsState.page - 1) * resultsState.perPage;
+      const pageRows = rows.slice(start, start + resultsState.perPage);
+
+      tbody.innerHTML = '';
+      if (!pageRows.length) {
+        tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon"><i class="ti ti-inbox"></i></div><h4>Sin resultados</h4><p>No se encontraron evaluaciones con los filtros actuales.</p></div></td></tr>';
+        document.getElementById('results-footer').style.display = 'none';
+        return;
+      }
+
+      pageRows.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = row.html;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('results-footer').style.display = 'flex';
+      document.getElementById('results-count').textContent = 'Mostrando ' + (start + 1) + '-' + Math.min(start + resultsState.perPage, rows.length) + ' de ' + rows.length;
+      renderPagination('results-pagination', resultsState.page, totalPages);
+    }
+
+    function renderPagination(containerId, currentPage, totalPages) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      let html = '';
+
+      html += '<button class="page-btn" onclick="paginateTable(\'results-body\',' + (currentPage - 1) + ',' + resultsState.perPage + ')"' + (currentPage <= 1 ? ' disabled' : '') + '><i class="ti ti-chevron-left"></i></button>';
+
+      let pages = [];
+      if (totalPages <= 7) {
+        for (let i = 1; i <= totalPages; i++) pages.push(i);
+      } else {
+        pages.push(1);
+        if (currentPage > 3) pages.push('...');
+        for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) pages.push(i);
+        if (currentPage < totalPages - 2) pages.push('...');
+        pages.push(totalPages);
+      }
+
+      pages.forEach(p => {
+        if (p === '...') {
+          html += '<span style="padding:.3rem .4rem;color:var(--text-muted);">…</span>';
+        } else {
+          html += '<button class="page-btn' + (p === currentPage ? ' active' : '') + '" onclick="paginateTable(\'results-body\',' + p + ',' + resultsState.perPage + ')">' + p + '</button>';
+        }
+      });
+
+      html += '<button class="page-btn" onclick="paginateTable(\'results-body\',' + (currentPage + 1) + ',' + resultsState.perPage + ')"' + (currentPage >= totalPages ? ' disabled' : '') + '><i class="ti ti-chevron-right"></i></button>';
+
+      const perPageOptions = [10, 25, 50];
+      html += '<select class="filter-select" style="margin-left:.5rem;padding:.25rem 1.5rem .25rem .5rem;font-size:.78rem;" onchange="paginateTable(\'results-body\',1,parseInt(this.value))">';
+      perPageOptions.forEach(n => {
+        html += '<option value="' + n + '"' + (n === resultsState.perPage ? ' selected' : '') + '>' + n + ' / pág</option>';
+      });
+      html += '</select>';
+
+      container.innerHTML = html;
+    }
+
+    /* ═══════════════════════════════════════════════ DASHBOARD DATA ══ */
     async function loadStats() {
       try {
         const r = await fetch(API + '/api/stats', { headers: { 'Authorization': 'Bearer ' + getToken() } });
@@ -567,17 +1289,16 @@
         }
         const allCats = [...new Set(rows.flatMap(r => Object.keys(r.categories || {})))];
         thead.innerHTML = '<tr><th>Candidato</th><th>Nivel</th>' + allCats.map(k => '<th>' + (k.length > 10 ? k.substring(0,8)+'…' : k) + '</th>').join('') + '<th>Prom.</th></tr>';
-        let colspan = 2 + allCats.length + 1;
         rows.forEach(row => {
           if (levelFilter && row.level !== levelFilter) return;
           if (search && !row.name.toLowerCase().includes(search) && !row.employee_id.toLowerCase().includes(search)) return;
           const cats = row.categories || {};
           const cells = allCats.map(k => {
             const p = cats[k] || 0;
-            return `<td><div class="heatmap-cell ${cellClass(p)}">${p}%</div></td>`;
+            return '<td><div class="heatmap-cell ' + cellClass(p) + '">' + p + '%</div></td>';
           }).join('');
           const tr = document.createElement('tr');
-          tr.innerHTML = `<td>${row.name} <small class="text-muted">${row.employee_id}</small></td><td>${levelBadge(row.level)}</td>${cells}<td><strong>${row.avg}%</strong></td>`;
+          tr.innerHTML = '<td>' + row.name + ' <small style="color:var(--text-muted);">' + row.employee_id + '</small></td><td>' + levelBadge(row.level) + '</td>' + cells + '<td><strong>' + row.avg + '%</strong></td>';
           tbody.appendChild(tr);
         });
       } catch (e) {
@@ -592,39 +1313,35 @@
         const params = new URLSearchParams();
         const level = document.getElementById('filter-level').value;
         const passed = document.getElementById('filter-passed').value;
-        const search = document.getElementById('filter-search').value.toLowerCase();
         if (level) params.set('level', level);
         if (passed) params.set('passed', passed);
         const r = await fetch(API + '/api/results?' + params.toString(), { headers: { 'Authorization': 'Bearer ' + getToken() } });
         const rows = await r.json();
-        tbody.innerHTML = '';
-        if (!rows.length) {
-          tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Sin evaluaciones aún.</td></tr>';
-          return;
-        }
+
+        const search = document.getElementById('filter-search').value.toLowerCase();
+        resultsState.rows = [];
         rows.forEach(row => {
           const c = row.candidate || {};
           const a = row.assessment || {};
           const res = row.results || {};
           if (search && !c.full_name?.toLowerCase().includes(search) && !c.employee_id?.toLowerCase().includes(search)) return;
-          const tr = document.createElement('tr');
           const isAdmin = currentUser && currentUser.role === 'admin';
-          const deleteBtn = isAdmin ? `<button class="btn btn-outline-danger btn-sm" onclick="deleteResult('${row.id}')" title="Eliminar"><i class="ti ti-trash"></i></button>` : '';
-          tr.innerHTML = `
-            <td>${c.full_name || '—'}</td>
-            <td>${c.company_name || '—'}</td>
-            <td>${levelBadge(a.level)}</td>
-            <td class="text-muted">${res.pct_score || 0}%</td>
-            <td>${statusBadge(res.passed)}</td>
-            <td>${c.department || '—'}</td>
-            <td>${fmtDate(row.submitted_at)}</td>
-            <td><a href="#" onclick="openDetail('${row.id}')">Ver</a> ${deleteBtn}</td>
-          `;
-          tbody.appendChild(tr);
+          const deleteBtn = isAdmin ? '<button class="btn-filter" style="padding:.25rem .5rem;border-color:var(--ctp-red);color:var(--ctp-red);" onclick="deleteResult(\'' + row.id + '\')" title="Eliminar"><i class="ti ti-trash" style="font-size:.8rem;"></i></button>' : '';
+          resultsState.rows.push({
+            html: '<td>' + (c.full_name || '—') + '</td>' +
+              '<td>' + (c.company_name || '—') + '</td>' +
+              '<td>' + levelBadge(a.level) + '</td>' +
+              '<td>' + scoreBadgeHtml(res.pct_score) + '</td>' +
+              '<td>' + statusBadge(res.passed) + '</td>' +
+              '<td>' + (c.department || '—') + '</td>' +
+              '<td style="font-size:.8rem;">' + fmtDate(row.submitted_at) + '</td>' +
+              '<td style="display:flex;gap:.35rem;"><button class="btn-filter" style="padding:.25rem .5rem;" onclick="openDetail(\'' + row.id + '\')"><i class="ti ti-eye" style="font-size:.8rem;"></i></button> ' + deleteBtn + '</td>'
+          });
         });
+        paginateTable('results-body', 1, resultsState.perPage);
       } catch (e) {
         console.error('results', e);
-        tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Error cargando resultados.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon"><i class="ti ti-alert-circle"></i></div><h4>Error cargando resultados</h4></div></td></tr>';
       }
     }
 
@@ -635,8 +1352,23 @@
       loadCharts();
     }
 
-    // ══════════════════════════════════════════ CHARTS ══
+    /* ═══════════════════════════════════════════════ CHARTS ══ */
     let charts = {};
+    function getChartColors() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      return {
+        text: isDark ? '#a6adc8' : '#5c5f77',
+        grid: isDark ? '#313244' : '#e6e9ef',
+        green: isDark ? '#a6e3a1' : '#00B894',
+        red: isDark ? '#f38ba8' : '#C0392B',
+        blue: isDark ? '#89b4fa' : '#1e66f5',
+        teal: isDark ? '#94e2d5' : '#179299',
+        yellow: isDark ? '#f9e2af' : '#E67E22',
+        purple: isDark ? '#cba6f7' : '#8839ef',
+        peach: isDark ? '#fab387' : '#fe640b'
+      };
+    }
+
     async function loadCharts() {
       try {
         const r = await fetch(API + '/api/results', { headers: { 'Authorization': 'Bearer ' + getToken() } });
@@ -658,17 +1390,15 @@
           return true;
         });
 
-        // Level distribution
+        const c = getChartColors();
         const levels = { basic: 0, medium: 0, advanced: 0 };
         filtered.forEach(r => { const lv = (r.assessment?.level); if (levels[lv] !== undefined) levels[lv]++; });
-        renderDoughnut('chart-levels', ['Básico', 'Medio', 'Avanzado'], [levels.basic, levels.medium, levels.advanced], ['#00B894', '#E67E22', '#1B4F72']);
+        renderDoughnut('chart-levels', ['Básico', 'Medio', 'Avanzado'], [levels.basic, levels.medium, levels.advanced], [c.green, c.yellow, c.blue]);
 
-        // Pass/Fail
         const passed = filtered.filter(r => r.results?.passed).length;
         const failed = filtered.length - passed;
-        renderDoughnut('chart-pass', ['Aprobado', 'No aprobó'], [passed, failed], ['#00B894', '#C0392B']);
+        renderDoughnut('chart-pass', ['Aprobado', 'No aprobó'], [passed, failed], [c.green, c.red]);
 
-        // Trend (last 30 evals by date)
         const byDate = {};
         filtered.slice().sort((a, b) => new Date(a.submitted_at) - new Date(b.submitted_at)).forEach(r => {
           const d = fmtDate(r.submitted_at);
@@ -678,9 +1408,8 @@
         });
         const dates = Object.keys(byDate).slice(-15);
         const avgs = dates.map(d => Math.round(byDate[d].sum / byDate[d].count));
-        renderLine('chart-trend', dates, avgs);
+        renderLine('chart-trend', dates, avgs, c.blue);
 
-        // Department: pass/fail and avg score
         const deptData = {};
         filtered.forEach(r => {
           const dept = (r.candidate?.department || 'Sin departamento');
@@ -693,11 +1422,11 @@
         const deptNames = Object.keys(deptData).sort();
         if (deptNames.length) {
           renderBar('chart-dept-pass', deptNames, [
-            { label: 'Aprobados', data: deptNames.map(d => deptData[d].pass), backgroundColor: '#a6e3a1' },
-            { label: 'No aprobó', data: deptNames.map(d => deptData[d].fail), backgroundColor: '#f38ba8' }
+            { label: 'Aprobados', data: deptNames.map(d => deptData[d].pass), backgroundColor: c.green },
+            { label: 'No aprobó', data: deptNames.map(d => deptData[d].fail), backgroundColor: c.red }
           ]);
           renderBar('chart-dept-avg', deptNames, [
-            { label: 'Puntaje promedio (%)', data: deptNames.map(d => Math.round(deptData[d].sum / deptData[d].count)), backgroundColor: '#89b4fa' }
+            { label: 'Puntaje promedio (%)', data: deptNames.map(d => Math.round(deptData[d].sum / deptData[d].count)), backgroundColor: c.blue }
           ]);
         }
       } catch (e) { console.error('charts', e); }
@@ -707,21 +1436,30 @@
       const ctx = document.getElementById(canvasId);
       if (!ctx) return;
       if (charts[canvasId]) { charts[canvasId].destroy(); }
+      const c = getChartColors();
       charts[canvasId] = new Chart(ctx, {
         type: 'doughnut',
-        data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }] },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } } }
+        data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 2, borderColor: 'var(--card-bg)' }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: c.text, boxWidth: 12, font: { size: 11 } } } } }
       });
     }
 
-    function renderLine(canvasId, labels, data) {
+    function renderLine(canvasId, labels, data, color) {
       const ctx = document.getElementById(canvasId);
       if (!ctx) return;
       if (charts[canvasId]) { charts[canvasId].destroy(); }
+      const c = getChartColors();
       charts[canvasId] = new Chart(ctx, {
         type: 'line',
-        data: { labels, datasets: [{ label: 'Puntaje promedio (%)', data, borderColor: '#1B4F72', backgroundColor: 'rgba(27,79,114,0.1)', fill: true, tension: 0.3, pointRadius: 4 }] },
-        options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 100 } }, plugins: { legend: { display: false } } }
+        data: { labels, datasets: [{ label: 'Puntaje promedio (%)', data, borderColor: color, backgroundColor: color + '18', fill: true, tension: 0.3, pointRadius: 4, pointBackgroundColor: color }] },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          scales: {
+            y: { min: 0, max: 100, ticks: { color: c.text }, grid: { color: c.grid } },
+            x: { ticks: { color: c.text, font: { size: 10 } }, grid: { display: false } }
+          },
+          plugins: { legend: { labels: { color: c.text } } }
+        }
       });
     }
 
@@ -729,13 +1467,17 @@
       const ctx = document.getElementById(canvasId);
       if (!ctx) return;
       if (charts[canvasId]) { charts[canvasId].destroy(); }
+      const c = getChartColors();
       charts[canvasId] = new Chart(ctx, {
         type: 'bar',
         data: { labels, datasets },
         options: {
           responsive: true, maintainAspectRatio: false,
-          scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } }, x: { ticks: { font: { size: 10 }, maxRotation: 45 } } },
-          plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } } }
+          scales: {
+            y: { beginAtZero: true, ticks: { stepSize: 1, color: c.text }, grid: { color: c.grid } },
+            x: { ticks: { color: c.text, font: { size: 10 }, maxRotation: 45 }, grid: { display: false } }
+          },
+          plugins: { legend: { position: 'top', labels: { color: c.text, boxWidth: 12, font: { size: 11 } } } }
         }
       });
     }
@@ -749,12 +1491,13 @@
         });
         const data = await r.json();
         if (data.success) {
+          showToast('Evaluación eliminada.', 'success');
           loadData();
         } else {
-          alert(data.error || 'Error eliminando evaluación');
+          showToast(data.error || 'Error eliminando evaluación', 'error');
         }
       } catch (e) {
-        alert('Error de conexión');
+        showToast('Error de conexión', 'error');
       }
     }
 
@@ -762,36 +1505,38 @@
       try {
         const r = await fetch(API + '/api/result/' + id, { headers: { 'Authorization': 'Bearer ' + getToken() } });
         const data = await r.json();
-        if (data.error) { alert(data.error); return; }
+        if (data.error) { showToast(data.error, 'error'); return; }
         const c = data.candidate || {};
         const a = data.assessment || {};
         const res = data.results || {};
         const catBd = data.category_breakdown || {};
         const wrongs = data.wrong_question_ids || [];
 
+        const cTheme = getChartColors();
+
         let catHtml = '<div style="display:grid;gap:.5rem;">';
         Object.entries(catBd).forEach(([cat, st]) => {
           const pct = st.pct || 0;
-          const barColor = pct >= 85 ? '#00B894' : pct >= 70 ? '#27AE60' : pct >= 55 ? '#E67E22' : '#C0392B';
+          const barColor = pct >= 85 ? cTheme.green : pct >= 70 ? '#27AE60' : pct >= 55 ? cTheme.yellow : cTheme.red;
           catHtml += '<div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;">'+
             '<span style="width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+cat+'</span>'+
-            '<div style="flex:1;height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;">'+
-              '<div style="width:'+pct+'%;height:100%;background:'+barColor+';"></div>'+
+            '<div style="flex:1;height:8px;background:var(--bg-surface0);border-radius:4px;overflow:hidden;">'+
+              '<div style="width:'+pct+'%;height:100%;background:'+barColor+';border-radius:4px;transition:width .3s;"></div>'+
             '</div>'+
-            '<span style="width:40px;text-align:right;font-weight:600;">'+pct+'%</span>'+
-            '<span style="width:50px;text-align:right;color:#64748b;font-size:.75rem;">'+st.correct+'/'+st.total+'</span>'+
+            '<span style="width:40px;text-align:right;font-weight:600;color:var(--text-main);">'+pct+'%</span>'+
+            '<span style="width:50px;text-align:right;color:var(--text-muted);font-size:.75rem;">'+st.correct+'/'+st.total+'</span>'+
           '</div>';
         });
         catHtml += '</div>';
 
         let wrongHtml = '';
         if (wrongs.length) {
-          wrongHtml = '<h5 style="margin-top:1rem;font-size:.9rem;">❌ Preguntas incorrectas ('+wrongs.length+')</h5>'+
-            '<div style="max-height:300px;overflow:auto;background:#f8fafc;border-radius:8px;padding:.75rem;font-size:.8rem;">'+
-              wrongs.map(w => '<div style="padding:.35rem 0;border-bottom:1px solid #e2e8f0;"><code>'+w+'</code></div>').join('')+
+          wrongHtml = '<h5 style="margin-top:1rem;font-size:.9rem;color:var(--text-main);">Preguntas incorrectas ('+wrongs.length+')</h5>'+
+            '<div style="max-height:300px;overflow:auto;background:var(--bg-mantle);border-radius:8px;padding:.75rem;font-size:.8rem;">'+
+              wrongs.map(w => '<div style="padding:.35rem 0;border-bottom:1px solid var(--card-border);color:var(--text-sub);"><code style="background:var(--bg-surface0);padding:.15rem .4rem;border-radius:4px;">'+w+'</code></div>').join('')+
             '</div>';
         } else {
-          wrongHtml = '<div style="margin-top:1rem;color:#16a34a;font-size:.9rem;">✅ Sin preguntas incorrectas</div>';
+          wrongHtml = '<div style="margin-top:1rem;color:var(--ctp-green);font-size:.9rem;"><i class="ti ti-check-circle"></i> Sin preguntas incorrectas</div>';
         }
 
         const modalBody = document.getElementById('modal-body');
@@ -799,76 +1544,100 @@
           '<div style="margin-bottom:1rem;">'+
             '<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;">'+
               '<div>'+
-                '<h4 style="margin:0;">'+(c.full_name || '—')+' <small class="text-muted">'+(c.employee_id || '—')+'</small></h4>'+
-                '<div style="font-size:.8rem;color:#64748b;">'+(a.level_name || '—')+' · '+(c.department || '—')+' · '+(c.company_name || '—')+' · '+fmtDate(data.submitted_at)+'</div>'+
+                '<h4 style="margin:0;color:var(--text-main);">'+(c.full_name || '—')+' <small style="color:var(--text-muted);">'+(c.employee_id || '—')+'</small></h4>'+
+                '<div style="font-size:.8rem;color:var(--text-muted);">'+(a.level_name || '—')+' · '+(c.department || '—')+' · '+(c.company_name || '—')+' · '+fmtDate(data.submitted_at)+'</div>'+
               '</div>'+
               '<div style="display:flex;gap:.5rem;">'+
-                '<a href="/api/report/'+id+'/view?token='+encodeURIComponent(getToken())+'" target="_blank" class="btn btn-outline-primary btn-sm"><i class="ti ti-file-text"></i> Ver Reporte HTML</a>'+
-                '<a href="/api/report/'+id+'/pdf?token='+encodeURIComponent(getToken())+'" target="_blank" class="btn btn-primary btn-sm"><i class="ti ti-file-download"></i> Descargar PDF</a>'+
+                '<a href="/api/report/'+id+'/view?token='+encodeURIComponent(getToken())+'" target="_blank" class="btn-filter"><i class="ti ti-file-text"></i> Ver Reporte HTML</a>'+
+                '<a href="/api/report/'+id+'/pdf?token='+encodeURIComponent(getToken())+'" target="_blank" class="btn-primary-custom"><i class="ti ti-file-download"></i> Descargar PDF</a>'+
               '</div>'+
             '</div>'+
           '</div>'+
           '<div style="display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;">'+
-            '<div style="background:#f8fafc;border-radius:8px;padding:.75rem 1rem;text-align:center;min-width:80px;">'+
-              '<div style="font-size:1.4rem;font-weight:700;color:'+(res.passed?'#00B894':'#C0392B')+';">'+(res.pct_score || 0)+'%</div>'+
-              '<div style="font-size:.7rem;color:#64748b;">'+(res.passed?'APROBADO':'NO APROBÓ')+'</div>'+
+            '<div style="background:var(--bg-mantle);border-radius:10px;padding:.75rem 1rem;text-align:center;min-width:80px;border:1px solid var(--card-border);">'+
+              '<div style="font-size:1.4rem;font-weight:700;color:'+(res.passed?cTheme.green:cTheme.red)+';">'+(res.pct_score || 0)+'%</div>'+
+              '<div style="font-size:.7rem;color:var(--text-muted);">'+(res.passed?'APROBADO':'NO APROBÓ')+'</div>'+
             '</div>'+
-            '<div style="background:#f8fafc;border-radius:8px;padding:.75rem 1rem;text-align:center;min-width:80px;">'+
-              '<div style="font-size:1.4rem;font-weight:700;">'+(res.correct_answers || 0)+'/'+(a.total_questions || '—')+'</div>'+
-              '<div style="font-size:.7rem;color:#64748b;">Correctas</div>'+
+            '<div style="background:var(--bg-mantle);border-radius:10px;padding:.75rem 1rem;text-align:center;min-width:80px;border:1px solid var(--card-border);">'+
+              '<div style="font-size:1.4rem;font-weight:700;color:var(--text-main);">'+(res.correct_answers || 0)+'/'+(a.total_questions || '—')+'</div>'+
+              '<div style="font-size:.7rem;color:var(--text-muted);">Correctas</div>'+
             '</div>'+
-            '<div style="background:#f8fafc;border-radius:8px;padding:.75rem 1rem;text-align:center;min-width:80px;">'+
-              '<div style="font-size:1.4rem;font-weight:700;">'+(res.earned_pts || 0).toFixed(1)+'</div>'+
-              '<div style="font-size:.7rem;color:#64748b;">Pts obtenidos</div>'+
+            '<div style="background:var(--bg-mantle);border-radius:10px;padding:.75rem 1rem;text-align:center;min-width:80px;border:1px solid var(--card-border);">'+
+              '<div style="font-size:1.4rem;font-weight:700;color:var(--text-main);">'+(res.earned_pts || 0).toFixed(1)+'</div>'+
+              '<div style="font-size:.7rem;color:var(--text-muted);">Pts obtenidos</div>'+
             '</div>'+
-            '<div style="background:#f8fafc;border-radius:8px;padding:.75rem 1rem;text-align:center;min-width:80px;">'+
-              '<div style="font-size:1.4rem;font-weight:700;">'+Math.floor((res.time_seconds || 0)/60)+'m '+((res.time_seconds || 0)%60)+'s</div>'+
-              '<div style="font-size:.7rem;color:#64748b;">Tiempo</div>'+
+            '<div style="background:var(--bg-mantle);border-radius:10px;padding:.75rem 1rem;text-align:center;min-width:80px;border:1px solid var(--card-border);">'+
+              '<div style="font-size:1.4rem;font-weight:700;color:var(--text-main);">'+Math.floor((res.time_seconds || 0)/60)+'m '+((res.time_seconds || 0)%60)+'s</div>'+
+              '<div style="font-size:.7rem;color:var(--text-muted);">Tiempo</div>'+
             '</div>'+
           '</div>'+
-          '<h5 style="font-size:.9rem;">📊 Desempeño por categoría</h5>'+
+          '<h5 style="font-size:.9rem;color:var(--text-main);margin-bottom:.5rem;">Desempeño por categoría</h5>'+
           catHtml + wrongHtml;
-        const modal = new bootstrap.Modal(document.getElementById('detailModal'));
-        modal.show();
+        openModal();
       } catch (e) {
         console.error(e);
-        alert('Error cargando detalle');
+        showToast('Error cargando detalle', 'error');
       }
     }
 
-    // ══════════════════════════════════════════ POR PERSONA ══
+    /* ═══════════════════════════════════════════════ POR PERSONA ══ */
+    const avatarColors = ['#8839ef','#1e66f5','#40a02b','#df8e1d','#d20f39','#179299','#ea76cb','#fe640b'];
+    function getAvatarColor(name) {
+      let hash = 0;
+      for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+      return avatarColors[Math.abs(hash) % avatarColors.length];
+    }
+
     async function loadPersonas() {
-      const tbody = document.getElementById('personas-body');
+      const grid = document.getElementById('personas-grid');
       try {
         const r = await fetch(API + '/api/candidates', { headers: { 'Authorization': 'Bearer ' + getToken() } });
         const rows = await r.json();
         const search = document.getElementById('persona-search').value.toLowerCase();
         const levelFilter = document.getElementById('persona-level').value;
-        tbody.innerHTML = '';
+        grid.innerHTML = '';
         if (!rows.length) {
-          tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Sin candidatos registrados.</td></tr>';
+          grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><div class="empty-state-icon"><i class="ti ti-user-off"></i></div><h4>Sin candidatos registrados</h4><p>Aún no hay candidatos en el sistema.</p></div>';
           return;
         }
+        let visibleCount = 0;
         rows.forEach(row => {
           const name = row.full_name || '—';
           const empId = row.employee_id || '—';
           if (search && !name.toLowerCase().includes(search) && !empId.toLowerCase().includes(search)) return;
           if (levelFilter && row.assigned_level !== levelFilter) return;
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${name}</td>
-            <td>${empId}</td>
-            <td>${row.company_name || '—'}</td>
-            <td>${row.department || '—'}</td>
-            <td>${row.job_role || '—'}</td>
-            <td>${levelBadge(row.assigned_level)}</td>
-            <td><a href="#" onclick="openPersona('${row.candidate_id}', '${name.replace(/'/g, "\\'")}')">Ver evaluaciones</a></td>
-          `;
-          tbody.appendChild(tr);
+          visibleCount++;
+          const initials = name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
+          const avatarBg = getAvatarColor(name);
+          const card = document.createElement('div');
+          card.className = 'persona-card';
+          card.onclick = function() { openPersona(row.candidate_id, name.replace(/'/g, "\\'")); };
+          card.innerHTML =
+            '<div class="persona-card-top">' +
+              '<div>' +
+                '<div class="persona-card-name">' + name + '</div>' +
+                '<div class="persona-card-id">' + empId + '</div>' +
+              '</div>' +
+              '<div class="persona-avatar" style="background:' + avatarBg + ';">' + initials + '</div>' +
+            '</div>' +
+            '<div class="persona-card-meta">' +
+              '<span><i class="ti ti-building"></i> ' + (row.department || '—') + '</span>' +
+              '<span><i class="ti ti-briefcase"></i> ' + (row.job_role || '—') + '</span>' +
+            '</div>' +
+            '<div style="margin-top:.6rem;display:flex;align-items:center;justify-content:space-between;">' +
+              levelBadge(row.assigned_level) +
+              '<button class="btn-filter" style="padding:.3rem .6rem;font-size:.78rem;">' +
+                '<i class="ti ti-eye"></i> Ver evaluaciones' +
+              '</button>' +
+            '</div>';
+          grid.appendChild(card);
         });
+        if (!visibleCount) {
+          grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><div class="empty-state-icon"><i class="ti ti-search"></i></div><h4>Sin resultados</h4><p>No se encontraron candidatos con los filtros actuales.</p></div>';
+        }
       } catch (e) {
         console.error('personas', e);
-        tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Error cargando candidatos.</td></tr>';
+        grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><div class="empty-state-icon"><i class="ti ti-alert-circle"></i></div><h4>Error cargando candidatos</h4></div>';
       }
     }
 
@@ -876,32 +1645,32 @@
       document.getElementById('persona-detail').style.display = 'block';
       document.getElementById('persona-name').textContent = name;
       const tbody = document.getElementById('persona-results-body');
+      tbody.innerHTML = '<tr><td colspan="6"><div class="skeleton-row"><div class="skeleton skeleton-cell wide"></div><div class="skeleton skeleton-cell medium"></div><div class="skeleton skeleton-cell narrow"></div></div></td></tr>';
       try {
         const r = await fetch(API + '/api/candidate/' + candidateId + '/results', { headers: { 'Authorization': 'Bearer ' + getToken() } });
         const rows = await r.json();
         tbody.innerHTML = '';
         if (!rows.length) {
-          tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Sin evaluaciones para este candidato.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-state-icon"><i class="ti ti-inbox"></i></div><h4>Sin evaluaciones para este candidato</h4></div></td></tr>';
           return;
         }
         rows.forEach(row => {
           const a = row.assessment || {};
           const res = row.results || {};
           const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${fmtDate(row.submitted_at)}</td>
-            <td>${levelBadge(a.level)}</td>
-            <td>${res.pct_score || 0}%</td>
-            <td>${statusBadge(res.passed)}</td>
-            <td>${Math.floor((res.time_seconds || 0)/60)}m ${(res.time_seconds || 0)%60}s</td>
-            <td><a href="#" onclick="openDetail('${row.id}')">Ver</a></td>
-          `;
+          tr.innerHTML =
+            '<td style="font-size:.8rem;">' + fmtDate(row.submitted_at) + '</td>' +
+            '<td>' + levelBadge(a.level) + '</td>' +
+            '<td>' + scoreBadgeHtml(res.pct_score) + '</td>' +
+            '<td>' + statusBadge(res.passed) + '</td>' +
+            '<td style="font-size:.8rem;">' + Math.floor((res.time_seconds || 0)/60) + 'm ' + ((res.time_seconds || 0)%60) + 's</td>' +
+            '<td><button class="btn-filter" style="padding:.25rem .5rem;" onclick="openDetail(\'' + row.id + '\')"><i class="ti ti-eye" style="font-size:.8rem;"></i></button></td>';
           tbody.appendChild(tr);
         });
         document.getElementById('persona-detail').scrollIntoView({ behavior: 'smooth' });
       } catch (e) {
         console.error('persona detail', e);
-        tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Error cargando evaluaciones.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-state-icon"><i class="ti ti-alert-circle"></i></div><h4>Error cargando evaluaciones</h4></div></td></tr>';
       }
     }
 
@@ -909,7 +1678,7 @@
       document.getElementById('persona-detail').style.display = 'none';
     }
 
-    // ══════════════════════════════════════════ AJUSTES ══
+    /* ═══════════════════════════════════════════════ AJUSTES ══ */
     async function loadUsers() {
       const tbody = document.getElementById('users-body');
       try {
@@ -917,18 +1686,20 @@
         const rows = await r.json();
         tbody.innerHTML = '';
         if (!rows.length) {
-          tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No hay usuarios adicionales.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon"><i class="ti ti-user"></i></div><h4>No hay usuarios adicionales</h4></div></td></tr>';
           return;
         }
         rows.forEach(u => {
+          const initials = (u.name || '—').split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
+          const roleClass = u.role === 'admin' ? 'badge-admin' : 'badge-viewer';
+          const roleLabel = u.role === 'admin' ? 'Admin' : 'Viewer';
           const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${u.name || '—'}</td>
-            <td>${u.email || '—'}</td>
-            <td>${u.role === 'admin' ? 'Administrador' : 'Visualizador'}</td>
-            <td>${fmtDate(u.created_at)}</td>
-            <td><button class="btn btn-outline-danger btn-sm" onclick="deleteUser('${u.id}')"><i class="ti ti-trash"></i></button></td>
-          `;
+          tr.innerHTML =
+            '<td><div style="display:flex;align-items:center;gap:.5rem;"><div class="persona-avatar" style="width:28px;height:28px;font-size:.65rem;background:' + getAvatarColor(u.name || '') + ';">' + initials + '</div> ' + (u.name || '—') + '</div></td>' +
+            '<td style="font-size:.85rem;">' + (u.email || '—') + '</td>' +
+            '<td><span class="badge-custom ' + roleClass + '">' + roleLabel + '</span></td>' +
+            '<td style="font-size:.8rem;">' + fmtDate(u.created_at) + '</td>' +
+            '<td><button class="btn-filter" style="padding:.25rem .5rem;border-color:var(--ctp-red);color:var(--ctp-red);" onclick="deleteUser(\'' + u.id + '\')"><i class="ti ti-trash" style="font-size:.8rem;"></i></button></td>';
           tbody.appendChild(tr);
         });
       } catch (e) {
@@ -944,19 +1715,18 @@
         const rows = await r.json();
         tbody.innerHTML = '';
         if (!rows.length) {
-          tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Sin registros de auditoría.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-state-icon"><i class="ti ti-history"></i></div><h4>Sin registros de auditoría</h4></div></td></tr>';
           return;
         }
         rows.forEach(log => {
           const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${fmtDate(log.timestamp)}</td>
-            <td>${log.user_email || '—'}</td>
-            <td><span class="badge bg-red-lt">${log.action || '—'}</span></td>
-            <td>${log.target_type || '—'}</td>
-            <td><code>${log.target_id || '—'}</code></td>
-            <td style="font-size:.8rem;color:#64748b;">${log.detail || '—'}</td>
-          `;
+          tr.innerHTML =
+            '<td style="font-size:.8rem;">' + fmtDate(log.timestamp) + '</td>' +
+            '<td style="font-size:.85rem;">' + (log.user_email || '—') + '</td>' +
+            '<td><span class="badge-custom badge-red">' + (log.action || '—') + '</span></td>' +
+            '<td style="font-size:.85rem;">' + (log.target_type || '—') + '</td>' +
+            '<td><code style="font-size:.78rem;background:var(--bg-surface0);padding:.15rem .4rem;border-radius:4px;">' + (log.target_id || '—') + '</code></td>' +
+            '<td style="font-size:.78rem;color:var(--text-muted);">' + (log.detail || '—') + '</td>';
           tbody.appendChild(tr);
         });
       } catch (e) {
@@ -983,16 +1753,17 @@
         });
         const data = await r.json();
         if (data.success) {
-          msg.style.color = '#00B894';
+          msg.style.color = 'var(--ctp-green)';
           msg.textContent = 'Usuario creado exitosamente.';
           document.getElementById('user-form').reset();
           loadUsers();
+          showToast('Usuario creado.', 'success');
         } else {
-          msg.style.color = '#C0392B';
+          msg.style.color = 'var(--ctp-red)';
           msg.textContent = data.error || 'Error creando usuario.';
         }
       } catch (err) {
-        msg.style.color = '#C0392B';
+        msg.style.color = 'var(--ctp-red)';
         msg.textContent = 'Error de conexión.';
       }
     }
@@ -1006,16 +1777,17 @@
         });
         const data = await r.json();
         if (data.success) {
+          showToast('Usuario eliminado.', 'success');
           loadUsers();
         } else {
-          alert(data.error || 'Error eliminando usuario');
+          showToast(data.error || 'Error eliminando usuario', 'error');
         }
       } catch (e) {
-        alert('Error de conexión');
+        showToast('Error de conexión', 'error');
       }
     }
 
-    // ════════════════════════════════════ API KEYS ══
+    /* ═══════════════════════════════════════════════ API KEYS ══ */
     async function loadApiKeys() {
       const tbody = document.getElementById('apikeys-body');
       if (!tbody) return;
@@ -1025,7 +1797,7 @@
         });
         const data = await r.json();
         if (!Array.isArray(data) || data.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No hay API keys creadas.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-state-icon"><i class="ti ti-key"></i></div><h4>No hay API keys creadas</h4></div></td></tr>';
           return;
         }
         tbody.innerHTML = '';
@@ -1033,13 +1805,14 @@
           const tr = document.createElement('tr');
           const created = new Date(k.created_at).toLocaleDateString('es-MX');
           const lastUsed = k.last_used_at ? new Date(k.last_used_at).toLocaleString('es-MX') : '—';
-          tr.innerHTML = `
-            <td><strong>${k.name || '—'}</strong></td>
-            <td><code style="font-size:.8rem;">${k.key_prefix || '—'}</code></td>
-            <td><span class="badge ${k.role === 'admin' ? 'bg-danger' : 'bg-info'}">${k.role}</span></td>
-            <td style="font-size:.8rem;">${created}</td>
-            <td style="font-size:.8rem;">${lastUsed}</td>
-            <td><button class="btn btn-sm btn-ghost-danger" onclick="deleteApiKey('${k.id}')"><svg class="icon icon-sm"><use xlink:href="#icon-trash"></use></svg></button></td>`;
+          const roleClass = k.role === 'admin' ? 'badge-admin' : 'badge-viewer';
+          tr.innerHTML =
+            '<td style="font-weight:600;font-size:.85rem;">' + (k.name || '—') + '</td>' +
+            '<td><code style="font-size:.78rem;background:var(--bg-surface0);padding:.15rem .4rem;border-radius:4px;">' + (k.key_prefix || '—') + '</code> <button class="copy-btn" onclick="copyToClipboard(\'' + (k.key_prefix || '') + '\')"><i class="ti ti-copy"></i></button></td>' +
+            '<td><span class="badge-custom ' + roleClass + '">' + k.role + '</span></td>' +
+            '<td style="font-size:.8rem;">' + created + '</td>' +
+            '<td style="font-size:.8rem;color:var(--text-muted);">' + lastUsed + '</td>' +
+            '<td><button class="btn-filter" style="padding:.25rem .5rem;border-color:var(--ctp-red);color:var(--ctp-red);" onclick="deleteApiKey(\'' + k.id + '\')"><i class="ti ti-trash" style="font-size:.8rem;"></i></button></td>';
           tbody.appendChild(tr);
         });
       } catch (e) {
@@ -1054,7 +1827,7 @@
       const newKeyEl = document.getElementById('apikey-new-key');
       const rawEl = document.getElementById('apikey-raw');
       msg.textContent = '';
-      newKeyEl.classList.add('d-none');
+      newKeyEl.style.display = 'none';
       const body = {
         name: document.getElementById('ak-name').value.trim(),
         role: document.getElementById('ak-role').value,
@@ -1067,18 +1840,19 @@
         });
         const data = await r.json();
         if (data.success) {
-          msg.style.color = '#00B894';
+          msg.style.color = 'var(--ctp-green)';
           msg.textContent = 'API key creada exitosamente.';
           rawEl.textContent = data.api_key;
-          newKeyEl.classList.remove('d-none');
+          newKeyEl.style.display = 'block';
           document.getElementById('ak-name').value = '';
           loadApiKeys();
+          showToast('API key creada.', 'success');
         } else {
-          msg.style.color = '#e74c3c';
+          msg.style.color = 'var(--ctp-red)';
           msg.textContent = data.error || 'Error creando API key.';
         }
       } catch (err) {
-        msg.style.color = '#e74c3c';
+        msg.style.color = 'var(--ctp-red)';
         msg.textContent = 'Error de conexión.';
       }
     }
@@ -1092,35 +1866,36 @@
         });
         const data = await r.json();
         if (data.success) {
+          showToast('API key eliminada.', 'success');
           loadApiKeys();
         } else {
-          alert(data.error || 'Error eliminando API key');
+          showToast(data.error || 'Error eliminando API key', 'error');
         }
       } catch (e) {
-        alert('Error de conexión');
+        showToast('Error de conexión', 'error');
       }
     }
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/tabler.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
-  <!-- Modal -->
-  <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Detalle de Evaluación</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body" id="modal-body">
-          Cargando...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
+    function copyApiKey() {
+      const raw = document.getElementById('apikey-raw').textContent;
+      if (raw) copyToClipboard(raw);
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Copiado al portapapeles.', 'success');
+      }).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('Copiado al portapapeles.', 'success');
+      });
+    }
+
+    function openAuditLog() { switchTab('ajustes'); }
+  </script>
 </body>
 </html>

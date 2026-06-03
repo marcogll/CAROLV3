@@ -1241,6 +1241,49 @@ class CarolHandler(SimpleHTTPRequestHandler):
             soft_delete_result(result_id, user.get("email") if user else "unknown")
             self._send_json(200, {"success": True, "message": "Evaluación eliminada (soft delete)"})
             return
+        # ── Candidates: Delete ──
+        if path.startswith("/api/candidates/"):
+            if not self._is_admin():
+                self._send_json(403, {"error": "Forbidden"})
+                return
+            parts = path.split("/")
+            if len(parts) < 4:
+                self._send_json(400, {"error": "Invalid request"})
+                return
+            cid = parts[3]
+            if USE_MYSQL:
+                conn = get_conn()
+                with conn.cursor() as cur:
+                    cur.execute("DELETE FROM candidates WHERE id = %s", (cid,))
+                conn.close()
+            else:
+                cands = _load(CANDIDATES_FILE)
+                cands = [c for c in cands if c.get("id") != cid]
+                _save(CANDIDATES_FILE, cands)
+            _audit_log("delete", "candidate", cid, self._current_user().get("email", "unknown"), f"Deleted candidate {cid}")
+            self._send_json(200, {"success": True, "message": "Candidato eliminado"})
+            return
+        # ── Candidates: Cleanup ghosts ──
+        if path == "/api/candidates/cleanup-ghosts":
+            if not self._is_admin():
+                self._send_json(403, {"error": "Forbidden"})
+                return
+            count = 0
+            if USE_MYSQL:
+                conn = get_conn()
+                with conn.cursor() as cur:
+                    cur.execute("DELETE FROM candidates WHERE full_name = '' OR full_name IS NULL")
+                    count = cur.rowcount
+                conn.close()
+            else:
+                cands = _load(CANDIDATES_FILE)
+                ghosts = [c for c in cands if not c.get("full_name")]
+                count = len(ghosts)
+                cands = [c for c in cands if c.get("full_name")]
+                _save(CANDIDATES_FILE, cands)
+            _audit_log("cleanup", "candidates", "ghosts", self._current_user().get("email", "unknown"), f"Cleaned {count} ghost candidates")
+            self._send_json(200, {"success": True, "deleted": count})
+            return
         # ── API Keys: Delete ──
         if path.startswith("/api/api-keys/"):
             if not self._is_admin():
