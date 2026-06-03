@@ -142,8 +142,8 @@ function render(data){
   const passed=res.passed||(pct>=70);
 
   // Derive missing fields
-  const totalCorrect=res.correct_answers||res.score||totalQ;
   const totalQ=res.total||catTotal.reduce((a,b)=>a+b,0)||Object.keys(answers).length;
+  const totalCorrect=res.correct_answers||res.score||0;
   const earnedPts=res.earned_pts||(totalCorrect*(res.points_per_question||10));
   const maxPts=res.max_pts||(totalQ*(res.points_per_question||10));
   const timeSec=res.time_seconds||0;
@@ -201,8 +201,6 @@ function render(data){
 
   // Average KPI
   const avgScore=catPcts.length?Math.round(catPcts.reduce((a,b)=>a+b,0)/catPcts.length):0;
-  const totalCorrect=catCorrect.reduce((a,b)=>a+b,0);
-  const totalQ=catTotal.reduce((a,b)=>a+b,0);
 
   const html=`
   <!-- HEADER -->
