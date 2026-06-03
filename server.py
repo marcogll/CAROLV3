@@ -125,6 +125,9 @@ def _save(path, data):
 def _now_iso():
     return datetime.now().isoformat()
 
+def _clean_key(value):
+    return str(value or "").strip().lower()
+
 def _audit_log(action: str, target_type: str, target_id: str, user_email: str, detail: str = ""):
     entry = {
         "id": str(uuid.uuid4()),
@@ -1038,31 +1041,48 @@ class CarolHandler(SimpleHTTPRequestHandler):
         if path == "/webhook/carol-results":
             payload = self._read_body()
             print(f"[WEBHOOK /webhook/carol-results] received payload for candidate: {payload.get('candidate', {}).get('contact_email', 'unknown')}")
+            candidate_info = payload.get("candidate", {})
+            matched_candidate = None
 
             # Validation logic
             if not OPEN_MODE:
-                candidate_info = payload.get("candidate", {})
-                email = candidate_info.get("contact_email")
-                emp_id = candidate_info.get("employee_id")
-                full_name = candidate_info.get("full_name")
+                candidate_id = _clean_key(candidate_info.get("candidate_id") or candidate_info.get("id"))
+                email = _clean_key(candidate_info.get("contact_email"))
+                emp_id = _clean_key(candidate_info.get("employee_id"))
+                full_name = _clean_key(candidate_info.get("full_name"))
 
                 candidates = get_candidates()
-                exists = any(
-                    (email and c.get("contact_email") == email)
-                    or (emp_id and c.get("employee_id") == emp_id)
-                    or (full_name and c.get("full_name") == full_name)
-                    for c in candidates
-                )
+                for c in candidates:
+                    if (
+                        (candidate_id and candidate_id in (_clean_key(c.get("candidate_id")), _clean_key(c.get("id"))))
+                        or (email and email == _clean_key(c.get("contact_email")))
+                        or (emp_id and emp_id == _clean_key(c.get("employee_id")))
+                        or (full_name and full_name == _clean_key(c.get("full_name")))
+                    ):
+                        matched_candidate = c
+                        break
 
-                if not exists:
-                    print(f"[WEBHOOK REJECTED] Candidate not registered: email={email}, emp_id={emp_id}, name={full_name}")
+                if not matched_candidate:
+                    print(f"[WEBHOOK REJECTED] Candidate not registered: cid={candidate_id}, email={email}, emp_id={emp_id}, name={full_name}")
                     self._send_json(403, {"error": "Candidato no registrado. Contacte a su administrador."})
                     return
+            elif candidate_info.get("candidate_id"):
+                matched_candidate = next(
+                    (
+                        c for c in get_candidates()
+                        if _clean_key(c.get("candidate_id")) == _clean_key(candidate_info.get("candidate_id"))
+                        or _clean_key(c.get("id")) == _clean_key(candidate_info.get("candidate_id"))
+                    ),
+                    None,
+                )
+
+            if matched_candidate:
+                candidate_info = {**candidate_info, "candidate_id": matched_candidate.get("candidate_id") or matched_candidate.get("id")}
 
             result = {
                 "id": str(uuid.uuid4()),
                 "submitted_at": payload.get("submitted_at", _now_iso()),
-                "candidate": payload.get("candidate", {}),
+                "candidate": candidate_info,
                 "assessment": payload.get("assessment", {}),
                 "results": payload.get("results", {}),
                 "category_breakdown": payload.get("category_breakdown", {}),

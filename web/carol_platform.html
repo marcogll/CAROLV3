@@ -941,8 +941,8 @@ function init(){
 function updateSelfEval(v){document.getElementById('self-eval-display').textContent=v+'%';}
 
 // ── Session helpers ──
-function createSession(){
-  if(!S.candidate || !S.candidate.candidate_id) return;
+async function createSession(){
+  if(!S.candidate || !S.candidate.candidate_id) throw new Error('candidate_id missing');
   const payload={
     candidate_id: S.candidate.candidate_id,
     level: S.level,
@@ -957,15 +957,12 @@ function createSession(){
     answer_key: S.answerKey,
     questions: S.questions.map(q=>({id:q.id,options:q.options})),
   };
-  fetch('/api/session/create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
-    .then(r=>r.json())
-    .then(data=>{
-      if(data.success){
-        S.sessionId=data.session_id;
-        localStorage.setItem('carol_active_session',data.session_id);
-      }
-    })
-    .catch(()=>{});
+  const r=await fetch('/api/session/create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  const data=await r.json();
+  if(!r.ok || !data.success || !data.session_id) throw new Error(data.error || ('HTTP '+r.status));
+  S.sessionId=data.session_id;
+  localStorage.setItem('carol_active_session',data.session_id);
+  return S.sessionId;
 }
 
 function saveSession(){
@@ -986,15 +983,15 @@ function saveSession(){
   }).catch(()=>{});
 }
 
-function submitSession(){
+async function submitSession(){
   if(!S.sessionId) return;
-  fetch('/api/session/submit',{
+  const r=await fetch('/api/session/submit',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({session_id:S.sessionId,all_results:S.allResults})
-  }).then(()=>{
-    localStorage.removeItem('carol_active_session');
-  }).catch(()=>{});
+  });
+  if(!r.ok) throw new Error('HTTP '+r.status);
+  localStorage.removeItem('carol_active_session');
 }
 
 async function checkResume(){
@@ -1268,7 +1265,7 @@ function shuffleOptions(q,ans){
   ans[q.id]={...ans[q.id],correct_index:newCorrect};
 }
 
-function startQuiz(){
+async function startQuiz(){
   S.level = S.levels[S.levelIndex];
   const d=CAROL_DATA[S.level];
   S.questions=[...d.qs];
@@ -1292,9 +1289,14 @@ function startQuiz(){
   document.getElementById('progress-answered').textContent='0 respondidas';
   buildSidebar();
   renderQuestion();
+  try{
+    await createSession();
+  }catch(e){
+    alert('No se pudo iniciar la evaluación: '+e.message);
+    return;
+  }
   show('quiz');
   startTimer();
-  createSession();
 }
 
 function buildSidebar(){
@@ -1459,7 +1461,11 @@ async function submitQuiz(){
   S.allResults.push(S.result);
 
   // Mark session as submitted
-  submitSession();
+  try{
+    await submitSession();
+  }catch(e){
+    console.warn('Could not mark session as submitted:',e.message);
+  }
 
   // Clear persisted candidate after full completion
   if(S.levels.length===1 || S.levelIndex===S.levels.length-1){
@@ -1757,12 +1763,14 @@ async function sendUnifiedResultData(){
   sendToN8N(payload);
   try{
     const r=await fetch(S.webhookUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    let data={};
+    try{data=await r.json();}catch(_){}
     if(r.ok){
       console.log('Unified webhook sent OK');
       showSaveStatus('✅ Resultados guardados correctamente','ok');
     }else{
       console.warn('Unified webhook error:',r.status);
-      showSaveStatus('⚠️ Error al guardar resultados (código '+r.status+')','err');
+      showSaveStatus('⚠️ Error al guardar resultados: '+(data.error || ('código '+r.status)),'err');
     }
   }catch(e){
     console.warn('Unified webhook not configured:',e.message);
@@ -1937,12 +1945,14 @@ async function sendResultData(){
   sendToN8N(payload);
   try{
     const r=await fetch(S.webhookUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    let data={};
+    try{data=await r.json();}catch(_){}
     if(r.ok){
       console.log('Webhook sent OK');
       showSaveStatus('✅ Resultados guardados correctamente','ok');
     }else{
       console.warn('Webhook error:',r.status);
-      showSaveStatus('⚠️ Error al guardar resultados (código '+r.status+')','err');
+      showSaveStatus('⚠️ Error al guardar resultados: '+(data.error || ('código '+r.status)),'err');
     }
   }catch(e){
     console.warn('Webhook not configured:',e.message);
