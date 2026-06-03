@@ -106,7 +106,12 @@ function getToken(){return localStorage.getItem('carol_admin_token');}
 
 async function loadReport(){
   const params=new URLSearchParams(location.search);
-  const id=params.get('id');
+  let id=params.get('id');
+  // Also support /api/report/{id}/view path
+  if(!id){
+    const m=location.pathname.match(/\/api\/report\/([^/]+)\/view/);
+    if(m)id=m[1];
+  }
   const root=document.getElementById('report-root');
   if(!id){root.innerHTML='<div style="padding:3rem;text-align:center;color:#dc2626;">Falta el parámetro ?id=</div>';return;}
   try{

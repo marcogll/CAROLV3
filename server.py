@@ -1326,6 +1326,31 @@ class CarolHandler(SimpleHTTPRequestHandler):
                 self._send_json(200, row)
             return
 
+        # ── API: Report HTML view ──
+        if path.startswith("/api/report/") and path.endswith("/view"):
+            if not self._is_authenticated():
+                self._send_json(401, {"error": "Unauthorized"})
+                return
+            parts = path.split("/")
+            result_id = parts[3]
+            row = get_result_by_id(result_id)
+            if not row:
+                self._send_json(404, {"error": "Result not found"})
+                return
+            report_path = os.path.join(WEB_DIR, "report_email_template.html")
+            if not os.path.exists(report_path):
+                self._send_json(404, {"error": "Report template not found"})
+                return
+            with open(report_path, "r", encoding="utf-8") as f:
+                html = f.read()
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(html.encode())))
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(html.encode())
+            return
+
         # ── API: Heatmap data ──
         if path == "/api/heatmap":
             if not self._is_authenticated():
