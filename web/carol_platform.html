@@ -1520,6 +1520,8 @@ async function submitQuiz(){
     console.warn('Could not mark session as submitted:',e.message);
   }
 
+  await sendResultData({skipN8N:S.levels.length > 1});
+
   // Clear persisted candidate after full completion
   if(S.levels.length===1 || S.levelIndex===S.levels.length-1){
     localStorage.removeItem('carol_candidate');
@@ -1535,7 +1537,6 @@ async function submitQuiz(){
   } else {
     renderResults();
     show('results');
-    await sendResultData();
   }
 }
 
@@ -1992,10 +1993,10 @@ function sendToN8N(payload){
     .catch(e=>console.warn('n8n webhook failed:',e.message));
 }
 
-async function sendResultData(){
+async function sendResultData(options={}){
   const payload=buildPayload();
   console.log('CAROL Result payload:',JSON.stringify(payload,null,2));
-  sendToN8N(payload);
+  if(!options.skipN8N) sendToN8N(payload);
   try{
     const r=await fetch(S.webhookUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     let data={};
