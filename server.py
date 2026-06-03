@@ -1341,18 +1341,23 @@ class CarolHandler(SimpleHTTPRequestHandler):
             if not os.path.exists(report_path):
                 self._send_json(404, {"error": "Report template not found"})
                 return
-            with open(report_path, "r", encoding="utf-8") as f:
-                html = f.read()
-            # Embed data into HTML so JS doesn't need a second auth call
-            data_json = json.dumps(row).replace("</script>", "<\\/script>")
-            embed_script = f"<script>window.__REPORT_DATA__={data_json};</script>"
-            html = html.replace("</head>", embed_script + "</head>")
-            self.send_response(200)
-            self.send_header("Content-Type", "text/html; charset=utf-8")
-            self.send_header("Content-Length", str(len(html.encode())))
-            self.send_header("Access-Control-Allow-Origin", "*")
-            self.end_headers()
-            self.wfile.write(html.encode())
+            try:
+                with open(report_path, "r", encoding="utf-8") as f:
+                    html = f.read()
+                # Embed data into HTML so JS doesn't need a second auth call
+                data_json = json.dumps(row, default=str)
+                data_json = data_json.replace("</script>", "<\\/script>")
+                embed_script = f"<script>window.__REPORT_DATA__={data_json};</script>"
+                html = html.replace("</head>", embed_script + "</head>")
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(html.encode())))
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                self.wfile.write(html.encode())
+            except Exception as e:
+                print(f"[REPORT VIEW ERROR] {e}")
+                self._send_json(500, {"error": str(e)})
             return
 
         # ── API: Heatmap data ──
