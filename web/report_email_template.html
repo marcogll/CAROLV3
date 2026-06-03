@@ -26,17 +26,17 @@
   --text-muted:var(--ctp-subtext0);--border-color:var(--ctp-surface0);
   --border-light:var(--ctp-surface1);--shadow-color:rgba(0,0,0,.08);
 }
-/* ── Catppuccin Frappé (Dark) ── */
+/* ── Catppuccin Mocha (Dark) ── */
 [data-theme="dark"]{
-  --ctp-rosewater:#f2d5cf;--ctp-flamingo:#eebebe;--ctp-pink:#f4b8e4;
-  --ctp-mauve:#ca9ee6;--ctp-red:#e78284;--ctp-maroon:#ea999c;
-  --ctp-peach:#ef9f76;--ctp-yellow:#e5c890;--ctp-green:#a6d189;
-  --ctp-teal:#81c8be;--ctp-sky:#99d1db;--ctp-sapphire:#85c1dc;
-  --ctp-blue:#8caaee;--ctp-lavender:#babbf1;
-  --ctp-text:#c6d0f5;--ctp-subtext1:#b5bfe2;--ctp-subtext0:#a5adce;
-  --ctp-overlay2:#949cbb;--ctp-overlay1:#838ba7;--ctp-overlay0:#737994;
-  --ctp-surface2:#626880;--ctp-surface1:#51576d;--ctp-surface0:#414559;
-  --ctp-base:#303446;--ctp-mantle:#292c3c;--ctp-crust:#232634;
+  --ctp-rosewater:#f5e0dc;--ctp-flamingo:#f2cdcd;--ctp-pink:#f5c2e7;
+  --ctp-mauve:#cba6f7;--ctp-red:#f38ba8;--ctp-maroon:#eba0ac;
+  --ctp-peach:#fab387;--ctp-yellow:#f9e2af;--ctp-green:#a6e3a1;
+  --ctp-teal:#94e2d5;--ctp-sky:#89dceb;--ctp-sapphire:#74c7ec;
+  --ctp-blue:#89b4fa;--ctp-lavender:#b4befe;
+  --ctp-text:#cdd6f4;--ctp-subtext1:#bac2de;--ctp-subtext0:#a6adc8;
+  --ctp-overlay2:#9399b2;--ctp-overlay1:#7f849c;--ctp-overlay0:#6c7086;
+  --ctp-surface2:#585b70;--ctp-surface1:#45475a;--ctp-surface0:#313244;
+  --ctp-base:#1e1e2e;--ctp-mantle:#181825;--ctp-crust:#11111b;
   --bg-page:var(--ctp-crust);--bg-card:var(--ctp-base);--bg-card-alt:var(--ctp-mantle);
   --text-primary:var(--ctp-text);--text-secondary:var(--ctp-subtext1);
   --text-muted:var(--ctp-subtext0);--border-color:var(--ctp-surface0);
@@ -322,18 +322,18 @@ function render(data){
   <!-- STRENGTHS & WEAKNESSES -->
   <div class="sw-grid">
     <div class="sw-box strength">
-      <h4 style="color:#166534;">💪 Fortalezas</h4>
+      <h4 style="color:var(--ctp-green);">💪 Fortalezas</h4>
       ${strengths.length?strengths.map(k=>{
         const p=catBd[k].pct||0;
-        return `<div class="sw-item"><span><b>${k}</b> ${p}%</span><span class="bar-sm"><span class="bar-sm-fill" style="width:${p}%;background:#00B894;"></span></span></div>`;
-      }).join(''):'<div style="color:#64748b;">Sin áreas destacadas (todas < 70%)</div>'}
+        return `<div class="sw-item"><span><b>${k}</b> ${p}%</span><span class="bar-sm"><span class="bar-sm-fill" style="width:${p}%;background:var(--ctp-green);"></span></span></div>`;
+      }).join(''):'<div style="color:var(--text-muted);">Sin áreas destacadas (todas < 70%)</div>'}
     </div>
     <div class="sw-box weakness">
-      <h4 style="color:#991b1b;">⚠️ Áreas Débiles</h4>
+      <h4 style="color:var(--ctp-red);">⚠️ Áreas Débiles</h4>
       ${weaknesses.length?weaknesses.map(k=>{
         const p=catBd[k].pct||0;
-        return `<div class="sw-item"><span><b>${k}</b> ${p}%</span><span class="bar-sm"><span class="bar-sm-fill" style="width:${p}%;background:#E74C3C;"></span></span></div>`;
-      }).join(''):'<div style="color:#16a34a;">Todas las áreas superan 70%</div>'}
+        return `<div class="sw-item"><span><b>${k}</b> ${p}%</span><span class="bar-sm"><span class="bar-sm-fill" style="width:${p}%;background:var(--ctp-red);"></span></span></div>`;
+      }).join(''):'<div style="color:var(--ctp-green);">Todas las áreas superan 70%</div>'}
     </div>
   </div>
 

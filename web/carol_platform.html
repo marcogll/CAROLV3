@@ -22,7 +22,6 @@
   --ctp-overlay2:#7c7f93;--ctp-overlay1:#8c8fa1;--ctp-overlay0:#9ca0b0;
   --ctp-surface2:#acb0be;--ctp-surface1:#bcc0cc;--ctp-surface0:#ccd0da;
   --ctp-base:#eff1f5;--ctp-mantle:#e6e9ef;--ctp-crust:#dce0e8;
-
   --carol-teal:var(--ctp-green);--carol-amber:var(--ctp-peach);
   --carol-navy:#1e293b;--carol-blue:var(--ctp-blue);--carol-red:var(--ctp-red);
   --carol-gray:var(--ctp-crust);
@@ -32,17 +31,37 @@
   --text-muted:var(--ctp-subtext0);--text-on-dark:var(--ctp-base);
   --shadow-color:rgba(0,0,0,.08);--shadow-lg:rgba(0,0,0,.12);
 }
-/* ── Catppuccin Frappé (Dark) ── */
+/* ── Catppuccin Mocha (Dark) ── */
 [data-theme="dark"]{
-  --ctp-rosewater:#f2d5cf;--ctp-flamingo:#eebebe;--ctp-pink:#f4b8e4;
-  --ctp-mauve:#ca9ee6;--ctp-red:#e78284;--ctp-maroon:#ea999c;
-  --ctp-peach:#ef9f76;--ctp-yellow:#e5c890;--ctp-green:#a6d189;
-  --ctp-teal:#81c8be;--ctp-sky:#99d1db;--ctp-sapphire:#85c1dc;
-  --ctp-blue:#8caaee;--ctp-lavender:#babbf1;
-  --ctp-text:#c6d0f5;--ctp-subtext1:#b5bfe2;--ctp-subtext0:#a5adce;
-  --ctp-overlay2:#949cbb;--ctp-overlay1:#838ba7;--ctp-overlay0:#737994;
-  --ctp-surface2:#626880;--ctp-surface1:#51576d;--ctp-surface0:#414559;
-  --ctp-base:#303446;--ctp-mantle:#292c3c;--ctp-crust:#232634;
+  --ctp-rosewater:#f5e0dc;--ctp-flamingo:#f2cdcd;--ctp-pink:#f5c2e7;
+  --ctp-mauve:#cba6f7;--ctp-red:#f38ba8;--ctp-maroon:#eba0ac;
+  --ctp-peach:#fab387;--ctp-yellow:#f9e2af;--ctp-green:#a6e3a1;
+  --ctp-teal:#94e2d5;--ctp-sky:#89dceb;--ctp-sapphire:#74c7ec;
+  --ctp-blue:#89b4fa;--ctp-lavender:#b4befe;
+  --ctp-text:#cdd6f4;--ctp-subtext1:#bac2de;--ctp-subtext0:#a6adc8;
+  --ctp-overlay2:#9399b2;--ctp-overlay1:#7f849c;--ctp-overlay0:#6c7086;
+  --ctp-surface2:#585b70;--ctp-surface1:#45475a;--ctp-surface0:#313244;
+  --ctp-base:#1e1e2e;--ctp-mantle:#181825;--ctp-crust:#11111b;
+  --carol-teal:var(--ctp-green);--carol-amber:var(--ctp-peach);
+  --carol-navy:var(--ctp-surface0);--carol-blue:var(--ctp-blue);--carol-red:var(--ctp-red);
+  --carol-gray:var(--ctp-mantle);
+  --bg-page:var(--ctp-crust);--bg-card:var(--ctp-base);--bg-card-alt:var(--ctp-mantle);
+  --bg-input:var(--ctp-surface0);--border-color:var(--ctp-surface0);--border-light:var(--ctp-surface1);
+  --text-primary:var(--ctp-text);--text-secondary:var(--ctp-subtext1);
+  --text-muted:var(--ctp-subtext0);--text-on-dark:var(--ctp-base);
+  --shadow-color:rgba(0,0,0,.35);--shadow-lg:rgba(0,0,0,.5);
+}
+/* ── Catppuccin Mocha (Dark) ── */
+[data-theme="dark"]{
+  --ctp-rosewater:#f5e0dc;--ctp-flamingo:#f2cdcd;--ctp-pink:#f5c2e7;
+  --ctp-mauve:#cba6f7;--ctp-red:#f38ba8;--ctp-maroon:#eba0ac;
+  --ctp-peach:#fab387;--ctp-yellow:#f9e2af;--ctp-green:#a6e3a1;
+  --ctp-teal:#94e2d5;--ctp-sky:#89dceb;--ctp-sapphire:#74c7ec;
+  --ctp-blue:#89b4fa;--ctp-lavender:#b4befe;
+  --ctp-text:#cdd6f4;--ctp-subtext1:#bac2de;--ctp-subtext0:#a6adc8;
+  --ctp-overlay2:#9399b2;--ctp-overlay1:#7f849c;--ctp-overlay0:#6c7086;
+  --ctp-surface2:#585b70;--ctp-surface1:#45475a;--ctp-surface0:#313244;
+  --ctp-base:#1e1e2e;--ctp-mantle:#181825;--ctp-crust:#11111b;
 
   --carol-teal:var(--ctp-green);--carol-amber:var(--ctp-peach);
   --carol-navy:var(--ctp-surface0);--carol-blue:var(--ctp-blue);--carol-red:var(--ctp-red);
@@ -105,8 +124,9 @@ body{background:var(--bg-page);color:var(--text-primary);font-family:'Roboto','I
 .form-group{margin-bottom:1.25rem;}
 .form-label{display:block;font-size:.82rem;font-weight:600;color:var(--text-primary);margin-bottom:.4rem;}
 .form-label .required{color:var(--carol-red);margin-left:2px;}
-.form-control{width:100%;padding:.55rem .75rem;border:1px solid var(--border-color);border-radius:8px;font-size:.9rem;transition:border .15s,box-shadow .15s;box-sizing:border-box;background:var(--bg-input);color:var(--text-primary);}
-.form-control:focus{outline:none;border-color:var(--carol-teal);box-shadow:0 0 0 3px rgba(0,184,148,.15);}
+.form-control{width:100%;padding:.55rem .75rem;border:1px solid var(--border-color);border-radius:8px;font-size:.9rem;transition:border .15s,box-shadow .15s;box-sizing:border-box;background:var(--bg-input);color:var(--text-primary);-webkit-text-fill-color:var(--text-primary);}
+.form-control:focus{outline:none;border-color:var(--carol-teal);box-shadow:0 0 0 3px rgba(0,184,148,.15);-webkit-text-fill-color:var(--text-primary);}
+.form-control::placeholder{color:var(--text-muted);-webkit-text-fill-color:var(--text-muted);}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
 .self-eval-wrap{margin-top:.5rem;}
 .self-eval-labels{display:flex;justify-content:space-between;font-size:.72rem;color:var(--text-muted);margin-top:.3rem;}
@@ -391,14 +411,21 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
           <label class="form-label">Puesto Actual <span class="required">*</span></label>
           <select class="form-control" id="reg-role">
             <option value="">Selecciona...</option>
-            <option value="operator">Operador General</option>
+            <option value="operator">Operador de Máquina</option>
             <option value="setup_tech">Técnico de Montaje / Set-Up</option>
             <option value="process_tech">Técnico de Procesos</option>
+            <option value="quality_tech">Técnico de Calidad / Inspección</option>
+            <option value="maintenance_tech">Técnico de Mantenimiento</option>
+            <option value="material_tech">Técnico de Materiales / Almacén</option>
             <option value="supervisor">Supervisor de Producción</option>
+            <option value="shift_lead">Jefe de Turno</option>
             <option value="process_eng">Ingeniero de Procesos</option>
             <option value="mold_eng">Ingeniero de Moldes / Tooling</option>
             <option value="quality_eng">Ingeniero de Calidad</option>
+            <option value="maintenance_eng">Ingeniero de Mantenimiento</option>
+            <option value="continuous_improvement">Ingeniero de Mejora Continua / Lean</option>
             <option value="plant_manager">Gerente / Jefe de Planta</option>
+            <option value="production_manager">Gerente de Producción</option>
             <option value="other">Otro</option>
           </select>
         </div>
@@ -493,9 +520,16 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
       <button class="btn-action btn-restart" onclick="showRegister()" style="flex:1;justify-content:center;padding:.7rem 1rem;font-size:.9rem;">
         <i class="ti ti-arrow-left"></i> Regresar
       </button>
-      <button class="btn-action btn-webhook" onclick="startQuiz()" style="flex:2;justify-content:center;font-size:1rem;padding:.75rem 1.5rem;">
-        <i class="ti ti-player-play"></i> Comenzar Evaluación
-      </button>
+      <div style="flex:2;display:flex;flex-direction:column;gap:.5rem;">
+        <div id="level-selector" style="display:none;"></div>
+        <div id="level-warning" style="display:none;padding:.6rem .8rem;border-radius:8px;background:rgba(223,142,29,.15);border:1px solid var(--ctp-yellow);font-size:.78rem;color:var(--ctp-peach);display:none;align-items:flex-start;gap:.5rem;">
+          <i class="ti ti-alert-triangle" style="flex-shrink:0;margin-top:1px;"></i>
+          <span></span>
+        </div>
+        <button class="btn-action btn-webhook" onclick="startQuiz()" style="justify-content:center;font-size:1rem;padding:.75rem 1.5rem;">
+          <i class="ti ti-player-play"></i> Comenzar Evaluación
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -1013,7 +1047,42 @@ function showInstructions(){
   ul.innerHTML='';
   inst.instructions_list.forEach((txt,i)=>{const li=document.createElement('li');li.dataset.n=i+1;li.textContent=txt;ul.appendChild(li);});
   document.getElementById('inst-tip').querySelector('span').textContent=inst.tip;
+  // Level selector
+  const selEl=document.getElementById('level-selector');
+  const warnEl=document.getElementById('level-warning');
+  if(S.levels.length>1){
+    selEl.style.display='flex';
+    selEl.innerHTML='<label style="font-size:.78rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;">Selecciona nivel:</label><div style="display:flex;gap:.5rem;">'+
+      S.levels.map(l=>{
+        const d2=CAROL_DATA[l];
+        const assigned=l===S.level;
+        const active=l===lvl;
+        return '<button class="btn-action" onclick="changeLevel(\''+l+'\')" style="flex:1;padding:.5rem .6rem;font-size:.8rem;border-radius:8px;border:2px solid '+(active?'var(--carol-teal)':'var(--border-color)')+';background:'+(active?'var(--carol-teal)':'transparent')+';color:'+(active?'#fff':'var(--text-primary)')+';cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.15rem;">'+
+          '<span style="font-size:1.1rem;">'+icons[l]+'</span>'+
+          '<span style="font-weight:600;">'+d2.meta.name_es.replace('Nivel ','')+'</span>'+
+          (assigned?'<span style="font-size:.65rem;opacity:.8;">(Asignado)</span>':'')+
+          '</button>';
+      }).join('')+'</div>';
+    // Warning for non-assigned levels
+    const selectedAssigned = CAROL_DATA[lvl].meta.role_target;
+    const assignedLevel = S.level;
+    if(lvl !== assignedLevel){
+      const assignedName = CAROL_DATA[assignedLevel].meta.name_es;
+      warnEl.style.display='flex';
+      warnEl.querySelector('span').textContent='Estás seleccionando el nivel '+d.meta.name_es.replace('Nivel ','')+' que NO corresponde a tu perfil asignado ('+assignedName+'). Esto implica mayor dificultad y confusión en la evaluación. Se recomienda seguir tu nivel asignado.';
+    } else {
+      warnEl.style.display='none';
+    }
+  } else {
+    selEl.style.display='none';
+    warnEl.style.display='none';
+  }
   show('instructions');
+}
+
+function changeLevel(lvl){
+  S.level = lvl;
+  showInstructions();
 }
 
 // ══════════════════════════════════════════ QUIZ ══
@@ -1733,7 +1802,7 @@ document.addEventListener('DOMContentLoaded',init);
 </div>
 
 <script>
-// ── Theme Toggle (Catppuccin Latte/Frappé) ──
+// ── Theme Toggle (Catppuccin Latte/Mocha) ──
 function initTheme(){
   const saved=localStorage.getItem('carol_theme');
   const prefersDark=window.matchMedia('(prefers-color-scheme:dark)').matches;

@@ -129,5 +129,50 @@
       "wast_6"
     ],
     "stored_at": "2026-06-02T00:16:35.492679"
+  },
+  {
+    "id": "19bd0947-b1a8-4ee8-a073-ae1c9fc8244b",
+    "submitted_at": "2026-06-02T17:53:15.092674",
+    "candidate": {
+      "candidate_id": "7cd685f3-7a8e-450c-9eb4-7608545a8e44",
+      "contact_email": "ana@soul23.mx",
+      "full_name": "Ana García"
+    },
+    "assessment": {
+      "level": "advanced",
+      "pass_pct": 70
+    },
+    "results": {
+      "pct_score": 88,
+      "passed": true,
+      "time_seconds": 2400,
+      "earned_pts": 44,
+      "max_pts": 50,
+      "correct_answers": 22
+    },
+    "category_breakdown": {
+      "Máquina e Inyectora": {
+        "pct": 90,
+        "correct": 5,
+        "total": 5
+      },
+      "Proceso de Inyección": {
+        "pct": 85,
+        "correct": 5,
+        "total": 6
+      },
+      "Calidad y Defectos": {
+        "pct": 92,
+        "correct": 11,
+        "total": 12
+      }
+    },
+    "wrong_question_ids": [],
+    "answers": {
+      "q1": 0,
+      "q2": 1,
+      "q3": 2
+    },
+    "stored_at": "2026-06-02T17:53:15.092682"
   }
 ]

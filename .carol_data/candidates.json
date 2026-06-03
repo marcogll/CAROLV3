@@ -131,5 +131,24 @@
     "status": "registered",
     "registered_at": "2026-06-02T00:23:04.475692",
     "submitted_at": "2026-06-02T00:23:04.471Z"
+  },
+  {
+    "id": "7cd685f3-7a8e-450c-9eb4-7608545a8e44",
+    "candidate_id": "7cd685f3-7a8e-450c-9eb4-7608545a8e44",
+    "survey_id": "carol_registration_v2",
+    "full_name": "Ana García",
+    "employee_id": "EMP-9001",
+    "birth_year": 1988,
+    "birth_month": null,
+    "department": "calidad",
+    "job_role": "quality_eng",
+    "years_experience": 8,
+    "self_evaluation": 75,
+    "company_name": "Soul23",
+    "contact_email": "ana@soul23.mx",
+    "assigned_level": "advanced",
+    "status": "registered",
+    "registered_at": "2026-06-02T17:53:15.022463",
+    "submitted_at": "2026-06-03T10:00:00Z"
   }
 ]
