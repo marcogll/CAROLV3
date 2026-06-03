@@ -4,73 +4,100 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reporte CAROL — Resultado de Evaluación</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link rel="icon" type="image/svg+xml" href="soul23-favicon.svg">
 <style>
-/* Reset */
+*{box-sizing:border-box;}
 body{margin:0;padding:0;background:#f0f4f8;font-family:'Inter',system-ui,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
-table{border-collapse:collapse;border-spacing:0;}
-img{border:0;height:auto;line-height:100%;outline:none;text-decoration:none;}
-/* Wrapper */
-.email-wrapper{max-width:680px;margin:2rem auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.report{max-width:800px;margin:0 auto;background:#fff;}
+
 /* Header */
-.email-header{background:linear-gradient(135deg,#0D1B2A 0%,#1B4F72 100%);padding:2rem;text-align:center;color:#fff;}
-.email-header h1{margin:0;font-size:1.6rem;font-weight:800;letter-spacing:-.02em;}
-.email-header p{margin:.35rem 0 0;color:#94a3b8;font-size:.88rem;}
+.rpt-header{background:linear-gradient(135deg,#0D1B2A 0%,#1B4F72 100%);padding:2rem 2.5rem;color:#fff;position:relative;overflow:hidden;}
+.rpt-header::after{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:rgba(0,184,148,.12);}
+.rpt-brand{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;}
+.rpt-brand img{height:32px;}
+.rpt-brand span{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;}
+.rpt-brand span em{color:#00B894;font-style:normal;}
+.rpt-header h1{margin:0;font-size:1.1rem;font-weight:600;color:#94a3b8;}
+
 /* Body */
-.email-body{padding:2rem;}
-.section-title{font-size:1rem;font-weight:700;color:#0D1B2A;margin:0 0 1rem;text-transform:uppercase;letter-spacing:.04em;}
+.rpt-body{padding:2rem 2.5rem;}
+.sec-title{font-size:.95rem;font-weight:700;color:#0D1B2A;margin:0 0 1rem;padding-bottom:.5rem;border-bottom:2px solid #00B894;display:flex;align-items:center;gap:.5rem;}
+
 /* Candidate card */
-.candidate-card{background:#f8fafc;border-radius:12px;padding:1.25rem;display:grid;grid-template-columns:1fr 1fr;gap:.6rem 1rem;font-size:.85rem;}
-.candidate-card label{color:#64748b;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:.15rem;}
-.candidate-card strong{color:#1e293b;font-weight:700;font-size:.9rem;}
+.cand-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1.5rem;background:#f8fafc;border-radius:12px;padding:1.25rem;font-size:.82rem;margin-bottom:1.5rem;}
+.cand-grid label{color:#64748b;font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:.1rem;}
+.cand-grid strong{color:#1e293b;}
+
 /* Score hero */
 .score-hero{display:flex;align-items:center;gap:2rem;margin:1.5rem 0;flex-wrap:wrap;}
-.score-donut{position:relative;width:120px;height:120px;flex-shrink:0;}
-.score-donut svg{transform:rotate(-90deg);}
-.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.donut-pct{font-size:1.6rem;font-weight:800;color:#1e293b;}
-.donut-label{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
-.score-meta{flex:1;min-width:200px;}
-.score-status{font-size:1.1rem;font-weight:700;margin-bottom:.5rem;}
-.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
-.score-cell{background:#f8fafc;border-radius:8px;padding:.6rem;text-align:center;}
-.score-cell span{display:block;font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.04em;}
-.score-cell b{font-size:1rem;color:#1e293b;}
+.donut-wrap{position:relative;width:140px;height:140px;flex-shrink:0;}
+.donut-wrap canvas{width:140px!important;height:140px!important;}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;}
+.donut-pct{font-size:1.8rem;font-weight:800;color:#1e293b;}
+.donut-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+.score-kpis{flex:1;min-width:200px;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.kpi-card{background:#f8fafc;border-radius:8px;padding:.65rem;text-align:center;}
+.kpi-card span{display:block;font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.04em;}
+.kpi-card b{font-size:1rem;color:#1e293b;}
+
+/* Charts row */
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:1.5rem 0;}
+.chart-box{background:#f8fafc;border-radius:12px;padding:1rem;text-align:center;}
+.chart-box h4{margin:0 0 .5rem;font-size:.8rem;color:#475569;}
+
 /* Category table */
-.cat-table{width:100%;font-size:.82rem;margin-bottom:1.5rem;}
-.cat-table th{background:#0D1B2A;color:#fff;padding:.6rem;text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;}
-.cat-table td{padding:.55rem .6rem;border-bottom:1px solid #f1f5f9;}
+.cat-table{width:100%;font-size:.8rem;margin-bottom:1.5rem;border-collapse:collapse;}
+.cat-table th{background:#0D1B2A;color:#fff;padding:.55rem .6rem;text-align:left;font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;}
+.cat-table td{padding:.5rem .6rem;border-bottom:1px solid #f1f5f9;}
 .cat-table tr:nth-child(even){background:#f8fafc;}
 .cat-bar-bg{width:100%;height:6px;background:#e2e8f0;border-radius:99px;overflow:hidden;}
 .cat-bar-fill{height:100%;border-radius:99px;}
-/* Wrong review */
-.wrong-item{padding:1rem 0;border-bottom:1px solid #f1f5f9;}
+
+/* Strengths / Weaknesses */
+.sw-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;}
+.sw-box{border-radius:10px;padding:1rem;font-size:.8rem;}
+.sw-box.strength{background:#f0fdf4;border:1px solid #bbf7d0;}
+.sw-box.weakness{background:#fef2f2;border:1px solid #fecaca;}
+.sw-box h4{margin:0 0 .5rem;font-size:.82rem;}
+.sw-item{padding:.3rem 0;display:flex;justify-content:space-between;align-items:center;}
+.sw-item .bar-sm{width:60px;height:5px;background:#e2e8f0;border-radius:99px;overflow:hidden;display:inline-block;margin-left:.5rem;}
+.sw-item .bar-sm-fill{height:100%;border-radius:99px;}
+
+/* Remediation */
+.remed-card{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:1rem;margin-bottom:.75rem;}
+.remed-card h4{margin:0 0 .3rem;font-size:.82rem;color:#92400e;}
+.remed-card p{margin:0;font-size:.78rem;color:#78350f;line-height:1.5;}
+.remed-badge{display:inline-block;padding:.15rem .45rem;border-radius:4px;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;margin-right:.5rem;}
+.remed-badge.critical{background:#fee2e2;color:#991b1b;}
+.remed-badge.improve{background:#e0f2fe;color:#075985;}
+
+/* Wrong questions */
+.wrong-item{padding:.75rem 0;border-bottom:1px solid #f1f5f9;}
 .wrong-item:last-child{border:none;}
-.wrong-meta{display:flex;gap:.5rem;margin-bottom:.4rem;flex-wrap:wrap;}
-.wrong-meta span{font-size:.68rem;font-weight:600;padding:.15rem .5rem;border-radius:99px;background:#f1f5f9;color:#475569;}
-.wrong-q{font-size:.85rem;font-weight:600;color:#1e293b;line-height:1.4;margin-bottom:.4rem;}
-.wrong-opt{font-size:.78rem;padding:.25rem .5rem;border-radius:6px;display:inline-block;margin:.15rem .3rem 0 0;}
+.wrong-meta{display:flex;gap:.4rem;margin-bottom:.3rem;flex-wrap:wrap;}
+.wrong-meta span{font-size:.65rem;font-weight:600;padding:.12rem .4rem;border-radius:99px;background:#f1f5f9;color:#475569;}
+.wrong-q{font-size:.82rem;font-weight:600;color:#1e293b;line-height:1.4;margin-bottom:.3rem;}
+.wrong-opt{font-size:.75rem;padding:.2rem .4rem;border-radius:6px;display:inline-block;margin:.1rem .2rem 0 0;}
 .wrong-opt.chosen{background:#fee2e2;color:#991b1b;}
-.wrong-reasoning{font-size:.78rem;color:#78350f;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:.5rem .75rem;margin-top:.5rem;}
-/* Action plan */
-.action-item{padding:.85rem 0;border-bottom:1px solid #f1f5f9;display:flex;gap:1rem;}
-.action-item:last-child{border:none;}
-.action-priority{width:70px;flex-shrink:0;text-align:center;}
-.action-badge{display:inline-block;padding:.2rem .5rem;border-radius:6px;font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;}
-.action-area{font-size:.85rem;font-weight:700;color:#1e293b;margin-bottom:.25rem;}
-.action-kpi{font-size:.72rem;color:#92400e;background:#fef3c7;padding:.25rem .5rem;border-radius:4px;display:inline-block;margin-top:.35rem;}
+.wrong-hint{font-size:.75rem;color:#78350f;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:.4rem .6rem;margin-top:.4rem;}
+
 /* Footer */
-.email-footer{background:#f8fafc;padding:1.25rem 2rem;text-align:center;font-size:.75rem;color:#94a3b8;}
-.email-footer a{color:#1B4F72;text-decoration:none;}
-/* Print */
-@media print{body{background:#fff;}.email-wrapper{box-shadow:none;margin:0;border-radius:0;}}
+.rpt-footer{background:#f8fafc;padding:1rem 2.5rem;text-align:center;font-size:.72rem;color:#94a3b8;border-top:1px solid #e2e8f0;}
+.rpt-footer a{color:#1B4F72;text-decoration:none;}
+
+/* Full-width chart */
+.chart-full{background:#f8fafc;border-radius:12px;padding:1rem;margin:1.5rem 0;}
+.chart-full h4{margin:0 0 .5rem;font-size:.8rem;color:#475569;text-align:center;}
+
+@media print{body{background:#fff;}.report{box-shadow:none;}}
+@media(max-width:640px){.charts-row,.sw-grid{grid-template-columns:1fr;}.rpt-body{padding:1.5rem;}.cand-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 
-<div class="email-wrapper" id="report-root">
-  <div style="text-align:center;padding:3rem;color:#94a3b8;font-size:.9rem;">
-    Cargando reporte…
-  </div>
+<div class="report" id="report-root">
+  <div style="text-align:center;padding:4rem;color:#94a3b8;font-size:.9rem;">Cargando reporte…</div>
 </div>
 
 <script>
@@ -82,7 +109,6 @@ async function loadReport(){
   const id=params.get('id');
   const root=document.getElementById('report-root');
   if(!id){root.innerHTML='<div style="padding:3rem;text-align:center;color:#dc2626;">Falta el parámetro ?id=</div>';return;}
-
   try{
     const r=await fetch(API+'/api/result/'+id,{headers:{'Authorization':'Bearer '+getToken()}});
     const data=await r.json();
@@ -97,154 +123,240 @@ function render(data){
   const c=data.candidate||{};
   const a=data.assessment||{};
   const res=data.results||{};
-  const catBd=data.category_breakdown||{};
+  let catBd=data.category_breakdown||{};
   const answers=data.answers||{};
-  const passed=res.passed;
-  const pct=res.pct_score||0;
-
-  // Donut SVG
-  const circ=2*Math.PI*44;
-  const offset=circ*(1-pct/100);
-  const strokeColor=passed?'#00B894':'#E74C3C';
-  const statusText=passed?'✓ APROBADO':'✗ NO APROBÓ';
-  const statusColor=passed?'#16a34a':'#dc2626';
-
-  const letters=['A','B','C','D'];
-
-  // Build category rows
-  let catRows='';
-  Object.entries(catBd).forEach(([cat,st])=>{
-    const p=st.pct||0;
-    const barColor=p>=85?'#00B894':p>=70?'#27AE60':p>=55?'#E67E22':'#C0392B';
-    catRows+=`<tr>
-      <td><b>${cat}</b></td>
-      <td>${st.correct}/${st.total}</td>
-      <td>${p}%</td>
-      <td style="width:120px;"><div class="cat-bar-bg"><div class="cat-bar-fill" style="width:${p}%;background:${barColor};"></div></div></td>
-    </tr>`;
-  });
-
-  // Build wrong questions
-  let wrongHtml='';
   const wrongIds=data.wrong_question_ids||[];
-  if(wrongIds.length){
-    wrongHtml='<h3 class="section-title">❌ Preguntas Incorrectas — Revisión</h3>';
-    wrongIds.forEach(qid=>{
-      const ans=answers[qid];
-      if(!ans)return;
-      const chosenOpt=ans.options[ans.chosen_index]||'Sin respuesta';
-      wrongHtml+=`<div class="wrong-item">
-        <div class="wrong-meta">
-          <span>${ans.category}</span>
-          <span>${ans.type}</span>
-          <span>${ans.score} pts</span>
-        </div>
-        <div class="wrong-q">${ans.question}</div>
-        <div class="wrong-opt chosen"><b>Tu respuesta:</b> ${letters[ans.chosen_index]}. ${chosenOpt}</div>
-        <div class="wrong-reasoning">📚 Revisa el material de estudio de <b>${ans.category}</b> para reforzar este tema.</div>
-      </div>`;
+  const pct=res.pct_score||0;
+  const passed=res.passed||(pct>=70);
+
+  // Derive missing fields
+  const totalCorrect=res.correct_answers||res.score||totalQ;
+  const totalQ=res.total||catTotal.reduce((a,b)=>a+b,0)||Object.keys(answers).length;
+  const earnedPts=res.earned_pts||(totalCorrect*(res.points_per_question||10));
+  const maxPts=res.max_pts||(totalQ*(res.points_per_question||10));
+  const timeSec=res.time_seconds||0;
+
+  // If category_breakdown is empty, build from results.categories_results
+  if(!Object.keys(catBd).length && res.categories_results){
+    const tmp={};
+    Object.entries(res.categories_results).forEach(([k,v])=>{
+      tmp[k]={correct:v.correct||0,total:v.total||0,pct:v.pct||v.pct_score||0};
     });
-  }else{
-    wrongHtml='<div style="color:#16a34a;font-weight:700;padding:1rem 0;">✅ Sin preguntas incorrectas — excelente desempeño.</div>';
+    catBd=tmp;
+  }
+  // If still empty, build from answers
+  if(!Object.keys(catBd).length && Object.keys(answers).length){
+    const tmp={};
+    Object.entries(answers).forEach(([k,v])=>{
+      const cat=v.category||'General';
+      if(!tmp[cat])tmp[cat]={correct:0,total:0,pct:0};
+      tmp[cat].total++;
+      if(v.correct)tmp[cat].correct++;
+    });
+    Object.values(tmp).forEach(t=>{t.pct=Math.round(t.correct/t.total*100);});
+    catBd=tmp;
   }
 
-  // Action plan (reconstructed from weak categories)
-  let actionHtml='';
-  const weakCats=Object.entries(catBd).filter(([,st])=>(st.pct||0)<70).sort((a,b)=>a[1].pct-b[1].pct);
-  if(weakCats.length){
-    actionHtml='<h3 class="section-title">📋 Plan de Acción Recomendado</h3>';
-    weakCats.forEach(([cat,st])=>{
-      const p=st.pct||0;
-      const isCrit=p<55;
-      const badgeBg=isCrit?'#fee2e2':'#fef3c7';
-      const badgeColor=isCrit?'#991b1b':'#92400e';
-      actionHtml+=`<div class="action-item">
-        <div class="action-priority">
-          <span class="action-badge" style="background:${badgeBg};color:${badgeColor};">${isCrit?'CRÍTICO':'MEJORA'}</span>
-        </div>
-        <div>
-          <div class="action-area">${cat}</div>
-          <div style="font-size:.78rem;color:#475569;">Desempeño: ${p}% — Requiere refuerzo en esta área.</div>
-        </div>
-      </div>`;
-    });
-  }else{
-    actionHtml='<div style="color:#16a34a;font-weight:700;padding:1rem 0;">✅ Excelente desempeño en todas las áreas.</div>';
-  }
+  // Build category data
+  const cats=Object.keys(catBd);
+  const catPcts=cats.map(k=>catBd[k].pct||0);
+  const catCorrect=cats.map(k=>catBd[k].correct||0);
+  const catTotal=cats.map(k=>catBd[k].total||0);
+
+  // Strengths (>70%) and Weaknesses (<70%)
+  const strengths=cats.filter(k=>(catBd[k].pct||0)>=70).sort((a,b)=>(catBd[b].pct||0)-(catBd[a].pct||0));
+  const weaknesses=cats.filter(k=>(catBd[k].pct||0)<70).sort((a,b)=>(catBd[a].pct||0)-(catBd[b].pct||0));
+
+  // Radar: candidate vs minimum (55%) vs ideal (85%)
+  const radarMin=cats.map(()=>55);
+  const radarIdeal=cats.map(()=>85);
+
+  // Remediation strategies per weak area
+  const remediations={
+    'Seguridad Industrial':'Implementar programa de inducción obligatorio con simulacros mensuales. Crear checklist de EPP y zona de seguridad revisado por shift lead.',
+    'Terminología Técnica':'Diccionario visual de términos técnicos de moldeo distribuido en planta. Sesiones semanales de 15 min de refuerzo.',
+    'Procesos de Moldeo':'Capacitación práctica en máquina real: parámetros de tiempo, presión, temperatura. Manual de Setup por molde.',
+    'Control de Calidad':'Estación de inspección con boundary samples visuales. Ejercicio práctico de medición con instrumentos calibrados.',
+    'Materiales y Resinas':'Fichas técnicas de resinas utilizadas en planta. Curso de secado y manejo de material. Práctica de identificación.',
+    'Parámetros de Proceso':'Mapa de parámetros por molde/producto. Tabla de rangos aceptables. Monitoreo en tiempo real con alerts.',
+    'Herramienta de Moldeo':'Capacitación en mantenimiento preventivo de moldes. Checklist de salida y entrada de herramienta.',
+    'Optimización':'Programa de kaizen enfocado en ciclos de moldeo. Reducción de scrap con DMAIC básico.',
+    'Ingeniería de Procesos':'Curso avanzado de DOE para optimización de procesos. Proyecto piloto de reducción de tiempos muertos.',
+    'Resolución de Problemas':'Metodología 8D o A3 aplicada a problemas recurrentes. Árbol de causas y brainstorming estructurado.',
+    'Diseño de Moldes':'Sesiones con el equipo de diseño. Revisión de planos de molde y cooling channels. Simulación básica.',
+    'Normatividad':'Directorio de normas aplicables (ISO, ASTM). Auditoría interna semestral. Checklist de cumplimiento por estación.',
+  };
+
+  // Average KPI
+  const avgScore=catPcts.length?Math.round(catPcts.reduce((a,b)=>a+b,0)/catPcts.length):0;
+  const totalCorrect=catCorrect.reduce((a,b)=>a+b,0);
+  const totalQ=catTotal.reduce((a,b)=>a+b,0);
 
   const html=`
-  <div class="email-header">
-    <div style="margin-bottom:.75rem;">
-      <img src="https://raw.githubusercontent.com/marcogll/mg_data_storage/refs/heads/main/soul23/logo/s23_logo.svg" alt="Soul23" style="height:36px;filter:brightness(0) invert(1);">
+  <!-- HEADER -->
+  <div class="rpt-header">
+    <div class="rpt-brand">
+      <img src="soul23-logo.svg" alt="Soul23">
+      <span>CAROL <em>.</em></span>
     </div>
-    <h1>CAROL <span style="color:#00B894;">.</span></h1>
-    <p>Reporte de Evaluación Técnica — Moldeo por Inyección</p>
+    <h1>Reporte de Evaluación Técnica — Moldeo por Inyección de Plásticos</h1>
   </div>
 
-  <div class="email-body">
-    <h3 class="section-title">👤 Información del Candidato</h3>
-    <div class="candidate-card">
-      <div><label>Nombre</label><strong>${c.full_name||'—'}</strong></div>
-      <div><label>ID Empleado</label><strong>${c.employee_id||'—'}</strong></div>
-      <div><label>Empresa</label><strong>${c.company_name||'—'}</strong></div>
-      <div><label>Departamento</label><strong>${c.department||'—'}</strong></div>
-      <div><label>Puesto</label><strong>${c.job_role||'—'}</strong></div>
-      <div><label>Experiencia</label><strong>${c.years_experience||'—'} años</strong></div>
-      <div><label>Nivel Evaluado</label><strong>${a.level_name||'—'}</strong></div>
-      <div><label>Fecha</label><strong>${fmtDate(data.submitted_at)}</strong></div>
-    </div>
+  <div class="rpt-body">
 
-    <div class="score-hero">
-      <div class="score-donut">
-        <svg width="120" height="120" viewBox="0 0 120 120">
-          <circle cx="60" cy="60" r="44" fill="none" stroke="#e2e8f0" stroke-width="12"/>
-          <circle cx="60" cy="60" r="44" fill="none" stroke="${strokeColor}" stroke-width="12"
-            stroke-dasharray="${circ.toFixed(2)}" stroke-dashoffset="${offset.toFixed(2)}" stroke-linecap="round"/>
-        </svg>
-        <div class="donut-center">
-          <div class="donut-pct">${pct}%</div>
-          <div class="donut-label" style="color:${statusColor};">${statusText}</div>
-        </div>
-      </div>
-      <div class="score-meta">
-        <div class="score-status" style="color:${statusColor};">${statusText}</div>
-        <div class="score-grid">
-          <div class="score-cell"><span>Pts. Obtenidos</span><b>${(res.earned_pts||0).toFixed(1)}</b></div>
-          <div class="score-cell"><span>Pts. Máximos</span><b>${(res.max_pts||0).toFixed(1)}</b></div>
-          <div class="score-cell"><span>Correctas</span><b>${res.correct_answers||0}</b></div>
-          <div class="score-cell"><span>Tiempo</span><b>${fmtTime(res.time_seconds||0)}</b></div>
-        </div>
-      </div>
-    </div>
-
-    <h3 class="section-title">📊 Desempeño por Área</h3>
-    <table class="cat-table">
-      <thead><tr><th>Área</th><th>Correctas</th><th>%</th><th>Progreso</th></tr></thead>
-      <tbody>${catRows}</tbody>
-    </table>
-
-    ${wrongHtml}
-    ${actionHtml}
+  <!-- CANDIDATE INFO -->
+  <div class="sec-title">👤 Información del Candidato</div>
+  <div class="cand-grid">
+    <div><label>Nombre</label><strong>${c.full_name||'—'}</strong></div>
+    <div><label>ID Empleado</label><strong>${c.employee_id||'—'}</strong></div>
+    <div><label>Empresa</label><strong>${c.company_name||'—'}</strong></div>
+    <div><label>Departamento</label><strong>${c.department||'—'}</strong></div>
+    <div><label>Puesto</label><strong>${c.job_role||'—'}</strong></div>
+    <div><label>Experiencia</label><strong>${c.years_experience||'—'} años</strong></div>
+    <div><label>Nivel Evaluado</label><strong>${a.level_name||(a.level==='basic'?'Básico':a.level==='medium'?'Intermedio':a.level==='advanced'?'Avanzado':a.level||'—')}</strong></div>
+    <div><label>Fecha</label><strong>${fmtDate(data.submitted_at)}</strong></div>
   </div>
 
-  <div class="email-footer">
-    Reporte generado automáticamente por <b>CAROL Assessment System</b> · <a href="${location.origin}">${location.host}</a><br>
+  <!-- SCORE HERO -->
+  <div class="score-hero">
+    <div class="donut-wrap">
+      <canvas id="donutChart"></canvas>
+      <div class="donut-center">
+        <div class="donut-pct">${pct}%</div>
+        <div class="donut-label" style="color:${passed?'#16a34a':'#dc2626'};">${passed?'✓ APROBADO':'✗ NO APROBÓ'}</div>
+      </div>
+    </div>
+    <div class="score-kpis">
+      <div class="kpi-card"><span>Promedio General</span><b>${avgScore}%</b></div>
+      <div class="kpi-card"><span>Correctas</span><b>${totalCorrect}/${totalQ}</b></div>
+      <div class="kpi-card"><span>Puntos</span><b>${earnedPts.toFixed(1)}/${maxPts.toFixed(1)}</b></div>
+      <div class="kpi-card"><span>Tiempo</span><b>${fmtTime(timeSec)}</b></div>
+      <div class="kpi-card"><span>Áreas Evaluadas</span><b>${cats.length}</b></div>
+      <div class="kpi-card"><span>Áreas Débiles</span><b style="color:${weaknesses.length?'#dc2626':'#16a34a'};">${weaknesses.length}</b></div>
+    </div>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="charts-row">
+    <div class="chart-box">
+      <h4>📡 Distribución por Área (Radar)</h4>
+      <canvas id="radarChart" height="260"></canvas>
+    </div>
+    <div class="chart-box">
+      <h4>📊 Desempeño por Área (Barras)</h4>
+      <canvas id="barChart" height="260"></canvas>
+    </div>
+  </div>
+
+  <!-- CATEGORY TABLE -->
+  <div class="sec-title">📋 Desempeño por Área de Conocimiento</div>
+  <table class="cat-table">
+    <thead><tr><th>Área</th><th>Correctas</th><th>%</th><th>Progreso</th></tr></thead>
+    <tbody>${cats.map((cat,i)=>{
+      const p=catPcts[i];
+      const col=p>=85?'#00B894':p>=70?'#27AE60':p>=55?'#E67E22':'#C0392B';
+      return `<tr><td><b>${cat}</b></td><td>${catCorrect[i]}/${catTotal[i]}</td><td style="font-weight:700;color:${col};">${p}%</td><td style="width:140px;"><div class="cat-bar-bg"><div class="cat-bar-fill" style="width:${p}%;background:${col};"></div></div></td></tr>`;
+    }).join('')}</tbody>
+  </table>
+
+  <!-- STRENGTHS & WEAKNESSES -->
+  <div class="sw-grid">
+    <div class="sw-box strength">
+      <h4 style="color:#166534;">💪 Fortalezas</h4>
+      ${strengths.length?strengths.map(k=>{
+        const p=catBd[k].pct||0;
+        return `<div class="sw-item"><span><b>${k}</b> ${p}%</span><span class="bar-sm"><span class="bar-sm-fill" style="width:${p}%;background:#00B894;"></span></span></div>`;
+      }).join(''):'<div style="color:#64748b;">Sin áreas destacadas (todas < 70%)</div>'}
+    </div>
+    <div class="sw-box weakness">
+      <h4 style="color:#991b1b;">⚠️ Áreas Débiles</h4>
+      ${weaknesses.length?weaknesses.map(k=>{
+        const p=catBd[k].pct||0;
+        return `<div class="sw-item"><span><b>${k}</b> ${p}%</span><span class="bar-sm"><span class="bar-sm-fill" style="width:${p}%;background:#E74C3C;"></span></span></div>`;
+      }).join(''):'<div style="color:#16a34a;">Todas las áreas superan 70%</div>'}
+    </div>
+  </div>
+
+  <!-- REMEDIATION -->
+  ${weaknesses.length?`
+  <div class="sec-title">🎯 Estrategia de Remediación</div>
+  ${weaknesses.map(k=>{
+    const p=catBd[k].pct||0;
+    const isCrit=p<55;
+    const strategy=remediations[k]||`Refuerzo en ${k}: revisar material de estudio, realizar práctica guiada y evaluación de seguimiento en 2 semanas.`;
+    return `<div class="remed-card">
+      <h4><span class="remed-badge ${isCrit?'critical':'improve'}">${isCrit?'Crítico':'Mejora'}</span>${k} — ${p}%</h4>
+      <p>${strategy}</p>
+    </div>`;
+  }).join('')}`:''}
+
+  <!-- WRONG QUESTIONS -->
+  ${wrongIds.length?`
+  <div class="sec-title">❌ Preguntas Incorrectas — Revisión</div>
+  ${wrongIds.map(qid=>{
+    const ans=answers[qid];
+    if(!ans)return '';
+    const letters=['A','B','C','D'];
+    const chosen=ans.chosen_index!==undefined?letters[ans.chosen_index]+'. '+(ans.options?ans.options[ans.chosen_index]:'—'):'Sin respuesta';
+    return `<div class="wrong-item">
+      <div class="wrong-meta"><span>${ans.category||'—'}</span><span>${ans.type||''}</span><span>${ans.score||0} pts</span></div>
+      <div class="wrong-q">${ans.question||qid}</div>
+      <div class="wrong-opt chosen"><b>Tu respuesta:</b> ${chosen}</div>
+      <div class="wrong-hint">📚 Revisa el material de estudio de <b>${ans.category||'esta área'}</b> para reforzar este tema.</div>
+    </div>`;
+  }).join('')}`:'<div class="sec-title">✅ Preguntas Incorrectas</div><div style="color:#16a34a;font-weight:700;">Sin preguntas incorrectas — excelente desempeño.</div>'}
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="rpt-footer">
+    <img src="soul23-logo.svg" alt="Soul23" style="height:16px;opacity:.5;margin-bottom:.25rem;display:block;margin-left:auto;margin-right:auto;"><br>
+    Reporte generado por <b>CAROL Assessment System</b> · <a href="${location.origin}">${location.host}</a><br>
     <small>Confidencial · Uso interno autorizado</small>
   </div>`;
 
   document.getElementById('report-root').innerHTML=html;
   document.title='Reporte CAROL — '+c.full_name;
+
+  // Draw charts
+  setTimeout(()=>{
+    // Donut
+    new Chart(document.getElementById('donutChart'),{
+      type:'doughnut',
+      data:{datasets:[{data:[pct,100-pct],backgroundColor:[passed?'#00B894':'#E74C3C','#e2e8f0'],borderWidth:0}]},
+      options:{cutout:'72%',responsive:false,plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{animateRotate:true}}
+    });
+
+    // Radar
+    new Chart(document.getElementById('radarChart'),{
+      type:'radar',
+      data:{
+        labels:cats.map(c=>c.length>16?c.substring(0,14)+'…':c),
+        datasets:[
+          {label:'Candidato',data:catPcts,backgroundColor:'rgba(0,184,148,.2)',borderColor:'#00B894',borderWidth:2,pointBackgroundColor:'#00B894',pointRadius:4},
+          {label:'Mínimo (55%)',data:radarMin,backgroundColor:'rgba(231,76,60,.08)',borderColor:'#E74C3C',borderWidth:1,borderDash:[4,4],pointRadius:0},
+          {label:'Ideal (85%)',data:radarIdeal,backgroundColor:'rgba(39,174,96,.08)',borderColor:'#27AE60',borderWidth:1,borderDash:[4,4],pointRadius:0}
+        ]
+      },
+      options:{scales:{r:{min:0,max:100,ticks:{stepSize:20,font:{size:10}},pointLabels:{font:{size:10}}}},plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:12}}}}
+    });
+
+    // Bar chart
+    new Chart(document.getElementById('barChart'),{
+      type:'bar',
+      data:{
+        labels:cats.map(c=>c.length>12?c.substring(0,10)+'…':c),
+        datasets:[
+          {label:'Candidato',data:catPcts,backgroundColor:catPcts.map(p=>p>=85?'#00B894':p>=70?'#27AE60':p>=55?'#E67E22':'#E74C3C'),borderRadius:4},
+        ]
+      },
+      options:{indexAxis:'y',scales:{x:{min:0,max:100,ticks:{callback:v=>v+'%'}}},plugins:{legend:{display:false}}}
+    });
+  },100);
 }
 
-function fmtDate(iso){
-  if(!iso)return'—';
-  const d=new Date(iso);
-  return d.toLocaleDateString('es-MX');
-}
-function fmtTime(sec){
-  const m=Math.floor(sec/60);const s=sec%60;
-  return m+'m '+s+'s';
-}
+function fmtDate(iso){if(!iso)return'—';return new Date(iso).toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'});}
+function fmtTime(sec){const m=Math.floor(sec/60);const s=sec%60;return m+'m '+s+'s';}
 
 document.addEventListener('DOMContentLoaded',loadReport);
 </script>
