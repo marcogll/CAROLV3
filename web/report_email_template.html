@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reporte CAROL — Resultado de Evaluación</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<link rel="icon" type="image/svg+xml" href="soul23-favicon.svg">
+<link rel="icon" type="image/svg+xml" href="/soul23-favicon.svg">
 <style>
 *{box-sizing:border-box;}
 body{margin:0;padding:0;background:#f0f4f8;font-family:'Inter',system-ui,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
@@ -206,7 +206,7 @@ function render(data){
   <!-- HEADER -->
   <div class="rpt-header">
     <div class="rpt-brand">
-      <img src="soul23-logo.svg" alt="Soul23">
+      <img src="/soul23-logo.svg" alt="Soul23">
       <span>CAROL <em>.</em></span>
     </div>
     <h1>Reporte de Evaluación Técnica — Moldeo por Inyección de Plásticos</h1>
@@ -256,6 +256,12 @@ function render(data){
       <h4>📊 Desempeño por Área (Barras)</h4>
       <canvas id="barChart" height="260"></canvas>
     </div>
+  </div>
+
+  <!-- POLAR AREA CHART -->
+  <div class="sec-title">🌐 Desempeño por Área de Evaluación</div>
+  <div class="chart-box" style="max-width:420px;margin:0 auto 1.5rem;">
+    <canvas id="polarChart" height="320"></canvas>
   </div>
 
   <!-- CATEGORY TABLE -->
@@ -320,7 +326,7 @@ function render(data){
 
   <!-- FOOTER -->
   <div class="rpt-footer">
-    <img src="soul23-logo.svg" alt="Soul23" style="height:16px;opacity:.5;margin-bottom:.25rem;display:block;margin-left:auto;margin-right:auto;"><br>
+    <img src="/soul23-logo.svg" alt="Soul23" style="height:16px;opacity:.5;margin-bottom:.25rem;display:block;margin-left:auto;margin-right:auto;"><br>
     Reporte generado por <b>CAROL Assessment System</b> · <a href="${location.origin}">${location.host}</a><br>
     <small>Confidencial · Uso interno autorizado</small>
   </div>`;
@@ -361,6 +367,21 @@ function render(data){
         ]
       },
       options:{indexAxis:'y',scales:{x:{min:0,max:100,ticks:{callback:v=>v+'%'}}},plugins:{legend:{display:false}}}
+    });
+
+    // Polar Area chart
+    new Chart(document.getElementById('polarChart'),{
+      type:'polarArea',
+      data:{
+        labels:cats,
+        datasets:[{
+          data:catPcts,
+          backgroundColor:catPcts.map(p=>p>=85?'rgba(0,184,148,.7)':p>=70?'rgba(39,174,96,.7)':p>=55?'rgba(230,126,34,.7)':'rgba(231,76,60,.7)'),
+          borderColor:catPcts.map(p=>p>=85?'#00B894':p>=70?'#27AE60':p>=55?'#E67E22':'#E74C3C'),
+          borderWidth:2
+        }]
+      },
+      options:{scales:{r:{min:0,max:100,ticks:{stepSize:20,backdropColor:'transparent',font:{size:10}},grid:{color:'#e2e8f0'}}},plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:14,padding:12}},tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.raw+'%'}}}}
     });
   },100);
 }
