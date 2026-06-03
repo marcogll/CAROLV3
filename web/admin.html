@@ -340,6 +340,10 @@
       outline: none; border-color: var(--input-focus);
       box-shadow: 0 0 0 3px rgba(136,57,239,.15);
     }
+    .filter-select[type="date"] {
+      background-image: none; padding-right: .75rem;
+      min-width: 140px;
+    }
     .btn-filter {
       padding: .5rem 1rem; border-radius: 8px;
       font-size: .85rem; font-weight: 500;
@@ -757,7 +761,20 @@
           <option value="true">Aprobado</option>
           <option value="false">No aprobado</option>
         </select>
-        <button class="btn-filter" onclick="loadData()"><i class="ti ti-refresh"></i> Actualizar</button>
+        <select class="filter-select" id="filter-dept" onchange="loadData()">
+          <option value="">Todos los deptos</option>
+          <option value="production">Producción</option>
+          <option value="maintenance">Mantenimiento</option>
+          <option value="quality">Calidad</option>
+          <option value="engineering">Ingeniería</option>
+          <option value="tooling">Taller de Moldes</option>
+          <option value="logistics">Logística</option>
+          <option value="other">Otro</option>
+        </select>
+        <input type="date" class="filter-select" id="filter-date-from" onchange="loadData()" title="Desde fecha">
+        <input type="date" class="filter-select" id="filter-date-to" onchange="loadData()" title="Hasta fecha">
+        <button class="btn-filter" onclick="clearFilters()"><i class="ti ti-x"></i> Limpiar</button>
+        <button class="btn-filter" onclick="loadData()"><i class="ti ti-refresh"></i></button>
       </div>
 
       <!-- Heatmap -->
@@ -1151,7 +1168,7 @@
     function fmtDate(iso) {
       if (!iso) return '—';
       const d = new Date(iso);
-      return d.toLocaleDateString('es-MX');
+      return d.toLocaleDateString('es-MX') + ' ' + d.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
     }
 
     function scoreBadgeHtml(score) {
@@ -1191,7 +1208,7 @@
     }
 
     /* ═══════════════════════════════════════════════ PAGINATION ══ */
-    let resultsState = { page: 1, perPage: 10, rows: [] };
+    let resultsState = { page: 1, perPage: 25, rows: [] };
 
     function paginateTable(containerId, page, perPage) {
       const tbody = document.getElementById(containerId);
@@ -1252,7 +1269,7 @@
 
       html += '<button class="page-btn" onclick="paginateTable(\'results-body\',' + (currentPage + 1) + ',' + resultsState.perPage + ')"' + (currentPage >= totalPages ? ' disabled' : '') + '><i class="ti ti-chevron-right"></i></button>';
 
-      const perPageOptions = [10, 25, 50];
+      const perPageOptions = [10, 25, 50, 100];
       html += '<select class="filter-select" style="margin-left:.5rem;padding:.25rem 1.5rem .25rem .5rem;font-size:.78rem;" onchange="paginateTable(\'results-body\',1,parseInt(this.value))">';
       perPageOptions.forEach(n => {
         html += '<option value="' + n + '"' + (n === resultsState.perPage ? ' selected' : '') + '>' + n + ' / pág</option>';
@@ -1313,18 +1330,24 @@
         const params = new URLSearchParams();
         const level = document.getElementById('filter-level').value;
         const passed = document.getElementById('filter-passed').value;
+        const dept = document.getElementById('filter-dept').value;
         if (level) params.set('level', level);
         if (passed) params.set('passed', passed);
+        if (dept) params.set('department', dept);
         const r = await fetch(API + '/api/results?' + params.toString(), { headers: { 'Authorization': 'Bearer ' + getToken() } });
         const rows = await r.json();
 
         const search = document.getElementById('filter-search').value.toLowerCase();
+        const dateFrom = document.getElementById('filter-date-from').value;
+        const dateTo = document.getElementById('filter-date-to').value;
         resultsState.rows = [];
         rows.forEach(row => {
           const c = row.candidate || {};
           const a = row.assessment || {};
           const res = row.results || {};
-          if (search && !c.full_name?.toLowerCase().includes(search) && !c.employee_id?.toLowerCase().includes(search)) return;
+          if (search && !c.full_name?.toLowerCase().includes(search) && !c.employee_id?.toLowerCase().includes(search) && !c.company_name?.toLowerCase().includes(search)) return;
+          if (dateFrom && row.submitted_at && row.submitted_at < dateFrom) return;
+          if (dateTo && row.submitted_at && row.submitted_at > dateTo + 'T23:59:59') return;
           const isAdmin = currentUser && currentUser.role === 'admin';
           const deleteBtn = isAdmin ? '<button class="btn-filter" style="padding:.25rem .5rem;border-color:var(--ctp-red);color:var(--ctp-red);" onclick="deleteResult(\'' + row.id + '\')" title="Eliminar"><i class="ti ti-trash" style="font-size:.8rem;"></i></button>' : '';
           resultsState.rows.push({
@@ -1343,6 +1366,16 @@
         console.error('results', e);
         tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon"><i class="ti ti-alert-circle"></i></div><h4>Error cargando resultados</h4></div></td></tr>';
       }
+    }
+
+    function clearFilters() {
+      document.getElementById('filter-search').value = '';
+      document.getElementById('filter-level').value = '';
+      document.getElementById('filter-passed').value = '';
+      document.getElementById('filter-dept').value = '';
+      document.getElementById('filter-date-from').value = '';
+      document.getElementById('filter-date-to').value = '';
+      loadData();
     }
 
     function loadData() {
