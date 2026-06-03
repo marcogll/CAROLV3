@@ -212,13 +212,10 @@
               <div class="card-header"><h3 class="card-title">Mapa de Calor de Competencias</h3></div>
               <div class="table-responsive">
                 <table class="table table-vcenter card-table" id="heatmap-table">
-                  <thead>
-                    <tr>
-                      <th>Candidato</th><th>Nivel</th><th>Máq.</th><th>Proc.</th><th>Cal.</th><th>Seg.</th><th>Mat.</th><th>Efic.</th><th>Desp.</th><th>Ing.M.</th><th>Avg</th>
-                    </tr>
+                  <thead id="heatmap-head">
+                    <tr><th colspan="20" class="empty-state">Cargando datos…</th></tr>
                   </thead>
                   <tbody id="heatmap-body">
-                    <tr><td colspan="11" class="empty-state">Cargando datos…</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -543,6 +540,7 @@
 
     async function loadHeatmap() {
       const tbody = document.getElementById('heatmap-body');
+      const thead = document.getElementById('heatmap-head');
       try {
         const r = await fetch(API + '/api/heatmap', { headers: { 'Authorization': 'Bearer ' + getToken() } });
         const rows = await r.json();
@@ -550,15 +548,17 @@
         const levelFilter = document.getElementById('filter-level').value;
         tbody.innerHTML = '';
         if (!rows.length) {
-          tbody.innerHTML = '<tr><td colspan="11" class="empty-state">Sin datos de evaluación aún.</td></tr>';
+          thead.innerHTML = '<tr><th colspan="20" class="empty-state">Sin datos de evaluación aún.</th></tr>';
           return;
         }
+        const allCats = [...new Set(rows.flatMap(r => Object.keys(r.categories || {})))];
+        thead.innerHTML = '<tr><th>Candidato</th><th>Nivel</th>' + allCats.map(k => '<th>' + (k.length > 10 ? k.substring(0,8)+'…' : k) + '</th>').join('') + '<th>Prom.</th></tr>';
+        let colspan = 2 + allCats.length + 1;
         rows.forEach(row => {
           if (levelFilter && row.level !== levelFilter) return;
           if (search && !row.name.toLowerCase().includes(search) && !row.employee_id.toLowerCase().includes(search)) return;
           const cats = row.categories || {};
-          const catKeys = ['Máquina e Inyectora','Proceso de Inyección','Calidad y Defectos','Seguridad Industrial','Materiales Plásticos','Eficiencia y Lean','Desperdicios (Muda)','Ingeniería de Moldes'];
-          const cells = catKeys.map(k => {
+          const cells = allCats.map(k => {
             const p = cats[k] || 0;
             return `<td><div class="heatmap-cell ${cellClass(p)}">${p}%</div></td>`;
           }).join('');
@@ -568,7 +568,7 @@
         });
       } catch (e) {
         console.error('heatmap', e);
-        tbody.innerHTML = '<tr><td colspan="11" class="empty-state">Error cargando heatmap.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="20" class="empty-state">Error cargando heatmap.</td></tr>';
       }
     }
 

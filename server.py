@@ -704,6 +704,10 @@ def get_heatmap_rows():
             c = json.loads(r["candidate_json"] or "{}")
             cat = json.loads(r["category_breakdown_json"] or "{}")
             scores = {k: v.get("pct", 0) for k, v in cat.items()}
+            if not scores:
+                res_obj = json.loads(r["results_json"] or "{}")
+                cr = res_obj.get("categories_results", {})
+                scores = {k: v.get("pct_score", v.get("pct", 0)) for k, v in cr.items()}
             avg = round(sum(scores.values()) / len(scores), 1) if scores else 0
             out.append({
                 "name": c.get("full_name", "—"),
@@ -721,6 +725,9 @@ def get_heatmap_rows():
         c = r.get("candidate", {})
         cat = r.get("category_breakdown", {})
         scores = {k: v.get("pct", 0) for k, v in cat.items()}
+        if not scores:
+            cr = r.get("results", {}).get("categories_results", {})
+            scores = {k: v.get("pct_score", v.get("pct", 0)) for k, v in cr.items()}
         avg = round(sum(scores.values()) / len(scores), 1) if scores else 0
         out.append({
             "name": c.get("full_name", "—"),
