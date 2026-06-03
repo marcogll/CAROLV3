@@ -23,6 +23,8 @@ CAT_MAP_ES_TO_EN = {
     "Ingeniería de Moldes": "Mold Engineering",
 }
 
+CAT_MAP_EN_TO_ES = {v: k for k, v in CAT_MAP_ES_TO_EN.items()}
+
 LEVEL_META = {
     "basic":    {"label": "Básico",    "pass_pct": 75},
     "medium":   {"label": "Medio",     "pass_pct": 75},
@@ -68,6 +70,59 @@ def _build_categories(answers_list: list) -> dict:
     return cats
 
 
+def _categories_from_breakdown(category_breakdown: dict) -> dict:
+    """Build report-engine category totals when per-question answers are absent."""
+    cats = {}
+    for cat, st in (category_breakdown or {}).items():
+        cat_en = CAT_MAP_ES_TO_EN.get(cat, cat)
+        total = int(st.get("total") or 0)
+        correct = int(st.get("correct") or 0)
+        if total <= 0:
+            continue
+        correct = max(0, min(total, correct))
+        cats[cat_en] = {
+            "correct": correct,
+            "total": total,
+            "earned": float(correct),
+            "max": float(total),
+        }
+    return cats
+
+
+def _placeholder_answers_from_categories(categories: dict) -> list:
+    """Create compact synthetic answer rows so charts do not fail without answers."""
+    answers = []
+    for cat, st in categories.items():
+        total = int(st.get("total") or 0)
+        correct = int(st.get("correct") or 0)
+        cat_es = CAT_MAP_EN_TO_ES.get(cat, cat)
+        for i in range(total):
+            is_correct = i < correct
+            answers.append({
+                "id": f"{cat}-{i + 1}",
+                "category": cat,
+                "type": "Resumen",
+                "question": f"Reactivo de {cat_es} #{i + 1}",
+                "options": ["Respuesta registrada", "Respuesta esperada"],
+                "correct_index": 0,
+                "chosen_index": 0 if is_correct else 1,
+                "correct": is_correct,
+                "score_earned": 1 if is_correct else 0,
+                "score_max": 1,
+                "reasoning": f"Resultado importado desde el resumen por categoría: {correct}/{total}.",
+            })
+    return answers
+
+
+def _report_inputs(result_row: dict):
+    answers_list = _transform_answers(result_row.get("answers", {}))
+    cats = _build_categories(answers_list)
+    if not cats:
+        cats = _categories_from_breakdown(result_row.get("category_breakdown", {}))
+        answers_list = _placeholder_answers_from_categories(cats)
+    return answers_list, cats
+
+
 def _make_candidate(candidate_json: dict, submitted_at) -> dict:
     # Handle both string and datetime objects from MySQL
     if hasattr(submitted_at, 'strftime'):
@@ -93,8 +148,7 @@ def generate_single_report(result_row: dict, output_path: str):
     """
     c = _make_candidate(result_row.get("candidate", {}), result_row.get("submitted_at", ""))
     level = result_row.get("assessment", {}).get("level", "basic")
-    answers_list = _transform_answers(result_row.get("answers", {}))
-    cats = _build_categories(answers_list)
+    answers_list, cats = _report_inputs(result_row)
     total_earned = sum(a["score_earned"] for a in answers_list)
     total_max = sum(a["score_max"] for a in answers_list)
     pct = round(total_earned / total_max * 100, 1) if total_max else 0
@@ -127,8 +181,7 @@ def generate_unified_report(result_rows: list, output_path: str):
 
     for row in result_rows:
         level = row.get("assessment", {}).get("level", "basic")
-        answers_list = _transform_answers(row.get("answers", {}))
-        cats = _build_categories(answers_list)
+        answers_list, cats = _report_inputs(row)
         total_earned = sum(a["score_earned"] for a in answers_list)
         total_max = sum(a["score_max"] for a in answers_list)
         pct = round(total_earned / total_max * 100, 1) if total_max else 0

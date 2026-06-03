@@ -928,30 +928,30 @@ def build_pdf(output_path: str, level: str, candidate: dict,
 
     story.append(Spacer(1, 10))
 
-    # ── SECTION 4: PREGUNTAS FALLIDAS ────────────────────────────────────────
+    # ── SECTION 4: REVISIÓN DE RESPUESTAS ────────────────────────────────────
     story.append(PageBreak())
-    story.append(Paragraph("4. Revisión de Preguntas Incorrectas", h1_style))
+    story.append(Paragraph("4. Revisión de Respuestas", h1_style))
     story.append(HRFlowable(width=W, thickness=2, color=level_color, spaceAfter=8))
     story.append(Paragraph(
-        "Las siguientes preguntas fueron respondidas incorrectamente. "
-        "Revisarlas es clave para fortalecer el conocimiento en piso.",
+        "Detalle de respuestas marcadas y respuestas correctas para auditoría y seguimiento.",
         body_style))
     story.append(Spacer(1, 10))
 
-    wrong_answers = [a for a in results["answers"] if not a["correct"]]
     # Group by category
-    wrong_by_cat = {}
-    for a in wrong_answers:
+    answers_by_cat = {}
+    for a in results["answers"]:
         c = a["category"]
-        wrong_by_cat.setdefault(c, []).append(a)
+        answers_by_cat.setdefault(c, []).append(a)
 
     q_num = 1
-    for cat, wrongs in wrong_by_cat.items():
+    for cat, answers in answers_by_cat.items():
         story.append(Paragraph(CAT_LABELS_ES.get(cat, cat), h2_style))
-        for a in wrongs:
+        for a in answers:
             q_block = []
+            status_text = "Correcta" if a["correct"] else "Incorrecta"
+            status_color = "#1ABC9C" if a["correct"] else "#E74C3C"
             q_block.append(Paragraph(
-                f"<b>P{q_num}.</b> {a['question']}",
+                f"<b>P{q_num}.</b> <font color='{status_color}'>[{status_text}]</font> {a['question']}",
                 S("Normal", fontSize=9, leading=13, fontName="Helvetica-Bold")
             ))
             q_block.append(Spacer(1, 3))

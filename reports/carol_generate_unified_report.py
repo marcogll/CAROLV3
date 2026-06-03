@@ -789,27 +789,29 @@ def build_pdf(output_path, all_questions, all_results, all_analysis, candidate):
         story.append(cat_tbl)
         story.append(Spacer(1, 14))
 
-        # ── Wrong questions (compact) ──────────────────────────────────────
-        wrong = [x for x in r["answers"] if not x["correct"]]
-        if wrong:
+        # ── Answer review (compact) ────────────────────────────────────────
+        all_answers = r["answers"]
+        if all_answers:
             story.append(CondPageBreak(8*cm))
-            story.append(subsection("Preguntas Incorrectas", colors.HexColor(meta["hex"])))
+            story.append(subsection("Revisión de Respuestas", colors.HexColor(meta["hex"])))
             story.append(hr(colors.HexColor(meta["hex"])))
 
-            wrong_by_cat = {}
-            for ans in wrong:
-                wrong_by_cat.setdefault(ans["category"], []).append(ans)
+            answers_by_cat = {}
+            for ans in all_answers:
+                answers_by_cat.setdefault(ans["category"], []).append(ans)
 
             qn = 1
-            for cat, w_list in wrong_by_cat.items():
+            for cat, w_list in answers_by_cat.items():
                 story.append(P(f"<b>{CAT_ES.get(cat, cat)}</b>",
                                fontSize=9, textColor=colors.HexColor(CAT_HEX.get(cat,"#555")),
                                fontName="Helvetica-Bold", spaceBefore=6))
                 for ans in w_list:
+                    status = "Correcta" if ans["correct"] else "Incorrecta"
+                    status_color = "#00B894" if ans["correct"] else "#C0392B"
                     # Question row
                     q_rows = [
                         [P(f"<b>P{qn}.</b>", fontSize=8.5, fontName="Helvetica-Bold"),
-                         P(ans["question"], fontSize=8.5, fontName="Helvetica-Bold")],
+                         P(f"<font color='{status_color}'><b>[{status}]</b></font> {ans['question']}", fontSize=8.5, fontName="Helvetica-Bold")],
                     ]
                     for idx, opt in enumerate(ans["options"]):
                         if idx == ans["correct_index"]:   mk, fc = "✓", "#00B894"

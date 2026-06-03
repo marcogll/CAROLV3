@@ -43,7 +43,7 @@
   --border-light:var(--ctp-surface1);--shadow-color:rgba(0,0,0,.25);
 }
 
-body{margin:0;padding:0;background:var(--bg-page);font-family:'Inter',system-ui,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+body{margin:0;padding:0;background:var(--bg-page);color:var(--text-primary);font-family:'Inter',system-ui,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
 .report{max-width:800px;margin:0 auto;background:var(--bg-card);}
 
 /* Theme Toggle */
@@ -89,20 +89,20 @@ body{margin:0;padding:0;background:var(--bg-page);font-family:'Inter',system-ui,
 /* Category table */
 .cat-table{width:100%;font-size:.8rem;margin-bottom:1.5rem;border-collapse:collapse;}
 .cat-table th{background:#0D1B2A;color:#fff;padding:.55rem .6rem;text-align:left;font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;}
-.cat-table td{padding:.5rem .6rem;border-bottom:1px solid var(--border-light);}
+.cat-table td{padding:.5rem .6rem;border-bottom:1px solid var(--border-light);color:var(--text-primary);}
 .cat-table tr:nth-child(even){background:var(--bg-card-alt);}
 .cat-bar-bg{width:100%;height:6px;background:var(--border-light);border-radius:99px;overflow:hidden;}
 .cat-bar-fill{height:100%;border-radius:99px;}
 
 /* Strengths / Weaknesses */
 .sw-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;}
-.sw-box{border-radius:10px;padding:1rem;font-size:.8rem;}
+.sw-box{border-radius:10px;padding:1rem;font-size:.8rem;color:var(--text-primary);}
 .sw-box.strength{background:rgba(0,184,148,.1);border:1px solid var(--ctp-green);}
 .sw-box.weakness{background:rgba(220,38,38,.1);border:1px solid var(--ctp-red);}
 .sw-box h4{margin:0 0 .5rem;font-size:.82rem;}
-.sw-item{padding:.3rem 0;display:flex;justify-content:space-between;align-items:center;}
+.sw-item{padding:.3rem 0;display:flex;justify-content:space-between;align-items:center;gap:.75rem;color:var(--text-primary);}
 .sw-item .bar-sm{width:60px;height:5px;background:var(--border-light);border-radius:99px;overflow:hidden;display:inline-block;margin-left:.5rem;}
-.sw-item .bar-sm-fill{height:100%;border-radius:99px;}
+.sw-item .bar-sm-fill{display:block;height:100%;border-radius:99px;min-width:2px;}
 
 /* Remediation */
 .remed-card{background:rgba(223,142,29,.1);border:1px solid var(--ctp-yellow);border-radius:10px;padding:1rem;margin-bottom:.75rem;}
@@ -117,9 +117,17 @@ body{margin:0;padding:0;background:var(--bg-page);font-family:'Inter',system-ui,
 .wrong-item:last-child{border:none;}
 .wrong-meta{display:flex;gap:.4rem;margin-bottom:.3rem;flex-wrap:wrap;}
 .wrong-meta span{font-size:.65rem;font-weight:600;padding:.12rem .4rem;border-radius:99px;background:var(--bg-card-alt);color:var(--text-muted);}
+.wrong-meta .cat-chip{color:#111827;border:1px solid rgba(255,255,255,.18);}
 .wrong-q{font-size:.82rem;font-weight:600;color:var(--text-primary);line-height:1.4;margin-bottom:.3rem;}
 .wrong-opt{font-size:.75rem;padding:.2rem .4rem;border-radius:6px;display:inline-block;margin:.1rem .2rem 0 0;}
 .wrong-opt.chosen{background:rgba(220,38,38,.15);color:var(--ctp-red);}
+.wrong-opt.correct-choice{background:rgba(64,160,43,.15);color:var(--ctp-green);}
+.answer-item{padding:.75rem 0;border-bottom:1px solid var(--border-light);}
+.answer-item:last-child{border:none;}
+.answer-item.correct .wrong-opt.chosen{background:rgba(64,160,43,.15);color:var(--ctp-green);}
+.answer-state{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:.14rem .45rem;border-radius:99px;}
+.answer-state.ok{background:rgba(64,160,43,.15);color:var(--ctp-green);}
+.answer-state.bad{background:rgba(210,15,57,.15);color:var(--ctp-red);}
 .wrong-hint{font-size:.75rem;color:var(--ctp-peach);background:rgba(223,142,29,.1);border:1px solid var(--ctp-yellow);border-radius:6px;padding:.4rem .6rem;margin-top:.4rem;}
 
 /* Footer */
@@ -204,7 +212,7 @@ function render(data){
   const passed=res.passed||(pct>=70);
 
   // Derive missing fields
-  const totalQ=res.total||Object.keys(answers).length;
+  const totalQ=res.total||a.total_questions||Object.keys(answers).length;
   const totalCorrect=res.correct_answers||res.score||0;
   const earnedPts=res.earned_pts||(totalCorrect*(res.points_per_question||10));
   const maxPts=res.max_pts||(totalQ*(res.points_per_question||10));
@@ -214,6 +222,12 @@ function render(data){
   if(!wrongIds.length && Object.keys(answers).length){
     wrongIds=Object.entries(answers).filter(([k,v])=>v.correct===false||v.correct===0).map(([k])=>k);
   }
+  const answerEntries=Object.entries(answers);
+  const categoryPalette=['#a6e3a1','#94e2d5','#89b4fa','#fab387','#f38ba8','#f9e2af','#cba6f7','#f5c2e7'];
+  const catColor=(cat)=>{
+    const idx=Math.abs(String(cat||'General').split('').reduce((sum,ch)=>sum+ch.charCodeAt(0),0))%categoryPalette.length;
+    return categoryPalette[idx];
+  };
 
   // If category_breakdown is empty, build from results.categories_results
   if(!Object.keys(catBd).length && res.categories_results){
@@ -344,7 +358,7 @@ function render(data){
     <thead><tr><th>Área</th><th>Correctas</th><th>%</th><th>Progreso</th></tr></thead>
     <tbody>${cats.map((cat,i)=>{
       const p=catPcts[i];
-      const col=p>=85?'var(--ctp-green)':p>=70?'var(--ctp-teal)':p>=55?'var(--ctp-peach)':'var(--ctp-red)';
+      const col=p>=85?'#a6e3a1':p>=70?'#94e2d5':p>=55?'#fab387':'#f38ba8';
       return `<tr><td><b>${cat}</b></td><td>${catCorrect[i]}/${catTotal[i]}</td><td style="font-weight:700;color:${col};">${p}%</td><td style="width:140px;"><div class="cat-bar-bg"><div class="cat-bar-fill" style="width:${p}%;background:${col};"></div></div></td></tr>`;
     }).join('')}</tbody>
   </table>
@@ -355,14 +369,14 @@ function render(data){
       <h4 style="color:var(--ctp-green);">💪 Fortalezas</h4>
       ${strengths.length?strengths.map(k=>{
         const p=catBd[k].pct||0;
-        return `<div class="sw-item"><span><b>${k}</b> ${p}%</span><span class="bar-sm"><span class="bar-sm-fill" style="width:${p}%;background:var(--ctp-green);"></span></span></div>`;
+        return `<div class="sw-item"><span><b>${k}</b> ${p}%</span><span class="bar-sm"><span class="bar-sm-fill" style="width:${p}%;background:#a6e3a1;"></span></span></div>`;
       }).join(''):'<div style="color:var(--text-muted);">Sin áreas destacadas (todas < 70%)</div>'}
     </div>
     <div class="sw-box weakness">
       <h4 style="color:var(--ctp-red);">⚠️ Áreas Débiles</h4>
       ${weaknesses.length?weaknesses.map(k=>{
         const p=catBd[k].pct||0;
-        return `<div class="sw-item"><span><b>${k}</b> ${p}%</span><span class="bar-sm"><span class="bar-sm-fill" style="width:${p}%;background:var(--ctp-red);"></span></span></div>`;
+        return `<div class="sw-item"><span><b>${k}</b> ${p}%</span><span class="bar-sm"><span class="bar-sm-fill" style="width:${p}%;background:#f38ba8;"></span></span></div>`;
       }).join(''):'<div style="color:var(--ctp-green);">Todas las áreas superan 70%</div>'}
     </div>
   </div>
@@ -380,21 +394,34 @@ function render(data){
     </div>`;
   }).join('')}`:''}
 
-  <!-- WRONG QUESTIONS -->
-  ${wrongIds.length?`
-  <div class="sec-title">❌ Preguntas Incorrectas — Revisión</div>
-  ${wrongIds.map(qid=>{
-    const ans=answers[qid];
-    if(!ans)return '';
+  <!-- ANSWER REVIEW -->
+  ${answerEntries.length?`
+  <div class="sec-title">✅ Revisión de Respuestas</div>
+  ${answerEntries.map(([qid,ans],idx)=>{
     const letters=['A','B','C','D'];
-    const chosen=ans.chosen_index!==undefined?letters[ans.chosen_index]+'. '+(ans.options?ans.options[ans.chosen_index]:'—'):'Sin respuesta';
-    return `<div class="wrong-item">
-      <div class="wrong-meta"><span>${ans.category||'—'}</span><span>${ans.type||''}</span><span>${ans.score||0} pts</span></div>
-      <div class="wrong-q">${ans.question||qid}</div>
-      <div class="wrong-opt chosen"><b>Tu respuesta:</b> ${chosen}</div>
-      <div class="wrong-hint">📚 Revisa el material de estudio de <b>${ans.category||'esta área'}</b> para reforzar este tema.</div>
+    const options=ans.options||[];
+    const chosenIdx=Number.isInteger(ans.chosen_index)?ans.chosen_index:-1;
+    const correctIdx=Number.isInteger(ans.correct_index)?ans.correct_index:-1;
+    const chosen=chosenIdx>=0?letters[chosenIdx]+'. '+(options[chosenIdx]||'—'):'Sin respuesta';
+    const correct=correctIdx>=0?letters[correctIdx]+'. '+(options[correctIdx]||'—'):'—';
+    const ok=ans.correct===true||ans.correct===1;
+    const color=catColor(ans.category);
+    return `<div class="answer-item ${ok?'correct':'wrong'}">
+      <div class="wrong-meta">
+        <span class="cat-chip" style="background:${color};">${ans.category||'General'}</span>
+        <span>${ans.type||''}</span>
+        <span>${ans.score||0} pts</span>
+        <span class="answer-state ${ok?'ok':'bad'}">${ok?'Correcta':'Incorrecta'}</span>
+      </div>
+      <div class="wrong-q">${idx+1}. ${ans.question||qid}</div>
+      <div class="wrong-opt chosen"><b>Respuesta marcada:</b> ${chosen}</div>
+      <div class="wrong-opt correct-choice"><b>Respuesta correcta:</b> ${correct}</div>
+      ${ok?'':`<div class="wrong-hint">📚 Revisa el material de estudio de <b>${ans.category||'esta área'}</b> para reforzar este tema.</div>`}
     </div>`;
-  }).join('')}`:'<div class="sec-title">✅ Preguntas Incorrectas</div><div style="color:var(--ctp-green);font-weight:700;">Sin preguntas incorrectas — excelente desempeño.</div>'}
+  }).join('')}`:wrongIds.length?`
+  <div class="sec-title">❌ Preguntas Incorrectas — Revisión</div>
+  ${wrongIds.map(qid=>`<div class="wrong-item"><div class="wrong-q">${qid}</div></div>`).join('')}`:
+  '<div class="sec-title">✅ Revisión de Respuestas</div><div style="color:var(--ctp-green);font-weight:700;">Sin detalle de respuestas guardado para esta evaluación.</div>'}
 
   </div>
 
