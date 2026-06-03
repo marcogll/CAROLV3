@@ -1338,6 +1338,41 @@ class CarolHandler(SimpleHTTPRequestHandler):
             self._send_json(200, get_candidates())
             return
 
+        # ── API: Candidates with evaluation stats ──
+        if path == "/api/candidates/stats":
+            if not self._is_authenticated():
+                self._send_json(401, {"error": "Unauthorized"})
+                return
+            candidates = get_candidates()
+            results = get_results()
+            stats_map = {}
+            for r in results:
+                cid = r.get("candidate_id") or (r.get("candidate") or {}).get("candidate_id")
+                if not cid:
+                    continue
+                if cid not in stats_map:
+                    stats_map[cid] = {"evaluations": 0, "scores": [], "passed": 0, "last_date": None, "last_level": None}
+                s = stats_map[cid]
+                s["evaluations"] += 1
+                score = (r.get("results") or {}).get("pct_score", 0)
+                s["scores"].append(score)
+                if (r.get("results") or {}).get("passed"):
+                    s["passed"] += 1
+                submitted = r.get("submitted_at")
+                if submitted and (not s["last_date"] or submitted > s["last_date"]):
+                    s["last_date"] = submitted
+                    s["last_level"] = (r.get("assessment") or {}).get("level")
+            for c in candidates:
+                cid = c.get("candidate_id")
+                s = stats_map.get(cid, {"evaluations": 0, "scores": [], "passed": 0, "last_date": None, "last_level": None})
+                c["eval_count"] = s["evaluations"]
+                c["avg_score"] = round(sum(s["scores"]) / len(s["scores"]), 1) if s["scores"] else 0
+                c["passed_count"] = s["passed"]
+                c["last_eval_date"] = s["last_date"]
+                c["last_level"] = s["last_level"]
+            self._send_json(200, candidates)
+            return
+
         # ── API: Results ──
         if path == "/api/results" or path == "/api/admin/results":
             if not self._is_authenticated():

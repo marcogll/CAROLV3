@@ -482,6 +482,14 @@
       font-size: .75rem; color: var(--text-muted);
       display: flex; align-items: center; gap: .25rem;
     }
+    .persona-card-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem;
+      margin-top: .75rem; padding-top: .75rem;
+      border-top: 1px solid var(--card-border);
+    }
+    .persona-stat { display: flex; flex-direction: column; align-items: center; }
+    .persona-stat-label { font-size: .65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .03em; }
+    .persona-stat-value { font-size: .95rem; font-weight: 700; color: var(--text-main); }
 
     /* ═══════════════════════════════════════════════ SKELETON ══ */
     .skeleton {
@@ -597,6 +605,7 @@
       .filter-bar { flex-direction: column; align-items: stretch; }
       .filter-search { min-width: 100%; }
       .persona-grid { grid-template-columns: 1fr; }
+      .persona-card-stats { grid-template-columns: repeat(2, 1fr); }
       .table-footer { flex-direction: column; align-items: flex-start; }
       .form-row.cols-2, .form-row.cols-3, .form-row.cols-5 { grid-template-columns: 1fr; }
       .modal-custom { width: 95%; max-height: 90vh; }
@@ -1624,7 +1633,7 @@
     async function loadPersonas() {
       const grid = document.getElementById('personas-grid');
       try {
-        const r = await fetch(API + '/api/candidates', { headers: { 'Authorization': 'Bearer ' + getToken() } });
+        const r = await fetch(API + '/api/candidates/stats', { headers: { 'Authorization': 'Bearer ' + getToken() } });
         const rows = await r.json();
         const search = document.getElementById('persona-search').value.toLowerCase();
         const levelFilter = document.getElementById('persona-level').value;
@@ -1642,6 +1651,11 @@
           visibleCount++;
           const initials = name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
           const avatarBg = getAvatarColor(name);
+          const evalCount = row.eval_count || 0;
+          const avgScore = row.avg_score || 0;
+          const passedCount = row.passed_count || 0;
+          const lastDate = row.last_eval_date ? fmtDate(row.last_eval_date) : '—';
+          const scoreColor = avgScore >= 70 ? 'var(--ctp-green)' : avgScore >= 55 ? 'var(--ctp-peach)' : 'var(--ctp-red)';
           const card = document.createElement('div');
           card.className = 'persona-card';
           card.onclick = function() { openPersona(row.candidate_id, name.replace(/'/g, "\\'")); };
@@ -1649,17 +1663,25 @@
             '<div class="persona-card-top">' +
               '<div>' +
                 '<div class="persona-card-name">' + name + '</div>' +
-                '<div class="persona-card-id">' + empId + '</div>' +
+                '<div class="persona-card-id">' + empId + ' · ' + (row.department || '—') + '</div>' +
               '</div>' +
               '<div class="persona-avatar" style="background:' + avatarBg + ';">' + initials + '</div>' +
             '</div>' +
             '<div class="persona-card-meta">' +
-              '<span><i class="ti ti-building"></i> ' + (row.department || '—') + '</span>' +
               '<span><i class="ti ti-briefcase"></i> ' + (row.job_role || '—') + '</span>' +
+              '<span>' + levelBadge(row.assigned_level) + '</span>' +
             '</div>' +
-            '<div style="margin-top:.6rem;display:flex;align-items:center;justify-content:space-between;">' +
-              levelBadge(row.assigned_level) +
-              '<button class="btn-filter" style="padding:.3rem .6rem;font-size:.78rem;">' +
+            (evalCount > 0 ?
+              '<div class="persona-card-stats">' +
+                '<div class="persona-stat"><span class="persona-stat-label">Evaluaciones</span><span class="persona-stat-value">' + evalCount + '</span></div>' +
+                '<div class="persona-stat"><span class="persona-stat-label">Promedio</span><span class="persona-stat-value" style="color:' + scoreColor + ';">' + avgScore + '%</span></div>' +
+                '<div class="persona-stat"><span class="persona-stat-label">Aprobadas</span><span class="persona-stat-value" style="color:var(--ctp-green);">' + passedCount + '</span></div>' +
+                '<div class="persona-stat"><span class="persona-stat-label">Última eval</span><span class="persona-stat-value" style="font-size:.7rem;">' + lastDate + '</span></div>' +
+              '</div>' :
+              '<div class="persona-card-stats" style="opacity:.5;"><span style="font-size:.8rem;color:var(--text-muted);">Sin evaluaciones aún</span></div>'
+            ) +
+            '<div style="margin-top:.6rem;">' +
+              '<button class="btn-filter" style="width:100%;justify-content:center;padding:.4rem;">' +
                 '<i class="ti ti-eye"></i> Ver evaluaciones' +
               '</button>' +
             '</div>';
