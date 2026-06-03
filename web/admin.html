@@ -753,8 +753,8 @@
                 '<div style="font-size:.8rem;color:#64748b;">'+(a.level_name || '—')+' · '+(c.department || '—')+' · '+(c.company_name || '—')+' · '+fmtDate(data.submitted_at)+'</div>'+
               '</div>'+
               '<div style="display:flex;gap:.5rem;">'+
-                '<a href="/api/report/'+id+'/view" target="_blank" class="btn btn-outline-primary btn-sm"><i class="ti ti-file-text"></i> Ver Reporte HTML</a>'+
-                '<a href="/api/report/'+id+'/pdf" target="_blank" class="btn btn-primary btn-sm"><i class="ti ti-file-download"></i> Descargar PDF</a>'+
+                '<a href="/api/report/'+id+'/view?token='+encodeURIComponent(getToken())+'" target="_blank" class="btn btn-outline-primary btn-sm"><i class="ti ti-file-text"></i> Ver Reporte HTML</a>'+
+                '<a href="/api/report/'+id+'/pdf?token='+encodeURIComponent(getToken())+'" target="_blank" class="btn btn-primary btn-sm"><i class="ti ti-file-download"></i> Descargar PDF</a>'+
               '</div>'+
             '</div>'+
           '</div>'+
