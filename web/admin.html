@@ -753,6 +753,18 @@
         </div>
       </div>
 
+      <!-- Category charts -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;">
+        <div class="card-custom">
+          <div class="card-header-custom"><h3><i class="ti ti-chart-radar" style="color:var(--ctp-mauve);"></i> Desempeño por Categoría de Preguntas</h3></div>
+          <div class="card-body-custom"><canvas id="chart-cat-avg" height="280"></canvas></div>
+        </div>
+        <div class="card-custom">
+          <div class="card-header-custom"><h3><i class="ti ti-chart-bar" style="color:var(--ctp-peach);"></i> Reactivos Correctos vs Incorrectos</h3></div>
+          <div class="card-body-custom"><canvas id="chart-cat-correct" height="280"></canvas></div>
+        </div>
+      </div>
+
       <!-- Filters -->
       <div class="filter-bar">
         <div class="filter-search">
@@ -1469,6 +1481,32 @@
           ]);
           renderBar('chart-dept-avg', deptNames, [
             { label: 'Puntaje promedio (%)', data: deptNames.map(d => Math.round(deptData[d].sum / deptData[d].count)), backgroundColor: c.blue }
+          ]);
+        }
+
+        // Category breakdown charts
+        const catData = {};
+        filtered.forEach(r => {
+          const cb = r.category_breakdown || {};
+          Object.entries(cb).forEach(([cat, v]) => {
+            if (!catData[cat]) catData[cat] = { correct: 0, total: 0, sumPct: 0, count: 0 };
+            catData[cat].correct += (v.correct || 0);
+            catData[cat].total += (v.total || 0);
+            catData[cat].sumPct += (v.pct || 0);
+            catData[cat].count++;
+          });
+        });
+        const catNames = Object.keys(catData).sort();
+        if (catNames.length) {
+          const catAvgs = catNames.map(k => Math.round(catData[k].sumPct / catData[k].count));
+          renderBar('chart-cat-avg', catNames.map(n => n.length > 18 ? n.substring(0, 16) + '…' : n), [
+            { label: 'Promedio por categoría (%)', data: catAvgs, backgroundColor: catAvgs.map(p => p >= 70 ? c.green : p >= 55 ? c.yellow : c.red), borderRadius: 4 }
+          ]);
+          const catCorrect = catNames.map(k => catData[k].correct);
+          const catIncorrect = catNames.map(k => catData[k].total - catData[k].correct);
+          renderBar('chart-cat-correct', catNames.map(n => n.length > 18 ? n.substring(0, 16) + '…' : n), [
+            { label: 'Correctas', data: catCorrect, backgroundColor: c.green, borderRadius: 4 },
+            { label: 'Incorrectas', data: catIncorrect, backgroundColor: c.red, borderRadius: 4 }
           ]);
         }
       } catch (e) { console.error('charts', e); }

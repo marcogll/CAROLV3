@@ -181,7 +181,7 @@ function render(data){
   const res=data.results||{};
   let catBd=data.category_breakdown||{};
   const answers=data.answers||{};
-  const wrongIds=data.wrong_question_ids||[];
+  let wrongIds=data.wrong_question_ids||[];
   const pct=res.pct_score||0;
   const passed=res.passed||(pct>=70);
 
@@ -191,6 +191,11 @@ function render(data){
   const earnedPts=res.earned_pts||(totalCorrect*(res.points_per_question||10));
   const maxPts=res.max_pts||(totalQ*(res.points_per_question||10));
   const timeSec=res.time_seconds||0;
+
+  // Fallback: derive wrong_question_ids from answers if empty
+  if(!wrongIds.length && Object.keys(answers).length){
+    wrongIds=Object.entries(answers).filter(([k,v])=>v.correct===false||v.correct===0).map(([k])=>k);
+  }
 
   // If category_breakdown is empty, build from results.categories_results
   if(!Object.keys(catBd).length && res.categories_results){

@@ -396,6 +396,19 @@ def init_db():
                         last_used_at DATETIME
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
                 """)
+                # Backfill: fix results with empty candidate_id from candidate_json
+                try:
+                    cur.execute("SELECT id, candidate_json FROM results WHERE candidate_id IS NULL OR candidate_id = ''")
+                    empty_rows = cur.fetchall()
+                    if empty_rows:
+                        for row in empty_rows:
+                            cj = json.loads(row.get("candidate_json") or "{}")
+                            cid = cj.get("candidate_id") or cj.get("id") or ""
+                            if cid:
+                                cur.execute("UPDATE results SET candidate_id = %s WHERE id = %s", (cid, row["id"]))
+                        print(f"[DB] Backfilled candidate_id for {len(empty_rows)} results")
+                except Exception as e:
+                    print(f"[DB] Backfill warning: {e}")
             conn.close()
             print("[DB] Tables initialized successfully.")
             return
@@ -526,6 +539,25 @@ def get_results_by_candidate_id(candidate_id, include_deleted=False):
             else:
                 cur.execute("SELECT * FROM results WHERE candidate_id = %s AND deleted_at IS NULL ORDER BY submitted_at DESC", (candidate_id,))
             rows = cur.fetchall()
+            # Fallback: search inside candidate_json for candidate_id
+            if not rows:
+                like_id = f'%"{candidate_id}"%'
+                if include_deleted:
+                    cur.execute("SELECT * FROM results WHERE candidate_json LIKE %s ORDER BY submitted_at DESC", (like_id,))
+                else:
+                    cur.execute("SELECT * FROM results WHERE candidate_json LIKE %s AND deleted_at IS NULL ORDER BY submitted_at DESC", (like_id,))
+                rows = cur.fetchall()
+            # Fallback: look up candidate email and match by email in candidate_json
+            if not rows:
+                cur.execute("SELECT contact_email FROM candidates WHERE candidate_id = %s", (candidate_id,))
+                cand = cur.fetchone()
+                if cand and cand.get("contact_email"):
+                    like_email = f'%{cand["contact_email"]}%'
+                    if include_deleted:
+                        cur.execute("SELECT * FROM results WHERE candidate_json LIKE %s ORDER BY submitted_at DESC", (like_email,))
+                    else:
+                        cur.execute("SELECT * FROM results WHERE candidate_json LIKE %s AND deleted_at IS NULL ORDER BY submitted_at DESC", (like_email,))
+                    rows = cur.fetchall()
         conn.close()
         for r in rows:
             r["candidate"] = json.loads(r.get("candidate_json") or "{}")
@@ -1012,12 +1044,18 @@ class CarolHandler(SimpleHTTPRequestHandler):
                 candidate_info = payload.get("candidate", {})
                 email = candidate_info.get("contact_email")
                 emp_id = candidate_info.get("employee_id")
+                full_name = candidate_info.get("full_name")
 
                 candidates = get_candidates()
-                exists = any(c.get("contact_email") == email or c.get("employee_id") == emp_id for c in candidates)
+                exists = any(
+                    (email and c.get("contact_email") == email)
+                    or (emp_id and c.get("employee_id") == emp_id)
+                    or (full_name and c.get("full_name") == full_name)
+                    for c in candidates
+                )
 
                 if not exists:
-                    print(f"[WEBHOOK REJECTED] Candidate not registered: email={email}, emp_id={emp_id}")
+                    print(f"[WEBHOOK REJECTED] Candidate not registered: email={email}, emp_id={emp_id}, name={full_name}")
                     self._send_json(403, {"error": "Candidato no registrado. Contacte a su administrador."})
                     return
 
@@ -1345,9 +1383,21 @@ class CarolHandler(SimpleHTTPRequestHandler):
                 return
             candidates = get_candidates()
             results = get_results()
+            # Build email→candidate_id lookup
+            email_to_cid = {}
+            for c in candidates:
+                email = (c.get("contact_email") or "").lower()
+                if email:
+                    email_to_cid[email] = c.get("candidate_id")
             stats_map = {}
             for r in results:
                 cid = r.get("candidate_id") or (r.get("candidate") or {}).get("candidate_id")
+                # Fallback: match by email from candidate_json
+                if not cid:
+                    cj = r.get("candidate") or {}
+                    email = (cj.get("contact_email") or "").lower()
+                    if email and email in email_to_cid:
+                        cid = email_to_cid[email]
                 if not cid:
                     continue
                 if cid not in stats_map:
@@ -1452,6 +1502,25 @@ class CarolHandler(SimpleHTTPRequestHandler):
             if not row:
                 self._send_json(404, {"error": "Result not found"})
                 return
+            # Merge candidate info from candidates table if missing fields
+            cand = row.get("candidate", {})
+            if not cand.get("department") or not cand.get("job_role"):
+                candidates = get_candidates()
+                email = (cand.get("contact_email") or "").lower()
+                emp_id = cand.get("employee_id")
+                full_match = None
+                for cc in candidates:
+                    if email and (cc.get("contact_email") or "").lower() == email:
+                        full_match = cc
+                        break
+                    if emp_id and cc.get("employee_id") == emp_id:
+                        full_match = cc
+                        break
+                if full_match:
+                    for field in ["department", "job_role", "years_experience", "company_name"]:
+                        if not cand.get(field) and full_match.get(field):
+                            cand[field] = full_match[field]
+                    row["candidate"] = cand
             report_path = os.path.join(WEB_DIR, "report_email_template.html")
             if not os.path.exists(report_path):
                 self._send_json(404, {"error": "Report template not found"})
@@ -1622,7 +1691,13 @@ class CarolHandler(SimpleHTTPRequestHandler):
             output = []
             for c in matched:
                 cid = c.get("candidate_id", "")
-                c_results = [r for r in results_all if r.get("candidate", {}).get("candidate_id") == cid or r.get("candidate_id") == cid]
+                c_email = (c.get("contact_email") or "").lower()
+                c_results = [r for r in results_all if
+                    r.get("candidate", {}).get("candidate_id") == cid
+                    or r.get("candidate_id") == cid
+                    or (c_email and (r.get("candidate") or {}).get("contact_email", "").lower() == c_email)
+                    or (cid and cid in json.dumps(r.get("candidate_json") or "", ensure_ascii=False))
+                ]
                 scores = [r.get("results", {}).get("pct_score", 0) for r in c_results if r.get("results", {}).get("pct_score") is not None]
                 output.append({
                     "candidate": c,

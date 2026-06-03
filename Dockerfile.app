@@ -16,6 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY server.py .
 COPY registration/ ./registration/
 COPY web/ ./web/
+COPY reports/ ./reports/
 COPY .carol_data/ ./.carol_data/
 
 ENV PYTHONUNBUFFERED=1
