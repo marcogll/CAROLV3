@@ -1107,6 +1107,7 @@
         const data = await r.json();
         if (data.success) {
           setToken(data.token);
+          currentUser = data.user;
           showDashboard(data.user);
           loadData();
         } else {
@@ -1564,14 +1565,17 @@
 
     async function deleteResult(id) {
       if (!confirm('¿Eliminar esta evaluación? Se mantendrá en auditoría.')) return;
+      const deleteCandidate = confirm('¿También borrar la persona asociada y todas sus evaluaciones? Si eliges Cancelar, la persona permanece.');
       try {
-        const r = await fetch(API + '/api/result/' + id, {
+        const url = API + '/api/result/' + id + (deleteCandidate ? '?delete_candidate=true' : '');
+        const r = await fetch(url, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + getToken() }
         });
         const data = await r.json();
         if (data.success) {
-          showToast('Evaluación eliminada.', 'success');
+          const extra = data.candidate_deleted ? ' Persona asociada eliminada.' : '';
+          showToast('Evaluación eliminada.' + extra, 'success');
           loadData();
         } else {
           showToast(data.error || 'Error eliminando evaluación', 'error');
@@ -1681,6 +1685,7 @@
           return;
         }
         let visibleCount = 0;
+        const isAdmin = currentUser && currentUser.role === 'admin';
         rows.forEach(row => {
           const name = row.full_name || '—';
           const empId = row.employee_id || '—';
@@ -1694,9 +1699,13 @@
           const passedCount = row.passed_count || 0;
           const lastDate = row.last_eval_date ? fmtDate(row.last_eval_date) : '—';
           const scoreColor = avgScore >= 70 ? 'var(--ctp-green)' : avgScore >= 55 ? 'var(--ctp-peach)' : 'var(--ctp-red)';
+          const safeName = name.replace(/'/g, "\\'");
+          const deleteBtn = isAdmin
+            ? '<button class="btn-filter" style="padding:.4rem;border-color:var(--ctp-red);color:var(--ctp-red);" onclick="event.stopPropagation();deleteCandidate(\'' + row.candidate_id + '\',\'' + safeName + '\')" title="Eliminar persona"><i class="ti ti-trash"></i></button>'
+            : '';
           const card = document.createElement('div');
           card.className = 'persona-card';
-          card.onclick = function() { openPersona(row.candidate_id, name.replace(/'/g, "\\'")); };
+          card.onclick = function() { openPersona(row.candidate_id, safeName); };
           card.innerHTML =
             '<div class="persona-card-top">' +
               '<div>' +
@@ -1718,10 +1727,11 @@
               '</div>' :
               '<div class="persona-card-stats" style="opacity:.5;"><span style="font-size:.8rem;color:var(--text-muted);">Sin evaluaciones aún</span></div>'
             ) +
-            '<div style="margin-top:.6rem;">' +
-              '<button class="btn-filter" style="width:100%;justify-content:center;padding:.4rem;">' +
+            '<div style="margin-top:.6rem;display:flex;gap:.4rem;">' +
+              '<button class="btn-filter" style="flex:1;justify-content:center;padding:.4rem;">' +
                 '<i class="ti ti-eye"></i> Ver evaluaciones' +
               '</button>' +
+              deleteBtn +
             '</div>';
           grid.appendChild(card);
         });
@@ -1769,6 +1779,29 @@
 
     function closePersonaDetail() {
       document.getElementById('persona-detail').style.display = 'none';
+    }
+
+    async function deleteCandidate(candidateId, name) {
+      if (!confirm('¿Eliminar a ' + name + ' del registro de personas?')) return;
+      const deleteResults = confirm('¿También borrar todas sus evaluaciones? Si eliges Cancelar, sólo se borra la persona.');
+      try {
+        const url = API + '/api/candidates/' + encodeURIComponent(candidateId) + (deleteResults ? '?delete_results=true' : '');
+        const r = await fetch(url, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + getToken() }
+        });
+        const data = await r.json();
+        if (data.success) {
+          const extra = data.results_deleted ? ' Evaluaciones eliminadas: ' + data.results_deleted + '.' : '';
+          showToast('Persona eliminada.' + extra, 'success');
+          closePersonaDetail();
+          loadData();
+        } else {
+          showToast(data.error || 'Error eliminando persona', 'error');
+        }
+      } catch (e) {
+        showToast('Error de conexión', 'error');
+      }
     }
 
     /* ═══════════════════════════════════════════════ AJUSTES ══ */

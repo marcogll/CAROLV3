@@ -922,12 +922,16 @@ function init(){
   // Populate year dropdown
   const sel=document.getElementById('reg-birth-year');
   const yr=new Date().getFullYear();
-  for(let y=yr-16;y>=yr-70;y--){const o=document.createElement('option');o.value=y;o.textContent=y;sel.appendChild(o);}
+  if(sel){
+    for(let y=yr-16;y>=yr-70;y--){const o=document.createElement('option');o.value=y;o.textContent=y;sel.appendChild(o);}
+  }
   // Populate stats
   ['basic','medium','advanced'].forEach(l=>{
     const d=CAROL_DATA[l];
-    document.getElementById(l+'-q-count').textContent=d.stats.total_questions+' preguntas';
-    document.getElementById(l+'-pts').textContent=d.stats.max_score+' puntos';
+    const qCount=document.getElementById(l+'-q-count');
+    const pts=document.getElementById(l+'-pts');
+    if(qCount) qCount.textContent=d.stats.total_questions+' preguntas';
+    if(pts) pts.textContent=d.stats.max_score+' puntos';
   });
   // Restore candidate from localStorage if available
   const savedCandidate=localStorage.getItem('carol_candidate');

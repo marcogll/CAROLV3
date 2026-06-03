@@ -593,6 +593,59 @@ def soft_delete_result(result_id, user_email):
         _save(RESULTS_FILE, results)
     _audit_log("delete", "result", result_id, user_email, f"Soft-deleted result {result_id}")
 
+def delete_candidate_record(candidate_id, user_email):
+    if USE_MYSQL:
+        conn = get_conn()
+        with conn.cursor() as cur:
+            cur.execute("DELETE FROM candidates WHERE id = %s OR candidate_id = %s", (candidate_id, candidate_id))
+            deleted = cur.rowcount
+        conn.close()
+    else:
+        candidates = _load(CANDIDATES_FILE)
+        remaining = [
+            c for c in candidates
+            if c.get("id") != candidate_id and c.get("candidate_id") != candidate_id
+        ]
+        deleted = len(candidates) - len(remaining)
+        _save(CANDIDATES_FILE, remaining)
+    if deleted:
+        _audit_log("delete", "candidate", candidate_id, user_email, f"Deleted candidate {candidate_id}")
+    return deleted
+
+def soft_delete_results_by_candidate(candidate_id, user_email):
+    if USE_MYSQL:
+        conn = get_conn()
+        like_candidate_id = f'%"{candidate_id}"%'
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                UPDATE results
+                SET deleted_at = %s, deleted_by = %s
+                WHERE deleted_at IS NULL
+                  AND (candidate_id = %s OR candidate_json LIKE %s)
+                """,
+                (_now_iso(), user_email, candidate_id, like_candidate_id),
+            )
+            deleted = cur.rowcount
+        conn.close()
+    else:
+        results = _load(RESULTS_FILE)
+        deleted = 0
+        for r in results:
+            candidate = r.get("candidate") or {}
+            if not r.get("deleted_at") and (
+                r.get("candidate_id") == candidate_id
+                or candidate.get("candidate_id") == candidate_id
+                or candidate.get("id") == candidate_id
+            ):
+                r["deleted_at"] = _now_iso()
+                r["deleted_by"] = user_email
+                deleted += 1
+        _save(RESULTS_FILE, results)
+    if deleted:
+        _audit_log("delete", "results", candidate_id, user_email, f"Soft-deleted {deleted} results for candidate {candidate_id}")
+    return deleted
+
 # ── Session storage helpers ──────────────────────────────────────────────────
 
 def store_session(session):
@@ -1266,7 +1319,9 @@ class CarolHandler(SimpleHTTPRequestHandler):
         self._send_json(404, {"error": "Not found"})
 
     def do_DELETE(self):
-        path = urllib.parse.urlparse(self.path).path
+        parsed = urllib.parse.urlparse(self.path)
+        path = parsed.path
+        qs = urllib.parse.parse_qs(parsed.query)
         # ── Users: Delete ──
         if path.startswith("/api/users/"):
             if not self._is_admin():
@@ -1296,8 +1351,24 @@ class CarolHandler(SimpleHTTPRequestHandler):
                 return
             result_id = parts[3]
             user = self._current_user()
-            soft_delete_result(result_id, user.get("email") if user else "unknown")
-            self._send_json(200, {"success": True, "message": "Evaluación eliminada (soft delete)"})
+            user_email = user.get("email") if user else "unknown"
+            result = get_result_by_id(result_id, include_deleted=True)
+            soft_delete_result(result_id, user_email)
+            candidate_deleted = 0
+            results_deleted = 0
+            delete_candidate = (qs.get("delete_candidate", ["false"])[0].lower() == "true")
+            if delete_candidate and result:
+                candidate = result.get("candidate") or {}
+                candidate_id = candidate.get("candidate_id") or candidate.get("id") or result.get("candidate_id")
+                if candidate_id:
+                    results_deleted = soft_delete_results_by_candidate(candidate_id, user_email)
+                    candidate_deleted = delete_candidate_record(candidate_id, user_email)
+            self._send_json(200, {
+                "success": True,
+                "message": "Evaluación eliminada (soft delete)",
+                "candidate_deleted": candidate_deleted,
+                "results_deleted": results_deleted,
+            })
             return
         # ── Candidates: Delete ──
         if path.startswith("/api/candidates/"):
@@ -1309,17 +1380,17 @@ class CarolHandler(SimpleHTTPRequestHandler):
                 self._send_json(400, {"error": "Invalid request"})
                 return
             cid = parts[3]
-            if USE_MYSQL:
-                conn = get_conn()
-                with conn.cursor() as cur:
-                    cur.execute("DELETE FROM candidates WHERE id = %s", (cid,))
-                conn.close()
-            else:
-                cands = _load(CANDIDATES_FILE)
-                cands = [c for c in cands if c.get("id") != cid]
-                _save(CANDIDATES_FILE, cands)
-            _audit_log("delete", "candidate", cid, self._current_user().get("email", "unknown"), f"Deleted candidate {cid}")
-            self._send_json(200, {"success": True, "message": "Candidato eliminado"})
+            user = self._current_user()
+            user_email = user.get("email", "unknown") if user else "unknown"
+            results_deleted = 0
+            if qs.get("delete_results", ["false"])[0].lower() == "true":
+                results_deleted = soft_delete_results_by_candidate(cid, user_email)
+            delete_candidate_record(cid, user_email)
+            self._send_json(200, {
+                "success": True,
+                "message": "Candidato eliminado",
+                "results_deleted": results_deleted,
+            })
             return
         # ── Candidates: Cleanup ghosts ──
         if path == "/api/candidates/cleanup-ghosts":
