@@ -142,7 +142,7 @@ function render(data){
   const passed=res.passed||(pct>=70);
 
   // Derive missing fields
-  const totalQ=res.total||catTotal.reduce((a,b)=>a+b,0)||Object.keys(answers).length;
+  const totalQ=res.total||Object.keys(answers).length;
   const totalCorrect=res.correct_answers||res.score||0;
   const earnedPts=res.earned_pts||(totalCorrect*(res.points_per_question||10));
   const maxPts=res.max_pts||(totalQ*(res.points_per_question||10));
