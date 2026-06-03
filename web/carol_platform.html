@@ -141,7 +141,7 @@ body{background:var(--bg-page);color:var(--text-primary);font-family:'Roboto','I
 .self-eval-labels{display:flex;justify-content:space-between;font-size:.72rem;color:var(--text-muted);margin-top:.3rem;}
 .range-value{text-align:center;font-size:1.1rem;font-weight:700;color:var(--carol-teal);margin-top:.25rem;}
 input[type=range]{width:100%;accent-color:var(--carol-teal);}
-.register-footer{padding:1rem 2rem 1.75rem;border-top:1px solid var(--border-light);display:flex;gap:1rem;}
+.register-footer{padding:1rem 2rem 1.75rem;border-top:1px solid var(--border-light);display:flex;gap:1rem;align-items:center;}
 
 /* ── Instructions ── */
 #screen-instructions{display:none;opacity:0;}
@@ -164,7 +164,17 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
 .tip-box .ti{font-size:1.1rem;margin-top:2px;}
 .categories-chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.5rem;}
 .chip{background:var(--bg-card-alt);border-radius:99px;padding:.2rem .65rem;font-size:.74rem;color:var(--text-muted);font-weight:500;}
-.instructions-footer{padding:1rem 2rem 1.75rem;border-top:1px solid var(--border-light);display:flex;gap:1rem;}
+.instructions-footer{padding:1rem 2rem 1.75rem;border-top:1px solid var(--border-light);display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:1rem;align-items:start;}
+.instructions-actions{display:flex;flex-direction:column;gap:.75rem;min-width:0;}
+#level-selector{display:none;gap:.6rem;align-items:stretch;min-width:0;}
+#level-selector label{font-size:.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;align-self:center;}
+.level-selector-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;flex:1;min-width:0;}
+.level-choice{min-width:0;padding:.55rem .6rem;font-size:.72rem;border-radius:8px;border:2px solid var(--border-color);background:transparent;color:var(--text-primary);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.1rem;text-align:center;line-height:1.15;}
+.level-choice.active{border-color:var(--carol-teal);background:var(--carol-teal);color:#fff;}
+.level-choice span{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;}
+.level-choice-icon{font-size:1rem;line-height:1;}
+.level-choice-assigned{font-size:.6rem;opacity:.82;}
+#level-warning{max-width:100%;line-height:1.45;}
 
 /* ── Quiz ── */
 #screen-quiz{display:none;opacity:0;}
@@ -307,8 +317,10 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
 .step-content ul{margin:0;padding-left:1.1rem;font-size:.82rem;color:var(--text-muted);line-height:1.6;}
 .step-kpi{margin-top:.4rem;font-size:.76rem;color:var(--ctp-peach);background:rgba(223,142,29,.15);padding:.35rem .6rem;border-radius:4px;display:inline-flex;align-items:center;gap:.3rem;}
 
-.results-footer{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center;padding:0 1rem;margin-bottom:1.5rem;}
-.btn-action{padding:.65rem 1.1rem;border-radius:8px;font-size:.85rem;font-weight:700;border:none;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:.4rem;white-space:nowrap;text-transform:uppercase;letter-spacing:.02em;}
+.results-footer{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center;align-items:center;padding:1rem;margin:0 0 1.5rem;}
+.results-footer .btn-action{flex:0 1 220px;justify-content:center;}
+.btn-action{position:relative;padding:.65rem 1.1rem;border-radius:8px;font-size:.85rem;font-weight:700;border:none;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center;gap:.45rem;white-space:normal;text-align:center;text-transform:uppercase;letter-spacing:.02em;line-height:1.2;min-width:0;}
+.btn-action .ti{flex:0 0 auto;}
 .save-status{font-size:.82rem;font-weight:600;padding:.6rem 1rem;border-radius:8px;margin-bottom:1rem;text-align:center;display:none;}
 .save-status.show{display:block;}
 .save-status.ok{background:rgba(0,184,148,.15);color:var(--ctp-green);}
@@ -319,6 +331,9 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
 .btn-print:hover{filter:brightness(1.15);}
 .btn-webhook{background:var(--carol-teal);color:#fff;}
 .btn-webhook:hover{filter:brightness(1.1);}
+#inter-level-banner{max-width:960px;margin:1.25rem auto !important;}
+#inter-level-banner > div{min-width:0;}
+#inter-level-banner .btn-action{min-width:190px;}
 
 /* Utilities */
 .d-none{display:none!important;}
@@ -371,12 +386,16 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
   .categories-chips{gap:.3rem;}
   .chip{font-size:.68rem;padding:.2rem .55rem;}
   .instructions-list li{font-size:.82rem;padding:.4rem 0;}
-  .instructions-footer{padding:.85rem 1.25rem;position:sticky;bottom:0;background:var(--bg-card);border-top:1px solid var(--border-light);padding-bottom:calc(1.25rem + env(safe-area-inset-bottom,0px));}
+  .instructions-footer{grid-template-columns:1fr;gap:.75rem;padding:.85rem 1.25rem;position:sticky;bottom:0;background:var(--bg-card);border-top:1px solid var(--border-light);padding-bottom:calc(1.25rem + env(safe-area-inset-bottom,0px));}
+  .instructions-footer > .btn-action{width:100%;}
+  .instructions-actions{gap:.65rem;}
 
   /* Level selector mobile */
   #level-selector{flex-direction:column;}
-  #level-selector > div{flex-direction:column;}
-  #level-selector button{flex-direction:row;gap:.5rem;padding:.6rem .75rem;}
+  #level-selector label{align-self:flex-start;white-space:normal;}
+  .level-selector-options{grid-template-columns:1fr;}
+  .level-choice{flex-direction:row;gap:.45rem;padding:.6rem .75rem;justify-content:flex-start;text-align:left;font-size:.78rem;}
+  .level-choice span{white-space:normal;overflow:visible;text-overflow:clip;}
 
   /* Quiz */
   .quiz-layout{padding:.75rem .5rem;}
@@ -445,7 +464,9 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
   .cat-result-row{padding:.85rem;}
   .cat-bar-wrap{min-width:80px;}
   .results-footer{flex-direction:column;gap:.6rem;padding:.85rem 1rem !important;}
-  .results-footer button{width:100%;justify-content:center;min-height:52px;font-size:.95rem !important;}
+  .results-footer .btn-action{width:100%;flex:auto;justify-content:center;min-height:52px;font-size:.95rem !important;}
+  #inter-level-banner{margin:0 0 1rem !important;border-radius:0 !important;align-items:flex-start !important;}
+  #inter-level-banner .btn-action{width:100%;min-width:0;}
 }
 
 /* Landscape phone */
@@ -658,10 +679,10 @@ input[type=range]{width:100%;accent-color:var(--carol-teal);}
       </div>
     </div>
     <div class="instructions-footer">
-      <button class="btn-action btn-restart" onclick="showRegister()" style="flex:1;justify-content:center;padding:.7rem 1rem;font-size:.9rem;">
+      <button class="btn-action btn-restart" onclick="showRegister()" style="justify-content:center;padding:.7rem 1rem;font-size:.9rem;">
         <i class="ti ti-arrow-left"></i> Regresar
       </button>
-      <div style="flex:2;display:flex;flex-direction:column;gap:.5rem;">
+      <div class="instructions-actions">
         <div id="level-selector" style="display:none;"></div>
         <div id="level-warning" style="display:none;padding:.6rem .8rem;border-radius:8px;background:rgba(223,142,29,.15);border:1px solid var(--ctp-yellow);font-size:.78rem;color:var(--ctp-peach);display:none;align-items:flex-start;gap:.5rem;">
           <i class="ti ti-alert-triangle" style="flex-shrink:0;margin-top:1px;"></i>
@@ -1238,15 +1259,15 @@ function showInstructions(){
   const warnEl=document.getElementById('level-warning');
   if(S.levels.length>1){
     selEl.style.display='flex';
-    selEl.innerHTML='<label style="font-size:.78rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;">Selecciona nivel:</label><div style="display:flex;gap:.5rem;">'+
+    selEl.innerHTML='<label>Selecciona nivel:</label><div class="level-selector-options">'+
       S.levels.map(l=>{
         const d2=CAROL_DATA[l];
         const assigned=l===S.level;
         const active=l===lvl;
-        return '<button class="btn-action" onclick="changeLevel(\''+l+'\')" style="flex:1;padding:.5rem .6rem;font-size:.8rem;border-radius:8px;border:2px solid '+(active?'var(--carol-teal)':'var(--border-color)')+';background:'+(active?'var(--carol-teal)':'transparent')+';color:'+(active?'#fff':'var(--text-primary)')+';cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.15rem;">'+
-          '<span style="font-size:1.1rem;">'+icons[l]+'</span>'+
-          '<span style="font-weight:600;">'+d2.meta.name_es.replace('Nivel ','')+'</span>'+
-          (assigned?'<span style="font-size:.65rem;opacity:.8;">(Asignado)</span>':'')+
+        return '<button class="level-choice '+(active?'active':'')+'" onclick="changeLevel(\''+l+'\')">'+
+          '<span class="level-choice-icon">'+icons[l]+'</span>'+
+          '<span style="font-weight:700;">'+d2.meta.name_es.replace('Nivel ','')+'</span>'+
+          (assigned?'<span class="level-choice-assigned">(Asignado)</span>':'')+
           '</button>';
       }).join('')+'</div>';
     // Warning for non-assigned levels
