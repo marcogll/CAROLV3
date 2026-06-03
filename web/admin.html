@@ -177,6 +177,20 @@
                 </div>
               </div>
             </div>
+            <div class="row row-cards mb-4">
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-header"><h3 class="card-title">Aprobados vs Reprobados por Departamento</h3></div>
+                  <div class="card-body"><canvas id="chart-dept-pass" height="260"></canvas></div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-header"><h3 class="card-title">Puntaje Promedio por Departamento</h3></div>
+                  <div class="card-body"><canvas id="chart-dept-avg" height="260"></canvas></div>
+                </div>
+              </div>
+            </div>
 
             <!-- Filters -->
             <div class="card mb-4">
@@ -665,6 +679,27 @@
         const dates = Object.keys(byDate).slice(-15);
         const avgs = dates.map(d => Math.round(byDate[d].sum / byDate[d].count));
         renderLine('chart-trend', dates, avgs);
+
+        // Department: pass/fail and avg score
+        const deptData = {};
+        filtered.forEach(r => {
+          const dept = (r.candidate?.department || 'Sin departamento');
+          if (!deptData[dept]) deptData[dept] = { pass: 0, fail: 0, sum: 0, count: 0 };
+          deptData[dept].count++;
+          deptData[dept].sum += (r.results?.pct_score || 0);
+          if (r.results?.passed) deptData[dept].pass++;
+          else deptData[dept].fail++;
+        });
+        const deptNames = Object.keys(deptData).sort();
+        if (deptNames.length) {
+          renderBar('chart-dept-pass', deptNames, [
+            { label: 'Aprobados', data: deptNames.map(d => deptData[d].pass), backgroundColor: '#a6e3a1' },
+            { label: 'No aprobó', data: deptNames.map(d => deptData[d].fail), backgroundColor: '#f38ba8' }
+          ]);
+          renderBar('chart-dept-avg', deptNames, [
+            { label: 'Puntaje promedio (%)', data: deptNames.map(d => Math.round(deptData[d].sum / deptData[d].count)), backgroundColor: '#89b4fa' }
+          ]);
+        }
       } catch (e) { console.error('charts', e); }
     }
 
@@ -687,6 +722,21 @@
         type: 'line',
         data: { labels, datasets: [{ label: 'Puntaje promedio (%)', data, borderColor: '#1B4F72', backgroundColor: 'rgba(27,79,114,0.1)', fill: true, tension: 0.3, pointRadius: 4 }] },
         options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 100 } }, plugins: { legend: { display: false } } }
+      });
+    }
+
+    function renderBar(canvasId, labels, datasets) {
+      const ctx = document.getElementById(canvasId);
+      if (!ctx) return;
+      if (charts[canvasId]) { charts[canvasId].destroy(); }
+      charts[canvasId] = new Chart(ctx, {
+        type: 'bar',
+        data: { labels, datasets },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } }, x: { ticks: { font: { size: 10 }, maxRotation: 45 } } },
+          plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } } }
+        }
       });
     }
 

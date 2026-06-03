@@ -813,6 +813,8 @@ function createSession(){
     seconds_total: S.secondsTotal,
     started_at: new Date().toISOString(),
     all_results: S.allResults,
+    answer_key: S.answerKey,
+    questions: S.questions.map(q=>({id:q.id,options:q.options})),
   };
   fetch('/api/session/create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
     .then(r=>r.json())
@@ -837,6 +839,8 @@ function saveSession(){
       seconds_left: S.secondsLeft,
       all_results: S.allResults,
       level_index: S.levelIndex,
+      answer_key: S.answerKey,
+      questions: S.questions.map(q=>({id:q.id,options:q.options})),
     })
   }).catch(()=>{});
 }
@@ -893,6 +897,14 @@ function resumeSession(){
   const d=CAROL_DATA[S.level];
   S.questions=[...d.qs];
   S.answerKey={...d.ans};
+  // Restore shuffled order from session if available
+  if(session.answer_key && session.questions){
+    S.answerKey=session.answer_key;
+    session.questions.forEach(sq=>{
+      const q=S.questions.find(x=>x.id===sq.id);
+      if(q) q.options=sq.options;
+    });
+  }
   // UI
   document.getElementById('quiz-level-badge').textContent=d.meta.name_es.split('—')[0].trim();
   document.getElementById('quiz-level-badge').style.background=d.meta.badge_color;
@@ -1086,11 +1098,28 @@ function changeLevel(lvl){
 }
 
 // ══════════════════════════════════════════ QUIZ ══
+// ══════════════════════════════════════════ OPTION SHUFFLING ══
+function hasComboPattern(opts){
+  const comboRx=/\b(ambas|todas|ninguna|tod[oa]s?\s+las?\s+anteriores|la\s+opción\s+[A-D]\s+y\s+[A-D]|opciones?\s+[A-D]\s+y\s+[A-D]|[A-D]\s+y\s+[A-D]|[A-D]\s+e\s+[A-D])\b/i;
+  return opts.some(o=>comboRx.test(o));
+}
+function shuffleOptions(q,ans){
+  if(hasComboPattern(q.options))return;
+  const idxs=[0,1,2,3];
+  for(let i=idxs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[idxs[i],idxs[j]]=[idxs[j],idxs[i]];}
+  const newOpts=idxs.map(i=>q.options[i]);
+  const origCorrect=ans[q.id].correct_index;
+  const newCorrect=idxs.indexOf(origCorrect);
+  q.options=newOpts;
+  ans[q.id]={...ans[q.id],correct_index:newCorrect};
+}
+
 function startQuiz(){
   S.level = S.levels[S.levelIndex];
   const d=CAROL_DATA[S.level];
   S.questions=[...d.qs];
   S.answerKey={...d.ans};
+  S.questions.forEach(q=>shuffleOptions(q,S.answerKey));
   S.answers={};
   S.currentQ=0;
   S.submitted=false;

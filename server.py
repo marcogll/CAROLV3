@@ -372,10 +372,18 @@ def init_db():
                         submitted BOOLEAN DEFAULT FALSE,
                         all_results_json JSON,
                         status VARCHAR(50) DEFAULT 'active',
+                        answer_key_json JSON,
+                        questions_json JSON,
                         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                         INDEX idx_candidate_id (candidate_id)
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
                 """)
+                # Add new columns if missing (migration)
+                for col, typedef in [("answer_key_json", "JSON"), ("questions_json", "JSON")]:
+                    try:
+                        cur.execute(f"ALTER TABLE quiz_sessions ADD COLUMN {col} {typedef}")
+                    except Exception:
+                        pass  # Column already exists
                 cur.execute("""
                     CREATE TABLE IF NOT EXISTS api_keys (
                         id VARCHAR(36) PRIMARY KEY,
@@ -559,8 +567,9 @@ def store_session(session):
             cur.execute("""
                 INSERT INTO quiz_sessions
                 (id, candidate_id, level, levels_json, level_index, answers_json, current_q,
-                 seconds_left, seconds_total, started_at, last_saved_at, submitted, all_results_json, status)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                 seconds_left, seconds_total, started_at, last_saved_at, submitted, all_results_json, status,
+                 answer_key_json, questions_json)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """, (
                 session["id"],
                 session.get("candidate_id", ""),
@@ -576,6 +585,8 @@ def store_session(session):
                 session.get("submitted", False),
                 json.dumps(session.get("all_results", []), ensure_ascii=False),
                 session.get("status", "active"),
+                json.dumps(session.get("answer_key", {}), ensure_ascii=False),
+                json.dumps(session.get("questions", []), ensure_ascii=False),
             ))
         conn.close()
     else:
@@ -593,6 +604,9 @@ def update_session(session_id, fields):
             values = []
             for key, val in fields.items():
                 if key in ("answers", "levels", "all_results"):
+                    set_parts.append(f"{key}_json = %s")
+                    values.append(json.dumps(val, ensure_ascii=False))
+                elif key in ("answer_key", "questions"):
                     set_parts.append(f"{key}_json = %s")
                     values.append(json.dumps(val, ensure_ascii=False))
                 elif key == "current_q":
@@ -638,6 +652,8 @@ def get_session(session_id):
             row["levels"] = json.loads(row.get("levels_json") or "[]")
             row["answers"] = json.loads(row.get("answers_json") or "{}")
             row["all_results"] = json.loads(row.get("all_results_json") or "[]")
+            row["answer_key"] = json.loads(row.get("answer_key_json") or "{}")
+            row["questions"] = json.loads(row.get("questions_json") or "[]")
         return row
     for s in _load(SESSIONS_FILE):
         if s.get("id") == session_id:
@@ -658,6 +674,8 @@ def get_active_session(candidate_id):
             row["levels"] = json.loads(row.get("levels_json") or "[]")
             row["answers"] = json.loads(row.get("answers_json") or "{}")
             row["all_results"] = json.loads(row.get("all_results_json") or "[]")
+            row["answer_key"] = json.loads(row.get("answer_key_json") or "{}")
+            row["questions"] = json.loads(row.get("questions_json") or "[]")
         return row
     sessions = _load(SESSIONS_FILE)
     active = [s for s in sessions if s.get("candidate_id") == candidate_id and not s.get("submitted")]
@@ -1477,6 +1495,8 @@ class CarolHandler(SimpleHTTPRequestHandler):
                     s["levels"] = json.loads(s.get("levels_json") or "[]")
                     s["answers"] = json.loads(s.get("answers_json") or "{}")
                     s["all_results"] = json.loads(s.get("all_results_json") or "[]")
+                    s["answer_key"] = json.loads(s.get("answer_key_json") or "{}")
+                    s["questions"] = json.loads(s.get("questions_json") or "[]")
             else:
                 all_sessions = [s for s in _load(SESSIONS_FILE) if s.get("candidate_id") == candidate_id]
             total_time = sum(s.get("seconds_total", 0) - s.get("seconds_left", 0) for s in all_sessions if s.get("submitted"))
