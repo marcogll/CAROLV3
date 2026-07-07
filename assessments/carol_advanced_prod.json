@@ -14,7 +14,29 @@
     "score": 1.5,
     "question_order_id": 1,
     "correct_index": 2,
-    "reasoning": "La presión específica es el resultado de la presión hidráulica multiplicada por el ratio de área entre el pistón y el husillo (1500 * 10)."
+    "reasoning": "La presión específica es el resultado de la presión hidráulica multiplicada por el ratio de área entre el pistón y el husillo (1500 * 10).",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La presión hidráulica se multiplica en la punta del husillo debido a la Ley de Pascal y la diferencia de áreas.",
+    "description_en": "Hydraulic pressure is multiplied at the screw tip due to Pascal's Law and the area difference.",
+    "question_es": "Con un ratio de intensificación de 10:1 y 1,500 PSI en el manómetro hidráulico, calcula la presión específica sobre el plástico:",
+    "question_en": "With an intensification ratio of 10:1 and 1,500 PSI on the hydraulic gauge, calculate the specific pressure on the plastic:",
+    "options_es": [
+      "1,500 PSI (Relación directa 1:1)",
+      "150 PSI (Reducción por fricción del husillo)",
+      "15,000 PSI (Multiplicación por área)",
+      "16,500 PSI (Suma de presión absoluta + relativa)"
+    ],
+    "options_en": [
+      "1,500 PSI (Direct relationship 1:1)",
+      "150 PSI (Reduction due to screw friction)",
+      "15,000 PSI (Multiplication by area)",
+      "16,500 PSI (Sum of absolute + relative pressure)"
+    ],
+    "reasoning_es": "La presión específica es el resultado de la presión hidráulica multiplicada por el ratio de área entre el pistón y el husillo (1500 * 10).",
+    "reasoning_en": "The specific pressure is the result of the hydraulic pressure multiplied by the area ratio between the hydraulic piston and the screw (1500 * 10)."
   },
   {
     "id": "mach_2",
@@ -31,7 +53,29 @@
     "score": 1,
     "question_order_id": 2,
     "correct_index": 1,
-    "reasoning": "El retroceso excesivo aspira oxígeno atmosférico hacia la cámara caliente, provocando oxidación inmediata y manchas (splay)."
+    "reasoning": "El retroceso excesivo aspira oxígeno atmosférico hacia la cámara caliente, provocando oxidación inmediata y manchas (splay).",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "El oxígeno a altas temperaturas reacciona rápidamente con polímeros orgánicos.",
+    "description_en": "Oxygen at high temperatures reacts quickly with organic polymers.",
+    "question_es": "¿Cuál es la consecuencia físico-química de una descompresión (suck-back) excesiva en resinas sensibles como el Nylon?",
+    "question_en": "What is the physical-chemical consequence of excessive decompression (suck-back) in sensitive resins such as Nylon?",
+    "options_es": [
+      "Cristalización inducida por choque térmico en la boquilla",
+      "Oxidación y degradación por entrada de aire al barril",
+      "Aumento exponencial de la viscosidad intrínseca",
+      "Generación de vacío absoluto en la cavidad del molde"
+    ],
+    "options_en": [
+      "Crystallization induced by thermal shock in the nozzle",
+      "Oxidation and degradation due to air entering the barrel",
+      "Exponential increase in intrinsic viscosity",
+      "Generation of absolute vacuum in the mold cavity"
+    ],
+    "reasoning_es": "El retroceso excesivo aspira oxígeno atmosférico hacia la cámara caliente, provocando oxidación inmediata y manchas (splay).",
+    "reasoning_en": "Excessive pullback draws in atmospheric oxygen toward the hot chamber, causing immediate oxidation and spots (splay)."
   },
   {
     "id": "mach_3",
@@ -48,7 +92,29 @@
     "score": 1.5,
     "question_order_id": 3,
     "correct_index": 1,
-    "reasoning": "La inestabilidad del cojín implica que el volumen de material delante del tornillo no se mantiene, fugándose hacia atrás durante la inyección."
+    "reasoning": "La inestabilidad del cojín implica que el volumen de material delante del tornillo no se mantiene, fugándose hacia atrás durante la inyección.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La consistencia del cojín es el mejor indicador de la repetibilidad volumétrica del proceso.",
+    "description_en": "Cushion consistency is the best indicator of volumetric process repeatability.",
+    "question_es": "Una variación del cojín (cushion) superior a +/- 10% ciclo a ciclo es un indicador primario de:",
+    "question_en": "A cushion variation greater than +/- 10% cycle to cycle is a primary indicator of:",
+    "options_es": [
+      "Desviación en el algoritmo PID de temperatura de zonas",
+      "Fuga en la válvula check (anillo) o desgaste del barril",
+      "Variación en la velocidad de apertura de la rodillera",
+      "Fluctuación turbulenta en la presión de la red de agua"
+    ],
+    "options_en": [
+      "Deviation in the PID temperature zone algorithm",
+      "Leak in the check valve (ring) or barrel wear",
+      "Variation in the toggle opening speed",
+      "Turbulent fluctuation in the water network pressure"
+    ],
+    "reasoning_es": "La inestabilidad del cojín implica que el volumen de material delante del tornillo no se mantiene, fugándose hacia atrás durante la inyección.",
+    "reasoning_en": "Cushion instability implies that the material volume in front of the screw is not maintained, leaking backward during injection."
   },
   {
     "id": "mach_4",
@@ -65,7 +131,29 @@
     "score": 1,
     "question_order_id": 4,
     "correct_index": 1,
-    "reasoning": "Un escaneo lento provoca que la máquina reaccione tarde al alcanzar la posición de corte, variando el volumen inyectado."
+    "reasoning": "Un escaneo lento provoca que la máquina reaccione tarde al alcanzar la posición de corte, variando el volumen inyectado.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La velocidad de procesamiento de la CPU de la máquina influye en la precisión milimétrica.",
+    "description_en": "The machine CPU processing speed influences millimeter precision.",
+    "question_es": "El 'Scan Time' o tiempo de respuesta del controlador de la máquina afecta críticamente a:",
+    "question_en": "The 'Scan Time' or machine controller response time critically affects:",
+    "options_es": [
+      "La eficiencia energética del motor eléctrico principal",
+      "La repetibilidad del punto de transferencia (VPT)",
+      "La capacidad máxima de tonelaje de cierre",
+      "La temperatura operativa del aceite hidráulico"
+    ],
+    "options_en": [
+      "The energy efficiency of the main electric motor",
+      "The switchover point (VPT) repeatability",
+      "The maximum clamping tonnage capacity",
+      "The hydraulic oil operating temperature"
+    ],
+    "reasoning_es": "Un escaneo lento provoca que la máquina reaccione tarde al alcanzar la posición de corte, variando el volumen inyectado.",
+    "reasoning_en": "Slow scanning causes the machine to react late when reaching the cut-off position, varying the injected volume."
   },
   {
     "id": "mach_5",
@@ -82,7 +170,29 @@
     "score": 1,
     "question_order_id": 5,
     "correct_index": 1,
-    "reasoning": "Mayor longitud permite zonas de transición más suaves y mejor distribución de calor, resultando en un fundido (melt) más uniforme."
+    "reasoning": "Mayor longitud permite zonas de transición más suaves y mejor distribución de calor, resultando en un fundido (melt) más uniforme.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La geometría del husillo determina la calidad de la homogeneización térmica.",
+    "description_en": "Screw geometry determines the quality of thermal homogenization.",
+    "question_es": "Comparando un husillo L/D 24:1 contra uno 18:1, la principal ventaja técnica del 24:1 es:",
+    "question_en": "Comparing a 24:1 L/D screw against an 18:1, the main technical advantage of the 24:1 is:",
+    "options_es": [
+      "Mayor capacidad de transmisión de presión hidráulica",
+      "Mejor calidad de mezclado y homogeneidad térmica",
+      "Menor tiempo de residencia del material en el barril",
+      "Reducción significativa del torque requerido para girar"
+    ],
+    "options_en": [
+      "Greater capacity for hydraulic pressure transmission",
+      "Better mixing quality and thermal homogeneity",
+      "Lower material residence time in the barrel",
+      "Significant reduction in torque required to rotate"
+    ],
+    "reasoning_es": "Mayor longitud permite zonas de transición más suaves y mejor distribución de calor, resultando en un fundido (melt) más uniforme.",
+    "reasoning_en": "Greater length allows for smoother transition zones and better heat distribution, resulting in a more uniform melt."
   },
   {
     "id": "mach_6",
@@ -99,7 +209,29 @@
     "score": 1,
     "question_order_id": 6,
     "correct_index": 0,
-    "reasoning": "Aumenta la carga axial y la fricción del tornillo contra la pared del barril y el material, acelerando la abrasión."
+    "reasoning": "Aumenta la carga axial y la fricción del tornillo contra la pared del barril y el material, acelerando la abrasión.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La contrapresión genera calor por fricción, pero también estrés mecánico.",
+    "description_en": "Back pressure generates heat through friction, but also mechanical stress.",
+    "question_es": "Además de aumentar la temperatura de la masa, ¿qué efecto mecánico negativo tiene la contrapresión excesiva?",
+    "question_en": "Besides increasing the melt temperature, what negative mechanical effect does excessive back pressure have?",
+    "options_es": [
+      "Desgaste acelerado en la punta del husillo y barril",
+      "Reducción de la fuerza de cierre disponible en la prensa",
+      "Fugas de aceite en el sistema de expulsión hidráulico",
+      "Deformación elástica permanente de las barras (tie-bars)"
+    ],
+    "options_en": [
+      "Accelerated wear on the screw tip and barrel",
+      "Reduction of the clamping force available in the press",
+      "Oil leaks in the hydraulic ejection system",
+      "Permanent elastic deformation of the tie-bars"
+    ],
+    "reasoning_es": "Aumenta la carga axial y la fricción del tornillo contra la pared del barril y el material, acelerando la abrasión.",
+    "reasoning_en": "It increases the axial load and the friction of the screw against the barrel wall and the material, accelerating abrasion."
   },
   {
     "id": "proc_1",
@@ -116,7 +248,29 @@
     "score": 1,
     "question_order_id": 7,
     "correct_index": 1,
-    "reasoning": "Es la zona de baja cizalla donde el polímero se comporta como un fluido newtoniano antes de empezar a adelgazar (shear thinning)."
+    "reasoning": "Es la zona de baja cizalla donde el polímero se comporta como un fluido newtoniano antes de empezar a adelgazar (shear thinning).",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La reología de polímeros estudia cómo fluye la materia bajo fuerzas aplicadas.",
+    "description_en": "Polymer rheology studies how matter flows under applied forces.",
+    "question_es": "En la curva de viscosidad, la región 'Newtonian Flat' (Meseta Newtoniana) se caracteriza porque:",
+    "question_en": "In the viscosity curve, the 'Newtonian Flat' region is characterized by:",
+    "options_es": [
+      "La viscosidad cae drásticamente con la velocidad de corte",
+      "La viscosidad es estable independientemente del corte (shear)",
+      "El material comienza a degradarse térmicamente por fricción",
+      "La presión de inyección requerida es cercana a cero"
+    ],
+    "options_en": [
+      "Viscosity drops drastically with shear rate",
+      "Viscosity is stable regardless of shear",
+      "Material begins to thermally degrade through friction",
+      "Required injection pressure is close to zero"
+    ],
+    "reasoning_es": "Es la zona de baja cizalla donde el polímero se comporta como un fluido newtoniano antes de empezar a adelgazar (shear thinning).",
+    "reasoning_en": "It is the low shear zone where the polymer behaves as a Newtonian fluid before starting to shear thin."
   },
   {
     "id": "proc_2",
@@ -133,7 +287,29 @@
     "score": 1.5,
     "question_order_id": 8,
     "correct_index": 0,
-    "reasoning": "Si la máquina usa el 100% de su presión para llenar, pierde control sobre la velocidad (Process Limited). Se requiere un margen de seguridad."
+    "reasoning": "Si la máquina usa el 100% de su presión para llenar, pierde control sobre la velocidad (Process Limited). Se requiere un margen de seguridad.",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "Operar al límite de la capacidad de presión elimina la capacidad de control del proceso.",
+    "description_en": "Operating at the limit of pressure capacity eliminates the process control capability.",
+    "question_es": "El objetivo de un estudio de 'Caída de Presión' (Pressure Drop) es asegurar que:",
+    "question_en": "The objective of a 'Pressure Drop' study is to ensure that:",
+    "options_es": [
+      "La máquina tenga ~10% de presión hidráulica de reserva",
+      "El molde soporte la fuerza de cierre máxima sin abrirse",
+      "El tiempo de ciclo sea lo más corto físicamente posible",
+      "La temperatura del agua mantenga un flujo turbulento"
+    ],
+    "options_en": [
+      "The machine has ~10% reserve hydraulic pressure",
+      "The mold supports the maximum clamping force without opening",
+      "The cycle time is the shortest physically possible",
+      "The water temperature maintains a turbulent flow"
+    ],
+    "reasoning_es": "Si la máquina usa el 100% de su presión para llenar, pierde control sobre la velocidad (Process Limited). Se requiere un margen de seguridad.",
+    "reasoning_en": "If the machine uses 100% of its pressure to fill, it loses control over speed (Process Limited). A safety margin is required."
   },
   {
     "id": "proc_3",
@@ -150,7 +326,29 @@
     "score": 1.5,
     "question_order_id": 9,
     "correct_index": 1,
-    "reasoning": "Más trabajo para llegar a la misma posición indica mayor resistencia al flujo (viscosidad alta o canal bloqueado)."
+    "reasoning": "Más trabajo para llegar a la misma posición indica mayor resistencia al flujo (viscosidad alta o canal bloqueado).",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "El área bajo la curva de presión refleja la energía consumida para llenar el molde.",
+    "description_en": "The area under the pressure curve reflects the energy consumed to fill the mold.",
+    "question_es": "Un aumento repentino en la integral de presión o 'Trabajo de Inyección' sugiere:",
+    "question_en": "A sudden increase in the pressure integral or 'Injection Work' suggests:",
+    "options_es": [
+      "Una fuga interna en la válvula check o anillo",
+      "Aumento de viscosidad por material frío u obstrucción",
+      "Disminución drástica de la fuerza de cierre real",
+      "Aumento inusual en la temperatura de las resistencias"
+    ],
+    "options_en": [
+      "An internal leak in the check valve or ring",
+      "Viscosity increase due to cold material or obstruction",
+      "Drastic decrease in real clamping force",
+      "Unusual increase in resistor temperature"
+    ],
+    "reasoning_es": "Más trabajo para llegar a la misma posición indica mayor resistencia al flujo (viscosidad alta o canal bloqueado).",
+    "reasoning_en": "More work to reach the same position indicates higher flow resistance (high viscosity or blocked channel)."
   },
   {
     "id": "proc_4",
@@ -167,7 +365,29 @@
     "score": 1.5,
     "question_order_id": 10,
     "correct_index": 0,
-    "reasoning": "Se grafica peso vs tiempo. Cuando el peso deja de subir, la compuerta se ha cerrado físicamente y ya no entra material."
+    "reasoning": "Se grafica peso vs tiempo. Cuando el peso deja de subir, la compuerta se ha cerrado físicamente y ya no entra material.",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "Determinar cuándo se corta físicamente la conexión entre la pieza y el sistema de alimentación.",
+    "description_en": "Determine when the physical connection between the part and the feed system is cut.",
+    "question_es": "El criterio técnico definitivo para confirmar el 'Sellado de Compuerta' (Gate Freeze) es:",
+    "question_en": "The definitive technical criterion to confirm 'Gate Freeze' is:",
+    "options_es": [
+      "Estabilización del peso de la pieza vs tiempo de hold",
+      "Enfriamiento de la colada a temperatura ambiente",
+      "Finalización del tiempo de dosificación del husillo",
+      "Ausencia total de rechupados en la superficie"
+    ],
+    "options_en": [
+      "Stabilization of part weight vs hold time",
+      "Cooling of the runner to room temperature",
+      "Completion of screw dosing time",
+      "Total absence of sink marks on the surface"
+    ],
+    "reasoning_es": "Se grafica peso vs tiempo. Cuando el peso deja de subir, la compuerta se ha cerrado físicamente y ya no entra material.",
+    "reasoning_en": "Weight vs time is graphed. When the weight stops rising, the gate has physically closed and no more material enters."
   },
   {
     "id": "proc_5",
@@ -184,7 +404,29 @@
     "score": 1,
     "question_order_id": 11,
     "correct_index": 1,
-    "reasoning": "La fricción molecular a alta velocidad genera calor interno, reduciendo la viscosidad efectiva."
+    "reasoning": "La fricción molecular a alta velocidad genera calor interno, reduciendo la viscosidad efectiva.",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La fricción molecular a altas velocidades se convierte en energía térmica.",
+    "description_en": "Molecular friction at high speeds converts into thermal energy.",
+    "question_es": "Debido al calentamiento por cizalla (Shear Heating), aumentar la velocidad de inyección provoca:",
+    "question_en": "Due to Shear Heating, increasing the injection speed causes:",
+    "options_es": [
+      "Enfriamiento adiabático del frente de flujo por expansión",
+      "Aumento real de la temperatura de la masa fundida",
+      "Aumento de la densidad del material por compactación",
+      "Reducción inmediata del índice de fluidez (MFI)"
+    ],
+    "options_en": [
+      "Adiabatic cooling of the flow front through expansion",
+      "Real increase in melt temperature",
+      "Increase in material density through compaction",
+      "Immediate reduction of the melt flow index (MFI)"
+    ],
+    "reasoning_es": "La fricción molecular a alta velocidad genera calor interno, reduciendo la viscosidad efectiva.",
+    "reasoning_en": "Molecular friction at high speed generates internal heat, reducing effective viscosity."
   },
   {
     "id": "proc_6",
@@ -201,7 +443,29 @@
     "score": 1,
     "question_order_id": 12,
     "correct_index": 1,
-    "reasoning": "La posición correlaciona directamente con el volumen desplazado. El tiempo varía si cambia la viscosidad, causando inestabilidad."
+    "reasoning": "La posición correlaciona directamente con el volumen desplazado. El tiempo varía si cambia la viscosidad, causando inestabilidad.",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La consistencia del proceso depende de cómo se controla el volumen inyectado.",
+    "description_en": "Process consistency depends on how the injected volume is controlled.",
+    "question_es": "¿Por qué se prefiere el VPT (Transferencia) por Posición en lugar de por Tiempo o Presión?",
+    "question_en": "Why is VPT (Switchover) by Position preferred over Time or Pressure?",
+    "options_es": [
+      "Porque es más fácil de programar en el controlador",
+      "Porque garantiza un volumen de disparo consistente",
+      "Porque protege el molde de picos de sobrepresión",
+      "Porque reduce el consumo energético del motor"
+    ],
+    "options_en": [
+      "Because it is easier to program in the controller",
+      "Because it guarantees a consistent shot volume",
+      "Because it protects the mold from overpressure peaks",
+      "Because it reduces the motor's energy consumption"
+    ],
+    "reasoning_es": "La posición correlaciona directamente con el volumen desplazado. El tiempo varía si cambia la viscosidad, causando inestabilidad.",
+    "reasoning_en": "Position correlates directly with displaced volume. Time varies if viscosity changes, causing instability."
   },
   {
     "id": "qual_1",
@@ -218,7 +482,29 @@
     "score": 1.5,
     "question_order_id": 13,
     "correct_index": 1,
-    "reasoning": "Entrar lento permite que el material toque las paredes y se expanda progresivamente (Fountain Flow) en lugar de dispararse."
+    "reasoning": "Entrar lento permite que el material toque las paredes y se expanda progresivamente (Fountain Flow) en lugar de dispararse.",
+    "category_es": "Calidad y Defectos",
+    "category_en": "Quality & Defects",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "El flujo laminar es deseable para evitar marcas superficiales en la pieza.",
+    "description_en": "Laminar flow is desirable to avoid surface marks on the part.",
+    "question_es": "La solución técnica para eliminar el 'Jetting' (gusanito) es:",
+    "question_en": "The technical solution to eliminate 'Jetting' is:",
+    "options_es": [
+      "Aumentar drásticamente la temperatura de boquilla y molde",
+      "Perfilar la velocidad (lento al inicio) para crear flujo laminar",
+      "Aumentar la contrapresión al máximo posible",
+      "Reducir el tiempo de enfriamiento para congelar el flujo"
+    ],
+    "options_en": [
+      "Drastically increase nozzle and mold temperature",
+      "Profile the speed (slow at the start) to create laminar flow",
+      "Increase back pressure to the maximum possible",
+      "Reduce cooling time to freeze the flow"
+    ],
+    "reasoning_es": "Entrar lento permite que el material toque las paredes y se expanda progresivamente (Fountain Flow) en lugar de dispararse.",
+    "reasoning_en": "Entering slow allows the material to touch the walls and expand progressively (Fountain Flow) instead of shooting."
   },
   {
     "id": "qual_2",
@@ -235,7 +521,29 @@
     "score": 1,
     "question_order_id": 14,
     "correct_index": 1,
-    "reasoning": "Un enfriamiento lento (molde caliente) permite a las moléculas ordenarse en cristales, aumentando la densidad y contracción."
+    "reasoning": "Un enfriamiento lento (molde caliente) permite a las moléculas ordenarse en cristales, aumentando la densidad y contracción.",
+    "category_es": "Calidad y Defectos",
+    "category_en": "Quality & Defects",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La estructura molecular de los semicristalinos depende del tiempo que tienen para ordenarse.",
+    "description_en": "The molecular structure of semi-crystallines depends on the time they have to organize.",
+    "question_es": "En polímeros semicristalinos, ¿qué factor determina el grado de cristalinidad y la contracción final?",
+    "question_en": "In semi-crystalline polymers, what factor determines the degree of crystallinity and final shrinkage?",
+    "options_es": [
+      "La presión de inyección máxima alcanzada",
+      "La tasa de enfriamiento (Temperatura de molde)",
+      "La velocidad de rotación del husillo en la carga",
+      "El porcentaje de carga de fibra de vidrio añadido"
+    ],
+    "options_en": [
+      "The maximum injection pressure reached",
+      "The cooling rate (Mold temperature)",
+      "The screw rotation speed during loading",
+      "The percentage of glass fiber reinforcement added"
+    ],
+    "reasoning_es": "Un enfriamiento lento (molde caliente) permite a las moléculas ordenarse en cristales, aumentando la densidad y contracción.",
+    "reasoning_en": "Slow cooling (hot mold) allows molecules to arrange themselves in crystals, increasing density and shrinkage."
   },
   {
     "id": "qual_3",
@@ -252,7 +560,29 @@
     "score": 1.5,
     "question_order_id": 15,
     "correct_index": 1,
-    "reasoning": "Cpk < 1.33 se considera no capaz. La curva de distribución del proceso excede los límites de especificación."
+    "reasoning": "Cpk < 1.33 se considera no capaz. La curva de distribución del proceso excede los límites de especificación.",
+    "category_es": "Calidad y Defectos",
+    "category_en": "Quality & Defects",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "Los índices de capacidad estadística predicen la tasa de rechazo a largo plazo.",
+    "description_en": "Statistical capability indices predict the long-term rejection rate.",
+    "question_es": "Un Cpk de 0.8 en una dimensión crítica indica estadísticamente que:",
+    "question_en": "A Cpk of 0.8 in a critical dimension statistically indicates that:",
+    "options_es": [
+      "El proceso es capaz y está perfectamente centrado",
+      "El proceso no es capaz; alta probabilidad de defectos",
+      "El instrumento de medición requiere calibración urgente",
+      "La varianza del proceso es menor a la tolerancia permitida"
+    ],
+    "options_en": [
+      "The process is capable and perfectly centered",
+      "The process is not capable; high defect probability",
+      "The measuring instrument requires urgent calibration",
+      "Process variance is less than the allowed tolerance"
+    ],
+    "reasoning_es": "Cpk < 1.33 se considera no capaz. La curva de distribución del proceso excede los límites de especificación.",
+    "reasoning_en": "Cpk < 1.33 is considered not capable. The process distribution curve exceeds specification limits."
   },
   {
     "id": "qual_4",
@@ -269,7 +599,29 @@
     "score": 1,
     "question_order_id": 16,
     "correct_index": 1,
-    "reasoning": "Si el material está demasiado frío, no hay entrelazamiento molecular (difusión) entre los frentes, creando una grieta potencial."
+    "reasoning": "Si el material está demasiado frío, no hay entrelazamiento molecular (difusión) entre los frentes, creando una grieta potencial.",
+    "category_es": "Calidad y Defectos",
+    "category_en": "Quality & Defects",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La fusión de frentes de flujo requiere energía térmica para entrelazar las cadenas moleculares.",
+    "description_en": "Fusion of flow fronts requires thermal energy to interlock molecular chains.",
+    "question_es": "Una línea de soldadura (Weld Line) se convierte en una falla estructural crítica si:",
+    "question_en": "A Weld Line becomes a critical structural failure if:",
+    "options_es": [
+      "Es visible a simple vista bajo luz normal",
+      "La temperatura del frente de flujo es inferior a la Tg al unirse",
+      "Se encuentra ubicada en una zona estética clase A",
+      "El molde tiene una textura superficial muy rugosa"
+    ],
+    "options_en": [
+      "It is visible to the naked eye under normal light",
+      "The flow front temperature is below Tg when meeting",
+      "It is located in a Class A aesthetic zone",
+      "The mold has a very rough surface texture"
+    ],
+    "reasoning_es": "Si el material está demasiado frío, no hay entrelazamiento molecular (difusión) entre los frentes, creando una grieta potencial.",
+    "reasoning_en": "If the material is too cold, there is no molecular entanglement (diffusion) between the fronts, creating a potential crack."
   },
   {
     "id": "qual_5",
@@ -286,7 +638,29 @@
     "score": 1.5,
     "question_order_id": 17,
     "correct_index": 1,
-    "reasoning": "El acero poroso permite que el gas escape a través de la estructura del metal mientras retiene el plástico."
+    "reasoning": "El acero poroso permite que el gas escape a través de la estructura del metal mientras retiene el plástico.",
+    "category_es": "Calidad y Defectos",
+    "category_en": "Quality & Defects",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "En zonas ciegas donde no es posible mecanizar un venteo tradicional, se requieren materiales especiales.",
+    "description_en": "In blind zones where a traditional vent cannot be machined, special materials are required.",
+    "question_es": "Para prevenir el 'Efecto Diesel' en una costilla ciega (blind rib) donde no hay salida de aire, la solución de ingeniería es:",
+    "question_en": "To prevent 'Diesel Effect' in a blind rib where there is no air outlet, the engineering solution is:",
+    "options_es": [
+      "Aumentar la velocidad de inyección para llenar rápido",
+      "Uso de insertos de acero poroso sinterizado",
+      "Bajar la temperatura del molde drásticamente",
+      "Aplicar vacío general a toda la máquina"
+    ],
+    "options_en": [
+      "Increase injection speed to fill fast",
+      "Use of porous sintered steel inserts",
+      "Drop mold temperature drastically",
+      "Apply general vacuum to the entire machine"
+    ],
+    "reasoning_es": "El acero poroso permite que el gas escape a través de la estructura del metal mientras retiene el plástico.",
+    "reasoning_en": "Porous steel allows gas to escape through the metal structure while retaining plastic."
   },
   {
     "id": "safe_1",
@@ -303,7 +677,29 @@
     "score": 1.5,
     "question_order_id": 18,
     "correct_index": 0,
-    "reasoning": "El POM se descompone en formaldehído, que ataca ojos y vías respiratorias severamente. Requiere ventilación."
+    "reasoning": "El POM se descompone en formaldehído, que ataca ojos y vías respiratorias severamente. Requiere ventilación.",
+    "category_es": "Seguridad Industrial",
+    "category_en": "Industrial Safety",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "Ciertos materiales liberan gases altamente peligrosos al descomponerse.",
+    "description_en": "Certain materials release highly dangerous gases upon decomposition.",
+    "question_es": "Al purgar POM (Acetal) degradado, el riesgo químico específico es:",
+    "question_en": "When purging degraded POM (Acetal), the specific chemical risk is:",
+    "options_es": [
+      "Liberación de gas Formaldehído (tóxico/irritante)",
+      "Formación de ácido clorhídrico altamente corrosivo",
+      "Generación de monóxido de carbono inodoro",
+      "Explosión por partículas de polvo en suspensión"
+    ],
+    "options_en": [
+      "Release of Formaldehyde gas (toxic/irritant)",
+      "Formation of highly corrosive hydrochloric acid",
+      "Generation of odorless carbon monoxide",
+      "Explosion due to suspended dust particles"
+    ],
+    "reasoning_es": "El POM se descompone en formaldehído, que ataca ojos y vías respiratorias severamente. Requiere ventilación.",
+    "reasoning_en": "POM decomposes into formaldehyde, which severely attacks eyes and respiratory tract. Ventilation required."
   },
   {
     "id": "safe_2",
@@ -320,7 +716,29 @@
     "score": 1,
     "question_order_id": 19,
     "correct_index": 1,
-    "reasoning": "El paso crítico de 'Try-out' o prueba de arranque confirma que el bloqueo fue efectivo y no hay energía residual."
+    "reasoning": "El paso crítico de 'Try-out' o prueba de arranque confirma que el bloqueo fue efectivo y no hay energía residual.",
+    "category_es": "Seguridad Industrial",
+    "category_en": "Industrial Safety",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La seguridad moderna requiere validación activa, no solo colocar un candado.",
+    "description_en": "Modern safety requires active validation, not just placing a padlock.",
+    "question_es": "En un procedimiento LOTO avanzado, después de colocar el candado, ¿cuál es el paso final de verificación?",
+    "question_en": "In an advanced LOTO procedure, after placing the padlock, what is the final verification step?",
+    "options_es": [
+      "Firmar la bitácora de mantenimiento en la oficina",
+      "Intentar arrancar el equipo para confirmar 'Energía Cero'",
+      "Avisar verbalmente al gerente de planta",
+      "Tomar una fotografía del candado colocado"
+    ],
+    "options_en": [
+      "Sign the maintenance log in the office",
+      "Try to start the equipment to confirm 'Zero Energy'",
+      "Verbally notify the plant manager",
+      "Take a photograph of the placed padlock"
+    ],
+    "reasoning_es": "El paso crítico de 'Try-out' o prueba de arranque confirma que el bloqueo fue efectivo y no hay energía residual.",
+    "reasoning_en": "The critical 'Try-out' step confirms that the lockout was effective and there is no residual energy."
   },
   {
     "id": "safe_3",
@@ -337,7 +755,29 @@
     "score": 1.5,
     "question_order_id": 20,
     "correct_index": 1,
-    "reasoning": "El acumulador mantiene aceite a presión. Si se desconecta una manguera sin drenarlo, puede causar inyección de fluido letal."
+    "reasoning": "El acumulador mantiene aceite a presión. Si se desconecta una manguera sin drenarlo, puede causar inyección de fluido letal.",
+    "category_es": "Seguridad Industrial",
+    "category_en": "Industrial Safety",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La energía hidráulica puede almacenarse incluso sin energía eléctrica.",
+    "description_en": "Hydraulic energy can be stored even without electrical energy.",
+    "question_es": "El peligro latente de un acumulador hidráulico, incluso con la máquina apagada, es:",
+    "question_en": "The latent danger of a hydraulic accumulator, even with the machine off, is:",
+    "options_es": [
+      "Alta temperatura residual en las líneas",
+      "Energía de presión almacenada lista para liberarse",
+      "Generación de campos magnéticos permanentes",
+      "Fugas de gas nitrógeno que causan asfixia"
+    ],
+    "options_en": [
+      "High residual temperature in the lines",
+      "Stored pressure energy ready to be released",
+      "Generation of permanent magnetic fields",
+      "Nitrogen gas leaks that cause asphyxiation"
+    ],
+    "reasoning_es": "El acumulador mantiene aceite a presión. Si se desconecta una manguera sin drenarlo, puede causar inyección de fluido letal.",
+    "reasoning_en": "The accumulator maintains oil under pressure. If a hose is disconnected without draining it, it can cause lethal fluid injection."
   },
   {
     "id": "safe_4",
@@ -354,7 +794,29 @@
     "score": 1,
     "question_order_id": 21,
     "correct_index": 1,
-    "reasoning": "Agentes no conductores y que no dejen residuo corrosivo son esenciales para equipo electrónico."
+    "reasoning": "Agentes no conductores y que no dejen residuo corrosivo son esenciales para equipo electrónico.",
+    "category_es": "Seguridad Industrial",
+    "category_en": "Industrial Safety",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "El uso de agua en incendios eléctricos es fatal; se requieren agentes limpios.",
+    "description_en": "The use of water in electrical fires is fatal; clean agents are required.",
+    "question_es": "Extintor correcto para fuego en tableros electrónicos (Clase C):",
+    "question_en": "Correct extinguisher for fire in electronic boards (Class C):",
+    "options_es": [
+      "Agua a presión (Tipo A) con aditivo penetrante",
+      "Dióxido de Carbono (CO2) o Agente Limpio",
+      "Espuma formadora de película acuosa (AFFF)",
+      "Polvo especial para metales combustibles (Tipo D)"
+    ],
+    "options_en": [
+      "Pressurized water (Type A) with penetrating additive",
+      "Carbon Dioxide (CO2) or Clean Agent",
+      "Aqueous film-forming foam (AFFF)",
+      "Special powder for combustible metals (Type D)"
+    ],
+    "reasoning_es": "Agentes no conductores y que no dejen residuo corrosivo son esenciales para equipo electrónico.",
+    "reasoning_en": "Non-conductive agents that leave no corrosive residue are essential for electronic equipment."
   },
   {
     "id": "safe_5",
@@ -371,7 +833,29 @@
     "score": 1.5,
     "question_order_id": 22,
     "correct_index": 1,
-    "reasoning": "La redundancia es clave en seguridad (Categoría 3/4); el sistema debe detectar fallos en su propia supervisión."
+    "reasoning": "La redundancia es clave en seguridad (Categoría 3/4); el sistema debe detectar fallos en su propia supervisión.",
+    "category_es": "Seguridad Industrial",
+    "category_en": "Industrial Safety",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La integración de robots requiere protocolos de comunicación de seguridad estandarizados.",
+    "description_en": "Robot integration requires standardized safety communication protocols.",
+    "question_es": "Según la norma Euromap 67, ¿cuál es la función de los canales de seguridad redundantes (doble canal)?",
+    "question_en": "According to the Euromap 67 standard, what is the function of redundant safety channels (dual channel)?",
+    "options_es": [
+      "Aumentar la velocidad de transmisión de datos al robot",
+      "Asegurar que si un canal falla, el otro detenga la máquina",
+      "Permitir el control remoto inalámbrico desde la oficina",
+      "Reducir la cantidad de cableado en la instalación"
+    ],
+    "options_en": [
+      "Increase data transmission speed to the robot",
+      "Ensure that if one channel fails, the other stops the machine",
+      "Allow wireless remote control from the office",
+      "Reduce the amount of wiring in the installation"
+    ],
+    "reasoning_es": "La redundancia es clave en seguridad (Categoría 3/4); el sistema debe detectar fallos en su propia supervisión.",
+    "reasoning_en": "Redundancy is key in safety (Category 3/4); the system must detect failures in its own supervision."
   },
   {
     "id": "mat_1",
@@ -388,7 +872,29 @@
     "score": 1,
     "question_order_id": 23,
     "correct_index": 1,
-    "reasoning": "Al romperse las cadenas largas, el material se vuelve más líquido (fluye más) pero pierde su fuerza estructural."
+    "reasoning": "Al romperse las cadenas largas, el material se vuelve más líquido (fluye más) pero pierde su fuerza estructural.",
+    "category_es": "Materiales Plásticos",
+    "category_en": "Plastic Materials",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "El corte de las cadenas poliméricas cambia radicalmente la reología del material.",
+    "description_en": "Cutting polymer chains radically changes material rheology.",
+    "question_es": "La degradación por escisión de cadenas (Chain Scission) resulta en:",
+    "question_en": "Degradation by Chain Scission results in:",
+    "options_es": [
+      "Aumento de peso molecular y viscosidad",
+      "Reducción de peso molecular, viscosidad y propiedades",
+      "Mejora significativa en la resistencia al impacto",
+      "Reticulación (cross-linking) de la estructura molecular"
+    ],
+    "options_en": [
+      "Increase in molecular weight and viscosity",
+      "Reduction in molecular weight, viscosity, and properties",
+      "Significant improvement in impact resistance",
+      "Cross-linking of the molecular structure"
+    ],
+    "reasoning_es": "Al romperse las cadenas largas, el material se vuelve más líquido (fluye más) pero pierde su fuerza estructural.",
+    "reasoning_en": "By breaking long chains, the material becomes more liquid (flows more) but loses its structural strength."
   },
   {
     "id": "mat_2",
@@ -405,7 +911,29 @@
     "score": 1,
     "question_order_id": 24,
     "correct_index": 1,
-    "reasoning": "Es una degradación química irreversible a nivel molecular, no solo un defecto cosmético."
+    "reasoning": "Es una degradación química irreversible a nivel molecular, no solo un defecto cosmético.",
+    "category_es": "Materiales Plásticos",
+    "category_en": "Plastic Materials",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "El agua actúa como un agente reactivo que destruye el polímero a nivel molecular.",
+    "description_en": "Water acts as a reactive agent that destroys the polymer at the molecular level.",
+    "question_es": "La hidrólisis en materiales como PC o PBT es una reacción química donde el agua:",
+    "question_en": "Hydrolysis in materials like PC or PBT is a chemical reaction where water:",
+    "options_es": [
+      "Actúa como un lubricante externo temporal",
+      "Rompe los enlaces covalentes de la cadena polimérica",
+      "Se evapora rápidamente sin afectar la estructura",
+      "Genera únicamente burbujas superficiales cosméticas"
+    ],
+    "options_en": [
+      "Acts as a temporary external lubricant",
+      "Breaks the covalent bonds of the polymer chain",
+      "Evaporates quickly without affecting the structure",
+      "Generates only cosmetic surface bubbles"
+    ],
+    "reasoning_es": "Es una degradación química irreversible a nivel molecular, no solo un defecto cosmético.",
+    "reasoning_en": "It is an irreversible chemical degradation at the molecular level, not just a cosmetic defect."
   },
   {
     "id": "mat_3",
@@ -422,7 +950,29 @@
     "score": 1,
     "question_order_id": 25,
     "correct_index": 1,
-    "reasoning": "Se necesita energía extra para romper la estructura cristalina al fundir, y hay que extraer esa energía al enfriar."
+    "reasoning": "Se necesita energía extra para romper la estructura cristalina al fundir, y hay que extraer esa energía al enfriar.",
+    "category_es": "Materiales Plásticos",
+    "category_en": "Plastic Materials",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "El cambio de fase de sólido a líquido requiere más energía en materiales ordenados.",
+    "description_en": "Phase change from solid to liquid requires more energy in ordered materials.",
+    "question_es": "Diferencia térmica clave: Los semicristalinos poseen Calor Latente de Fusión, lo que implica:",
+    "question_en": "Key thermal difference: Semi-crystalline materials possess Latent Heat of Fusion, which implies:",
+    "options_es": [
+      "Requieren menos energía térmica debido a su estructura",
+      "Requieren mucha más energía para fundir y enfriar que los amorfos",
+      "Se enfrían instantáneamente al tocar el molde",
+      "No tienen temperatura de fusión (Tm) definida"
+    ],
+    "options_en": [
+      "They require less thermal energy due to their structure",
+      "They require much more energy to melt and cool than amorphous ones",
+      "They cool instantly upon touching the mold",
+      "They do not have a defined melting temperature (Tm)"
+    ],
+    "reasoning_es": "Se necesita energía extra para romper la estructura cristalina al fundir, y hay que extraer esa energía al enfriar.",
+    "reasoning_en": "Extra energy is needed to break the crystalline structure when melting, and that energy must be extracted when cooling."
   },
   {
     "id": "mat_4",
@@ -439,7 +989,29 @@
     "score": 1,
     "question_order_id": 26,
     "correct_index": 1,
-    "reasoning": "La inyección es un proceso de ALTO cizallamiento. El MFI mide flujo casi estático, ignorando el adelgazamiento por corte."
+    "reasoning": "La inyección es un proceso de ALTO cizallamiento. El MFI mide flujo casi estático, ignorando el adelgazamiento por corte.",
+    "category_es": "Materiales Plásticos",
+    "category_en": "Plastic Materials",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "Las pruebas de laboratorio estáticas no siempre reflejan la realidad dinámica de la inyección.",
+    "description_en": "Static lab tests don't always reflect dynamic injection reality.",
+    "question_es": "¿Por qué el MFI no es representativo del comportamiento dentro del molde?",
+    "question_en": "Why is MFI not representative of behavior inside the mold?",
+    "options_es": [
+      "Porque se mide a una temperatura demasiado baja",
+      "Porque es una prueba de bajo cizallamiento (Low Shear)",
+      "Porque usa un peso estándar no calibrado",
+      "Porque el material utilizado suele estar contaminado"
+    ],
+    "options_en": [
+      "Because it is measured at too low a temperature",
+      "Because it is a low shear test",
+      "Because it uses a non-calibrated standard weight",
+      "Because the material used is often contaminated"
+    ],
+    "reasoning_es": "La inyección es un proceso de ALTO cizallamiento. El MFI mide flujo casi estático, ignorando el adelgazamiento por corte.",
+    "reasoning_en": "Injection is a HIGH shear process. MFI measures near-static flow, ignoring shear thinning."
   },
   {
     "id": "mat_5",
@@ -456,7 +1028,29 @@
     "score": 1,
     "question_order_id": 27,
     "correct_index": 1,
-    "reasoning": "Es el punto donde el material cambia de estado (fase), alterando drásticamente su volumen específico."
+    "reasoning": "Es el punto donde el material cambia de estado (fase), alterando drásticamente su volumen específico.",
+    "category_es": "Materiales Plásticos",
+    "category_en": "Plastic Materials",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "El comportamiento pvT (Presión-Volumen-Temperatura) es fundamental para predecir dimensiones.",
+    "description_en": "pvT (Pressure-Volume-Temperature) behavior is fundamental for predicting dimensions.",
+    "question_es": "En un diagrama pvT, ¿qué representa la 'rodilla' o cambio brusco de pendiente en la curva de enfriamiento isobárico?",
+    "question_en": "In a pvT diagram, what does the 'knee' or abrupt change in slope on the isobaric cooling curve represent?",
+    "options_es": [
+      "El punto crítico de degradación térmica del polímero",
+      "La temperatura de transición vítrea (Tg) o cristalización",
+      "El momento exacto en que se abre el molde",
+      "La presión máxima alcanzada por la máquina"
+    ],
+    "options_en": [
+      "The critical thermal degradation point of the polymer",
+      "The glass transition (Tg) or crystallization temperature",
+      "The exact moment the mold opens",
+      "The maximum pressure reached by the machine"
+    ],
+    "reasoning_es": "Es el punto donde el material cambia de estado (fase), alterando drásticamente su volumen específico.",
+    "reasoning_en": "It is the point where the material changes state (phase), drastically altering its specific volume."
   },
   {
     "id": "eff_1",
@@ -473,7 +1067,29 @@
     "score": 1.5,
     "question_order_id": 28,
     "correct_index": 1,
-    "reasoning": "El plástico es un aislante térmico. Extraer el calor del centro de la pared es el proceso más lento por física pura."
+    "reasoning": "El plástico es un aislante térmico. Extraer el calor del centro de la pared es el proceso más lento por física pura.",
+    "category_es": "Eficiencia y Lean",
+    "category_en": "Efficiency & Lean",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La termodinámica impone límites físicos a la velocidad de producción.",
+    "description_en": "Thermodynamics imposes physical limits on production speed.",
+    "question_es": "El factor limitante físico (Cuello de botella) más común para reducir el tiempo de ciclo es:",
+    "question_en": "The most common physical limiting factor (Bottleneck) for reducing cycle time is:",
+    "options_es": [
+      "La velocidad de inyección máxima de la máquina",
+      "La conductividad térmica del plástico (Tiempo de enfriamiento)",
+      "La velocidad de los movimientos mecánicos del molde",
+      "El tiempo de reacción del robot de extracción"
+    ],
+    "options_en": [
+      "The maximum injection speed of the machine",
+      "The thermal conductivity of the plastic (Cooling time)",
+      "The speed of the mechanical mold movements",
+      "The reaction time of the extraction robot"
+    ],
+    "reasoning_es": "El plástico es un aislante térmico. Extraer el calor del centro de la pared es el proceso más lento por física pura.",
+    "reasoning_en": "Plastic is a thermal insulator. Extracting heat from the center of the wall is the slowest process by pure physics."
   },
   {
     "id": "eff_2",
@@ -490,7 +1106,29 @@
     "score": 1.5,
     "question_order_id": 29,
     "correct_index": 1,
-    "reasoning": "Actividad Interna = Máquina detenida forzosamente. No puedes atornillar el molde si la máquina está produciendo."
+    "reasoning": "Actividad Interna = Máquina detenida forzosamente. No puedes atornillar el molde si la máquina está produciendo.",
+    "category_es": "Eficiencia y Lean",
+    "category_en": "Efficiency & Lean",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "Distinguir entre tareas que detienen la máquina y las que no es la base del SMED.",
+    "description_en": "Distinguishing between tasks that stop the machine and those that don't is the basis of SMED.",
+    "question_es": "En SMED, un ejemplo de actividad INTERNA es:",
+    "question_en": "In SMED, an example of an INTERNAL activity is:",
+    "options_es": [
+      "Precalentar el molde en un banco externo de pruebas",
+      "Asegurar el molde a la platina (Clamping)",
+      "Buscar las llaves y herramientas necesarias",
+      "Organizar las mangueras de agua antes del cambio"
+    ],
+    "options_en": [
+      "Preheating the mold on an external test bench",
+      "Securing the mold to the platen (Clamping)",
+      "Finding the necessary keys and tools",
+      "Organizing the water hoses before the change"
+    ],
+    "reasoning_es": "Actividad Interna = Máquina detenida forzosamente. No puedes atornillar el molde si la máquina está produciendo.",
+    "reasoning_en": "Internal Activity = Forced machine downtime. You can't bolt the mold if the machine is producing."
   },
   {
     "id": "eff_3",
@@ -507,7 +1145,29 @@
     "score": 1.5,
     "question_order_id": 30,
     "correct_index": 0,
-    "reasoning": "Matemáticamente: Si AxQ son altos, P debe ser muy bajo para arrastrar el promedio a 60%."
+    "reasoning": "Matemáticamente: Si AxQ son altos, P debe ser muy bajo para arrastrar el promedio a 60%.",
+    "category_es": "Eficiencia y Lean",
+    "category_en": "Efficiency & Lean",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "El cálculo del OEE revela dónde se pierden las oportunidades de producción.",
+    "description_en": "OEE calculation reveals where production opportunities are lost.",
+    "question_es": "Si tu OEE es 60% pero la Calidad es 99% y la Disponibilidad 98%, el problema está en:",
+    "question_en": "If your OEE is 60% but Quality is 99% and Availability 98%, the problem is in:",
+    "options_es": [
+      "Desempeño (Performance) - Ciclos lentos o micro-paros",
+      "Calidad - Piezas defectuosas ocultas en el proceso",
+      "Disponibilidad - Tiempos muertos largos no reportados",
+      "Planeación - Falta de órdenes de producción"
+    ],
+    "options_en": [
+      "Performance - Slow cycles or micro-stops",
+      "Quality - Defective parts hidden in the process",
+      "Availability - Long unreported downtimes",
+      "Planning - Lack of production orders"
+    ],
+    "reasoning_es": "Matemáticamente: Si AxQ son altos, P debe ser muy bajo para arrastrar el promedio a 60%.",
+    "reasoning_en": "Mathematically: If AxQ are high, P must be very low to drag the average down to 60%."
   },
   {
     "id": "eff_4",
@@ -524,7 +1184,29 @@
     "score": 1,
     "question_order_id": 31,
     "correct_index": 1,
-    "reasoning": "Indica qué tan seguido se rompe la máquina. Clave para programar mantenimiento preventivo."
+    "reasoning": "Indica qué tan seguido se rompe la máquina. Clave para programar mantenimiento preventivo.",
+    "category_es": "Eficiencia y Lean",
+    "category_en": "Efficiency & Lean",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La confiabilidad del equipo se mide por la frecuencia de sus averías.",
+    "description_en": "Equipment reliability is measured by the frequency of its failures.",
+    "question_es": "El MTBF (Mean Time Between Failures) mide:",
+    "question_en": "MTBF (Mean Time Between Failures) measures:",
+    "options_es": [
+      "La velocidad promedio de reparación del equipo",
+      "La confiabilidad y frecuencia de fallas del equipo",
+      "El tiempo total de vida útil de la máquina",
+      "La eficiencia promedio del operador de turno"
+    ],
+    "options_en": [
+      "The average repair speed of the equipment",
+      "The reliability and frequency of equipment failures",
+      "The total useful life time of the machine",
+      "The average shift operator efficiency"
+    ],
+    "reasoning_es": "Indica qué tan seguido se rompe la máquina. Clave para programar mantenimiento preventivo.",
+    "reasoning_en": "Indicates how often the machine breaks down. Key for scheduling preventive maintenance."
   },
   {
     "id": "eff_5",
@@ -541,7 +1223,29 @@
     "score": 1,
     "question_order_id": 32,
     "correct_index": 1,
-    "reasoning": "Producir basura cuesta lo mismo o más que producir piezas buenas, más el lucro cesante."
+    "reasoning": "Producir basura cuesta lo mismo o más que producir piezas buenas, más el lucro cesante.",
+    "category_es": "Eficiencia y Lean",
+    "category_en": "Efficiency & Lean",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "Los costos de mala calidad van mucho más allá del material tirado.",
+    "description_en": "The costs of poor quality go far beyond discarded material.",
+    "question_es": "El Costo Real de la 'No Calidad' incluye:",
+    "question_en": "The Real Cost of 'Non-Quality' includes:",
+    "options_es": [
+      "Únicamente el valor de la resina desperdiciada",
+      "Material + Energía + Mano de obra + Costo de oportunidad + Riesgo cliente",
+      "El salario del departamento de calidad + Auditorías",
+      "El costo de la disposición de basura + Fletes"
+    ],
+    "options_en": [
+      "Only the value of the wasted resin",
+      "Material + Energy + Labor + Opportunity Cost + Customer Risk",
+      "The quality department salary + Audits",
+      "The cost of waste disposal + Freight"
+    ],
+    "reasoning_es": "Producir basura cuesta lo mismo o más que producir piezas buenas, más el lucro cesante.",
+    "reasoning_en": "Producing trash costs the same or more than producing good parts, plus lost profit."
   },
   {
     "id": "wast_1",
@@ -558,7 +1262,29 @@
     "score": 1.5,
     "question_order_id": 33,
     "correct_index": 1,
-    "reasoning": "Usas más material del necesario y aplicas más presión (proceso) de la requerida, agregando costo sin valor."
+    "reasoning": "Usas más material del necesario y aplicas más presión (proceso) de la requerida, agregando costo sin valor.",
+    "category_es": "Desperdicios (Muda)",
+    "category_en": "Waste (Muda)",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "Agregar valor es lo único por lo que el cliente paga; el resto es desperdicio.",
+    "description_en": "Adding value is the only thing the customer pays for; the rest is waste.",
+    "question_es": "El sobre-empaque (overpacking) que causa piezas pesadas y estrés interno es un desperdicio de tipo:",
+    "question_en": "Over-packing that causes heavy parts and internal stress is what type of waste?",
+    "options_es": [
+      "Transporte y Movimiento innecesario",
+      "Sobre-procesamiento y Material",
+      "Espera e Inventario acumulado",
+      "Talento Humano subutilizado"
+    ],
+    "options_en": [
+      "Unnecessary Transport and Movement",
+      "Over-processing and Material",
+      "Waiting and accumulated Inventory",
+      "Underutilized Human Talent"
+    ],
+    "reasoning_es": "Usas más material del necesario y aplicas más presión (proceso) de la requerida, agregando costo sin valor.",
+    "reasoning_en": "You use more material than necessary and apply more pressure (process) than required, adding cost without value."
   },
   {
     "id": "wast_2",
@@ -575,7 +1301,29 @@
     "score": 1,
     "question_order_id": 34,
     "correct_index": 0,
-    "reasoning": "Es la analogía del 'río y las rocas'. El nivel alto de agua (inventario) tapa los problemas (rocas) del fondo."
+    "reasoning": "Es la analogía del 'río y las rocas'. El nivel alto de agua (inventario) tapa los problemas (rocas) del fondo.",
+    "category_es": "Desperdicios (Muda)",
+    "category_en": "Waste (Muda)",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "El inventario excesivo actúa como un amortiguador que esconde problemas operativos.",
+    "description_en": "Excess inventory acts as a buffer that hides operational problems.",
+    "question_es": "El exceso de inventario (WIP o Terminado) es negativo porque:",
+    "question_en": "Excess inventory (WIP or Finished) is negative because:",
+    "options_es": [
+      "Oculta ineficiencias del sistema y atrapa flujo de efectivo",
+      "Mejora la respuesta ante variaciones de demanda imprevistas",
+      "Asegura que los operadores siempre tengan trabajo disponible",
+      "Aumenta el valor de los activos circulantes de la empresa"
+    ],
+    "options_en": [
+      "It hides system inefficiencies and traps cash flow",
+      "It improves response to unforeseen demand variations",
+      "It ensures that operators always have work available",
+      "It increases the value of the company's current assets"
+    ],
+    "reasoning_es": "Es la analogía del 'río y las rocas'. El nivel alto de agua (inventario) tapa los problemas (rocas) del fondo.",
+    "reasoning_en": "It is the 'river and rocks' analogy. High water level (inventory) covers the bottom problems (rocks)."
   },
   {
     "id": "wast_3",
@@ -592,7 +1340,29 @@
     "score": 1.5,
     "question_order_id": 35,
     "correct_index": 1,
-    "reasoning": "Los venteos sucios obligan a detener la producción para limpiar (Disponibilidad) y generan defectos (Calidad)."
+    "reasoning": "Los venteos sucios obligan a detener la producción para limpiar (Disponibilidad) y generan defectos (Calidad).",
+    "category_es": "Desperdicios (Muda)",
+    "category_en": "Waste (Muda)",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La falta de mantenimiento preventivo en moldes genera tiempos muertos reactivos.",
+    "description_en": "Lack of preventive maintenance on molds generates reactive downtime.",
+    "question_es": "Un mantenimiento deficiente de venteos genera desperdicio principalmente por:",
+    "question_en": "Poor vent maintenance generates waste mainly through:",
+    "options_es": [
+      "Aumento en el consumo de energía eléctrica del motor",
+      "Paros no programados para limpieza y scrap por quemaduras",
+      "Desgaste prematuro del aceite hidráulico por calor",
+      "Reducción significativa de la fuerza de cierre"
+    ],
+    "options_en": [
+      "Increase in main motor electrical energy consumption",
+      "Unscheduled stops for cleaning and scrap due to burns",
+      "Premature wear of hydraulic oil due to heat",
+      "Significant reduction in clamping force"
+    ],
+    "reasoning_es": "Los venteos sucios obligan a detener la producción para limpiar (Disponibilidad) y generan defectos (Calidad).",
+    "reasoning_en": "Dirty vents force production to stop for cleaning (Availability) and generate defects (Quality)."
   },
   {
     "id": "wast_4",
@@ -609,7 +1379,29 @@
     "score": 1,
     "question_order_id": 36,
     "correct_index": 1,
-    "reasoning": "La colada fría es material que se calienta y enfría solo para ser tirado o re-molido, lo cual es ineficiente termodinámicamente."
+    "reasoning": "La colada fría es material que se calienta y enfría solo para ser tirado o re-molido, lo cual es ineficiente termodinámicamente.",
+    "category_es": "Desperdicios (Muda)",
+    "category_en": "Waste (Muda)",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "El diseño del sistema de alimentación impacta la eficiencia del material.",
+    "description_en": "The feed system design impacts material efficiency.",
+    "question_es": "Técnicamente, usar Colada Fría en lugar de Colada Caliente implica:",
+    "question_en": "Technically, using Cold Runner instead of Hot Runner implies:",
+    "options_es": [
+      "Mayor eficiencia energética del sistema",
+      "Generación intrínseca de desperdicio (scrap/regrind) en cada ciclo",
+      "Mejor control de la temperatura de masa fundida",
+      "Menor tiempo de ciclo total de enfriamiento"
+    ],
+    "options_en": [
+      "Higher system energy efficiency",
+      "Intrinsic generation of waste (scrap/regrind) in each cycle",
+      "Better control of melt temperature",
+      "Shorter total cooling cycle time"
+    ],
+    "reasoning_es": "La colada fría es material que se calienta y enfría solo para ser tirado o re-molido, lo cual es ineficiente termodinámicamente.",
+    "reasoning_en": "Cold runner is material that is heated and cooled just to be thrown away or reground, which is thermodynamically inefficient."
   },
   {
     "id": "wast_5",
@@ -626,7 +1418,29 @@
     "score": 1,
     "question_order_id": 37,
     "correct_index": 1,
-    "reasoning": "El kWh/kg normaliza el consumo respecto a la producción, permitiendo comparar máquinas grandes y pequeñas."
+    "reasoning": "El kWh/kg normaliza el consumo respecto a la producción, permitiendo comparar máquinas grandes y pequeñas.",
+    "category_es": "Desperdicios (Muda)",
+    "category_en": "Waste (Muda)",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La eficiencia energética es un indicador clave de sostenibilidad y costo.",
+    "description_en": "Energy efficiency is a key indicator of sustainability and cost.",
+    "question_es": "¿Qué métrica se utiliza comúnmente para comparar la eficiencia energética entre diferentes máquinas de inyección?",
+    "question_en": "What metric is commonly used to compare energy efficiency between different injection machines?",
+    "options_es": [
+      "Caballos de fuerza (HP) del motor principal",
+      "Consumo Específico de Energía (kWh/kg de material procesado)",
+      "Amperaje máximo del tablero de control",
+      "Voltaje de alimentación trifásico (220V vs 440V)"
+    ],
+    "options_en": [
+      "Horsepower (HP) of the main motor",
+      "Specific Energy Consumption (kWh/kg of material processed)",
+      "Maximum amperage of the control panel",
+      "Three-phase supply voltage (220V vs 440V)"
+    ],
+    "reasoning_es": "El kWh/kg normaliza el consumo respecto a la producción, permitiendo comparar máquinas grandes y pequeñas.",
+    "reasoning_en": "The kWh/kg normalizes consumption with respect to production, allowing comparison of large and small machines."
   },
   {
     "id": "spec_1",
@@ -643,7 +1457,29 @@
     "score": 1,
     "question_order_id": 38,
     "correct_index": 1,
-    "reasoning": "La turbulencia rompe la capa límite aislante del agua contra el metal, extrayendo calor mucho más rápido."
+    "reasoning": "La turbulencia rompe la capa límite aislante del agua contra el metal, extrayendo calor mucho más rápido.",
+    "category_es": "Ingeniería de Moldes",
+    "category_en": "Mold Engineering",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La dinámica de fluidos dicta la eficiencia de la transferencia de calor.",
+    "description_en": "Fluid dynamics dictate the efficiency of heat transfer.",
+    "question_es": "En refrigeración de moldes, un Número de Reynolds > 4,000 garantiza:",
+    "question_en": "In mold cooling, a Reynolds Number > 4,000 guarantees:",
+    "options_es": [
+      "Flujo Laminar (Estabilidad de presión sin turbulencia)",
+      "Flujo Turbulento (Máxima eficiencia de transferencia de calor)",
+      "Presión excesiva que puede dañar las mangueras",
+      "Ausencia total de corrosión galvánica en los canales"
+    ],
+    "options_en": [
+      "Laminar Flow (Pressure stability without turbulence)",
+      "Turbulent Flow (Maximum heat transfer efficiency)",
+      "Excessive pressure that can damage hoses",
+      "Total absence of galvanic corrosion in channels"
+    ],
+    "reasoning_es": "La turbulencia rompe la capa límite aislante del agua contra el metal, extrayendo calor mucho más rápido.",
+    "reasoning_en": "Turbulence breaks the insulating boundary layer of water against the metal, extracting heat much faster."
   },
   {
     "id": "spec_2",
@@ -660,7 +1496,29 @@
     "score": 1.5,
     "question_order_id": 39,
     "correct_index": 0,
-    "reasoning": "Si el molde es pequeño, la platina se 'dobla' alrededor de él como una hoja de papel, perdiendo presión de sello en el centro."
+    "reasoning": "Si el molde es pequeño, la platina se 'dobla' alrededor de él como una hoja de papel, perdiendo presión de sello en el centro.",
+    "category_es": "Ingeniería de Moldes",
+    "category_en": "Mold Engineering",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La rigidez de la máquina interactúa con la estructura del molde.",
+    "description_en": "Machine rigidity interacts with the mold structure.",
+    "question_es": "La 'Deflexión de Platinas' causa rebaba central aunque el tonelaje sea correcto debido a:",
+    "question_en": "Platen deflection causes center flash even if the tonnage is correct due to:",
+    "options_es": [
+      "Deformación elástica de la platina que abre el molde en el centro",
+      "Expansión térmica incontrolada de las placas del molde",
+      "Compresión plástica excesiva del acero del molde",
+      "Falta de paralelismo severo en las guías de las barras"
+    ],
+    "options_en": [
+      "Elastic deformation of the platen that opens the mold in the center",
+      "Uncontrolled thermal expansion of the mold plates",
+      "Excessive plastic compression of the mold steel",
+      "Severe lack of parallelism in the tie-bar guides"
+    ],
+    "reasoning_es": "Si el molde es pequeño, la platina se 'dobla' alrededor de él como una hoja de papel, perdiendo presión de sello en el centro.",
+    "reasoning_en": "If the mold is small, the platen 'bends' around it like a sheet of paper, losing seal pressure in the center."
   },
   {
     "id": "spec_3",
@@ -677,7 +1535,29 @@
     "score": 1,
     "question_order_id": 40,
     "correct_index": 1,
-    "reasoning": "El costo de corregir un error en diseño es despreciable comparado con modificar acero endurecido."
+    "reasoning": "El costo de corregir un error en diseño es despreciable comparado con modificar acero endurecido.",
+    "category_es": "Ingeniería de Moldes",
+    "category_en": "Mold Engineering",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La simulación predictiva ahorra costos al identificar errores antes de cortar acero.",
+    "description_en": "Predictive simulation saves costs by identifying errors before cutting steel.",
+    "question_es": "¿En qué etapa es más rentable utilizar simulación CAE (Moldflow)?",
+    "question_en": "At what stage is it most profitable to use CAE (Moldflow) simulation?",
+    "options_es": [
+      "Durante la producción masiva para corregir fallas",
+      "En la fase de diseño de pieza y molde",
+      "Después de fabricar el molde para validarlo",
+      "Al cotizar el precio final de la resina"
+    ],
+    "options_en": [
+      "During mass production to correct failures",
+      "In the part and mold design phase",
+      "After manufacturing the mold to validate it",
+      "When quoting the final resin price"
+    ],
+    "reasoning_es": "El costo de corregir un error en diseño es despreciable comparado con modificar acero endurecido.",
+    "reasoning_en": "The cost of correcting an error in design is negligible compared to modifying hardened steel."
   },
   {
     "id": "spec_4",
@@ -694,7 +1574,29 @@
     "score": 1,
     "question_order_id": 41,
     "correct_index": 1,
-    "reasoning": "Permite abrir/cerrar la entrada a voluntad (secuenciado) y deja una marca casi invisible en la pieza."
+    "reasoning": "Permite abrir/cerrar la entrada a voluntad (secuenciado) y deja una marca casi invisible en la pieza.",
+    "category_es": "Ingeniería de Moldes",
+    "category_en": "Mold Engineering",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "Los sistemas de colada caliente avanzados permiten control secuencial.",
+    "description_en": "Advanced hot runner systems allow sequential control.",
+    "question_es": "La ventaja técnica principal de una compuerta valvulada (Valve Gate) es:",
+    "question_en": "The main technical advantage of a Valve Gate is:",
+    "options_es": [
+      "Menor costo operativo por eliminación de canales fríos",
+      "Control independiente del flujo y mejor acabado cosmético",
+      "Eliminación total del sistema de enfriamiento del molde",
+      "Reducción significativa de la fuerza de cierre requerida"
+    ],
+    "options_en": [
+      "Lower operating cost by eliminating cold runners",
+      "Independent flow control and better cosmetic finish",
+      "Total elimination of the mold cooling system",
+      "Significant reduction in required clamping force"
+    ],
+    "reasoning_es": "Permite abrir/cerrar la entrada a voluntad (secuenciado) y deja una marca casi invisible en la pieza.",
+    "reasoning_en": "Allows opening/closing the gate at will (sequenced) and leaves an almost invisible mark on the part."
   },
   {
     "id": "spec_5",
@@ -711,7 +1613,29 @@
     "score": 1.5,
     "question_order_id": 42,
     "correct_index": 1,
-    "reasoning": "Geometría básica: El calor converge desde dos lados hacia una esquina interna que tiene poca superficie para disiparlo."
+    "reasoning": "Geometría básica: El calor converge desde dos lados hacia una esquina interna que tiene poca superficie para disiparlo.",
+    "category_es": "Ingeniería de Moldes",
+    "category_en": "Mold Engineering",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La geometría de la pieza afecta la disipación de calor.",
+    "description_en": "Part geometry affects heat dissipation.",
+    "question_es": "El 'Efecto de Esquina' (Corner Effect) en refrigeración provoca puntos calientes porque:",
+    "question_en": "The 'Corner Effect' in cooling causes hot spots because:",
+    "options_es": [
+      "El agua fluye mucho más lento en las esquinas agudas",
+      "Hay mayor masa de plástico transfiriendo calor a menor área de acero",
+      "El acero es estructuralmente más delgado en las esquinas",
+      "La fricción del flujo genera calor adicional en los bordes"
+    ],
+    "options_en": [
+      "Water flows much slower in sharp corners",
+      "There is more plastic mass transferring heat to less steel area",
+      "The steel is structurally thinner in the corners",
+      "Flow friction generates additional heat at the edges"
+    ],
+    "reasoning_es": "Geometría básica: El calor converge desde dos lados hacia una esquina interna que tiene poca superficie para disiparlo.",
+    "reasoning_en": "Basic geometry: Heat converges from two sides toward an internal corner that has little surface area to dissipate it."
   },
   {
     "id": "spec_6",
@@ -728,6 +1652,28 @@
     "score": 1.5,
     "question_order_id": 43,
     "correct_index": 0,
-    "reasoning": "Si no hay cojín, no hay presión hidráulica sobre la pieza (presión efectiva = 0), causando rechupados y medidas cortas."
+    "reasoning": "Si no hay cojín, no hay presión hidráulica sobre la pieza (presión efectiva = 0), causando rechupados y medidas cortas.",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La presión efectiva sobre la pieza depende de la reserva de material.",
+    "description_en": "The effective pressure on the part depends on the material reserve.",
+    "question_es": "¿Por qué el monitoreo del 'Cojín' es más crítico que el 'Tiempo de Inyección' para la consistencia dimensional?",
+    "question_en": "Why is 'Cushion' monitoring more critical than 'Injection Time' for dimensional consistency?",
+    "options_es": [
+      "Porque confirma que hubo material suficiente para transferir la presión",
+      "Porque es un parámetro más fácil de visualizar en la pantalla",
+      "Porque el tiempo de inyección nunca varía en máquinas modernas",
+      "Porque el cojín determina la velocidad de enfriamiento de la pieza"
+    ],
+    "options_en": [
+      "Because it confirms there was enough material to transfer pressure",
+      "Because it is an easier parameter to visualize on screen",
+      "Because injection time never varies in modern machines",
+      "Because the cushion determines the part cooling rate"
+    ],
+    "reasoning_es": "Si no hay cojín, no hay presión hidráulica sobre la pieza (presión efectiva = 0), causando rechupados y medidas cortas.",
+    "reasoning_en": "If there is no cushion, there is no hydraulic pressure on the part (effective pressure = 0), causing sink marks and short dimensions."
   }
 ]

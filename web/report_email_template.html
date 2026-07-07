@@ -149,7 +149,7 @@ body{margin:0;padding:0;background:var(--bg-page);color:var(--text-primary);font
 </button>
 
 <div class="report" id="report-root">
-  <div style="text-align:center;padding:4rem;color:var(--text-muted);font-size:.9rem;">Cargando reporte…</div>
+  <div style="text-align:center;padding:4rem;color:var(--text-muted);font-size:.9rem;">${L.loading}</div>
 </div>
 
 <script>
@@ -201,6 +201,7 @@ async function loadReport(){
 }
 
 function render(data){
+  const L = TRANSLATIONS[currentLang];
   try{
   const c=data.candidate||{};
   const a=data.assessment||{};
@@ -291,22 +292,22 @@ function render(data){
       <a href="https://soul23.mx" target="_blank" style="text-decoration:none;"><img src="/soul23-logo.svg" alt="Soul23"></a>
       <span>CAROL <em>.</em></span>
     </div>
-    <h1>Reporte de Evaluación Técnica — Moldeo por Inyección de Plásticos</h1>
+    <h1>${L.report_title}</h1>
   </div>
 
   <div class="rpt-body">
 
   <!-- CANDIDATE INFO -->
-  <div class="sec-title">👤 Información del Candidato</div>
+  <div class="sec-title">${L.cand_info}</div>
   <div class="cand-grid">
-    <div><label>Nombre</label><strong>${c.full_name||'—'}</strong></div>
-    <div><label>ID Empleado</label><strong>${c.employee_id||'—'}</strong></div>
-    <div><label>Empresa</label><strong>${c.company_name||'—'}</strong></div>
-    <div><label>Departamento</label><strong>${c.department||'—'}</strong></div>
-    <div><label>Puesto</label><strong>${c.job_role||'—'}</strong></div>
-    <div><label>Experiencia</label><strong>${c.years_experience||'—'} años</strong></div>
-    <div><label>Nivel Evaluado</label><strong>${a.level_name||(a.level==='basic'?'Básico':a.level==='medium'?'Intermedio':a.level==='advanced'?'Avanzado':a.level||'—')}</strong></div>
-    <div><label>Fecha</label><strong>${fmtDate(data.submitted_at)}</strong></div>
+    <div><label>${L.name}</label><strong>${c.full_name||'—'}</strong></div>
+    <div><label>${L.emp_id}</label><strong>${c.employee_id||'—'}</strong></div>
+    <div><label>${L.company}</label><strong>${c.company_name||'—'}</strong></div>
+    <div><label>${L.dept}</label><strong>${c.department||'—'}</strong></div>
+    <div><label>${L.role}</label><strong>${c.job_role||'—'}</strong></div>
+    <div><label>${L.exp}</label><strong>${c.years_experience||'—'} años</strong></div>
+    <div><label>${L.level}</label><strong>${a['level_name_' + currentLang] || a.level_name || (a.level==='basic' ? TRANSLATIONS[currentLang]['basic'] : a.level==='medium' ? (currentLang==='es'?'Intermedio':'Intermediate') : a.level==='advanced' ? TRANSLATIONS[currentLang]['advanced'] : a.level || '—')}</strong></div>
+    <div><label>${L.date}</label><strong>${fmtDate(data.submitted_at)}</strong></div>
   </div>
 
   <!-- SCORE HERO -->
@@ -315,47 +316,47 @@ function render(data){
       <canvas id="donutChart"></canvas>
       <div class="donut-center">
         <div class="donut-pct">${pct}%</div>
-        <div class="donut-label" style="color:${passed?'var(--ctp-green)':'var(--ctp-red)'};">${passed?'✓ APROBADO':'✗ NO APROBÓ'}</div>
+        <div class="donut-label" style="color:${passed?'var(--ctp-green)':'var(--ctp-red)'};">${passed?'${passed ? L.approved : L.not_approved}':'${passed ? L.approved : L.not_approved}'}</div>
       </div>
     </div>
     <div class="score-kpis">
-      <div class="kpi-card"><span>Promedio General</span><b>${avgScore}%</b></div>
-      <div class="kpi-card"><span>Correctas</span><b>${totalCorrect}/${totalQ}</b></div>
-      <div class="kpi-card"><span>Puntos</span><b>${earnedPts.toFixed(1)}/${maxPts.toFixed(1)}</b></div>
-      <div class="kpi-card"><span>Tiempo</span><b>${fmtTime(timeSec)}</b></div>
-      <div class="kpi-card"><span>Áreas Evaluadas</span><b>${cats.length}</b></div>
-      <div class="kpi-card"><span>Áreas Débiles</span><b style="color:${weaknesses.length?'var(--ctp-red)':'var(--ctp-green)'};">${weaknesses.length}</b></div>
+      <div class="kpi-card"><span>${L.avg_score}</span><b>${avgScore}%</b></div>
+      <div class="kpi-card"><span>${L.correct}</span><b>${totalCorrect}/${totalQ}</b></div>
+      <div class="kpi-card"><span>${L.pts}</span><b>${earnedPts.toFixed(1)}/${maxPts.toFixed(1)}</b></div>
+      <div class="kpi-card"><span>${L.time}</span><b>${fmtTime(timeSec)}</b></div>
+      <div class="kpi-card"><span>${L.areas}</span><b>${cats.length}</b></div>
+      <div class="kpi-card"><span>${L.weak_areas_count}</span><b style="color:${weaknesses.length?'var(--ctp-red)':'var(--ctp-green)'};">${weaknesses.length}</b></div>
     </div>
   </div>
 
   <!-- CHARTS -->
   <div class="charts-row">
     <div class="chart-box">
-      <h4>📡 Distribución por Área (Radar)</h4>
+      <h4>${L.perf_radar}</h4>
       <canvas id="radarChart" height="260"></canvas>
     </div>
     <div class="chart-box">
-      <h4>📊 Desempeño por Área (Barras)</h4>
+      <h4>${L.perf_bars}</h4>
       <canvas id="barChart" height="260"></canvas>
     </div>
   </div>
 
   <!-- REACTIVES STACKED BAR -->
-  <div class="sec-title">📝 Reactivos por Categoría</div>
+  <div class="sec-title">${L.reactives}</div>
   <div class="chart-box" style="margin:0 0 1.5rem;">
     <canvas id="reactivesChart" height="220"></canvas>
   </div>
 
   <!-- POLAR AREA CHART -->
-  <div class="sec-title">🌐 Desempeño por Área de Evaluación</div>
+  <div class="sec-title">${L.area_perf}</div>
   <div class="chart-box" style="max-width:420px;margin:0 auto 1.5rem;">
     <canvas id="polarChart" height="320"></canvas>
   </div>
 
   <!-- CATEGORY TABLE -->
-  <div class="sec-title">📋 Desempeño por Área de Conocimiento</div>
+  <div class="sec-title">${L.knowledge_perf}</div>
   <table class="cat-table">
-    <thead><tr><th>Área</th><th>Correctas</th><th>%</th><th>Progreso</th></tr></thead>
+    <thead><tr><th>${L.area}</th><th>${L.correct}</th><th>%</th><th>${L.progress}</th></tr></thead>
     <tbody>${cats.map((cat,i)=>{
       const p=catPcts[i];
       const col=p>=85?'#a6e3a1':p>=70?'#94e2d5':p>=55?'#fab387':'#f38ba8';
@@ -366,14 +367,14 @@ function render(data){
   <!-- STRENGTHS & WEAKNESSES -->
   <div class="sw-grid">
     <div class="sw-box strength">
-      <h4 style="color:var(--ctp-green);">💪 Fortalezas</h4>
+      <h4 style="color:var(--ctp-green);">${L.strengths}</h4>
       ${strengths.length?strengths.map(k=>{
         const p=catBd[k].pct||0;
         return `<div class="sw-item"><span><b>${k}</b> ${p}%</span><span class="bar-sm"><span class="bar-sm-fill" style="width:${p}%;background:#a6e3a1;"></span></span></div>`;
       }).join(''):'<div style="color:var(--text-muted);">Sin áreas destacadas (todas < 70%)</div>'}
     </div>
     <div class="sw-box weakness">
-      <h4 style="color:var(--ctp-red);">⚠️ Áreas Débiles</h4>
+      <h4 style="color:var(--ctp-red);">⚠️ ${L.weak_areas_count}</h4>
       ${weaknesses.length?weaknesses.map(k=>{
         const p=catBd[k].pct||0;
         return `<div class="sw-item"><span><b>${k}</b> ${p}%</span><span class="bar-sm"><span class="bar-sm-fill" style="width:${p}%;background:#f38ba8;"></span></span></div>`;
@@ -383,7 +384,7 @@ function render(data){
 
   <!-- REMEDIATION -->
   ${weaknesses.length?`
-  <div class="sec-title">🎯 Estrategia de Remediación</div>
+  <div class="sec-title">${L.remediation}</div>
   ${weaknesses.map(k=>{
     const p=catBd[k].pct||0;
     const isCrit=p<55;
@@ -396,7 +397,7 @@ function render(data){
 
   <!-- ANSWER REVIEW -->
   ${answerEntries.length?`
-  <div class="sec-title">✅ Revisión de Respuestas</div>
+  <div class="sec-title">${L.ans_rev}</div>
   ${answerEntries.map(([qid,ans],idx)=>{
     const letters=['A','B','C','D'];
     const options=ans.options||[];
@@ -411,25 +412,25 @@ function render(data){
         <span class="cat-chip" style="background:${color};">${ans.category||'General'}</span>
         <span>${ans.type||''}</span>
         <span>${ans.score||0} pts</span>
-        <span class="answer-state ${ok?'ok':'bad'}">${ok?'Correcta':'Incorrecta'}</span>
+        <span class="answer-state ${ok?'ok':'bad'}">${ok ? L.correct : L.incorrect_rev.split(' ')[1]}</span>
       </div>
       <div class="wrong-q">${idx+1}. ${ans.question||qid}</div>
-      <div class="wrong-opt chosen"><b>Respuesta marcada:</b> ${chosen}</div>
-      <div class="wrong-opt correct-choice"><b>Respuesta correcta:</b> ${correct}</div>
+      <div class="wrong-opt chosen"><b>${L.ans_marked}</b> ${chosen}</div>
+      <div class="wrong-opt correct-choice"><b>${L.ans_correct}</b> ${correct}</div>
       ${ok?'':`<div class="wrong-hint">📚 Revisa el material de estudio de <b>${ans.category||'esta área'}</b> para reforzar este tema.</div>`}
     </div>`;
   }).join('')}`:wrongIds.length?`
-  <div class="sec-title">❌ Preguntas Incorrectas — Revisión</div>
+  <div class="sec-title">${L.incorrect_rev}</div>
   ${wrongIds.map(qid=>`<div class="wrong-item"><div class="wrong-q">${qid}</div></div>`).join('')}`:
-  '<div class="sec-title">✅ Revisión de Respuestas</div><div style="color:var(--ctp-green);font-weight:700;">Sin detalle de respuestas guardado para esta evaluación.</div>'}
+  '<div class="sec-title">${L.ans_rev}</div><div style="color:var(--ctp-green);font-weight:700;">Sin detalle de respuestas guardado para esta evaluación.</div>'}
 
   </div>
 
   <!-- FOOTER -->
   <div class="rpt-footer">
     <a href="https://soul23.mx" target="_blank" style="text-decoration:none;"><img src="/soul23-logo.svg" alt="Soul23" style="height:16px;opacity:.5;margin-bottom:.25rem;display:block;margin-left:auto;margin-right:auto;"></a><br>
-    Reporte generado por <b>CAROL Assessment System</b> · <a href="${location.origin}">${location.host}</a><br>
-    <small>Confidencial · Uso interno autorizado</small>
+    ${L.generated_by} <b>CAROL Assessment System</b> · <a href="${location.origin}">${location.host}</a><br>
+    <small>${L.confidential}</small>
   </div>`;
 
   document.getElementById('report-root').innerHTML=html;
@@ -500,7 +501,7 @@ function render(data){
           data:{
             labels:cats.map(c=>c.length>18?c.substring(0,16)+'…':c),
             datasets:[
-              {label:'Correctas',data:catCorrect,backgroundColor:'rgba(0,184,148,.8)',borderRadius:4},
+              {label:'${L.correct}',data:catCorrect,backgroundColor:'rgba(0,184,148,.8)',borderRadius:4},
               {label:'Incorrectas',data:catIncorrect,backgroundColor:'rgba(231,76,60,.7)',borderRadius:4}
             ]
           },
@@ -518,7 +519,97 @@ function render(data){
 function fmtDate(iso){if(!iso)return'—';return new Date(iso).toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'});}
 function fmtTime(sec){const m=Math.floor(sec/60);const s=sec%60;return m+'m '+s+'s';}
 
-document.addEventListener('DOMContentLoaded',loadReport);
+initLanguage(); document.addEventListener('DOMContentLoaded',loadReport);
+const TRANSLATIONS = {
+  'es': {
+    'report_title': '${L.report_title}',
+    'cand_info': '${L.cand_info}',
+    'name': '${L.name}',
+    'emp_id': '${L.emp_id}',
+    'company': '${L.company}',
+    'dept': '${L.dept}',
+    'role': '${L.role}',
+    'exp': '${L.exp}',
+    'level': '${L.level}',
+    'date': '${L.date}',
+    'score_summary': 'Desempeño General',
+    'avg_score': '${L.avg_score}',
+    'correct': '${L.correct}',
+    'pts': '${L.pts}',
+    'time': '${L.time}',
+    'areas': '${L.areas}',
+    'weak_areas_count': '${L.weak_areas_count}',
+    'perf_radar': '${L.perf_radar}',
+    'perf_bars': '${L.perf_bars}',
+    'reactives': '${L.reactives}',
+    'area_perf': '${L.area_perf}',
+    'knowledge_perf': '${L.knowledge_perf}',
+    'area': '${L.area}',
+    'progress': '${L.progress}',
+    'strengths': '${L.strengths}',
+    'weaknesses': '⚠️ ${L.weak_areas_count}',
+    'remediation': '${L.remediation}',
+    'ans_rev': '${L.ans_rev}',
+    'ans_marked': '${L.ans_marked}',
+    'ans_correct': '${L.ans_correct}',
+    'reinforce_hint': '📚 Revisa el material de estudio de <b>{cat}</b> para reforzar este tema.',
+    'approved': '${passed ? L.approved : L.not_approved}',
+    'not_approved': '${passed ? L.approved : L.not_approved}',
+    'years': 'años',
+    'confidential': '${L.confidential}',
+    'generated_by': '${L.generated_by}',
+    'loading': '${L.loading}',
+    'incorrect_rev': '${L.incorrect_rev}',
+  },
+  'en': {
+    'report_title': 'Technical Assessment Report — Plastic Injection Molding',
+    'cand_info': '👤 Candidate Information',
+    'name': 'Name',
+    'emp_id': 'Employee ID',
+    'company': 'Company',
+    'dept': 'Department',
+    'role': 'Position',
+    'exp': 'Experience',
+    'level': 'Assessed Level',
+    'date': 'Date',
+    'score_summary': 'General Performance',
+    'avg_score': 'Average Score',
+    'correct': 'Correct',
+    'pts': 'Points',
+    'time': 'Time',
+    'areas': 'Assessed Areas',
+    'weak_areas_count': 'Weak Areas',
+    'perf_radar': '📡 Area Distribution (Radar)',
+    'perf_bars': '📊 Area Performance (Bars)',
+    'reactives': '📝 Reactives by Category',
+    'area_perf': '🌐 Performance by Evaluation Area',
+    'knowledge_perf': '📋 Performance by Knowledge Area',
+    'area': 'Area',
+    'progress': 'Progress',
+    'strengths': '💪 Strengths',
+    'weaknesses': '⚠️ Weak Areas',
+    'remediation': '🎯 Remediation Strategy',
+    'ans_rev': '✅ Answers Review',
+    'ans_marked': 'Answer marked:',
+    'ans_correct': 'Correct answer:',
+    'reinforce_hint': '📚 Review the study material for <b>{cat}</b> to reinforce this topic.',
+    'approved': '✓ PASSED',
+    'not_approved': '✗ FAILED',
+    'years': 'years',
+    'confidential': 'Confidential · Authorized internal use',
+    'generated_by': 'Report generated by',
+    'loading': 'Loading report...',
+    'incorrect_rev': '❌ Incorrect Questions — Review',
+  }
+};
+
+let currentLang = 'es';
+function initLanguage() {
+  const params = new URLSearchParams(location.search);
+  currentLang = params.get('lang') || 'es';
+  document.documentElement.lang = currentLang;
+}
+
 
 // Theme toggle
 function initReportTheme(){

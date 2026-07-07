@@ -887,19 +887,65 @@ def get_audit_logs(limit=200):
 class ReportPDF(FPDF):
     def header(self):
         self.set_font("Helvetica", "B", 16)
-        self.cell(0, 10, "CAROL v3 — Reporte de Evaluación", ln=True, align='C')
+        title = getattr(self, "L", {}).get("title", "CAROL v3 — Reporte de Evaluación")
+        self.cell(0, 10, title, ln=True, align='C')
         self.ln(5)
 
     def footer(self):
         self.set_y(-15)
         self.set_font("Helvetica", "I", 8)
-        self.cell(0, 10, f"Página {self.page_no()}/{{nb}} - CAROL Assessment System", align="C")
+        page_lbl = getattr(self, "L", {}).get("page", "Página")
+        self.cell(0, 10, f"{page_lbl} {self.page_no()}/{{nb}} - CAROL Assessment System", align="C")
 
-def generate_pdf(result):
+def generate_pdf(result, lang="es"):
     if not HAS_FPDF:
         return None
 
+    L = {
+        "es": {
+            "title": "CAROL v3 — Reporte de Evaluación",
+            "cand_info": "Información del Candidato",
+            "name": "Nombre",
+            "company": "Empresa",
+            "dept": "Departamento",
+            "role": "Puesto",
+            "results": "Resultados de la Evaluación",
+            "level": "Nivel",
+            "status": "Estatus",
+            "score": "Puntaje",
+            "correct": "Correctas",
+            "time": "Tiempo",
+            "date": "Fecha",
+            "cat_perf": "Desempeño por Categoría",
+            "cat": "Categoría",
+            "passed": "APROBADO",
+            "failed": "NO APROBADO",
+            "page": "Página"
+        },
+        "en": {
+            "title": "CAROL v3 — Assessment Report",
+            "cand_info": "Candidate Information",
+            "name": "Name",
+            "company": "Company",
+            "dept": "Department",
+            "role": "Position",
+            "results": "Assessment Results",
+            "level": "Level",
+            "status": "Status",
+            "score": "Score",
+            "correct": "Correct",
+            "time": "Time",
+            "date": "Date",
+            "cat_perf": "Performance by Category",
+            "cat": "Category",
+            "passed": "PASSED",
+            "failed": "FAILED",
+            "page": "Page"
+        }
+    }.get(lang, "es")
+
     pdf = ReportPDF()
+    pdf.L = L # Pass labels to header/footer
     pdf.alias_nb_pages()
     pdf.add_page()
 
@@ -909,43 +955,64 @@ def generate_pdf(result):
 
     # Candidate Info
     pdf.set_font("Helvetica", "B", 12)
-    pdf.cell(0, 10, "Información del Candidato", ln=True)
+    pdf.cell(0, 10, L["cand_info"], ln=True)
     pdf.set_font("Helvetica", "", 10)
-    pdf.cell(95, 8, f"Nombre: {c.get('full_name', '—')}", border=0)
+    pdf.cell(95, 8, f"{L['name']}: {c.get('full_name', '—')}", border=0)
     pdf.cell(95, 8, f"ID: {c.get('employee_id', '—')}", ln=True)
-    pdf.cell(95, 8, f"Empresa: {c.get('company_name', '—')}", border=0)
+    pdf.cell(95, 8, f"{L['company']}: {c.get('company_name', '—')}", border=0)
     pdf.cell(95, 8, f"Email: {c.get('contact_email', '—')}", ln=True)
-    pdf.cell(95, 8, f"Departamento: {c.get('department', '—')}", border=0)
-    pdf.cell(95, 8, f"Puesto: {c.get('job_role', '—')}", ln=True)
+    pdf.cell(95, 8, f"{L['dept']}: {c.get('department', '—')}", border=0)
+    pdf.cell(95, 8, f"{L['role']}: {c.get('job_role', '—')}", ln=True)
     pdf.ln(5)
 
     # Results Info
     pdf.set_font("Helvetica", "B", 12)
-    pdf.cell(0, 10, "Resultados de la Evaluación", ln=True)
+    pdf.cell(0, 10, L["results"], ln=True)
     pdf.set_font("Helvetica", "", 10)
-    pdf.cell(95, 8, f"Nivel: {a.get('level_name', '—')}", border=0)
-    status = "APROBADO" if res.get("passed") else "NO APROBADO"
-    pdf.cell(95, 8, f"Estatus: {status}", ln=True)
-    pdf.cell(95, 8, f"Puntaje: {res.get('pct_score', 0)}%", border=0)
-    pdf.cell(95, 8, f"Correctas: {res.get('correct_answers', 0)} / {a.get('total_questions', '—')}", ln=True)
+
+    level_name = a.get(f"level_name_{lang}") or a.get("level_name") or a.get("level") or "—"
+    pdf.cell(95, 8, f"{L['level']}: {level_name}", border=0)
+
+    status = L["passed"] if res.get("passed") else L["failed"]
+    pdf.cell(95, 8, f"{L['status']}: {status}", ln=True)
+    pdf.cell(95, 8, f"{L['score']}: {res.get('pct_score', 0)}%", border=0)
+    pdf.cell(95, 8, f"{L['correct']}: {res.get('correct_answers', 0)} / {a.get('total_questions', '—')}", ln=True)
     m = (res.get("time_seconds", 0) or 0) // 60
     s = (res.get("time_seconds", 0) or 0) % 60
-    pdf.cell(95, 8, f"Tiempo: {m}m {s}s", border=0)
-    pdf.cell(95, 8, f"Fecha: {result.get('submitted_at', '—')[:10]}", ln=True)
+    pdf.cell(95, 8, f"{L['time']}: {m}m {s}s", border=0)
+    pdf.cell(95, 8, f"{L['date']}: {result.get('submitted_at', '—')[:10]}", ln=True)
     pdf.ln(5)
 
     # Category Breakdown
     pdf.set_font("Helvetica", "B", 12)
-    pdf.cell(0, 10, "Desempeño por Categoría", ln=True)
+    pdf.cell(0, 10, L["cat_perf"], ln=True)
     pdf.set_font("Helvetica", "B", 10)
-    pdf.cell(100, 8, "Categoría", border=1)
-    pdf.cell(40, 8, "Puntaje", border=1, align='C')
-    pdf.cell(40, 8, "Correctas", border=1, ln=True, align='C')
+    pdf.cell(100, 8, L["cat"], border=1)
+    pdf.cell(40, 8, L["score"], border=1, align='C')
+    pdf.cell(40, 8, L["correct"], border=1, ln=True, align='C')
 
     pdf.set_font("Helvetica", "", 10)
     cats = result.get("category_breakdown", {})
+    # Use translated category names if available in data
+    # (data should have been updated by this point in previous steps if it came from platform)
+    # But usually backend gets the keys. We might need a map here too if they are not in the payload.
+
+    cat_map = {
+        "Máquina e Inyectora": "Injection Machine & Unit",
+        "Proceso de Inyección": "Injection Process",
+        "Calidad y Defectos": "Quality & Defects",
+        "Seguridad Industrial": "Industrial Safety",
+        "Materiales Plásticos": "Plastic Materials",
+        "Eficiencia y Lean": "Efficiency & Lean",
+        "Desperdicios (Muda)": "Waste (Muda)",
+        "Ingeniería de Moldes": "Mold Engineering"
+    }
+
     for cat, st in cats.items():
-        pdf.cell(100, 8, cat, border=1)
+        display_cat = cat
+        if lang == "en" and cat in cat_map:
+            display_cat = cat_map[cat]
+        pdf.cell(100, 8, display_cat, border=1)
         pdf.cell(40, 8, f"{st.get('pct', 0)}%", border=1, align='C')
         pdf.cell(40, 8, f"{st.get('correct', 0)}/{st.get('total', 0)}", border=1, ln=True, align='C')
 
@@ -1577,7 +1644,7 @@ class CarolHandler(SimpleHTTPRequestHandler):
                 if not HAS_FPDF:
                     self._send_json(500, {"error": "FPDF not installed"})
                     return
-                body = generate_pdf(row)
+                lang = qs.get("lang", ["es"])[0]; body = generate_pdf(row, lang)
                 self.send_response(200)
                 self.send_header("Content-Type", "application/pdf")
                 self.send_header("Content-Disposition", f"attachment; filename=report_{result_id}.pdf")

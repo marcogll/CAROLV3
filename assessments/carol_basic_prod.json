@@ -14,7 +14,29 @@
     "score": 1,
     "question_order_id": 1,
     "correct_index": 1,
-    "reasoning": "Aunque el barril y las bandas calientan, solo el husillo gira y transporta el material mecánicamente."
+    "reasoning": "Aunque el barril y las bandas calientan, solo el husillo gira y transporta el material mecánicamente.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La unidad de plastificación consta de varios elementos clave para procesar el material.",
+    "description_en": "The plasticization unit consists of several key elements to process the material.",
+    "question_es": "En el sistema de plastificación, ¿cuál es el componente que gira para cizallar, fundir y transportar el material hacia adelante?",
+    "question_en": "In the plasticization system, which component rotates to shear, melt, and transport the material forward?",
+    "options_es": [
+      "El barril reforzado (cilindro)",
+      "El tornillo (husillo)",
+      "La válvula check (anillo)",
+      "La banda calefactora cerámica"
+    ],
+    "options_en": [
+      "The reinforced barrel (cylinder)",
+      "The screw",
+      "The check valve (ring)",
+      "The ceramic heater band"
+    ],
+    "reasoning_es": "Aunque el barril y las bandas calientan, solo el husillo gira y transporta el material mecánicamente.",
+    "reasoning_en": "Although the barrel and bands provide heat, only the screw rotates and mechanically transports the material."
   },
   {
     "id": "mach_2",
@@ -31,7 +53,29 @@
     "score": 1,
     "question_order_id": 2,
     "correct_index": 2,
-    "reasoning": "La tolva es el reservorio montado directamente sobre la garganta de alimentación."
+    "reasoning": "La tolva es el reservorio montado directamente sobre la garganta de alimentación.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "Antes de entrar al cañón, el material debe estar disponible en la máquina.",
+    "description_en": "Before entering the barrel, the material must be available in the machine.",
+    "question_es": "¿Cuál es el punto de entrada donde se almacena la materia prima antes de ingresar a la garganta de alimentación?",
+    "question_en": "What is the entry point where the raw material is stored before entering the feed throat?",
+    "options_es": [
+      "El secador de material deshumidificador",
+      "La unidad de inyección completa",
+      "La tolva de alimentación",
+      "El contenedor de purga y residuos"
+    ],
+    "options_en": [
+      "The dehumidifying material dryer",
+      "The entire injection unit",
+      "The feed hopper",
+      "The purge and waste container"
+    ],
+    "reasoning_es": "La tolva es el reservorio montado directamente sobre la garganta de alimentación.",
+    "reasoning_en": "The hopper is the reservoir mounted directly over the feed throat."
   },
   {
     "id": "mach_3",
@@ -48,7 +92,29 @@
     "score": 1,
     "question_order_id": 3,
     "correct_index": 1,
-    "reasoning": "Las bandas aportan calor externo para mantener el material en estado fundido, complementando la fricción."
+    "reasoning": "Las bandas aportan calor externo para mantener el material en estado fundido, complementando la fricción.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "El control térmico es fundamental a lo largo del cilindro de inyección.",
+    "description_en": "Thermal control is fundamental along the injection cylinder.",
+    "question_es": "¿Cuál es la función específica de las resistencias eléctricas (bandas) colocadas alrededor del cañón?",
+    "question_en": "What is the specific function of the electrical resistances (bands) placed around the barrel?",
+    "options_es": [
+      "Generar la fricción necesaria para fundir el polímero",
+      "Mantener el perfil de temperatura del barril",
+      "Enfriar el material rápidamente para evitar degradación",
+      "Medir la presión interna del plástico fundido"
+    ],
+    "options_en": [
+      "Generate the necessary friction to melt the polymer",
+      "Maintain the barrel temperature profile",
+      "Cool the material quickly to avoid degradation",
+      "Measure the internal pressure of the molten plastic"
+    ],
+    "reasoning_es": "Las bandas aportan calor externo para mantener el material en estado fundido, complementando la fricción.",
+    "reasoning_en": "The bands provide external heat to keep the material in a molten state, complementing the friction."
   },
   {
     "id": "mach_4",
@@ -65,7 +131,29 @@
     "score": 1,
     "question_order_id": 4,
     "correct_index": 1,
-    "reasoning": "Si la unidad de cierre no resiste la presión interna (fuerza de separación), el molde se abrirá generando rebaba."
+    "reasoning": "Si la unidad de cierre no resiste la presión interna (fuerza de separación), el molde se abrirá generando rebaba.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La máquina se divide principalmente en unidad de inyección y unidad de cierre.",
+    "description_en": "The machine is mainly divided into an injection unit and a clamping unit.",
+    "question_es": "Durante la etapa de inyección, ¿qué función crítica desempeña la unidad de cierre?",
+    "question_en": "During the injection stage, what critical function does the clamping unit perform?",
+    "options_es": [
+      "Inyectar el material fundido dentro de la cavidad",
+      "Contrarrestar la fuerza de separación del molde",
+      "Regular la temperatura del sistema de enfriamiento",
+      "Accionar los mecanismos para expulsar la pieza"
+    ],
+    "options_en": [
+      "Inject the molten material into the cavity",
+      "Counteract the separation force of the mold",
+      "Regulate the temperature of the cooling system",
+      "Actuate the mechanisms to eject the part"
+    ],
+    "reasoning_es": "Si la unidad de cierre no resiste la presión interna (fuerza de separación), el molde se abrirá generando rebaba.",
+    "reasoning_en": "If the clamping unit does not resist the internal pressure (separation force), the mold will open, generating flash."
   },
   {
     "id": "mach_5",
@@ -82,7 +170,29 @@
     "score": 1,
     "question_order_id": 5,
     "correct_index": 2,
-    "reasoning": "Los botadores empujan mecánicamente la pieza una vez que el molde está abierto."
+    "reasoning": "Los botadores empujan mecánicamente la pieza una vez que el molde está abierto.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "Una vez que la pieza se ha enfriado y el molde se abre, el proceso debe continuar.",
+    "description_en": "Once the part has cooled and the mold opens, the process must continue.",
+    "question_es": "Al finalizar el ciclo, ¿qué mecanismo se activa para desprender la pieza de la cavidad o corazón?",
+    "question_en": "At the end of the cycle, what mechanism is activated to detach the part from the cavity or core?",
+    "options_es": [
+      "El sistema de noyos hidráulicos",
+      "El sistema de refrigeración",
+      "El sistema de expulsión (botadores)",
+      "El sistema de cierre de rodillera"
+    ],
+    "options_en": [
+      "The hydraulic core system",
+      "The cooling system",
+      "The ejection system (ejector pins)",
+      "The toggle clamping system"
+    ],
+    "reasoning_es": "Los botadores empujan mecánicamente la pieza una vez que el molde está abierto.",
+    "reasoning_en": "Ejectors mechanically push the part once the mold is open."
   },
   {
     "id": "proc_1",
@@ -99,7 +209,29 @@
     "score": 1,
     "question_order_id": 6,
     "correct_index": 1,
-    "reasoning": "Es la suma de todas las etapas (cierre, inyección, enfriamiento, apertura, expulsión) hasta reiniciar."
+    "reasoning": "Es la suma de todas las etapas (cierre, inyección, enfriamiento, apertura, expulsión) hasta reiniciar.",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La productividad se mide mediante la duración total de cada proceso de fabricación.",
+    "description_en": "Productivity is measured by the total duration of each manufacturing process.",
+    "question_es": "¿Cómo se define correctamente el 'tiempo de ciclo' en moldeo por inyección?",
+    "question_en": "How is 'cycle time' correctly defined in injection molding?",
+    "options_es": [
+      "Tiempo total que tarda el material en fundirse dentro del barril",
+      "Tiempo transcurrido entre el inicio de una inyección y la siguiente",
+      "Tiempo necesario para enfriar completamente la pieza en el molde",
+      "Tiempo que toma el robot en extraer y depositar la pieza final"
+    ],
+    "options_en": [
+      "Total time it takes for the material to melt inside the barrel",
+      "Time elapsed between the start of one injection and the next",
+      "Time needed to completely cool the part in the mold",
+      "Time it takes for the robot to extract and deposit the final part"
+    ],
+    "reasoning_es": "Es la suma de todas las etapas (cierre, inyección, enfriamiento, apertura, expulsión) hasta reiniciar.",
+    "reasoning_en": "It is the sum of all stages (clamping, injection, cooling, opening, ejection) until restarting."
   },
   {
     "id": "qual_1",
@@ -116,7 +248,29 @@
     "score": 1.5,
     "question_order_id": 7,
     "correct_index": 1,
-    "reasoning": "El tiro corto es la ausencia de material; los otros son excesos o deformaciones."
+    "reasoning": "El tiro corto es la ausencia de material; los otros son excesos o deformaciones.",
+    "category_es": "Calidad y Defectos",
+    "category_en": "Quality & Defects",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La inspección visual permite identificar problemas de llenado en la pieza.",
+    "description_en": "Visual inspection allows identifying filling problems in the part.",
+    "question_es": "Si observas una pieza a la que le faltan detalles geométricos o secciones completas, ¿qué defecto presenta?",
+    "question_en": "If you observe a part missing geometric details or entire sections, what defect does it present?",
+    "options_es": [
+      "Rebaba excesiva (Flash)",
+      "Tiro Corto (Short Shot)",
+      "Rechupado superficial (Sink Mark)",
+      "Línea de flujo visible (Flow line)"
+    ],
+    "options_en": [
+      "Excessive flash",
+      "Short Shot",
+      "Sink Mark",
+      "Visible flow line"
+    ],
+    "reasoning_es": "El tiro corto es la ausencia de material; los otros son excesos o deformaciones.",
+    "reasoning_en": "A short shot is the absence of material; the others are excesses or deformations."
   },
   {
     "id": "qual_2",
@@ -133,7 +287,29 @@
     "score": 1.5,
     "question_order_id": 8,
     "correct_index": 0,
-    "reasoning": "La rebaba ocurre cuando el plástico fuerza la apertura del molde; requiere más fuerza de cierre o menos presión."
+    "reasoning": "La rebaba ocurre cuando el plástico fuerza la apertura del molde; requiere más fuerza de cierre o menos presión.",
+    "category_es": "Calidad y Defectos",
+    "category_en": "Quality & Defects",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "El equilibrio entre la fuerza de la máquina y la presión del plástico es crítico.",
+    "description_en": "The balance between machine force and plastic pressure is critical.",
+    "question_es": "¿Cuál es la causa técnica más probable de la aparición de 'rebaba' (flash) en el borde de la pieza?",
+    "question_en": "What is the most likely technical cause of 'flash' appearing on the edge of the part?",
+    "options_es": [
+      "Fuerza de cierre insuficiente para la presión inyectada",
+      "Temperatura excesiva del material en la zona de la boquilla",
+      "Tiempo de enfriamiento demasiado largo en el ciclo",
+      "Velocidad de inyección demasiado lenta durante el llenado"
+    ],
+    "options_en": [
+      "Insufficient clamping force for the injected pressure",
+      "Excessive material temperature in the nozzle zone",
+      "Cooling time too long in the cycle",
+      "Injection speed too slow during filling"
+    ],
+    "reasoning_es": "La rebaba ocurre cuando el plástico fuerza la apertura del molde; requiere más fuerza de cierre o menos presión.",
+    "reasoning_en": "Flash occurs when the plastic forces the mold to open; it requires more clamping force or less pressure."
   },
   {
     "id": "qual_3",
@@ -150,7 +326,29 @@
     "score": 1.5,
     "question_order_id": 9,
     "correct_index": 1,
-    "reasoning": "El rechupado es una depresión superficial causada por contracción volumétrica en zonas calientes."
+    "reasoning": "El rechupado es una depresión superficial causada por contracción volumétrica en zonas calientes.",
+    "category_es": "Calidad y Defectos",
+    "category_en": "Quality & Defects",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "Las variaciones de espesor en la pieza pueden generar defectos superficiales específicos.",
+    "description_en": "Part thickness variations can generate specific surface defects.",
+    "question_es": "Identificas una depresión o hundimiento en una zona gruesa de la pieza. ¿Cómo se clasifica este defecto?",
+    "question_en": "You identify a depression or sink in a thick area of the part. How is this defect classified?",
+    "options_es": [
+      "Deformación geométrica (Warpage)",
+      "Rechupado (Sink Mark)",
+      "Vacío interno encapsulado (Void)",
+      "Marca de quemadura (Burn mark)"
+    ],
+    "options_en": [
+      "Warpage",
+      "Sink Mark",
+      "Encapsulated internal void",
+      "Burn mark"
+    ],
+    "reasoning_es": "El rechupado es una depresión superficial causada por contracción volumétrica en zonas calientes.",
+    "reasoning_en": "A sink mark is a surface depression caused by volumetric contraction in hot zones."
   },
   {
     "id": "safe_1",
@@ -167,7 +365,29 @@
     "score": 1.5,
     "question_order_id": 10,
     "correct_index": 1,
-    "reasoning": "La purga puede liberar bolsas de gas comprimido que proyectan el material caliente hacia la cara."
+    "reasoning": "La purga puede liberar bolsas de gas comprimido que proyectan el material caliente hacia la cara.",
+    "category_es": "Seguridad Industrial",
+    "category_en": "Industrial Safety",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "El mantenimiento y limpieza de la unidad de inyección conllevan riesgos específicos.",
+    "description_en": "Maintenance and cleaning of the injection unit carry specific risks.",
+    "question_es": "¿Cuál es el riesgo principal al realizar una purga de material a alta temperatura sin protección facial?",
+    "question_en": "What is the main risk when performing a high-temperature material purge without face protection?",
+    "options_es": [
+      "Inhalación directa de polvos finos del ambiente",
+      "Salpicadura violenta de polímero fundido",
+      "Atrapamiento de extremidades en la unidad de cierre",
+      "Caída por resbalón con aceite hidráulico derramado"
+    ],
+    "options_en": [
+      "Direct inhalation of fine dust from the environment",
+      "Violent splash of molten polymer",
+      "Entrapment of limbs in the clamping unit",
+      "Fall due to slipping on spilled hydraulic oil"
+    ],
+    "reasoning_es": "La purga puede liberar bolsas de gas comprimido que proyectan el material caliente hacia la cara.",
+    "reasoning_en": "Purging can release compressed gas pockets that project hot material towards the face."
   },
   {
     "id": "safe_2",
@@ -184,7 +404,29 @@
     "score": 1.5,
     "question_order_id": 11,
     "correct_index": 0,
-    "reasoning": "El paro de emergencia corta la energía motriz inmediatamente; cualquier otra acción es demasiado lenta."
+    "reasoning": "El paro de emergencia corta la energía motriz inmediatamente; cualquier otra acción es demasiado lenta.",
+    "category_es": "Seguridad Industrial",
+    "category_en": "Industrial Safety",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "Las situaciones de peligro requieren una reacción inmediata del operador.",
+    "description_en": "Dangerous situations require an immediate reaction from the operator.",
+    "question_es": "Ante un ruido anormal severo o riesgo inminente de aplastamiento, ¿qué acción inmediata debes tomar?",
+    "question_en": "In the event of severe abnormal noise or imminent risk of crushing, what immediate action should you take?",
+    "options_es": [
+      "Presionar el botón de paro de emergencia",
+      "Apagar manualmente el calentamiento del barril",
+      "Reducir gradualmente la velocidad de la máquina",
+      "Buscar inmediatamente al supervisor de turno"
+    ],
+    "options_en": [
+      "Press the emergency stop button",
+      "Manually turn off the barrel heating",
+      "Gradually reduce the machine speed",
+      "Immediately seek the shift supervisor"
+    ],
+    "reasoning_es": "El paro de emergencia corta la energía motriz inmediatamente; cualquier otra acción es demasiado lenta.",
+    "reasoning_en": "The emergency stop immediately cuts the motive power; any other action is too slow."
   },
   {
     "id": "safe_3",
@@ -201,7 +443,29 @@
     "score": 1,
     "question_order_id": 12,
     "correct_index": 1,
-    "reasoning": "LOTO está diseñado específicamente para prevenir la activación accidental de energía (eléctrica, hidráulica, etc.)."
+    "reasoning": "LOTO está diseñado específicamente para prevenir la activación accidental de energía (eléctrica, hidráulica, etc.).",
+    "category_es": "Seguridad Industrial",
+    "category_en": "Industrial Safety",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "Existen protocolos estandarizados para garantizar la seguridad durante intervenciones.",
+    "description_en": "Standardized protocols exist to guarantee safety during interventions.",
+    "question_es": "¿Cuál es el objetivo del procedimiento LOTO (Candado y Etiqueta) antes de intervenir una máquina?",
+    "question_en": "What is the objective of the LOTO (Lockout/Tagout) procedure before intervening on a machine?",
+    "options_es": [
+      "Identificar y separar los defectos de calidad",
+      "Asegurar el bloqueo de todas las energías peligrosas",
+      "Registrar los tiempos de producción del operador",
+      "Limpiar y ordenar el área de trabajo según las 5S"
+    ],
+    "options_en": [
+      "Identify and separate quality defects",
+      "Ensure the blocking of all hazardous energies",
+      "Record the operator's production times",
+      "Clean and organize the work area according to 5S"
+    ],
+    "reasoning_es": "LOTO está diseñado específicamente para prevenir la activación accidental de energía (eléctrica, hidráulica, etc.).",
+    "reasoning_en": "LOTO is specifically designed to prevent the accidental activation of energy (electrical, hydraulic, etc.)."
   },
   {
     "id": "safe_4",
@@ -218,7 +482,29 @@
     "score": 1,
     "question_order_id": 13,
     "correct_index": 1,
-    "reasoning": "Por normativa internacional, el paro de emergencia debe ser rojo, prominente y sobre fondo amarillo para fácil detección."
+    "reasoning": "Por normativa internacional, el paro de emergencia debe ser rojo, prominente y sobre fondo amarillo para fácil detección.",
+    "category_es": "Seguridad Industrial",
+    "category_en": "Industrial Safety",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "Los dispositivos de seguridad críticos deben ser universalmente reconocibles.",
+    "description_en": "Critical safety devices must be universally recognizable.",
+    "question_es": "¿Cuál es la característica visual estándar de un botón de Paro de Emergencia?",
+    "question_en": "What is the standard visual characteristic of an Emergency Stop button?",
+    "options_es": [
+      "Botón verde pequeño oculto bajo el panel",
+      "Botón rojo en forma de hongo sobre fondo amarillo",
+      "Palanca azul ubicada al costado de la máquina",
+      "Interruptor negro de llave con bloqueo"
+    ],
+    "options_en": [
+      "Small green button hidden under the panel",
+      "Red mushroom-shaped button on a yellow background",
+      "Blue lever located on the side of the machine",
+      "Black keyed switch with lockout"
+    ],
+    "reasoning_es": "Por normativa internacional, el paro de emergencia debe ser rojo, prominente y sobre fondo amarillo para fácil detección.",
+    "reasoning_en": "By international regulations, the emergency stop must be red, prominent, and on a yellow background for easy detection."
   },
   {
     "id": "safe_5",
@@ -235,7 +521,29 @@
     "score": 1,
     "question_order_id": 14,
     "correct_index": 1,
-    "reasoning": "El barril y las bandas operan a cientos de grados centígrados y suelen estar expuestos o mal aislados."
+    "reasoning": "El barril y las bandas operan a cientos de grados centígrados y suelen estar expuestos o mal aislados.",
+    "category_es": "Seguridad Industrial",
+    "category_en": "Industrial Safety",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "Existen zonas de la máquina que operan a altas temperaturas durante el funcionamiento normal.",
+    "description_en": "There are areas of the machine that operate at high temperatures during normal operation.",
+    "question_es": "Además del material fundido, ¿qué componente de la máquina presenta un alto riesgo de quemaduras por contacto?",
+    "question_en": "In addition to the molten material, which machine component presents a high risk of contact burns?",
+    "options_es": [
+      "El panel de control (Pantalla HMI)",
+      "El barril (cilindro) y sus bandas calefactoras",
+      "La puerta de seguridad frontal del operador",
+      "La tolva de alimentación en su parte exterior"
+    ],
+    "options_en": [
+      "The control panel (HMI screen)",
+      "The barrel (cylinder) and its heater bands",
+      "The operator's front safety door",
+      "The feed hopper on its exterior"
+    ],
+    "reasoning_es": "El barril y las bandas operan a cientos de grados centígrados y suelen estar expuestos o mal aislados.",
+    "reasoning_en": "The barrel and bands operate at hundreds of degrees Celsius and are usually exposed or poorly insulated."
   },
   {
     "id": "qual_4",
@@ -252,7 +560,29 @@
     "score": 1.5,
     "question_order_id": 15,
     "correct_index": 0,
-    "reasoning": "Las quemaduras por venteo ocurren cuando el aire no puede escapar y se calienta por compresión rápida."
+    "reasoning": "Las quemaduras por venteo ocurren cuando el aire no puede escapar y se calienta por compresión rápida.",
+    "category_es": "Calidad y Defectos",
+    "category_en": "Quality & Defects",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "El aire atrapado dentro de la cavidad reacciona ante la alta presión de inyección.",
+    "description_en": "Air trapped inside the cavity reacts to high injection pressure.",
+    "question_es": "Si aparece una mancha negra o marrón al final del llenado de la pieza, ¿qué indica este defecto?",
+    "question_en": "If a black or brown spot appears at the end of the part filling, what does this defect indicate?",
+    "options_es": [
+      "Aire atrapado que se comprimió y quemó (Efecto Diesel)",
+      "Material base contaminado con grasa del molde",
+      "Falta crítica de presión de sostenimiento (Hold)",
+      "Exceso de agente desmoldante rociado en la cavidad"
+    ],
+    "options_en": [
+      "Trapped air that compressed and burned (Diesel Effect)",
+      "Base material contaminated with mold grease",
+      "Critical lack of hold pressure",
+      "Excessive release agent sprayed in the cavity"
+    ],
+    "reasoning_es": "Las quemaduras por venteo ocurren cuando el aire no puede escapar y se calienta por compresión rápida.",
+    "reasoning_en": "Venting burns occur when air cannot escape and heats up due to rapid compression."
   },
   {
     "id": "qual_5",
@@ -269,7 +599,29 @@
     "score": 1.5,
     "question_order_id": 16,
     "correct_index": 1,
-    "reasoning": "La línea de unión es la cicatriz visible donde convergen los flujos, comúnmente alrededor de agujeros."
+    "reasoning": "La línea de unión es la cicatriz visible donde convergen los flujos, comúnmente alrededor de agujeros.",
+    "category_es": "Calidad y Defectos",
+    "category_en": "Quality & Defects",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La geometría de la pieza obliga al plástico a separarse y volver a unirse.",
+    "description_en": "Part geometry forces the plastic to separate and rejoin.",
+    "question_es": "¿Qué defecto visual se genera cuando dos frentes de flujo de plástico se encuentran y no se fusionan perfectamente?",
+    "question_en": "What visual defect is generated when two plastic flow fronts meet and do not fuse perfectly?",
+    "options_es": [
+      "Ráfagas de humedad (Splay)",
+      "Línea de unión o soldadura (Weld line)",
+      "Delaminación estructural de capas",
+      "Piel de naranja superficial"
+    ],
+    "options_en": [
+      "Moisture splay",
+      "Weld line or fusion line",
+      "Structural layer delamination",
+      "Surface orange peel"
+    ],
+    "reasoning_es": "La línea de unión es la cicatriz visible donde convergen los flujos, comúnmente alrededor de agujeros.",
+    "reasoning_en": "A weld line is the visible scar where flows converge, commonly around holes."
   },
   {
     "id": "mat_1",
@@ -286,7 +638,29 @@
     "score": 1,
     "question_order_id": 17,
     "correct_index": 1,
-    "reasoning": "La humedad se convierte en vapor o rompe las cadenas moleculares (hidrólisis), arruinando la pieza."
+    "reasoning": "La humedad se convierte en vapor o rompe las cadenas moleculares (hidrólisis), arruinando la pieza.",
+    "category_es": "Materiales Plásticos",
+    "category_en": "Plastic Materials",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La preparación de la materia prima es un paso previo esencial al procesamiento.",
+    "description_en": "Preparation of the raw material is an essential step prior to processing.",
+    "question_es": "Técnicamente, ¿por qué es obligatorio secar ciertos plásticos de ingeniería antes de procesarlos?",
+    "question_en": "Technically, why is it mandatory to dry certain engineering plastics before processing them?",
+    "options_es": [
+      "Para aumentar significativamente la fluidez del material (MFI)",
+      "Para evitar hidrólisis y defectos visuales por humedad",
+      "Para precalentar el material y reducir el ciclo",
+      "Para mezclar homogéneamente el concentrado de color"
+    ],
+    "options_en": [
+      "To significantly increase material fluidity (MFI)",
+      "To avoid hydrolysis and visual defects due to moisture",
+      "To preheat the material and reduce the cycle",
+      "To homogeneously mix the color concentrate"
+    ],
+    "reasoning_es": "La humedad se convierte en vapor o rompe las cadenas moleculares (hidrólisis), arruinando la pieza.",
+    "reasoning_en": "Moisture turns into steam or breaks molecular chains (hydrolysis), ruining the part."
   },
   {
     "id": "mat_2",
@@ -303,7 +677,29 @@
     "score": 1,
     "question_order_id": 18,
     "correct_index": 0,
-    "reasoning": "Higroscópico es el término técnico para la capacidad de absorber agua del aire circundante."
+    "reasoning": "Higroscópico es el término técnico para la capacidad de absorber agua del aire circundante.",
+    "category_es": "Materiales Plásticos",
+    "category_en": "Plastic Materials",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "Los polímeros interactúan de diferentes maneras con el ambiente que los rodea.",
+    "description_en": "Polymers interact in different ways with the surrounding environment.",
+    "question_es": "¿Cómo se le llama a la propiedad de un material (como el Nylon o PC) de absorber humedad del ambiente?",
+    "question_en": "What is the property of a material (such as Nylon or PC) to absorb moisture from the environment called?",
+    "options_es": [
+      "Higroscopía",
+      "Viscosidad",
+      "Cristalinidad",
+      "Termoplasticidad"
+    ],
+    "options_en": [
+      "Hygroscopy",
+      "Viscosity",
+      "Crystallinity",
+      "Thermoplasticity"
+    ],
+    "reasoning_es": "Higroscópico es el término técnico para la capacidad de absorber agua del aire circundante.",
+    "reasoning_en": "Hygroscopic is the technical term for the ability to absorb water from the surrounding air."
   },
   {
     "id": "mat_5",
@@ -320,7 +716,29 @@
     "score": 1,
     "question_order_id": 19,
     "correct_index": 1,
-    "reasoning": "El material virgen viene cortado de fábrica uniformemente; el molido proviene de una trituradora, resultando en geometría irregular."
+    "reasoning": "El material virgen viene cortado de fábrica uniformemente; el molido proviene de una trituradora, resultando en geometría irregular.",
+    "category_es": "Materiales Plásticos",
+    "category_en": "Plastic Materials",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "El operador debe ser capaz de distinguir visualmente la calidad de la materia prima.",
+    "description_en": "The operator must be able to visually distinguish the quality of the raw material.",
+    "question_es": "¿Cuál es la diferencia visual principal entre el material virgen y el material molido (regrind)?",
+    "question_en": "What is the main visual difference between virgin material and regrind material?",
+    "options_es": [
+      "El material virgen es siempre más oscuro que el molido",
+      "El molido es irregular y polvoriento; el virgen es uniforme",
+      "No existe diferencia visual, solo cambia la estructura química",
+      "El material molido siempre es transparente y limpio"
+    ],
+    "options_en": [
+      "Virgin material is always darker than regrind",
+      "Regrind is irregular and dusty; virgin is uniform",
+      "There is no visual difference, only the chemical structure changes",
+      "Regrind material is always transparent and clean"
+    ],
+    "reasoning_es": "El material virgen viene cortado de fábrica uniformemente; el molido proviene de una trituradora, resultando en geometría irregular.",
+    "reasoning_en": "Virgin material comes factory-cut uniformly; regrind comes from a granulator, resulting in irregular geometry."
   },
   {
     "id": "mat_6",
@@ -337,7 +755,29 @@
     "score": 1,
     "question_order_id": 20,
     "correct_index": 1,
-    "reasoning": "Dejar el material expuesto permite que partículas del ambiente (polvo, insectos, restos de empaque) caigan en la tolva."
+    "reasoning": "Dejar el material expuesto permite que partículas del ambiente (polvo, insectos, restos de empaque) caigan en la tolva.",
+    "category_es": "Materiales Plásticos",
+    "category_en": "Plastic Materials",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La contaminación física en la tolva es una causa común de defectos.",
+    "description_en": "Physical contamination in the hopper is a common cause of defects.",
+    "question_es": "Si el contenedor de material no tiene tapa, ¿qué problema es más probable que ocurra?",
+    "question_en": "If the material container has no lid, what problem is most likely to occur?",
+    "options_es": [
+      "Sobrecalentamiento excesivo de la resina",
+      "Contaminación por polvo ambiental o cartón",
+      "Aumento involuntario de la velocidad de inyección",
+      "Mejora notable en la mezcla del color"
+    ],
+    "options_en": [
+      "Excessive overheating of the resin",
+      "Contamination by environmental dust or cardboard",
+      "Involuntary increase in injection speed",
+      "Noticeable improvement in color mixing"
+    ],
+    "reasoning_es": "Dejar el material expuesto permite que partículas del ambiente (polvo, insectos, restos de empaque) caigan en la tolva.",
+    "reasoning_en": "Leaving the material exposed allows environmental particles (dust, insects, packaging remnants) to fall into the hopper."
   },
   {
     "id": "proc_2",
@@ -354,7 +794,29 @@
     "score": 1,
     "question_order_id": 21,
     "correct_index": 1,
-    "reasoning": "El sistema de enfriamiento busca bajar la temperatura del plástico por debajo de su punto de deflexión para expulsarlo."
+    "reasoning": "El sistema de enfriamiento busca bajar la temperatura del plástico por debajo de su punto de deflexión para expulsarlo.",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "El control térmico del molde es esencial para la estabilidad del ciclo.",
+    "description_en": "Thermal control of the mold is essential for cycle stability.",
+    "question_es": "¿Cuál es el propósito principal de circular agua a temperatura controlada a través del molde?",
+    "question_en": "What is the main purpose of circulating temperature-controlled water through the mold?",
+    "options_es": [
+      "Lubricar internamente los pernos botadores y las guías",
+      "Extraer calor del plástico para solidificarlo",
+      "Calentar el molde para mejorar el flujo del material",
+      "Limpiar automáticamente los canales de ventilación"
+    ],
+    "options_en": [
+      "Internally lubricate ejector pins and guides",
+      "Extract heat from the plastic to solidify it",
+      "Heat the mold to improve material flow",
+      "Automatically clean ventilation channels"
+    ],
+    "reasoning_es": "El sistema de enfriamiento busca bajar la temperatura del plástico por debajo de su punto de deflexión para expulsarlo.",
+    "reasoning_en": "The cooling system aims to lower the plastic temperature below its deflection point for ejection."
   },
   {
     "id": "proc_3",
@@ -371,7 +833,29 @@
     "score": 1.5,
     "question_order_id": 22,
     "correct_index": 1,
-    "reasoning": "Si la pieza está muy caliente y blanda, los botadores la atravesarán o se doblará al caer."
+    "reasoning": "Si la pieza está muy caliente y blanda, los botadores la atravesarán o se doblará al caer.",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "Modificar los tiempos del ciclo afecta directamente la integridad física del producto.",
+    "description_en": "Modifying cycle times directly affects the physical integrity of the product.",
+    "question_es": "Si el operador reduce arbitrariamente el tiempo de enfriamiento, ¿qué consecuencia es más probable?",
+    "question_en": "If the operator arbitrarily reduces the cooling time, what consequence is most likely?",
+    "options_es": [
+      "La pieza tendrá quemaduras visibles por fricción",
+      "La pieza se deformará o será perforada por los botadores",
+      "La máquina consumirá mucha más energía eléctrica",
+      "El material se degradará químicamente en el barril"
+    ],
+    "options_en": [
+      "The part will have visible friction burns",
+      "The part will deform or be pierced by the ejectors",
+      "The machine will consume much more electrical energy",
+      "The material will chemically degrade in the barrel"
+    ],
+    "reasoning_es": "Si la pieza está muy caliente y blanda, los botadores la atravesarán o se doblará al caer.",
+    "reasoning_en": "If the part is very hot and soft, the ejectors will pierce it or it will bend upon falling."
   },
   {
     "id": "proc_4",
@@ -388,7 +872,29 @@
     "score": 1,
     "question_order_id": 23,
     "correct_index": 1,
-    "reasoning": "La contrapresión asegura una mezcla homogénea y compacta al dificultar el retorno del tornillo."
+    "reasoning": "La contrapresión asegura una mezcla homogénea y compacta al dificultar el retorno del tornillo.",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "Durante la carga de material, existen fuerzas que actúan sobre el husillo en retroceso.",
+    "description_en": "During material loading, there are forces acting on the screw in retreat.",
+    "question_es": "¿Qué parámetro controla la resistencia que opone el husillo al retroceder durante la carga de material?",
+    "question_en": "What parameter controls the resistance the screw opposes when retreating during material loading?",
+    "options_es": [
+      "Presión de inyección",
+      "Contrapresión (Back pressure)",
+      "Presión de sostenimiento",
+      "Fuerza de cierre"
+    ],
+    "options_en": [
+      "Injection pressure",
+      "Back pressure",
+      "Hold pressure",
+      "Clamping force"
+    ],
+    "reasoning_es": "La contrapresión asegura una mezcla homogénea y compacta al dificultar el retorno del tornillo.",
+    "reasoning_en": "Back pressure ensures a homogeneous and compact mix by making screw return difficult."
   },
   {
     "id": "proc_5",
@@ -405,7 +911,29 @@
     "score": 1,
     "question_order_id": 24,
     "correct_index": 1,
-    "reasoning": "Sin cojín, el tornillo toca fondo y no se puede aplicar presión de sostenimiento (hold) a la pieza."
+    "reasoning": "Sin cojín, el tornillo toca fondo y no se puede aplicar presión de sostenimiento (hold) a la pieza.",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La posición final del husillo tras la inyección es un indicador de proceso clave.",
+    "description_en": "The final position of the screw after injection is a key process indicator.",
+    "question_es": "¿Qué representa el 'cojín' (cushion) remanente al final de la fase de inyección?",
+    "question_en": "What does the remaining 'cushion' represent at the end of the injection phase?",
+    "options_es": [
+      "El espacio de seguridad para evitar el choque de placas del molde",
+      "El material sobrante delante del husillo para transferir presión",
+      "La cantidad de plástico que se pierde por la boquilla",
+      "El recorrido total de apertura de la platina móvil"
+    ],
+    "options_en": [
+      "The safety space to avoid mold plate collision",
+      "The leftover material in front of the screw to transfer pressure",
+      "The amount of plastic lost through the nozzle",
+      "The total opening stroke of the moving platen"
+    ],
+    "reasoning_es": "Sin cojín, el tornillo toca fondo y no se puede aplicar presión de sostenimiento (hold) a la pieza.",
+    "reasoning_en": "Without a cushion, the screw bottoms out and hold pressure cannot be applied to the part."
   },
   {
     "id": "proc_6",
@@ -422,7 +950,29 @@
     "score": 1.5,
     "question_order_id": 25,
     "correct_index": 0,
-    "reasoning": "Un cojín cero significa que no hubo material suficiente para compensar la contracción, generando piezas defectuosas."
+    "reasoning": "Un cojín cero significa que no hubo material suficiente para compensar la contracción, generando piezas defectuosas.",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La estabilidad de la posición final del husillo afecta la calidad de la pieza.",
+    "description_en": "The stability of the final screw position affects part quality.",
+    "question_es": "Al revisar los parámetros, notas que el cojín es inestable o llega a cero. ¿Qué problema implica esto?",
+    "question_en": "While reviewing parameters, you notice the cushion is unstable or reaches zero. What problem does this imply?",
+    "options_es": [
+      "Falta de control dimensional y posibles rechupados",
+      "Exceso de enfriamiento en la parte fija del molde",
+      "Sobrecalentamiento de las resistencias del barril",
+      "Velocidad de cierre del molde demasiado alta"
+    ],
+    "options_en": [
+      "Lack of dimensional control and possible sink marks",
+      "Excessive cooling in the fixed side of the mold",
+      "Overheating of the barrel resistors",
+      "Mold closing speed too high"
+    ],
+    "reasoning_es": "Un cojín cero significa que no hubo material suficiente para compensar la contracción, generando piezas defectuosas.",
+    "reasoning_en": "A zero cushion means there was not enough material to compensate for contraction, generating defective parts."
   },
   {
     "id": "mach_6",
@@ -439,7 +989,29 @@
     "score": 1,
     "question_order_id": 26,
     "correct_index": 1,
-    "reasoning": "El plástico no puede ocupar el lugar del aire si este no sale; si no hay venteo, el aire se quema."
+    "reasoning": "El plástico no puede ocupar el lugar del aire si este no sale; si no hay venteo, el aire se quema.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "El molde requiere mecanismos para gestionar los gases presentes en la cavidad.",
+    "description_en": "The mold requires mechanisms to manage the gases present in the cavity.",
+    "question_es": "Los canales de venteo (vents) maquinados en el molde tienen la función crítica de:",
+    "question_en": "Venting channels (vents) machined into the mold have the critical function of:",
+    "options_es": [
+      "Facilitar la entrada de lubricante a la cavidad",
+      "Evacuar el aire desplazado por el plástico entrante",
+      "Mejorar el acabado superficial mediante pulido",
+      "Permitir la inspección visual del proceso"
+    ],
+    "options_en": [
+      "Facilitating the entry of lubricant into the cavity",
+      "Evacuar el aire desplazado por el plástico entrante",
+      "Improving surface finish through polishing",
+      "Allowing visual inspection of the process"
+    ],
+    "reasoning_es": "El plástico no puede ocupar el lugar del aire si este no sale; si no hay venteo, el aire se quema.",
+    "reasoning_en": "The plastic cannot occupy the air's place if it doesn't get out; if there is no venting, the air burns."
   },
   {
     "id": "mat_3",
@@ -456,7 +1028,29 @@
     "score": 1.5,
     "question_order_id": 27,
     "correct_index": 1,
-    "reasoning": "Es el aprovechamiento de coladas y piezas rechazadas (si la calidad lo permite) trituradas en molino."
+    "reasoning": "Es el aprovechamiento de coladas y piezas rechazadas (si la calidad lo permite) trituradas en molino.",
+    "category_es": "Materiales Plásticos",
+    "category_en": "Plastic Materials",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La gestión de residuos plásticos permite recuperar material para el proceso.",
+    "description_en": "Plastic waste management allows recovering material for the process.",
+    "question_es": "En el contexto de producción, ¿a qué se refiere el término 'molienda' o 'regrind'?",
+    "question_en": "In the production context, what does the term 'molienda' or 'regrind' refer to?",
+    "options_es": [
+      "Aditivo químico líquido para mejorar el flujo",
+      "Material procesado, recuperado y triturado para reutilización",
+      "Resina virgen contaminada con polvo ambiental",
+      "Purga solidificada que se tira directamente a la basura"
+    ],
+    "options_en": [
+      "Liquid chemical additive to improve flow",
+      "Processed, recovered, and crushed material for reuse",
+      "Virgin resin contaminated with environmental dust",
+      "Solidified purge thrown directly into the trash"
+    ],
+    "reasoning_es": "Es el aprovechamiento de coladas y piezas rechazadas (si la calidad lo permite) trituradas en molino.",
+    "reasoning_en": "It is the utilization of runners and rejected parts (if quality permits) crushed in a granulator."
   },
   {
     "id": "eff_1",
@@ -473,7 +1067,29 @@
     "score": 1,
     "question_order_id": 28,
     "correct_index": 1,
-    "reasoning": "Es el estándar industrial: ¿La máquina funcionó? (Disp), ¿A qué velocidad? (Desemp), ¿Salieron bien? (Calidad)."
+    "reasoning": "Es el estándar industrial: ¿La máquina funcionó? (Disp), ¿A qué velocidad? (Desemp), ¿Salieron bien? (Calidad).",
+    "category_es": "Eficiencia y Lean",
+    "category_en": "Efficiency & Lean",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La eficiencia industrial se mide mediante indicadores estandarizados globalmente.",
+    "description_en": "Industrial efficiency is measured by globally standardized indicators.",
+    "question_es": "¿Qué factores componen el cálculo del OEE (Eficiencia General de los Equipos)?",
+    "question_en": "What factors make up the OEE (Overall Equipment Effectiveness) calculation?",
+    "options_es": [
+      "Seguridad, Medio Ambiente y Costo",
+      "Disponibilidad, Desempeño y Calidad",
+      "Velocidad, Presión y Temperatura",
+      "Materia Prima, Mano de Obra y Energía"
+    ],
+    "options_en": [
+      "Safety, Environment, and Cost",
+      "Availability, Performance, and Quality",
+      "Speed, Pressure, and Temperature",
+      "Raw Material, Labor, and Energy"
+    ],
+    "reasoning_es": "Es el estándar industrial: ¿La máquina funcionó? (Disp), ¿A qué velocidad? (Desemp), ¿Salieron bien? (Calidad).",
+    "reasoning_en": "It is the industrial standard: Did the machine work? (Avail), At what speed? (Perf), Did they come out well? (Quality)."
   },
   {
     "id": "eff_2",
@@ -490,7 +1106,29 @@
     "score": 1,
     "question_order_id": 29,
     "correct_index": 1,
-    "reasoning": "SMED (Single Minute Exchange of Die) busca cambios rápidos para aumentar la disponibilidad."
+    "reasoning": "SMED (Single Minute Exchange of Die) busca cambios rápidos para aumentar la disponibilidad.",
+    "category_es": "Eficiencia y Lean",
+    "category_en": "Efficiency & Lean",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "Existen metodologías específicas para optimizar los tiempos de preparación de máquina.",
+    "description_en": "Specific methodologies exist to optimize machine setup times.",
+    "question_es": "La metodología SMED se aplica en el área de inyección para:",
+    "question_en": "The SMED methodology is applied in the injection area to:",
+    "options_es": [
+      "Reducir el consumo eléctrico de los motores",
+      "Reducir el tiempo de cambio de molde (Set-up)",
+      "Aumentar la presión máxima de inyección",
+      "Mejorar la mezcla de color en el husillo"
+    ],
+    "options_en": [
+      "Reduce the electrical consumption of motors",
+      "Reduce mold changeover time (Set-up)",
+      "Increase the maximum injection pressure",
+      "Improve color mixing in the screw"
+    ],
+    "reasoning_es": "SMED (Single Minute Exchange of Die) busca cambios rápidos para aumentar la disponibilidad.",
+    "reasoning_en": "SMED (Single Minute Exchange of Die) seeks fast changes to increase availability."
   },
   {
     "id": "eff_3",
@@ -507,7 +1145,29 @@
     "score": 1,
     "question_order_id": 30,
     "correct_index": 2,
-    "reasoning": "El tiempo muerto es improductivo y reduce la disponibilidad del equipo para manufacturar."
+    "reasoning": "El tiempo muerto es improductivo y reduce la disponibilidad del equipo para manufacturar.",
+    "category_es": "Eficiencia y Lean",
+    "category_en": "Efficiency & Lean",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "Las paradas no planificadas afectan directamente la capacidad productiva.",
+    "description_en": "Unplanned stops directly affect productive capacity.",
+    "question_es": "¿Qué se entiende comúnmente por 'Tiempo Muerto' (Downtime) en producción?",
+    "question_en": "What is commonly understood by 'Downtime' in production?",
+    "options_es": [
+      "El tiempo en que la máquina está apagada por ser fin de semana",
+      "El tiempo programado para mantenimiento preventivo",
+      "El periodo en que la máquina debería producir pero está detenida",
+      "El tiempo de enfriamiento dentro del ciclo"
+    ],
+    "options_en": [
+      "The time the machine is off due to it being the weekend",
+      "Scheduled time for preventive maintenance",
+      "The period in which the machine should produce but is stopped",
+      "The cooling time within the cycle"
+    ],
+    "reasoning_es": "El tiempo muerto es improductivo y reduce la disponibilidad del equipo para manufacturar.",
+    "reasoning_en": "Downtime is unproductive and reduces the equipment's availability for manufacturing."
   },
   {
     "id": "eff_4",
@@ -524,7 +1184,29 @@
     "score": 1,
     "question_order_id": 31,
     "correct_index": 1,
-    "reasoning": "El ciclo automático permite producción continua sin intervención; el semi-automático requiere que el operador valide cada pieza y reinicie."
+    "reasoning": "El ciclo automático permite producción continua sin intervención; el semi-automático requiere que el operador valide cada pieza y reinicie.",
+    "category_es": "Eficiencia y Lean",
+    "category_en": "Efficiency & Lean",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La operación continua de la máquina tiene diferentes modalidades de ejecución.",
+    "description_en": "Continuous machine operation has different execution modalities.",
+    "question_es": "¿Cuál es la diferencia básica entre un ciclo 'Automático' y uno 'Semi-automático'?",
+    "question_en": "What is the basic difference between an 'Automatic' and a 'Semi-automatic' cycle?",
+    "options_es": [
+      "En automático el operador abre la puerta; en semi-automático no",
+      "En automático la máquina reinicia sola; en semi hay intervención",
+      "El automático es siempre más lento que el semi-automático",
+      "No hay diferencia, son términos técnicos intercambiables"
+    ],
+    "options_en": [
+      "In automatic, the operator opens the door; in semi-automatic, they don't",
+      "In automatic, the machine restarts itself; in semi, there is intervention",
+      "Automatic is always slower than semi-automatic",
+      "There is no difference, they are interchangeable technical terms"
+    ],
+    "reasoning_es": "El ciclo automático permite producción continua sin intervención; el semi-automático requiere que el operador valide cada pieza y reinicie.",
+    "reasoning_en": "The automatic cycle allows continuous production without intervention; the semi-automatic requires the operator to validate each part and restart."
   },
   {
     "id": "eff_5",
@@ -541,7 +1223,29 @@
     "score": 1,
     "question_order_id": 32,
     "correct_index": 2,
-    "reasoning": "Sin un conteo de scrap, el inventario de resina no cuadrará y los problemas de calidad pasarán desapercibidos."
+    "reasoning": "Sin un conteo de scrap, el inventario de resina no cuadrará y los problemas de calidad pasarán desapercibidos.",
+    "category_es": "Eficiencia y Lean",
+    "category_en": "Efficiency & Lean",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "El registro preciso de lo producido es vital para el control de costos.",
+    "description_en": "Accurate recording of what is produced is vital for cost control.",
+    "question_es": "¿Por qué es importante que el operador registre la cantidad de Scrap (desperdicio) generado?",
+    "question_en": "Why is it important for the operator to record the amount of Scrap (waste) generated?",
+    "options_es": [
+      "Para culpar directamente al departamento de mantenimiento",
+      "Para descontarlo del salario semanal del operador",
+      "Para tener un inventario real y detectar problemas de calidad",
+      "Para llenar las hojas de reporte que nadie lee"
+    ],
+    "options_en": [
+      "To directly blame the maintenance department",
+      "To deduct it from the operator's weekly salary",
+      "To have a real inventory and detect quality problems",
+      "To fill out report sheets that no one reads"
+    ],
+    "reasoning_es": "Sin un conteo de scrap, el inventario de resina no cuadrará y los problemas de calidad pasarán desapercibidos.",
+    "reasoning_en": "Without a scrap count, the resin inventory will not match and quality problems will go unnoticed."
   },
   {
     "id": "mach_7",
@@ -558,7 +1262,29 @@
     "score": 1,
     "question_order_id": 33,
     "correct_index": 1,
-    "reasoning": "A diferencia de un humano, el robot tarda siempre lo mismo, estabilizando el proceso térmico."
+    "reasoning": "A diferencia de un humano, el robot tarda siempre lo mismo, estabilizando el proceso térmico.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La automatización de la extracción de piezas influye en la estabilidad del proceso.",
+    "description_en": "Automation of part extraction influences process stability.",
+    "question_es": "¿Cuál es la ventaja principal de utilizar un robot cartesiano para la extracción de piezas?",
+    "question_en": "What is the main advantage of using a Cartesian robot for part extraction?",
+    "options_es": [
+      "Reduce drásticamente el costo de mantenimiento del molde",
+      "Garantiza un tiempo de ciclo constante y estable",
+      "Disminuye drásticamente la temperatura de la masa fundida",
+      "Aumenta la fuerza de cierre disponible de la máquina"
+    ],
+    "options_en": [
+      "Drastically reduces mold maintenance cost",
+      "Guarantees a constant and stable cycle time",
+      "Drastically decreases the melt temperature",
+      "Increases the available clamping force of the machine"
+    ],
+    "reasoning_es": "A diferencia de un humano, el robot tarda siempre lo mismo, estabilizando el proceso térmico.",
+    "reasoning_en": "Unlike a human, the robot always takes the same time, stabilizing the thermal process."
   },
   {
     "id": "proc_7",
@@ -575,7 +1301,29 @@
     "score": 1,
     "question_order_id": 34,
     "correct_index": 1,
-    "reasoning": "Una vez lleno el molde, se debe 'sostener' presión para meter más material mientras el plástico contrae."
+    "reasoning": "Una vez lleno el molde, se debe 'sostener' presión para meter más material mientras el plástico contrae.",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "Una vez que la cavidad está llena, el proceso requiere una etapa adicional antes del enfriamiento.",
+    "description_en": "Once the cavity is full, the process requires an additional stage before cooling.",
+    "question_es": "¿Cuál es el objetivo de la etapa de 'presión de sostenimiento' (pack & hold)?",
+    "question_en": "What is the goal of the 'holding pressure' (pack & hold) stage?",
+    "options_es": [
+      "Llenar el 95% de la cavidad lo más rápido posible",
+      "Compensar la contracción volumétrica mientras el material enfría",
+      "Empujar la pieza fuera del molde al momento de abrir",
+      "Generar fricción adicional para calentar el siguiente disparo"
+    ],
+    "options_en": [
+      "Fill 95% of the cavity as quickly as possible",
+      "Compensate for volumetric contraction while the material cools",
+      "Push the part out of the mold at opening",
+      "Generate additional friction to heat the next shot"
+    ],
+    "reasoning_es": "Una vez lleno el molde, se debe 'sostener' presión para meter más material mientras el plástico contrae.",
+    "reasoning_en": "Once the mold is full, pressure must be 'held' to put in more material while the plastic contracts."
   },
   {
     "id": "proc_8",
@@ -592,7 +1340,29 @@
     "score": 1,
     "question_order_id": 35,
     "correct_index": 1,
-    "reasoning": "La velocidad de inyección determina el caudal de llenado; las RPM son para la carga (plastificación)."
+    "reasoning": "La velocidad de inyección determina el caudal de llenado; las RPM son para la carga (plastificación).",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "El movimiento de avance del husillo durante el llenado se regula mediante parámetros específicos.",
+    "description_en": "The screw's forward movement during filling is regulated by specific parameters.",
+    "question_es": "¿Qué variable controla qué tan rápido se mueve el husillo hacia adelante durante el llenado?",
+    "question_en": "What variable controls how fast the screw moves forward during filling?",
+    "options_es": [
+      "Velocidad de rotación (RPM)",
+      "Velocidad de inyección",
+      "Tiempo de enfriamiento",
+      "Presión de contrapresión"
+    ],
+    "options_en": [
+      "Rotation speed (RPM)",
+      "Injection speed",
+      "Cooling time",
+      "Back pressure"
+    ],
+    "reasoning_es": "La velocidad de inyección determina el caudal de llenado; las RPM son para la carga (plastificación).",
+    "reasoning_en": "Injection speed determines the filling flow rate; RPM are for loading (plasticization)."
   },
   {
     "id": "proc_9",
@@ -609,7 +1379,29 @@
     "score": 1,
     "question_order_id": 36,
     "correct_index": 0,
-    "reasoning": "Es el momento crítico donde se deja de empujar por velocidad y se empieza a empacar por presión."
+    "reasoning": "Es el momento crítico donde se deja de empujar por velocidad y se empieza a empacar por presión.",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "El proceso de inyección consta de dos fases dinámicas principales que deben alternarse.",
+    "description_en": "The injection process consists of two main dynamic phases that must alternate.",
+    "question_es": "¿Qué sucede exactamente en el 'Punto de Transferencia' (V-P switchover)?",
+    "question_en": "What exactly happens at the 'Transfer Point' (V-P switchover)?",
+    "options_es": [
+      "La máquina cambia de control de velocidad a control de presión",
+      "El molde comienza a abrirse automáticamente para expulsar la pieza",
+      "El husillo comienza a girar rápidamente para cargar material",
+      "El robot entra a la zona de molde para tomar la pieza"
+    ],
+    "options_en": [
+      "The machine changes from speed control to pressure control",
+      "The mold starts opening automatically to eject the part",
+      "The screw starts rotating quickly to load material",
+      "The robot enters the mold area to take the part"
+    ],
+    "reasoning_es": "Es el momento crítico donde se deja de empujar por velocidad y se empieza a empacar por presión.",
+    "reasoning_en": "It is the critical moment where you stop pushing by speed and start packing by pressure."
   },
   {
     "id": "qual_6",
@@ -626,7 +1418,29 @@
     "score": 1.5,
     "question_order_id": 37,
     "correct_index": 0,
-    "reasoning": "El agua en el material se vuelve vapor al inyectar, dejando vetas plateadas (splay)."
+    "reasoning": "El agua en el material se vuelve vapor al inyectar, dejando vetas plateadas (splay).",
+    "category_es": "Calidad y Defectos",
+    "category_en": "Quality & Defects",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "Ciertas condiciones del material generan marcas visuales características en la superficie.",
+    "description_en": "Certain material conditions generate characteristic visual marks on the surface.",
+    "question_es": "Observas marcas plateadas o ráfagas en la superficie de la pieza cerca de la entrada. ¿Causa más probable?",
+    "question_en": "You observe silver marks or splay on the part surface near the gate. Most likely cause?",
+    "options_es": [
+      "Material contaminado con humedad (Hidrólisis)",
+      "Falta de presión de inyección durante el llenado",
+      "Temperatura de la superficie del molde demasiado baja",
+      "Exceso de agente desmoldante aplicado en la cavidad"
+    ],
+    "options_en": [
+      "Material contaminated with moisture (Hydrolysis)",
+      "Lack of injection pressure during filling",
+      "Mold surface temperature too low",
+      "Excessive release agent applied in the cavity"
+    ],
+    "reasoning_es": "El agua en el material se vuelve vapor al inyectar, dejando vetas plateadas (splay).",
+    "reasoning_en": "Water in the material turns into steam when injected, leaving silver streaks (splay)."
   },
   {
     "id": "qual_7",
@@ -643,7 +1457,29 @@
     "score": 1.5,
     "question_order_id": 38,
     "correct_index": 1,
-    "reasoning": "El pandeo es resultado de tensiones internas o enfriamiento desigual."
+    "reasoning": "El pandeo es resultado de tensiones internas o enfriamiento desigual.",
+    "category_es": "Calidad y Defectos",
+    "category_en": "Quality & Defects",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La estabilidad dimensional de la pieza puede verse comprometida al salir del molde.",
+    "description_en": "The dimensional stability of the part can be compromised upon leaving the mold.",
+    "question_es": "Si la pieza sale del molde torcida o con dimensiones fuera de tolerancia geométrica, se le llama:",
+    "question_en": "If the part comes out of the mold twisted or with dimensions out of geometric tolerance, it is called:",
+    "options_es": [
+      "Efecto Diesel (Quemadura)",
+      "Pandeo o Alabeo (Warpage)",
+      "Tiro Corto (Short Shot)",
+      "Delaminación (Peeling)"
+    ],
+    "options_en": [
+      "Diesel Effect (Burn)",
+      "Warpage",
+      "Short Shot",
+      "Delamination (Peeling)"
+    ],
+    "reasoning_es": "El pandeo es resultado de tensiones internas o enfriamiento desigual.",
+    "reasoning_en": "Warpage is a result of internal stresses or unequal cooling."
   },
   {
     "id": "qual_8",
@@ -660,7 +1496,29 @@
     "score": 1.5,
     "question_order_id": 39,
     "correct_index": 0,
-    "reasoning": "Si dos plásticos no son químicamente compatibles (ej. PP con ABS), no se funden y se separan en capas."
+    "reasoning": "Si dos plásticos no son químicamente compatibles (ej. PP con ABS), no se funden y se separan en capas.",
+    "category_es": "Calidad y Defectos",
+    "category_en": "Quality & Defects",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La cohesión estructural del material inyectado puede fallar bajo ciertas condiciones.",
+    "description_en": "The structural cohesion of the injected material can fail under certain conditions.",
+    "question_es": "La 'delaminación' es un defecto donde la superficie de la pieza se descascara. ¿Qué lo provoca?",
+    "question_en": " 'Delamination' is a defect where the part surface peels. What causes it?",
+    "options_es": [
+      "Contaminación por mezcla de materiales incompatibles",
+      "Velocidad de inyección excesivamente alta",
+      "Temperatura del molde demasiado caliente",
+      "Presión de sostenimiento insuficiente"
+    ],
+    "options_en": [
+      "Contamination by mixing incompatible materials",
+      "Excessively high injection speed",
+      "Mold temperature too hot",
+      "Insufficient holding pressure"
+    ],
+    "reasoning_es": "Si dos plásticos no son químicamente compatibles (ej. PP con ABS), no se funden y se separan en capas.",
+    "reasoning_en": "If two plastics are not chemically compatible (e.g., PP with ABS), they do not fuse and separate into layers."
   },
   {
     "id": "mach_8",
@@ -677,7 +1535,29 @@
     "score": 1,
     "question_order_id": 40,
     "correct_index": 0,
-    "reasoning": "Es el primer conducto del molde; conecta la unidad de inyección con el sistema de distribución."
+    "reasoning": "Es el primer conducto del molde; conecta la unidad de inyección con el sistema de distribución.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "El sistema de alimentación del molde consta de varios componentes de distribución.",
+    "description_en": "The mold feed system consists of several distribution components.",
+    "question_es": "¿Qué es el 'bebedero' (sprue) en un molde de inyección?",
+    "question_en": "What is the 'sprue' in an injection mold?",
+    "options_es": [
+      "El canal cónico principal que conecta la boquilla con los canales",
+      "El orificio por donde sale el aire atrapado (venteo)",
+      "El anillo que centra el molde en la platina",
+      "El sistema que expulsa la pieza final"
+    ],
+    "options_en": [
+      "The main conical channel that connects the nozzle with the runners",
+      "The hole where trapped air exits (vent)",
+      "The ring that centers the mold on the platen",
+      "The system that ejects the final part"
+    ],
+    "reasoning_es": "Es el primer conducto del molde; conecta la unidad de inyección con el sistema de distribución.",
+    "reasoning_en": "It is the mold's first duct; it connects the injection unit with the distribution system."
   },
   {
     "id": "mach_9",
@@ -694,7 +1574,29 @@
     "score": 1.5,
     "question_order_id": 41,
     "correct_index": 1,
-    "reasoning": "Es la 'baba' fría de la inyección anterior; si entra a la pieza, crea una marca o imperfección visible."
+    "reasoning": "Es la 'baba' fría de la inyección anterior; si entra a la pieza, crea una marca o imperfección visible.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "El control de la temperatura en la boquilla es crítico al inicio de la inyección.",
+    "description_en": "Temperature control in the nozzle is critical at the start of injection.",
+    "question_es": "¿Qué representa un tapón frío (cold slug) si entra a la cavidad?",
+    "question_en": "What does a cold slug represent if it enters the cavity?",
+    "options_es": [
+      "Una mejora en la estructura cristalina de la pieza",
+      "Un defecto estético causado por material solidificado",
+      "Una fuga interna de agua del sistema de refrigeración",
+      "Un exceso de lubricante en los pernos botadores"
+    ],
+    "options_en": [
+      "An improvement in the part's crystalline structure",
+      "An aesthetic defect caused by solidified material",
+      "An internal water leak from the cooling system",
+      "Excessive lubricant on the ejector pins"
+    ],
+    "reasoning_es": "Es la 'baba' fría de la inyección anterior; si entra a la pieza, crea una marca o imperfección visible.",
+    "reasoning_en": "It is the cold 'slug' from the previous injection; if it enters the part, it creates a visible mark or imperfection."
   },
   {
     "id": "mach_10",
@@ -711,7 +1613,29 @@
     "score": 1.5,
     "question_order_id": 42,
     "correct_index": 1,
-    "reasoning": "El desmoldante contamina la superficie del plástico, causando ráfagas, grietas (stress cracking) o fallas de adhesión."
+    "reasoning": "El desmoldante contamina la superficie del plástico, causando ráfagas, grietas (stress cracking) o fallas de adhesión.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "El uso de químicos auxiliares en el molde tiene efectos secundarios en la pieza final.",
+    "description_en": "The use of auxiliary chemicals in the mold has side effects on the final part.",
+    "question_es": "El uso excesivo de spray desmoldante en el molde puede provocar:",
+    "question_en": "Excessive use of release spray in the mold can cause:",
+    "options_es": [
+      "Mejor acabado superficial y brillo",
+      "Defectos cosméticos y problemas de pintado",
+      "Aumento en la velocidad de inyección",
+      "Reducción del tiempo de ciclo total"
+    ],
+    "options_en": [
+      "Better surface finish and gloss",
+      "Cosmetic defects and painting problems",
+      "Increase in injection speed",
+      "Reduction of total cycle time"
+    ],
+    "reasoning_es": "El desmoldante contamina la superficie del plástico, causando ráfagas, grietas (stress cracking) o fallas de adhesión.",
+    "reasoning_en": "Release agent contaminates the plastic surface, causing splay, cracks (stress cracking), or adhesion failures."
   },
   {
     "id": "mach_11",
@@ -728,7 +1652,29 @@
     "score": 1,
     "question_order_id": 43,
     "correct_index": 1,
-    "reasoning": "El tonelaje es la fuerza que mantiene 'la puerta cerrada'. Si la inyección empuja más fuerte, sale rebaba."
+    "reasoning": "El tonelaje es la fuerza que mantiene 'la puerta cerrada'. Si la inyección empuja más fuerte, sale rebaba.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "El cálculo correcto de los parámetros de cierre previene problemas de calidad.",
+    "description_en": "Correct calculation of clamping parameters prevents quality problems.",
+    "question_es": "¿Por qué es crucial calcular correctamente la fuerza de cierre (tonelaje) requerida?",
+    "question_en": "Why is it crucial to correctly calculate the required clamping force (tonnage)?",
+    "options_es": [
+      "Para ahorrar energía eléctrica en el motor",
+      "Para evitar que la presión de inyección abra el molde (rebaba)",
+      "Para que el robot pueda extraer la pieza más rápido",
+      "Para reducir la temperatura de fusión del material"
+    ],
+    "options_en": [
+      "To save electrical energy in the motor",
+      "To prevent injection pressure from opening the mold (flash)",
+      "So the robot can extract the part faster",
+      "To reduce the material's melting temperature"
+    ],
+    "reasoning_es": "El tonelaje es la fuerza que mantiene 'la puerta cerrada'. Si la inyección empuja más fuerte, sale rebaba.",
+    "reasoning_en": "Tonnage is the force that keeps 'the door closed'. If the injection pushes harder, flash comes out."
   },
   {
     "id": "qual_9",
@@ -745,7 +1691,29 @@
     "score": 1.5,
     "question_order_id": 44,
     "correct_index": 1,
-    "reasoning": "Los puntos negros son material degradado (carbón) o contaminación externa; se debe limpiar el sistema."
+    "reasoning": "Los puntos negros son material degradado (carbón) o contaminación externa; se debe limpiar el sistema.",
+    "category_es": "Calidad y Defectos",
+    "category_en": "Quality & Defects",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La limpieza del sistema de plastificación impacta en la pureza visual del producto.",
+    "description_en": "Cleaning the plasticization system impacts the product's visual purity.",
+    "question_es": "Detectas puntos negros (black specks) aleatorios en las piezas claras. ¿Qué acción correctiva sugiere?",
+    "question_en": "You detect random black specks in clear parts. What corrective action do you suggest?",
+    "options_es": [
+      "Aumentar la velocidad de cierre del molde",
+      "Purgar la unidad y revisar limpieza del husillo/tolva",
+      "Reducir el tiempo de enfriamiento drásticamente",
+      "Incrementar la presión de sostenimiento"
+    ],
+    "options_en": [
+      "Increase mold closing speed",
+      "Purge the unit and check screw/hopper cleanliness",
+      "Drastically reduce cooling time",
+      "Increase holding pressure"
+    ],
+    "reasoning_es": "Los puntos negros son material degradado (carbón) o contaminación externa; se debe limpiar el sistema.",
+    "reasoning_en": "Black specks are degraded material (carbon) or external contamination; the system must be cleaned."
   },
   {
     "id": "proc_10",
@@ -762,7 +1730,29 @@
     "score": 1,
     "question_order_id": 45,
     "correct_index": 1,
-    "reasoning": "Incluye las piezas, canales y bebedero. Es la cantidad de material que sale del barril."
+    "reasoning": "Incluye las piezas, canales y bebedero. Es la cantidad de material que sale del barril.",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La dosificación de material debe corresponder a la capacidad requerida por el molde.",
+    "description_en": "Material dosing must correspond to the capacity required by the mold.",
+    "question_es": "¿A qué se refiere el término 'tamaño de disparo' (shot size)?",
+    "question_en": "What does the term 'shot size' refer to?",
+    "options_es": [
+      "Al peso total de la máquina de inyección",
+      "Al volumen total de polímero inyectado en un ciclo",
+      "A la longitud física del tornillo de plastificación",
+      "A la presión máxima que soporta el molde"
+    ],
+    "options_en": [
+      "To the total weight of the injection machine",
+      "To the total volume of polymer injected in one cycle",
+      "To the physical length of the plasticizing screw",
+      "To the maximum pressure the mold supports"
+    ],
+    "reasoning_es": "Incluye las piezas, canales y bebedero. Es la cantidad de material que sale del barril.",
+    "reasoning_en": "It includes the parts, runners, and sprue. It is the amount of material that leaves the barrel."
   },
   {
     "id": "wast_1",
@@ -779,7 +1769,29 @@
     "score": 1.5,
     "question_order_id": 46,
     "correct_index": 0,
-    "reasoning": "Corresponden a Seiri, Seiton, Seiso, Seiketsu, Shitsuke."
+    "reasoning": "Corresponden a Seiri, Seiton, Seiso, Seiketsu, Shitsuke.",
+    "category_es": "Desperdicios (Muda)",
+    "category_en": "Waste (Muda)",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La metodología de organización industrial sigue una secuencia lógica de pasos.",
+    "description_en": "The industrial organization methodology follows a logical sequence of steps.",
+    "question_es": "¿Cuál es la secuencia correcta de las 5S traducidas al español?",
+    "question_en": "What is the correct sequence of the 5S translated into Spanish?",
+    "options_es": [
+      "Clasificar, Ordenar, Limpiar, Estandarizar, Disciplina",
+      "Controlar, Organizar, Limpiar, Entrenar, Documentar",
+      "Coordinar, Ordenar, Lavar, Sistematizar, Dirigir",
+      "Clasificar, Operar, Limpiar, Evaluar, Desarrollar"
+    ],
+    "options_en": [
+      "Sort, Set in order, Shine, Standardize, Sustain",
+      "Control, Organize, Clean, Train, Document",
+      "Coordinate, Order, Wash, Systematize, Direct",
+      "Classify, Operate, Clean, Evaluate, Develop"
+    ],
+    "reasoning_es": "Corresponden a Seiri, Seiton, Seiso, Seiketsu, Shitsuke.",
+    "reasoning_en": "They correspond to Seiri, Seiton, Seiso, Seiketsu, Shitsuke."
   },
   {
     "id": "wast_2",
@@ -796,7 +1808,29 @@
     "score": 1.5,
     "question_order_id": 47,
     "correct_index": 1,
-    "reasoning": "Scrap es desperdicio material irreversible, a diferencia del re-trabajo."
+    "reasoning": "Scrap es desperdicio material irreversible, a diferencia del re-trabajo.",
+    "category_es": "Desperdicios (Muda)",
+    "category_en": "Waste (Muda)",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La clasificación de productos no conformes es esencial para la contabilidad de producción.",
+    "description_en": "The classification of non-conforming products is essential for production accounting.",
+    "question_es": "En términos de manufactura esbelta, el 'Scrap' se define como:",
+    "question_en": "In lean manufacturing terms, 'Scrap' is defined as:",
+    "options_es": [
+      "Materia prima virgen lista para usar",
+      "Producto no conforme que no puede ser reparado",
+      "Herramientas desgastadas por el uso",
+      "Tiempo muerto por falla de máquina"
+    ],
+    "options_en": [
+      "Virgin raw material ready to use",
+      "Non-conforming product that cannot be repaired",
+      "Tools worn out by use",
+      "Downtime due to machine failure"
+    ],
+    "reasoning_es": "Scrap es desperdicio material irreversible, a diferencia del re-trabajo.",
+    "reasoning_en": "Scrap is irreversible material waste, unlike re-work."
   },
   {
     "id": "qual_10",
@@ -813,7 +1847,29 @@
     "score": 1.5,
     "question_order_id": 48,
     "correct_index": 1,
-    "reasoning": "Permite al operador comparar la pieza real contra fotos de defectos/aceptables para tomar decisiones."
+    "reasoning": "Permite al operador comparar la pieza real contra fotos de defectos/aceptables para tomar decisiones.",
+    "category_es": "Calidad y Defectos",
+    "category_en": "Quality & Defects",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "Los operadores requieren herramientas de referencia para evaluar la calidad.",
+    "description_en": "Operators require reference tools to evaluate quality.",
+    "question_es": "¿Cuál es el propósito de una 'Ayuda Visual' en la estación de trabajo?",
+    "question_en": "What is the purpose of a 'Visual Aid' at the work station?",
+    "options_es": [
+      "Decorar la estación para mejorar el ambiente",
+      "Proveer un estándar de comparación para la inspección",
+      "Registrar la asistencia del personal operativo",
+      "Sustituir la iluminación deficiente de la planta"
+    ],
+    "options_en": [
+      "Decorate the station to improve the environment",
+      "Provide a comparison standard for inspection",
+      "Record the attendance of operational personnel",
+      "Substitute for poor plant lighting"
+    ],
+    "reasoning_es": "Permite al operador comparar la pieza real contra fotos de defectos/aceptables para tomar decisiones.",
+    "reasoning_en": "It allows the operator to compare the real part against photos of defects/acceptable parts to make decisions."
   },
   {
     "id": "mat_4",
@@ -830,7 +1886,29 @@
     "score": 1,
     "question_order_id": 49,
     "correct_index": 1,
-    "reasoning": "Son pellets con alta carga de pigmento que se dosifican en porcentaje bajo para colorear."
+    "reasoning": "Son pellets con alta carga de pigmento que se dosifican en porcentaje bajo para colorear.",
+    "category_es": "Materiales Plásticos",
+    "category_en": "Plastic Materials",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "Existen aditivos específicos para modificar la apariencia estética de la resina base.",
+    "description_en": "Specific additives exist to modify the aesthetic appearance of the base resin.",
+    "question_es": "¿Qué función cumple el 'Masterbatch' en el proceso?",
+    "question_en": "What function does the 'Masterbatch' fulfill in the process?",
+    "options_es": [
+      "Actuar como agente de limpieza para purgar",
+      "Aportar color o aditivos concentrados a la resina base",
+      "Reducir la viscosidad del material reciclado",
+      "Servir como material de soporte en moldes complejos"
+    ],
+    "options_en": [
+      "Act as a cleaning agent to purge",
+      "Provide color or concentrated additives to the base resin",
+      "Reduce the viscosity of recycled material",
+      "Serve as support material in complex molds"
+    ],
+    "reasoning_es": "Son pellets con alta carga de pigmento que se dosifican en porcentaje bajo para colorear.",
+    "reasoning_en": "These are pellets with a high pigment load that are dosed in a low percentage for coloring."
   },
   {
     "id": "mach_12",
@@ -847,7 +1925,29 @@
     "score": 1,
     "question_order_id": 50,
     "correct_index": 1,
-    "reasoning": "Sin fricción, el tornillo giraría y los pellets resbalarían sin avanzar (como un coche en hielo)."
+    "reasoning": "Sin fricción, el tornillo giraría y los pellets resbalarían sin avanzar (como un coche en hielo).",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "El transporte de sólidos dentro del barril depende de principios físicos mecánicos.",
+    "description_en": "Solid transport inside the barrel depends on mechanical physical principles.",
+    "question_es": "¿Qué fuerza física permite que el material sólido (pellets) avance desde la tolva hacia adelante en el tornillo?",
+    "question_en": "What physical force allows solid material (pellets) to advance from the hopper forward in the screw?",
+    "options_es": [
+      "La presión hidráulica del sistema",
+      "La fricción entre los pellets y el barril",
+      "La fuerza de gravedad únicamente",
+      "La succión generada por el molde"
+    ],
+    "options_en": [
+      "The hydraulic pressure of the system",
+      "The friction between the pellets and the barrel",
+      "The force of gravity only",
+      "The suction generated by the mold"
+    ],
+    "reasoning_es": "Sin fricción, el tornillo giraría y los pellets resbalarían sin avanzar (como un coche en hielo).",
+    "reasoning_en": "Without friction, the screw would spin and the pellets would slip without advancing (like a car on ice)."
   },
   {
     "id": "mach_13",
@@ -864,7 +1964,29 @@
     "score": 1,
     "question_order_id": 51,
     "correct_index": 1,
-    "reasoning": "Son las placas macizas de acero donde se atornilla o clampa el molde."
+    "reasoning": "Son las placas macizas de acero donde se atornilla o clampa el molde.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "La estructura de la máquina debe soportar los componentes principales del herramental.",
+    "description_en": "The machine structure must support the main components of the tooling.",
+    "question_es": "Las 'platinas' (platens) de la máquina tienen la función estructural de:",
+    "question_en": "The machine's 'platens' have the structural function of:",
+    "options_es": [
+      "Calentar el molde mediante resistencias",
+      "Soportar y sujetar las mitades del molde",
+      "Recoger las piezas expulsadas",
+      "Filtrar el aceite hidráulico"
+    ],
+    "options_en": [
+      "Heating the mold with resistors",
+      "Supporting and clamping the mold halves",
+      "Collecting ejected parts",
+      "Filtering the hydraulic oil"
+    ],
+    "reasoning_es": "Son las placas macizas de acero donde se atornilla o clampa el molde.",
+    "reasoning_en": "They are the solid steel plates where the mold is bolted or clamped."
   },
   {
     "id": "mach_14",
@@ -881,7 +2003,29 @@
     "score": 1.5,
     "question_order_id": 52,
     "correct_index": 0,
-    "reasoning": "Las guías aseguran que cavidad y corazón embonen; si fallan, chocan metal con metal."
+    "reasoning": "Las guías aseguran que cavidad y corazón embonen; si fallan, chocan metal con metal.",
+    "category_es": "Máquina e Inyectora",
+    "category_en": "Injection Machine & Unit",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "El mantenimiento de los componentes móviles del molde evita daños catastróficos.",
+    "description_en": "Maintenance of moving mold components prevents catastrophic damage.",
+    "question_es": "¿Qué consecuencia tiene operar un molde con los pernos guía dañados o sin lubricación?",
+    "question_en": "What is the consequence of operating a mold with damaged or unlubricated guide pins?",
+    "options_es": [
+      "Desalineación de las mitades y daño severo al molde",
+      "Aumento inmediato de la temperatura del plástico",
+      "Disminución drástica e inmediata de la presión de inyección",
+      "Mejora en el sellado de la línea de partición"
+    ],
+    "options_en": [
+      "Misalignment of halves and severe damage to the mold",
+      "Immediate increase in plastic temperature",
+      "Drastic and immediate decrease in injection pressure",
+      "Improvement in parting line sealing"
+    ],
+    "reasoning_es": "Las guías aseguran que cavidad y corazón embonen; si fallan, chocan metal con metal.",
+    "reasoning_en": "Guides ensure cavity and core fit; if they fail, metal hits metal."
   },
   {
     "id": "proc_11",
@@ -898,7 +2042,29 @@
     "score": 1,
     "question_order_id": 53,
     "correct_index": 1,
-    "reasoning": "Al jalar el tornillo atrás sin girar, se quita presión en la punta para que no 'babee' material."
+    "reasoning": "Al jalar el tornillo atrás sin girar, se quita presión en la punta para que no 'babee' material.",
+    "category_es": "Proceso de Inyección",
+    "category_en": "Injection Process",
+    "type_es": "Teórico",
+    "type_en": "Theoretical",
+    "description_es": "Al finalizar la carga, se realiza un movimiento específico del husillo.",
+    "description_en": "At the end of loading, a specific screw movement is performed.",
+    "question_es": "¿Para qué se utiliza la 'descompresión' (suck back) después de la carga?",
+    "question_en": "What is 'decompression' (suck back) used for after loading?",
+    "options_es": [
+      "Para aumentar la densidad del plástico fundido",
+      "Para aliviar presión y prevenir goteo por la boquilla",
+      "Para enfriar el tornillo más rápidamente",
+      "Para mezclar mejor los colorantes"
+    ],
+    "options_en": [
+      "To increase the density of the molten plastic",
+      "To relieve pressure and prevent drooling through the nozzle",
+      "To cool the screw more quickly",
+      "To better mix colorants"
+    ],
+    "reasoning_es": "Al jalar el tornillo atrás sin girar, se quita presión en la punta para que no 'babee' material.",
+    "reasoning_en": "By pulling the screw back without rotating, pressure at the tip is removed so material doesn't 'drool'."
   },
   {
     "id": "wast_3",
@@ -915,7 +2081,29 @@
     "score": 1.5,
     "question_order_id": 54,
     "correct_index": 0,
-    "reasoning": "Se requiere limpiar mecánicamente y químicamente los residuos oscuros, usualmente con material virgen o purging compound."
+    "reasoning": "Se requiere limpiar mecánicamente y químicamente los residuos oscuros, usualmente con material virgen o purging compound.",
+    "category_es": "Desperdicios (Muda)",
+    "category_en": "Waste (Muda)",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La transición entre diferentes materiales o colores requiere un procedimiento técnico.",
+    "description_en": "The transition between different materials or colors requires a technical procedure.",
+    "question_es": "¿Cuál es el procedimiento correcto para 'purgar' al cambiar de un color oscuro a uno claro?",
+    "question_en": "What is the correct procedure for 'purging' when changing from a dark to a light color?",
+    "options_es": [
+      "Subir temperatura y usar material natural o compuesto de purga",
+      "Bajar temperatura inmediatamente y aumentar velocidad de inyección",
+      "Abrir el molde y limpiar con trapo manual",
+      "Mezclar el color claro sobre el oscuro directamente"
+    ],
+    "options_en": [
+      "Raise temperature and use natural material or purging compound",
+      "Lower temperature immediately and increase injection speed",
+      "Open the mold and clean with manual cloth",
+      "Mix the light color over the dark one directly"
+    ],
+    "reasoning_es": "Se requiere limpiar mecánicamente y químicamente los residuos oscuros, usualmente con material virgen o purging compound.",
+    "reasoning_en": "Mechanical and chemical cleaning of dark residues is required, usually with virgin material or purging compound."
   },
   {
     "id": "wast_4",
@@ -932,7 +2120,29 @@
     "score": 1.5,
     "question_order_id": 55,
     "correct_index": 1,
-    "reasoning": "La purga debe ser eficiente; hacerlo en exceso indica falta de control de proceso."
+    "reasoning": "La purga debe ser eficiente; hacerlo en exceso indica falta de control de proceso.",
+    "category_es": "Desperdicios (Muda)",
+    "category_en": "Waste (Muda)",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "La eficiencia en los procedimientos de limpieza afecta los indicadores de producción.",
+    "description_en": "Efficiency in cleaning procedures affects production indicators.",
+    "question_es": "Observas a un operador purgando la máquina continuamente durante 20 minutos sin ajustar parámetros. Esto es:",
+    "question_en": "You observe an operator purging the machine continuously for 20 minutes without adjusting parameters. This is:",
+    "options_es": [
+      "Un procedimiento estándar de calentamiento",
+      "Un desperdicio innecesario de resina y tiempo",
+      "Necesario para limpiar el husillo completamente",
+      "Requerido para estabilizar el aceite hidráulico"
+    ],
+    "options_en": [
+      "A standard warm-up procedure",
+      "An unnecessary waste of resin and time",
+      "Necessary to clean the screw completely",
+      "Required to stabilize the hydraulic oil"
+    ],
+    "reasoning_es": "La purga debe ser eficiente; hacerlo en exceso indica falta de control de proceso.",
+    "reasoning_en": "Purging should be efficient; doing it excessively indicates a lack of process control."
   },
   {
     "id": "wast_5",
@@ -949,7 +2159,29 @@
     "score": 1.5,
     "question_order_id": 56,
     "correct_index": 0,
-    "reasoning": "El polvo y gránulos sucios en el entorno son la causa #1 de contaminación en la pieza."
+    "reasoning": "El polvo y gránulos sucios en el entorno son la causa #1 de contaminación en la pieza.",
+    "category_es": "Desperdicios (Muda)",
+    "category_en": "Waste (Muda)",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "El entorno de trabajo influye directamente en los defectos de las piezas.",
+    "description_en": "The work environment directly influences part defects.",
+    "question_es": "¿Cómo impacta directamente el orden y limpieza (5S) en la calidad de la pieza?",
+    "question_en": "How does order and cleanliness (5S) directly impact part quality?",
+    "options_es": [
+      "Reduce la contaminación cruzada (puntos negros/rafagas)",
+      "Aumenta automáticamente la velocidad de la máquina",
+      "Elimina la necesidad de mantenimiento preventivo",
+      "Permite usar materiales de menor calidad"
+    ],
+    "options_en": [
+      "Reduces cross-contamination (black specks/splay)",
+      "Automatically increases machine speed",
+      "Eliminate the need for preventive maintenance",
+      "Allows using lower quality materials"
+    ],
+    "reasoning_es": "El polvo y gránulos sucios en el entorno son la causa #1 de contaminación en la pieza.",
+    "reasoning_en": "Dust and dirty granules in the environment are the #1 cause of contamination in the part."
   },
   {
     "id": "wast_6",
@@ -966,6 +2198,28 @@
     "score": 1.5,
     "question_order_id": 57,
     "correct_index": 1,
-    "reasoning": "En industrias estrictas (automotriz/médica/alimenticia), el contacto con el suelo es contaminación automática."
+    "reasoning": "En industrias estrictas (automotriz/médica/alimenticia), el contacto con el suelo es contaminación automática.",
+    "category_es": "Desperdicios (Muda)",
+    "category_en": "Waste (Muda)",
+    "type_es": "Práctico",
+    "type_en": "Practical",
+    "description_es": "El manejo de producto terminado requiere protocolos de higiene estrictos.",
+    "description_en": "Handling of finished products requires strict hygiene protocols.",
+    "question_es": "Si una pieza recién inyectada cae al piso sucio, ¿cuál es la disposición correcta?",
+    "question_en": "If a newly injected part falls onto a dirty floor, what is the correct disposal?",
+    "options_es": [
+      "Limpiarla con aire comprimido y empacarla",
+      "Marcarla como Scrap por contaminación potencial",
+      "Triturarla inmediatamente junto con las coladas limpias",
+      "Lavarla con agua y jabón en el baño"
+    ],
+    "options_en": [
+      "Clean it with compressed air and pack it",
+      "Mark it as Scrap due to potential contamination",
+      "Crush it immediately along with clean runners",
+      "Wash it with soap and water in the bathroom"
+    ],
+    "reasoning_es": "En industrias estrictas (automotriz/médica/alimenticia), el contacto con el suelo es contaminación automática.",
+    "reasoning_en": "In strict industries (automotive/medical/food), contact with the floor is automatic contamination."
   }
 ]

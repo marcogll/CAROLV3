@@ -628,21 +628,19 @@
       <div class="login-header">
         <img src="soul23-logo-dark.svg" alt="Soul23" style="height:40px;width:auto;margin-bottom:.75rem;">
         <h2>CAROL Admin</h2>
-        <p>Panel de Control — Acceso restringido</p>
+        <p data-i18n="restricted_access">Panel de Control — Acceso restringido</p>
       </div>
       <div class="login-body">
         <div class="form-group">
-          <label class="form-label-custom">Correo electrónico</label>
+          <label class="form-label-custom" data-i18n="email_label">Correo electrónico</label>
           <input type="email" class="form-input" id="login-email" placeholder="marco@soul23.mx" value="marco@soul23.mx">
         </div>
         <div class="form-group">
-          <label class="form-label-custom">Contraseña</label>
+          <label class="form-label-custom" data-i18n="password_label">Contraseña</label>
           <input type="password" class="form-input" id="login-password" placeholder="••••••••">
         </div>
-        <button class="login-btn" onclick="doLogin()">
-          <i class="ti ti-lock"></i> Iniciar Sesión
-        </button>
-        <div class="login-error" id="login-error">
+        <button class="login-btn" onclick="doLogin()"><i class="ti ti-lock"></i> <span data-i18n="login_btn">Iniciar Sesión</span></button>
+        <div class="login-error" id="login-error" data-i18n="login_error">
           <i class="ti ti-alert-circle"></i> Correo o contraseña incorrectos
         </div>
       </div>
@@ -659,7 +657,11 @@
         <span>CAROL Admin</span>
       </a>
       <div class="navbar-right">
-        <button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">
+
+        <button class="theme-toggle visible-test" onclick="toggleLanguage()" title="Cambiar idioma" style="margin-right: 0.5rem;">
+          <span style="font-weight:800;font-size:0.75rem;color:#fff;" id="lang-label">EN</span>
+        </button>
+<button class="theme-toggle visible-test" onclick="toggleTheme()" title="Cambiar tema">
           <i class="ti ti-sun" id="theme-icon-light"></i>
           <i class="ti ti-moon" id="theme-icon-dark" style="display:none;"></i>
         </button>
@@ -684,19 +686,15 @@
     <!-- Tabs -->
     <div class="tab-nav-container">
       <div class="tab-nav">
-        <button class="tab-nav-item active" onclick="switchTab('general')" id="tab-general">
-          <i class="ti ti-layout-dashboard"></i> Vista General
-        </button>
-        <button class="tab-nav-item" onclick="switchTab('persona')" id="tab-persona">
-          <i class="ti ti-users"></i> Por Persona
-        </button>
-        <button class="tab-nav-item" onclick="switchTab('ajustes')" id="tab-ajustes" style="display:none;">
-          <i class="ti ti-settings"></i> Ajustes
-        </button>
+        <button class="tab-nav-item active" onclick="switchTab('general')" id="tab-general" data-i18n="general_view">
+          <i class="ti ti-layout-dashboard"></i> Vista General</button>
+        <button class="tab-nav-item" onclick="switchTab('persona')" id="tab-persona" data-i18n="by_person">
+          <i class="ti ti-users"></i> Por Persona</button>
+        <button class="tab-nav-item" onclick="switchTab('ajustes')" id="tab-ajustes" style="display:none;" data-i18n="settings">
+          <i class="ti ti-settings"></i> Ajustes</button>
         <div class="tab-nav-actions">
           <a href="/api/export.csv" class="btn-primary-custom">
-            <i class="ti ti-download"></i> Exportar CSV
-          </a>
+            <i class="ti ti-download"></i> Exportar CSV</a>
         </div>
       </div>
     </div>
@@ -708,47 +706,47 @@
         <div class="kpi-card kpi-1">
           <div class="kpi-icon"><i class="ti ti-users"></i></div>
           <div class="kpi-value" id="kpi-total">—</div>
-          <div class="kpi-label">Evaluados</div>
+          <div class="kpi-label" data-i18n="evaluated">Evaluados</div>
         </div>
         <div class="kpi-card kpi-2">
           <div class="kpi-icon"><i class="ti ti-check"></i></div>
           <div class="kpi-value" id="kpi-pass">—</div>
-          <div class="kpi-label">Tasa de Aprobación</div>
+          <div class="kpi-label" data-i18n="pass_rate">Tasa de Aprobación</div>
         </div>
         <div class="kpi-card kpi-3">
           <div class="kpi-icon"><i class="ti ti-trending-up"></i></div>
           <div class="kpi-value" id="kpi-avg">—</div>
-          <div class="kpi-label">Puntaje Promedio</div>
+          <div class="kpi-label" data-i18n="avg_score">Puntaje Promedio</div>
         </div>
         <div class="kpi-card kpi-4">
           <div class="kpi-icon"><i class="ti ti-alert-triangle"></i></div>
           <div class="kpi-value" id="kpi-pending">—</div>
-          <div class="kpi-label">Revisiones Pendientes</div>
+          <div class="kpi-label" data-i18n="pending_reviews">Revisiones Pendientes</div>
         </div>
       </div>
 
       <!-- Charts -->
       <div class="charts-grid">
         <div class="card-custom chart-card">
-          <div class="card-header-custom"><h3><i class="ti ti-chart-donut" style="color:var(--carol-teal);"></i> Distribución por Nivel</h3></div>
+          <div class="card-header-custom"><h3 data-i18n="level_dist"><i class="ti ti-chart-donut" style="color:var(--carol-teal);"></i> Distribución por Nivel</h3></div>
           <div class="card-body-custom"><canvas id="chart-levels" height="220"></canvas></div>
         </div>
         <div class="card-custom chart-card">
-          <div class="card-header-custom"><h3><i class="ti ti-chart-donut" style="color:var(--carol-teal);"></i> Aprobados vs Reprobados</h3></div>
+          <div class="card-header-custom"><h3 data-i18n="pass_fail"><i class="ti ti-chart-donut" style="color:var(--carol-teal);"></i> Aprobados vs Reprobados</h3></div>
           <div class="card-body-custom"><canvas id="chart-pass" height="220"></canvas></div>
         </div>
         <div class="card-custom chart-card">
-          <div class="card-header-custom"><h3><i class="ti ti-chart-line" style="color:var(--carol-teal);"></i> Tendencia de Puntajes</h3></div>
+          <div class="card-header-custom"><h3 data-i18n="score_trend"><i class="ti ti-chart-line" style="color:var(--carol-teal);"></i> Tendencia de Puntajes</h3></div>
           <div class="card-body-custom"><canvas id="chart-trend" height="220"></canvas></div>
         </div>
         <div class="card-custom chart-card">
-          <div class="card-header-custom"><h3><i class="ti ti-chart-bar" style="color:var(--carol-teal);"></i> Puntaje Promedio por Departamento</h3></div>
+          <div class="card-header-custom"><h3 data-i18n="dept_avg"><i class="ti ti-chart-bar" style="color:var(--carol-teal);"></i> Puntaje Promedio por Departamento</h3></div>
           <div class="card-body-custom"><canvas id="chart-dept-avg" height="260"></canvas></div>
         </div>
       </div>
       <div class="charts-grid">
         <div class="card-custom chart-card" style="grid-column:1/-1;">
-          <div class="card-header-custom"><h3><i class="ti ti-chart-bar" style="color:var(--carol-teal);"></i> Aprobados vs Reprobados por Departamento</h3></div>
+          <div class="card-header-custom"><h3 data-i18n="dept_pass"><i class="ti ti-chart-bar" style="color:var(--carol-teal);"></i> Aprobados vs Reprobados por Departamento</h3></div>
           <div class="card-body-custom"><canvas id="chart-dept-pass" height="260"></canvas></div>
         </div>
       </div>
@@ -756,11 +754,11 @@
       <!-- Category charts -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;">
         <div class="card-custom">
-          <div class="card-header-custom"><h3><i class="ti ti-chart-radar" style="color:var(--ctp-mauve);"></i> Desempeño por Categoría de Preguntas</h3></div>
+          <div class="card-header-custom"><h3 data-i18n="cat_perf"><i class="ti ti-chart-radar" style="color:var(--ctp-mauve);"></i> Desempeño por Categoría de Preguntas</h3></div>
           <div class="card-body-custom"><canvas id="chart-cat-avg" height="280"></canvas></div>
         </div>
         <div class="card-custom">
-          <div class="card-header-custom"><h3><i class="ti ti-chart-bar" style="color:var(--ctp-peach);"></i> Reactivos Correctos vs Incorrectos</h3></div>
+          <div class="card-header-custom"><h3 data-i18n="reactives"><i class="ti ti-chart-bar" style="color:var(--ctp-peach);"></i> Reactivos Correctos vs Incorrectos</h3></div>
           <div class="card-body-custom"><canvas id="chart-cat-correct" height="280"></canvas></div>
         </div>
       </div>
@@ -769,7 +767,7 @@
       <div class="filter-bar">
         <div class="filter-search">
           <i class="ti ti-search search-icon"></i>
-          <input type="text" id="filter-search" placeholder="Buscar candidato, ID, empresa..." oninput="loadData()">
+          <input type="text" id="filter-search" data-i18n-placeholder="search_placeholder" placeholder="Buscar candidato, ID, empresa..." oninput="loadData()">
         </div>
         <select class="filter-select" id="filter-level" onchange="loadData()">
           <option value="">Todos los niveles</option>
@@ -794,13 +792,13 @@
         </select>
         <input type="date" class="filter-select" id="filter-date-from" onchange="loadData()" title="Desde fecha">
         <input type="date" class="filter-select" id="filter-date-to" onchange="loadData()" title="Hasta fecha">
-        <button class="btn-filter" onclick="clearFilters()"><i class="ti ti-x"></i> Limpiar</button>
+        <button class="btn-filter" onclick="clearFilters()"><i class="ti ti-x"></i><span data-i18n="clear"></span>Limpiar</button>
         <button class="btn-filter" onclick="loadData()"><i class="ti ti-refresh"></i></button>
       </div>
 
       <!-- Heatmap -->
       <div class="card-custom" style="margin-bottom:1rem;">
-        <div class="card-header-custom"><h3><i class="ti ti-grid-dots" style="color:var(--carol-teal);"></i> Mapa de Calor de Competencias</h3></div>
+        <div class="card-header-custom"><h3><i class="ti ti-grid-dots" style="color:var(--carol-teal);"></i> <span data-i18n="heatmap_title"></span>Mapa de Calor de Competencias</h3></div>
         <div class="table-wrapper">
           <table class="data-table" id="heatmap-table">
             <thead id="heatmap-head">
@@ -813,18 +811,18 @@
 
       <!-- Results Table -->
       <div class="card-custom">
-        <div class="card-header-custom"><h3><i class="ti ti-list" style="color:var(--carol-teal);"></i> Evaluaciones Recientes</h3></div>
+        <div class="card-header-custom"><h3><i class="ti ti-list" style="color:var(--carol-teal);"></i> <span data-i18n="recent_evals"></span>Evaluaciones Recientes</h3></div>
         <div class="table-wrapper">
           <table class="data-table" id="results-table">
             <thead>
               <tr>
-                <th class="sortable" onclick="sortTable('results-table', 0)">Candidato <span class="sort-icon">↕</span></th>
-                <th class="sortable" onclick="sortTable('results-table', 1)">Empresa <span class="sort-icon">↕</span></th>
-                <th class="sortable" onclick="sortTable('results-table', 2)">Nivel <span class="sort-icon">↕</span></th>
-                <th class="sortable" onclick="sortTable('results-table', 3)">Score <span class="sort-icon">↕</span></th>
-                <th class="sortable" onclick="sortTable('results-table', 4)">Estatus <span class="sort-icon">↕</span></th>
-                <th class="sortable" onclick="sortTable('results-table', 5)">Depto <span class="sort-icon">↕</span></th>
-                <th class="sortable" onclick="sortTable('results-table', 6)">Fecha <span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 0)" data-i18n="candidate">Candidato<span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 1)" data-i18n="company">Empresa<span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 2)" data-i18n="level">Nivel<span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 3)" data-i18n="score">Score<span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 4)" data-i18n="status">Estatus<span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 5)" data-i18n="dept">Depto<span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 6)" data-i18n="date">Fecha<span class="sort-icon">↕</span></th>
                 <th class="w-1"></th>
               </tr>
             </thead>
@@ -845,7 +843,7 @@
       <div class="filter-bar">
         <div class="filter-search">
           <i class="ti ti-search search-icon"></i>
-          <input type="text" id="persona-search" placeholder="Buscar candidato..." oninput="loadPersonas()">
+          <input type="text" id="persona-search" data-i18n-placeholder="search_candidate" placeholder="Buscar candidato..." oninput="loadPersonas()">
         </div>
         <select class="filter-select" id="persona-level" onchange="loadPersonas()">
           <option value="">Todos los niveles</option>
@@ -853,7 +851,7 @@
           <option value="medium">Medio</option>
           <option value="advanced">Avanzado</option>
         </select>
-        <button class="btn-filter" onclick="loadPersonas()"><i class="ti ti-refresh"></i> Actualizar</button>
+        <button class="btn-filter" onclick="loadPersonas()"><i class="ti ti-refresh"></i><span data-i18n="update"></span>Actualizar</button>
       </div>
 
       <div class="persona-grid" id="personas-grid">
@@ -867,12 +865,12 @@
         <div class="card-custom">
           <div class="card-header-custom">
             <h3><i class="ti ti-user" style="color:var(--carol-teal);"></i> Evaluaciones de <span id="persona-name">—</span></h3>
-            <button class="btn-filter" onclick="closePersonaDetail()"><i class="ti ti-x"></i> Cerrar</button>
+            <button class="btn-filter" onclick="closePersonaDetail()"><i class="ti ti-x"></i><span data-i18n="close"></span>Cerrar</button>
           </div>
           <div class="table-wrapper">
             <table class="data-table">
               <thead>
-                <tr><th>Fecha</th><th>Nivel</th><th>Score</th><th>Estatus</th><th>Tiempo</th><th class="w-1"></th></tr>
+                <tr><th data-i18n="date">Fecha</th><th data-i18n="level">Nivel</th><th data-i18n="score">Score</th><th data-i18n="status">Estatus</th><th data-i18n="time">Tiempo</th><th class="w-1"></th></tr>
               </thead>
               <tbody id="persona-results-body">
                 <tr><td colspan="6" class="empty-state">Sin evaluaciones</td></tr>
@@ -888,7 +886,7 @@
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
         <!-- Users -->
         <div class="card-custom">
-          <div class="card-header-custom"><h3><i class="ti ti-users" style="color:var(--carol-teal);"></i> Usuarios del Sistema</h3></div>
+          <div class="card-header-custom"><h3><i class="ti ti-users" style="color:var(--carol-teal);"></i> <span data-i18n="user_system"></span>Usuarios del Sistema</h3></div>
           <div class="card-body-custom">
             <form id="user-form" onsubmit="createUser(event)">
               <div class="form-row cols-5">
@@ -899,7 +897,7 @@
                   <option value="viewer">Viewer</option>
                   <option value="admin">Admin</option>
                 </select>
-                <button type="submit" class="btn-primary-custom" style="white-space:nowrap;">Agregar</button>
+                <button type="submit" class="btn-primary-custom" style="white-space:nowrap;" data-i18n="add">Agregar</button>
               </div>
             </form>
             <div id="user-form-msg" class="mt-2" style="font-size:.8rem;"></div>
@@ -907,7 +905,7 @@
           <div class="table-wrapper">
             <table class="data-table">
               <thead>
-                <tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Creado</th><th class="w-1"></th></tr>
+                <tr><th data-i18n="name">Nombre</th><th>Email</th><th data-i18n="role">Rol</th><th>Creado</th><th class="w-1"></th></tr>
               </thead>
               <tbody id="users-body">
                 <tr><td colspan="5" class="empty-state">Cargando usuarios…</td></tr>
@@ -918,10 +916,10 @@
 
         <!-- Account Info -->
         <div class="card-custom">
-          <div class="card-header-custom"><h3><i class="ti ti-id" style="color:var(--carol-teal);"></i> Información de Cuenta</h3></div>
+          <div class="card-header-custom"><h3><i class="ti ti-id" style="color:var(--carol-teal);"></i> <span data-i18n="account_info"></span>Información de Cuenta</h3></div>
           <div class="card-body-custom">
             <div class="form-group">
-              <div class="form-label-custom">Nombre</div>
+              <div class="form-label-custom" data-i18n="name">Nombre</div>
               <div id="acc-name" style="font-size:.9rem;color:var(--text-main);">—</div>
             </div>
             <div class="form-group">
@@ -929,7 +927,7 @@
               <div id="acc-email" style="font-size:.9rem;color:var(--text-main);">—</div>
             </div>
             <div class="form-group">
-              <div class="form-label-custom">Rol</div>
+              <div class="form-label-custom" data-i18n="role">Rol</div>
               <div id="acc-role" style="font-size:.9rem;color:var(--text-main);">—</div>
             </div>
           </div>
@@ -938,11 +936,11 @@
 
       <!-- Audit Logs -->
       <div class="card-custom" style="margin-top:1rem;">
-        <div class="card-header-custom"><h3><i class="ti ti-history" style="color:var(--carol-teal);"></i> Auditoría / Logs</h3></div>
+        <div class="card-header-custom"><h3><i class="ti ti-history" style="color:var(--carol-teal);"></i> <span data-i18n="audit_logs"></span>Auditoría / Logs</h3></div>
         <div class="table-wrapper">
           <table class="data-table">
             <thead>
-              <tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Tipo</th><th>ID</th><th>Detalle</th></tr>
+              <tr><th data-i18n="date">Fecha</th><th>Usuario</th><th data-i18n="action">Acción</th><th data-i18n="type">Tipo</th><th>ID</th><th data-i18n="detail">Detalle</th></tr>
             </thead>
             <tbody id="audit-body">
               <tr><td colspan="6" class="empty-state">Cargando logs…</td></tr>
@@ -953,7 +951,7 @@
 
       <!-- API Keys -->
       <div class="card-custom" style="margin-top:1rem;">
-        <div class="card-header-custom"><h3><i class="ti ti-key" style="color:var(--carol-teal);"></i> API Keys</h3></div>
+        <div class="card-header-custom"><h3><i class="ti ti-key" style="color:var(--carol-teal);"></i> <span data-i18n="api_keys"></span>API Keys</h3></div>
         <div class="card-body-custom">
           <form id="apikey-form" onsubmit="createApiKey(event)">
             <div class="form-row cols-3">
@@ -980,7 +978,7 @@
         <div class="table-wrapper">
           <table class="data-table">
             <thead>
-              <tr><th>Nombre</th><th>Prefijo</th><th>Rol</th><th>Creada</th><th>Último uso</th><th></th></tr>
+              <tr><th data-i18n="name">Nombre</th><th>Prefijo</th><th data-i18n="role">Rol</th><th>Creada</th><th>Último uso</th><th></th></tr>
             </thead>
             <tbody id="apikeys-body">
               <tr><td colspan="6" class="empty-state">Cargando API keys…</td></tr>
@@ -1000,7 +998,7 @@
       </div>
       <div class="modal-body-custom" id="modal-body">Cargando...</div>
       <div class="modal-footer-custom">
-        <button class="btn-filter" onclick="closeModal()">Cerrar</button>
+        <button class="btn-filter" onclick="closeModal()" data-i18n="close">Cerrar</button>
       </div>
     </div>
   </div>
@@ -1163,7 +1161,174 @@
       document.getElementById('login-password').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') doLogin();
       });
-      checkSession();
+      checkSession(); initLanguage();
+});
+
+let currentLang = 'es';
+const TRANSLATIONS = {
+  'es': {
+    'admin_panel': 'Panel de Control',
+    'restricted_access': 'Panel de Control — Acceso restringido',
+    'email_label': 'Correo electrónico',
+    'password_label': 'Contraseña',
+    'login_btn': 'Iniciar Sesión',
+    'login_error': 'Correo o contraseña incorrectos',
+    'general_view': 'Vista General',
+    'by_person': 'Por Persona',
+    'settings': 'Ajustes',
+    'export_csv': 'Exportar CSV',
+    'evaluated': 'Evaluados',
+    'pass_rate': 'Tasa de Aprobación',
+    'avg_score': 'Puntaje Promedio',
+    'pending_reviews': 'Revisiones Pendientes',
+    'level_dist': 'Distribución por Nivel',
+    'pass_fail': 'Aprobados vs Reprobados',
+    'score_trend': 'Tendencia de Puntajes',
+    'dept_avg': 'Puntaje Promedio por Departamento',
+    'dept_pass': 'Aprobados vs Reprobados por Departamento',
+    'cat_perf': 'Desempeño por Categoría de Preguntas',
+    'reactives': 'Reactivos Correctos vs Incorrectos',
+    'search_placeholder': 'Buscar candidato, ID, empresa...',
+    'all_levels': 'Todos los niveles',
+    'basic': 'Básico',
+    'medium': 'Medio',
+    'advanced': 'Avanzado',
+    'all_status': 'Todos los estatus',
+    'approved': 'Aprobado',
+    'not_approved': 'No aprobado',
+    'all_depts': 'Todos los deptos',
+    'clear': 'Limpiar',
+    'heatmap_title': 'Mapa de Calor de Competencias',
+    'recent_evals': 'Evaluaciones Recientes',
+    'candidate': 'Candidato',
+    'company': 'Empresa',
+    'level': 'Nivel',
+    'score': 'Score',
+    'status': 'Estatus',
+    'dept': 'Depto',
+    'date': 'Fecha',
+    'logout': 'Cerrar sesión',
+    'loading_data': 'Cargando datos…',
+    'no_results': 'Sin resultados',
+    'no_evals': 'No se encontraron evaluaciones con los filtros actuales.',
+    'showing': 'Mostrando',
+    'of': 'de',
+    'per_page': 'pág',
+    'account_info': 'Información de Cuenta',
+    'name': 'Nombre',
+    'role': 'Rol',
+    'administrator': 'Administrador',
+    'viewer': 'Visualizador',
+    'audit_logs': 'Auditoría / Logs',
+    'action': 'Acción',
+    'type': 'Tipo',
+    'detail': 'Detalle',
+    'api_keys': 'API Keys',
+    'generate_key': 'Generar API Key',
+    'copy': 'Copiar',
+    'prefix': 'Prefijo',
+    'created': 'Creada',
+    'last_use': 'Último uso',
+    'user_system': 'Usuarios del Sistema',
+    'add': 'Agregar',
+    'search_candidate': 'Buscar candidato...',
+    'update': 'Actualizar',
+    'close': 'Cerrar',
+    'view_report_html': 'Ver Reporte HTML',
+    'download_pdf': 'Descargar PDF',
+    'evals_of': 'Evaluaciones de',
+    'time': 'Tiempo',
+    'no_evals_person': 'Sin evaluaciones para este candidato',
+    'person_removed': 'Persona eliminada.',
+    'eval_removed': 'Evaluación eliminada.',
+    'confirm_delete_eval': '¿Eliminar esta evaluación? Se mantendrá en auditoría.',
+    'confirm_delete_person': '¿También borrar la persona asociada y todas sus evaluaciones?',
+  },
+  'en': {
+    'admin_panel': 'Admin Panel',
+    'restricted_access': 'Admin Panel — Restricted access',
+    'email_label': 'Email address',
+    'password_label': 'Password',
+    'login_btn': 'Log In',
+    'login_error': 'Incorrect email or password',
+    'general_view': 'General View',
+    'by_person': 'By Person',
+    'settings': 'Settings',
+    'export_csv': 'Export CSV',
+    'evaluated': 'Evaluated',
+    'pass_rate': 'Pass Rate',
+    'avg_score': 'Average Score',
+    'pending_reviews': 'Pending Reviews',
+    'level_dist': 'Level Distribution',
+    'pass_fail': 'Passed vs Failed',
+    'score_trend': 'Score Trend',
+    'dept_avg': 'Average Score by Department',
+    'dept_pass': 'Passed vs Failed by Department',
+    'cat_perf': 'Performance by Question Category',
+    'reactives': 'Correct vs Incorrect Reactives',
+    'search_placeholder': 'Search candidate, ID, company...',
+    'all_levels': 'All levels',
+    'basic': 'Basic',
+    'medium': 'Medium',
+    'advanced': 'Advanced',
+    'all_status': 'All status',
+    'approved': 'Passed',
+    'not_approved': 'Failed',
+    'all_depts': 'All depts',
+    'clear': 'Clear',
+    'heatmap_title': 'Competency Heatmap',
+    'recent_evals': 'Recent Evaluations',
+    'candidate': 'Candidate',
+    'company': 'Company',
+    'level': 'Level',
+    'score': 'Score',
+    'status': 'Status',
+    'dept': 'Dept',
+    'date': 'Date',
+    'logout': 'Log out',
+    'loading_data': 'Loading data...',
+    'no_results': 'No results',
+    'no_evals': 'No evaluations found with current filters.',
+    'showing': 'Showing',
+    'of': 'of',
+    'per_page': 'page',
+    'account_info': 'Account Information',
+    'name': 'Name',
+    'role': 'Role',
+    'administrator': 'Administrator',
+    'viewer': 'Viewer',
+    'audit_logs': 'Audit Logs',
+    'action': 'Action',
+    'type': 'Type',
+    'detail': 'Detail',
+    'api_keys': 'API Keys',
+    'generate_key': 'Generate API Key',
+    'copy': 'Copy',
+    'prefix': 'Prefix',
+    'created': 'Created',
+    'last_use': 'Last used',
+    'user_system': 'System Users',
+    'add': 'Add',
+    'search_candidate': 'Search candidate...',
+    'update': 'Update',
+    'close': 'Close',
+    'view_report_html': 'View HTML Report',
+    'download_pdf': 'Download PDF',
+    'evals_of': 'Evaluations of',
+    'time': 'Time',
+    'no_evals_person': 'No evaluations for this candidate',
+    'person_removed': 'Person removed.',
+    'eval_removed': 'Evaluation removed.',
+    'confirm_delete_eval': 'Delete this evaluation? It will be kept in audit.',
+    'confirm_delete_person': 'Also delete associated person and all their evaluations?',
+  }
+};
+
+
+
+
+
+
     });
 
     /* ═══════════════════════════════════════════════ TABLE UTILS ══ */
@@ -1175,9 +1340,9 @@
     }
 
     function levelBadge(level) {
-      if (level === 'basic') return '<span class="badge-custom badge-green">Básico</span>';
-      if (level === 'medium') return '<span class="badge-custom badge-yellow">Medio</span>';
-      if (level === 'advanced') return '<span class="badge-custom badge-blue">Avanzado</span>';
+      if (level === 'basic') return '<span class="badge-custom badge-green">' + TRANSLATIONS[currentLang]['basic'] + '</span>';
+      if (level === 'medium') return '<span class="badge-custom badge-yellow">' + TRANSLATIONS[currentLang]['medium'] + '</span>';
+      if (level === 'advanced') return '<span class="badge-custom badge-blue">' + TRANSLATIONS[currentLang]['advanced'] + '</span>';
       return '<span class="badge-custom">' + level + '</span>';
     }
 
@@ -1190,7 +1355,7 @@
     function fmtDate(iso) {
       if (!iso) return '—';
       const d = new Date(iso);
-      return d.toLocaleDateString('es-MX') + ' ' + d.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+      return d.toLocaleDateString(currentLang === 'es' ? 'es-MX' : 'en-US') + ' ' + d.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
     }
 
     function scoreBadgeHtml(score) {
@@ -1327,7 +1492,7 @@
           return;
         }
         const allCats = [...new Set(rows.flatMap(r => Object.keys(r.categories || {})))];
-        thead.innerHTML = '<tr><th>Candidato</th><th>Nivel</th>' + allCats.map(k => '<th>' + (k.length > 10 ? k.substring(0,8)+'…' : k) + '</th>').join('') + '<th>Prom.</th></tr>';
+        thead.innerHTML = '<tr><th data-i18n="candidate">Candidato</th><th data-i18n="level">Nivel</th>' + allCats.map(k => '<th>' + (k.length > 10 ? k.substring(0,8)+'…' : k) + '</th>').join('') + '<th>Prom.</th></tr>';
         rows.forEach(row => {
           if (levelFilter && row.level !== levelFilter) return;
           if (search && !row.name.toLowerCase().includes(search) && !row.employee_id.toLowerCase().includes(search)) return;
@@ -1448,11 +1613,11 @@
         const c = getChartColors();
         const levels = { basic: 0, medium: 0, advanced: 0 };
         filtered.forEach(r => { const lv = (r.assessment?.level); if (levels[lv] !== undefined) levels[lv]++; });
-        renderDoughnut('chart-levels', ['Básico', 'Medio', 'Avanzado'], [levels.basic, levels.medium, levels.advanced], [c.green, c.yellow, c.blue]);
+        renderDoughnut('chart-levels', [TRANSLATIONS[currentLang]['basic'], TRANSLATIONS[currentLang]['medium'], TRANSLATIONS[currentLang]['advanced']], [levels.basic, levels.medium, levels.advanced], [c.green, c.yellow, c.blue]);
 
         const passed = filtered.filter(r => r.results?.passed).length;
         const failed = filtered.length - passed;
-        renderDoughnut('chart-pass', ['Aprobado', 'No aprobó'], [passed, failed], [c.green, c.red]);
+        renderDoughnut('chart-pass', [TRANSLATIONS[currentLang]['approved'], TRANSLATIONS[currentLang]['not_approved']], [passed, failed], [c.green, c.red]);
 
         const byDate = {};
         filtered.slice().sort((a, b) => new Date(a.submitted_at) - new Date(b.submitted_at)).forEach(r => {
@@ -1477,8 +1642,8 @@
         const deptNames = Object.keys(deptData).sort();
         if (deptNames.length) {
           renderBar('chart-dept-pass', deptNames, [
-            { label: 'Aprobados', data: deptNames.map(d => deptData[d].pass), backgroundColor: c.green },
-            { label: 'No aprobó', data: deptNames.map(d => deptData[d].fail), backgroundColor: c.red }
+            { label: TRANSLATIONS[currentLang]['approved'], data: deptNames.map(d => deptData[d].pass), backgroundColor: c.green },
+            { label: TRANSLATIONS[currentLang]['not_approved'], data: deptNames.map(d => deptData[d].fail), backgroundColor: c.red }
           ]);
           renderBar('chart-dept-avg', deptNames, [
             { label: 'Puntaje promedio (%)', data: deptNames.map(d => Math.round(deptData[d].sum / deptData[d].count)), backgroundColor: c.blue }
@@ -1632,8 +1797,8 @@
                 '<div style="font-size:.8rem;color:var(--text-muted);">'+(a.level_name || '—')+' · '+(c.department || '—')+' · '+(c.company_name || '—')+' · '+fmtDate(data.submitted_at)+'</div>'+
               '</div>'+
               '<div style="display:flex;gap:.5rem;">'+
-                '<a href="/api/report/'+id+'/view?token='+encodeURIComponent(getToken())+'" target="_blank" class="btn-filter"><i class="ti ti-file-text"></i> Ver Reporte HTML</a>'+
-                '<a href="/api/report/'+id+'/pdf?token='+encodeURIComponent(getToken())+'" target="_blank" class="btn-primary-custom"><i class="ti ti-file-download"></i> Descargar PDF</a>'+
+                '<a href="/api/report/'+id+'/view?token='+encodeURIComponent(getToken())+'&lang='+currentLang+'" target="_blank" class="btn-filter"><i class="ti ti-file-text"></i> '+TRANSLATIONS[currentLang]['view_report_html']+'</a>'+
+                '<a href="/api/report/'+id+'/pdf?token='+encodeURIComponent(getToken())+'&lang='+currentLang+'" target="_blank" class="btn-primary-custom"><i class="ti ti-file-download"></i> '+TRANSLATIONS[currentLang]['download_pdf']+'</a>'+
               '</div>'+
             '</div>'+
           '</div>'+
@@ -1652,7 +1817,7 @@
             '</div>'+
             '<div style="background:var(--bg-mantle);border-radius:10px;padding:.75rem 1rem;text-align:center;min-width:80px;border:1px solid var(--card-border);">'+
               '<div style="font-size:1.4rem;font-weight:700;color:var(--text-main);">'+Math.floor((res.time_seconds || 0)/60)+'m '+((res.time_seconds || 0)%60)+'s</div>'+
-              '<div style="font-size:.7rem;color:var(--text-muted);">Tiempo</div>'+
+              '<div style="font-size:.7rem;color:var(--text-muted);" data-i18n="time">Tiempo</div>'+
             '</div>'+
           '</div>'+
           '<h5 style="font-size:.9rem;color:var(--text-main);margin-bottom:.5rem;">Desempeño por categoría</h5>'+
@@ -2023,5 +2188,9 @@
 
     function openAuditLog() { switchTab('ajustes'); }
   </script>
+
+<script>
+let currentLang = 'es';
+</script>
 </body>
 </html>
