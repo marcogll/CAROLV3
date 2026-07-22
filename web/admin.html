@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CAROL Admin — Panel de Control</title>
+  <title data-i18n="admin_panel">CAROL Admin — Panel de Control</title>
   <link rel="icon" type="image/svg+xml" href="soul23-favicon.svg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
@@ -628,21 +628,19 @@
       <div class="login-header">
         <img src="soul23-logo-dark.svg" alt="Soul23" style="height:40px;width:auto;margin-bottom:.75rem;">
         <h2>CAROL Admin</h2>
-        <p>Panel de Control — Acceso restringido</p>
+        <p data-i18n="restricted_access">Panel de Control — Acceso restringido</p>
       </div>
       <div class="login-body">
         <div class="form-group">
-          <label class="form-label-custom">Correo electrónico</label>
+          <label class="form-label-custom" data-i18n="email_label">Correo electrónico</label>
           <input type="email" class="form-input" id="login-email" placeholder="marco@soul23.mx" value="marco@soul23.mx">
         </div>
         <div class="form-group">
-          <label class="form-label-custom">Contraseña</label>
+          <label class="form-label-custom" data-i18n="password_label">Contraseña</label>
           <input type="password" class="form-input" id="login-password" placeholder="••••••••">
         </div>
-        <button class="login-btn" onclick="doLogin()">
-          <i class="ti ti-lock"></i> Iniciar Sesión
-        </button>
-        <div class="login-error" id="login-error">
+        <button class="login-btn" onclick="doLogin()"><i class="ti ti-lock"></i> <span data-i18n="login_btn">Iniciar Sesión</span></button>
+        <div class="login-error" id="login-error" data-i18n="login_error">
           <i class="ti ti-alert-circle"></i> Correo o contraseña incorrectos
         </div>
       </div>
@@ -659,7 +657,10 @@
         <span>CAROL Admin</span>
       </a>
       <div class="navbar-right">
-        <button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">
+                <button class="theme-toggle" onclick="toggleLanguage()" title="Cambiar idioma" style="margin-right: 0.5rem;">
+          <span style="font-weight:800;font-size:0.75rem;color:#fff;" id="lang-label">EN</span>
+        </button>
+<button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">
           <i class="ti ti-sun" id="theme-icon-light"></i>
           <i class="ti ti-moon" id="theme-icon-dark" style="display:none;"></i>
         </button>
@@ -667,13 +668,13 @@
           <div style="display:flex;align-items:center;gap:.5rem;cursor:pointer;" onclick="toggleUserDropdown()">
             <span class="navbar-avatar" id="user-avatar">MG</span>
             <div class="navbar-user-info d-none d-xl-block">
-              <div class="name" id="user-name">Administrador</div>
+              <div class="name" id="user-name" data-i18n="administrator">Administrador</div>
               <div class="email" id="user-email">marco@soul23.mx</div>
             </div>
             <i class="ti ti-chevron-down" style="color:rgba(255,255,255,.5);font-size:.8rem;"></i>
           </div>
           <div class="dropdown-menu-custom" id="user-dropdown">
-            <button class="dropdown-item-custom" onclick="doLogout(); return false;">
+            <button class="dropdown-item-custom" onclick="doLogout(); return false;" data-i18n="close" data-i18n="logout">
               <i class="ti ti-logout"></i> Cerrar sesión
             </button>
           </div>
@@ -684,19 +685,15 @@
     <!-- Tabs -->
     <div class="tab-nav-container">
       <div class="tab-nav">
-        <button class="tab-nav-item active" onclick="switchTab('general')" id="tab-general">
-          <i class="ti ti-layout-dashboard"></i> Vista General
-        </button>
-        <button class="tab-nav-item" onclick="switchTab('persona')" id="tab-persona">
-          <i class="ti ti-users"></i> Por Persona
-        </button>
-        <button class="tab-nav-item" onclick="switchTab('ajustes')" id="tab-ajustes" style="display:none;">
-          <i class="ti ti-settings"></i> Ajustes
-        </button>
+        <button class="tab-nav-item active" onclick="switchTab('general')" id="tab-general" data-i18n="general_view">
+          <i class="ti ti-layout-dashboard"></i> Vista General</button>
+        <button class="tab-nav-item" onclick="switchTab('persona')" id="tab-persona" data-i18n="by_person">
+          <i class="ti ti-users"></i> Por Persona</button>
+        <button class="tab-nav-item" onclick="switchTab('ajustes')" id="tab-ajustes" style="display:none;" data-i18n="settings">
+          <i class="ti ti-settings"></i> Ajustes</button>
         <div class="tab-nav-actions">
-          <a href="/api/export.csv" class="btn-primary-custom">
-            <i class="ti ti-download"></i> Exportar CSV
-          </a>
+          <a href="/api/export.csv" class="btn-primary-custom" data-i18n="export_csv">
+            <i class="ti ti-download"></i> Exportar CSV</a>
         </div>
       </div>
     </div>
@@ -708,47 +705,47 @@
         <div class="kpi-card kpi-1">
           <div class="kpi-icon"><i class="ti ti-users"></i></div>
           <div class="kpi-value" id="kpi-total">—</div>
-          <div class="kpi-label">Evaluados</div>
+          <div class="kpi-label" data-i18n="evaluated">Evaluados</div>
         </div>
         <div class="kpi-card kpi-2">
           <div class="kpi-icon"><i class="ti ti-check"></i></div>
           <div class="kpi-value" id="kpi-pass">—</div>
-          <div class="kpi-label">Tasa de Aprobación</div>
+          <div class="kpi-label" data-i18n="pass_rate">Tasa de Aprobación</div>
         </div>
         <div class="kpi-card kpi-3">
           <div class="kpi-icon"><i class="ti ti-trending-up"></i></div>
           <div class="kpi-value" id="kpi-avg">—</div>
-          <div class="kpi-label">Puntaje Promedio</div>
+          <div class="kpi-label" data-i18n="avg_score">Puntaje Promedio</div>
         </div>
         <div class="kpi-card kpi-4">
           <div class="kpi-icon"><i class="ti ti-alert-triangle"></i></div>
           <div class="kpi-value" id="kpi-pending">—</div>
-          <div class="kpi-label">Revisiones Pendientes</div>
+          <div class="kpi-label" data-i18n="pending_reviews">Revisiones Pendientes</div>
         </div>
       </div>
 
       <!-- Charts -->
       <div class="charts-grid">
         <div class="card-custom chart-card">
-          <div class="card-header-custom"><h3><i class="ti ti-chart-donut" style="color:var(--carol-teal);"></i> Distribución por Nivel</h3></div>
+          <div class="card-header-custom"><h3 data-i18n="level" data-i18n="level_dist"><i class="ti ti-chart-donut" style="color:var(--carol-teal);"></i> Distribución por Nivel</h3></div>
           <div class="card-body-custom"><canvas id="chart-levels" height="220"></canvas></div>
         </div>
         <div class="card-custom chart-card">
-          <div class="card-header-custom"><h3><i class="ti ti-chart-donut" style="color:var(--carol-teal);"></i> Aprobados vs Reprobados</h3></div>
+          <div class="card-header-custom"><h3 data-i18n="approved" data-i18n="pass_fail"><i class="ti ti-chart-donut" style="color:var(--carol-teal);"></i> Aprobados vs Reprobados</h3></div>
           <div class="card-body-custom"><canvas id="chart-pass" height="220"></canvas></div>
         </div>
         <div class="card-custom chart-card">
-          <div class="card-header-custom"><h3><i class="ti ti-chart-line" style="color:var(--carol-teal);"></i> Tendencia de Puntajes</h3></div>
+          <div class="card-header-custom"><h3 data-i18n="score_trend"><i class="ti ti-chart-line" style="color:var(--carol-teal);"></i> Tendencia de Puntajes</h3></div>
           <div class="card-body-custom"><canvas id="chart-trend" height="220"></canvas></div>
         </div>
         <div class="card-custom chart-card">
-          <div class="card-header-custom"><h3><i class="ti ti-chart-bar" style="color:var(--carol-teal);"></i> Puntaje Promedio por Departamento</h3></div>
+          <div class="card-header-custom"><h3 data-i18n="avg_score" data-i18n="dept_avg"><i class="ti ti-chart-bar" style="color:var(--carol-teal);"></i> Puntaje Promedio por Departamento</h3></div>
           <div class="card-body-custom"><canvas id="chart-dept-avg" height="260"></canvas></div>
         </div>
       </div>
       <div class="charts-grid">
         <div class="card-custom chart-card" style="grid-column:1/-1;">
-          <div class="card-header-custom"><h3><i class="ti ti-chart-bar" style="color:var(--carol-teal);"></i> Aprobados vs Reprobados por Departamento</h3></div>
+          <div class="card-header-custom"><h3 data-i18n="dept_pass"><i class="ti ti-chart-bar" style="color:var(--carol-teal);"></i> Aprobados vs Reprobados por Departamento</h3></div>
           <div class="card-body-custom"><canvas id="chart-dept-pass" height="260"></canvas></div>
         </div>
       </div>
@@ -756,11 +753,11 @@
       <!-- Category charts -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;">
         <div class="card-custom">
-          <div class="card-header-custom"><h3><i class="ti ti-chart-radar" style="color:var(--ctp-mauve);"></i> Desempeño por Categoría de Preguntas</h3></div>
+          <div class="card-header-custom"><h3 data-i18n="cat_perf"><i class="ti ti-chart-radar" style="color:var(--ctp-mauve);"></i> Desempeño por Categoría de Preguntas</h3></div>
           <div class="card-body-custom"><canvas id="chart-cat-avg" height="280"></canvas></div>
         </div>
         <div class="card-custom">
-          <div class="card-header-custom"><h3><i class="ti ti-chart-bar" style="color:var(--ctp-peach);"></i> Reactivos Correctos vs Incorrectos</h3></div>
+          <div class="card-header-custom"><h3 data-i18n="reactives"><i class="ti ti-chart-bar" style="color:var(--ctp-peach);"></i> Reactivos Correctos vs Incorrectos</h3></div>
           <div class="card-body-custom"><canvas id="chart-cat-correct" height="280"></canvas></div>
         </div>
       </div>
@@ -769,21 +766,21 @@
       <div class="filter-bar">
         <div class="filter-search">
           <i class="ti ti-search search-icon"></i>
-          <input type="text" id="filter-search" placeholder="Buscar candidato, ID, empresa..." oninput="loadData()">
+          <input type="text" id="filter-search" placeholder="Buscar candidato, ID, empresa..." oninput="loadData()" data-i18n-placeholder="search_placeholder">
         </div>
         <select class="filter-select" id="filter-level" onchange="loadData()">
-          <option value="">Todos los niveles</option>
-          <option value="basic">Básico</option>
-          <option value="medium">Medio</option>
-          <option value="advanced">Avanzado</option>
+          <option value="" data-i18n="all_levels">Todos los niveles</option>
+          <option value="basic" data-i18n="basic">Básico</option>
+          <option value="medium" data-i18n="medium">Medio</option>
+          <option value="advanced" data-i18n="advanced">Avanzado</option>
         </select>
         <select class="filter-select" id="filter-passed" onchange="loadData()">
-          <option value="">Todos los estatus</option>
+          <option value="" data-i18n="all_status">Todos los estatus</option>
           <option value="true">Aprobado</option>
-          <option value="false">No aprobado</option>
+          <option value="false" data-i18n="not_approved">No aprobado</option>
         </select>
         <select class="filter-select" id="filter-dept" onchange="loadData()">
-          <option value="">Todos los deptos</option>
+          <option value="" data-i18n="all_depts">Todos los deptos</option>
           <option value="production">Producción</option>
           <option value="maintenance">Mantenimiento</option>
           <option value="quality">Calidad</option>
@@ -794,17 +791,17 @@
         </select>
         <input type="date" class="filter-select" id="filter-date-from" onchange="loadData()" title="Desde fecha">
         <input type="date" class="filter-select" id="filter-date-to" onchange="loadData()" title="Hasta fecha">
-        <button class="btn-filter" onclick="clearFilters()"><i class="ti ti-x"></i> Limpiar</button>
+        <button class="btn-filter" onclick="clearFilters()" data-i18n="clear"><i class="ti ti-x"></i> Limpiar</button>
         <button class="btn-filter" onclick="loadData()"><i class="ti ti-refresh"></i></button>
       </div>
 
       <!-- Heatmap -->
       <div class="card-custom" style="margin-bottom:1rem;">
-        <div class="card-header-custom"><h3><i class="ti ti-grid-dots" style="color:var(--carol-teal);"></i> Mapa de Calor de Competencias</h3></div>
+        <div class="card-header-custom"><h3><i class="ti ti-grid-dots" style="color:var(--carol-teal);"></i> <span data-i18n="heatmap_title">Mapa de Calor de Competencias</span></h3></div>
         <div class="table-wrapper">
           <table class="data-table" id="heatmap-table">
             <thead id="heatmap-head">
-              <tr><th colspan="20" class="empty-state">Cargando datos…</th></tr>
+              <tr><th colspan="20" class="empty-state" data-i18n="loading_data">Cargando datos…</th></tr>
             </thead>
             <tbody id="heatmap-body"></tbody>
           </table>
@@ -813,18 +810,18 @@
 
       <!-- Results Table -->
       <div class="card-custom">
-        <div class="card-header-custom"><h3><i class="ti ti-list" style="color:var(--carol-teal);"></i> Evaluaciones Recientes</h3></div>
+        <div class="card-header-custom"><h3><i class="ti ti-list" style="color:var(--carol-teal);"></i> <span data-i18n="recent_evals">Evaluaciones Recientes</span></h3></div>
         <div class="table-wrapper">
           <table class="data-table" id="results-table">
             <thead>
               <tr>
-                <th class="sortable" onclick="sortTable('results-table', 0)">Candidato <span class="sort-icon">↕</span></th>
-                <th class="sortable" onclick="sortTable('results-table', 1)">Empresa <span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 0)" data-i18n="candidate">Candidato <span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 1)" data-i18n="company">Empresa <span class="sort-icon">↕</span></th>
                 <th class="sortable" onclick="sortTable('results-table', 2)">Nivel <span class="sort-icon">↕</span></th>
-                <th class="sortable" onclick="sortTable('results-table', 3)">Score <span class="sort-icon">↕</span></th>
-                <th class="sortable" onclick="sortTable('results-table', 4)">Estatus <span class="sort-icon">↕</span></th>
-                <th class="sortable" onclick="sortTable('results-table', 5)">Depto <span class="sort-icon">↕</span></th>
-                <th class="sortable" onclick="sortTable('results-table', 6)">Fecha <span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 3)" data-i18n="score">Score <span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 4)" data-i18n="status">Estatus <span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 5)" data-i18n="dept">Depto <span class="sort-icon">↕</span></th>
+                <th class="sortable" onclick="sortTable('results-table', 6)" data-i18n="date">Fecha <span class="sort-icon">↕</span></th>
                 <th class="w-1"></th>
               </tr>
             </thead>
@@ -834,7 +831,7 @@
           </table>
         </div>
         <div class="table-footer" id="results-footer" style="display:none;">
-          <span id="results-count">Mostrando 0 de 0</span>
+          <span id="results-count" data-i18n="showing">Mostrando 0 de 0</span>
           <div class="pagination-controls" id="results-pagination"></div>
         </div>
       </div>
@@ -845,15 +842,15 @@
       <div class="filter-bar">
         <div class="filter-search">
           <i class="ti ti-search search-icon"></i>
-          <input type="text" id="persona-search" placeholder="Buscar candidato..." oninput="loadPersonas()">
+          <input type="text" id="persona-search" placeholder="Buscar candidato..." oninput="loadPersonas()" data-i18n-placeholder="search_candidate">
         </div>
         <select class="filter-select" id="persona-level" onchange="loadPersonas()">
-          <option value="">Todos los niveles</option>
+          <option value="" data-i18n="all_levels">Todos los niveles</option>
           <option value="basic">Básico</option>
           <option value="medium">Medio</option>
           <option value="advanced">Avanzado</option>
         </select>
-        <button class="btn-filter" onclick="loadPersonas()"><i class="ti ti-refresh"></i> Actualizar</button>
+        <button class="btn-filter" onclick="loadPersonas()" data-i18n="update"><i class="ti ti-refresh"></i> Actualizar</button>
       </div>
 
       <div class="persona-grid" id="personas-grid">
@@ -866,13 +863,13 @@
       <div id="persona-detail" class="mt-4" style="display:none;">
         <div class="card-custom">
           <div class="card-header-custom">
-            <h3><i class="ti ti-user" style="color:var(--carol-teal);"></i> Evaluaciones de <span id="persona-name">—</span></h3>
+            <h3 data-i18n="evals_of"><i class="ti ti-user" style="color:var(--carol-teal);"></i> Evaluaciones de <span id="persona-name">—</span></h3>
             <button class="btn-filter" onclick="closePersonaDetail()"><i class="ti ti-x"></i> Cerrar</button>
           </div>
           <div class="table-wrapper">
             <table class="data-table">
               <thead>
-                <tr><th>Fecha</th><th>Nivel</th><th>Score</th><th>Estatus</th><th>Tiempo</th><th class="w-1"></th></tr>
+                <tr><th>Fecha</th><th>Nivel</th><th>Score</th><th>Estatus</th><th data-i18n="time">Tiempo</th><th class="w-1"></th></tr>
               </thead>
               <tbody id="persona-results-body">
                 <tr><td colspan="6" class="empty-state">Sin evaluaciones</td></tr>
@@ -888,7 +885,7 @@
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
         <!-- Users -->
         <div class="card-custom">
-          <div class="card-header-custom"><h3><i class="ti ti-users" style="color:var(--carol-teal);"></i> Usuarios del Sistema</h3></div>
+          <div class="card-header-custom"><h3 data-i18n="user_system"><i class="ti ti-users" style="color:var(--carol-teal);"></i> Usuarios del Sistema</h3></div>
           <div class="card-body-custom">
             <form id="user-form" onsubmit="createUser(event)">
               <div class="form-row cols-5">
@@ -899,7 +896,7 @@
                   <option value="viewer">Viewer</option>
                   <option value="admin">Admin</option>
                 </select>
-                <button type="submit" class="btn-primary-custom" style="white-space:nowrap;">Agregar</button>
+                <button type="submit" class="btn-primary-custom" style="white-space:nowrap;" data-i18n="add">Agregar</button>
               </div>
             </form>
             <div id="user-form-msg" class="mt-2" style="font-size:.8rem;"></div>
@@ -907,7 +904,7 @@
           <div class="table-wrapper">
             <table class="data-table">
               <thead>
-                <tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Creado</th><th class="w-1"></th></tr>
+                <tr><th data-i18n="name">Nombre</th><th>Email</th><th data-i18n="role">Rol</th><th>Creado</th><th class="w-1"></th></tr>
               </thead>
               <tbody id="users-body">
                 <tr><td colspan="5" class="empty-state">Cargando usuarios…</td></tr>
@@ -918,7 +915,7 @@
 
         <!-- Account Info -->
         <div class="card-custom">
-          <div class="card-header-custom"><h3><i class="ti ti-id" style="color:var(--carol-teal);"></i> Información de Cuenta</h3></div>
+          <div class="card-header-custom"><h3 data-i18n="account_info"><i class="ti ti-id" style="color:var(--carol-teal);"></i> Información de Cuenta</h3></div>
           <div class="card-body-custom">
             <div class="form-group">
               <div class="form-label-custom">Nombre</div>
@@ -938,11 +935,11 @@
 
       <!-- Audit Logs -->
       <div class="card-custom" style="margin-top:1rem;">
-        <div class="card-header-custom"><h3><i class="ti ti-history" style="color:var(--carol-teal);"></i> Auditoría / Logs</h3></div>
+        <div class="card-header-custom"><h3 data-i18n="audit_logs"><i class="ti ti-history" style="color:var(--carol-teal);"></i> Auditoría / Logs</h3></div>
         <div class="table-wrapper">
           <table class="data-table">
             <thead>
-              <tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Tipo</th><th>ID</th><th>Detalle</th></tr>
+              <tr><th>Fecha</th><th>Usuario</th><th data-i18n="action">Acción</th><th data-i18n="type">Tipo</th><th>ID</th><th data-i18n="detail">Detalle</th></tr>
             </thead>
             <tbody id="audit-body">
               <tr><td colspan="6" class="empty-state">Cargando logs…</td></tr>
@@ -953,7 +950,7 @@
 
       <!-- API Keys -->
       <div class="card-custom" style="margin-top:1rem;">
-        <div class="card-header-custom"><h3><i class="ti ti-key" style="color:var(--carol-teal);"></i> API Keys</h3></div>
+        <div class="card-header-custom"><h3 data-i18n="api_keys"><i class="ti ti-key" style="color:var(--carol-teal);"></i> API Keys</h3></div>
         <div class="card-body-custom">
           <form id="apikey-form" onsubmit="createApiKey(event)">
             <div class="form-row cols-3">
@@ -962,7 +959,7 @@
                 <option value="viewer">Viewer</option>
                 <option value="admin">Admin</option>
               </select>
-              <button type="submit" class="btn-primary-custom">Generar API Key</button>
+              <button type="submit" class="btn-primary-custom" data-i18n="generate_key">Generar API Key</button>
             </div>
           </form>
           <div id="apikey-form-msg" class="mt-2" style="font-size:.8rem;"></div>
@@ -972,7 +969,7 @@
             </div>
             <div style="display:flex;align-items:center;gap:.5rem;">
               <code id="apikey-raw" style="flex:1;word-break:break-all;font-size:.8rem;background:var(--input-bg);padding:.5rem;border-radius:6px;border:1px solid var(--input-border);color:var(--text-main);"></code>
-              <button class="copy-btn" onclick="copyApiKey()"><i class="ti ti-copy"></i> Copiar</button>
+              <button class="copy-btn" onclick="copyApiKey()" data-i18n="copy"><i class="ti ti-copy"></i> Copiar</button>
             </div>
             <small style="color:var(--text-muted);font-size:.75rem;display:block;margin-top:.35rem;">Cópiala ahora. No se volverá a mostrar.</small>
           </div>
@@ -980,7 +977,7 @@
         <div class="table-wrapper">
           <table class="data-table">
             <thead>
-              <tr><th>Nombre</th><th>Prefijo</th><th>Rol</th><th>Creada</th><th>Último uso</th><th></th></tr>
+              <tr><th>Nombre</th><th data-i18n="prefix">Prefijo</th><th>Rol</th><th data-i18n="created">Creada</th><th data-i18n="last_use">Último uso</th><th></th></tr>
             </thead>
             <tbody id="apikeys-body">
               <tr><td colspan="6" class="empty-state">Cargando API keys…</td></tr>
@@ -1247,7 +1244,7 @@
 
       tbody.innerHTML = '';
       if (!pageRows.length) {
-        tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon"><i class="ti ti-inbox"></i></div><h4>Sin resultados</h4><p>No se encontraron evaluaciones con los filtros actuales.</p></div></td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon"><i class="ti ti-inbox"></i></div><h4 data-i18n="no_results">Sin resultados</h4><p data-i18n="no_evals">No se encontraron evaluaciones con los filtros actuales.</p></div></td></tr>';
         document.getElementById('results-footer').style.display = 'none';
         return;
       }
@@ -1294,7 +1291,7 @@
       const perPageOptions = [10, 25, 50, 100];
       html += '<select class="filter-select" style="margin-left:.5rem;padding:.25rem 1.5rem .25rem .5rem;font-size:.78rem;" onchange="paginateTable(\'results-body\',1,parseInt(this.value))">';
       perPageOptions.forEach(n => {
-        html += '<option value="' + n + '"' + (n === resultsState.perPage ? ' selected' : '') + '>' + n + ' / pág</option>';
+        html += '<option value="' + n + '"' + (n === resultsState.perPage ? ' selected' : '') + ' data-i18n="per_page">' + n + ' / pág</option>';
       });
       html += '</select>';
 
@@ -1632,8 +1629,8 @@
                 '<div style="font-size:.8rem;color:var(--text-muted);">'+(a.level_name || '—')+' · '+(c.department || '—')+' · '+(c.company_name || '—')+' · '+fmtDate(data.submitted_at)+'</div>'+
               '</div>'+
               '<div style="display:flex;gap:.5rem;">'+
-                '<a href="/api/report/'+id+'/view?token='+encodeURIComponent(getToken())+'" target="_blank" class="btn-filter"><i class="ti ti-file-text"></i> Ver Reporte HTML</a>'+
-                '<a href="/api/report/'+id+'/pdf?token='+encodeURIComponent(getToken())+'" target="_blank" class="btn-primary-custom"><i class="ti ti-file-download"></i> Descargar PDF</a>'+
+                '<a href="/api/report/'+id+'/view?token='+encodeURIComponent(getToken())+'" target="_blank" class="btn-filter" data-i18n="view_report_html"><i class="ti ti-file-text"></i> Ver Reporte HTML</a>'+
+                '<a href="/api/report/'+id+'/pdf?token='+encodeURIComponent(getToken())+'" target="_blank" class="btn-primary-custom" data-i18n="download_pdf"><i class="ti ti-file-download"></i> Descargar PDF</a>'+
               '</div>'+
             '</div>'+
           '</div>'+
@@ -1754,7 +1751,7 @@
         const rows = await r.json();
         tbody.innerHTML = '';
         if (!rows.length) {
-          tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-state-icon"><i class="ti ti-inbox"></i></div><h4>Sin evaluaciones para este candidato</h4></div></td></tr>';
+          tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-state-icon"><i class="ti ti-inbox"></i></div><h4 data-i18n="no_evals_person">Sin evaluaciones para este candidato</h4></div></td></tr>';
           return;
         }
         rows.forEach(row => {
@@ -2023,5 +2020,215 @@
 
     function openAuditLog() { switchTab('ajustes'); }
   </script>
+<script>
+let currentLang = 'es';
+const TRANSLATIONS = {
+  "es": {
+    "admin_panel": "Panel de Control",
+    "restricted_access": "Panel de Control — Acceso restringido",
+    "email_label": "Correo electrónico",
+    "password_label": "Contraseña",
+    "login_btn": "Iniciar Sesión",
+    "login_error": "Correo o contraseña incorrectos",
+    "general_view": "Vista General",
+    "by_person": "Por Persona",
+    "settings": "Ajustes",
+    "export_csv": "Exportar CSV",
+    "evaluated": "Evaluados",
+    "pass_rate": "Tasa de Aprobación",
+    "avg_score": "Puntaje Promedio",
+    "pending_reviews": "Revisiones Pendientes",
+    "level_dist": "Distribución por Nivel",
+    "pass_fail": "Aprobados vs Reprobados",
+    "score_trend": "Tendencia de Puntajes",
+    "dept_avg": "Puntaje Promedio por Departamento",
+    "dept_pass": "Aprobados vs Reprobados por Departamento",
+    "cat_perf": "Desempeño por Categoría de Preguntas",
+    "reactives": "Reactivos Correctos vs Incorrectos",
+    "search_placeholder": "Buscar candidato, ID, empresa...",
+    "all_levels": "Todos los niveles",
+    "basic": "Básico",
+    "medium": "Medio",
+    "advanced": "Avanzado",
+    "all_status": "Todos los estatus",
+    "approved": "Aprobado",
+    "not_approved": "No aprobado",
+    "all_depts": "Todos los deptos",
+    "clear": "Limpiar",
+    "heatmap_title": "Mapa de Calor de Competencias",
+    "recent_evals": "Evaluaciones Recientes",
+    "candidate": "Candidato",
+    "company": "Empresa",
+    "level": "Nivel",
+    "score": "Score",
+    "status": "Estatus",
+    "dept": "Depto",
+    "date": "Fecha",
+    "logout": "Cerrar sesión",
+    "loading_data": "Cargando datos…",
+    "no_results": "Sin resultados",
+    "no_evals": "No se encontraron evaluaciones con los filtros actuales.",
+    "showing": "Mostrando",
+    "of": "de",
+    "per_page": "pág",
+    "account_info": "Información de Cuenta",
+    "name": "Nombre",
+    "role": "Rol",
+    "administrator": "Administrador",
+    "viewer": "Visualizador",
+    "audit_logs": "Auditoría / Logs",
+    "action": "Acción",
+    "type": "Tipo",
+    "detail": "Detalle",
+    "api_keys": "API Keys",
+    "generate_key": "Generar API Key",
+    "copy": "Copiar",
+    "prefix": "Prefijo",
+    "created": "Creada",
+    "last_use": "Último uso",
+    "user_system": "Usuarios del Sistema",
+    "add": "Agregar",
+    "search_candidate": "Buscar candidato...",
+    "update": "Actualizar",
+    "close": "Cerrar",
+    "view_report_html": "Ver Reporte HTML",
+    "download_pdf": "Descargar PDF",
+    "evals_of": "Evaluaciones de",
+    "time": "Tiempo",
+    "no_evals_person": "Sin evaluaciones para este candidato",
+    "person_removed": "Persona eliminada.",
+    "eval_removed": "Evaluación eliminada.",
+    "confirm_delete_eval": "¿Eliminar esta evaluación? Se mantendrá en auditoría.",
+    "confirm_delete_person": "¿También borrar la persona asociada y todas sus evaluaciones?"
+  },
+  "en": {
+    "admin_panel": "Admin Panel",
+    "restricted_access": "Admin Panel — Restricted access",
+    "email_label": "Email address",
+    "password_label": "Password",
+    "login_btn": "Log In",
+    "login_error": "Incorrect email or password",
+    "general_view": "General View",
+    "by_person": "By Person",
+    "settings": "Settings",
+    "export_csv": "Export CSV",
+    "evaluated": "Evaluated",
+    "pass_rate": "Pass Rate",
+    "avg_score": "Average Score",
+    "pending_reviews": "Pending Reviews",
+    "level_dist": "Level Distribution",
+    "pass_fail": "Passed vs Failed",
+    "score_trend": "Score Trend",
+    "dept_avg": "Average Score by Department",
+    "dept_pass": "Passed vs Failed by Department",
+    "cat_perf": "Performance by Question Category",
+    "reactives": "Correct vs Incorrect Reactives",
+    "search_placeholder": "Search candidate, ID, company...",
+    "all_levels": "All levels",
+    "basic": "Basic",
+    "medium": "Medium",
+    "advanced": "Advanced",
+    "all_status": "All status",
+    "approved": "Passed",
+    "not_approved": "Failed",
+    "all_depts": "All depts",
+    "clear": "Clear",
+    "heatmap_title": "Competency Heatmap",
+    "recent_evals": "Recent Evaluations",
+    "candidate": "Candidate",
+    "company": "Company",
+    "level": "Level",
+    "score": "Score",
+    "status": "Status",
+    "dept": "Dept",
+    "date": "Date",
+    "logout": "Log out",
+    "loading_data": "Loading data...",
+    "no_results": "No results",
+    "no_evals": "No evaluations found with current filters.",
+    "showing": "Showing",
+    "of": "of",
+    "per_page": "page",
+    "account_info": "Account Information",
+    "name": "Name",
+    "role": "Role",
+    "administrator": "Administrator",
+    "viewer": "Viewer",
+    "audit_logs": "Audit Logs",
+    "action": "Action",
+    "type": "Type",
+    "detail": "Detail",
+    "api_keys": "API Keys",
+    "generate_key": "Generate API Key",
+    "copy": "Copy",
+    "prefix": "Prefix",
+    "created": "Created",
+    "last_use": "Last used",
+    "user_system": "System Users",
+    "add": "Add",
+    "search_candidate": "Search candidate...",
+    "update": "Update",
+    "close": "Close",
+    "view_report_html": "View HTML Report",
+    "download_pdf": "Download PDF",
+    "evals_of": "Evaluations of",
+    "time": "Time",
+    "no_evals_person": "No evaluations for this candidate",
+    "person_removed": "Person removed.",
+    "eval_removed": "Evaluation removed.",
+    "confirm_delete_eval": "Delete this evaluation? It will be kept in audit.",
+    "confirm_delete_person": "Also delete associated person and all their evaluations?"
+  }
+};
+
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('carol_lang', lang);
+  document.documentElement.lang = lang;
+  const label = document.getElementById('lang-label');
+  if (label) label.textContent = lang === 'es' ? 'EN' : 'ES';
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    const translation = TRANSLATIONS[lang][key];
+    if (translation) {
+      const icon = el.querySelector("i[class^='ti'], span.material-symbols-rounded");
+      if (icon) {
+        const iconHtml = icon.outerHTML;
+        el.innerHTML = iconHtml + " " + translation;
+      } else {
+        el.textContent = translation;
+      }
+    }
+  });
+
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+    const key = el.getAttribute("data-i18n-placeholder");
+    const translation = TRANSLATIONS[lang][key];
+    if (translation) {
+      el.placeholder = translation;
+    }
+  });
+
+  if (typeof loadData === 'function') loadData();
+  if (typeof renderQuestion === 'function' && document.getElementById('screen-quiz') && document.getElementById('screen-quiz').classList.contains('screen-visible')) renderQuestion();
+  if (typeof showInstructions === 'function' && document.getElementById('screen-instructions') && document.getElementById('screen-instructions').classList.contains('screen-visible')) showInstructions();
+  if (typeof loadPersonas === 'function' && document.getElementById('view-persona') && document.getElementById('view-persona').style.display !== 'none') loadPersonas();
+}
+
+function toggleLanguage() {
+  setLanguage(currentLang === 'es' ? 'en' : 'es');
+}
+
+function initLanguage() {
+  const saved = localStorage.getItem('carol_lang');
+  const browserLang = navigator.language.split('-')[0];
+  const lang = saved || (browserLang === 'en' ? 'en' : 'es');
+  setLanguage(lang);
+}
+
+initLanguage();
+
+</script>
 </body>
 </html>
